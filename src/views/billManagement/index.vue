@@ -1,57 +1,78 @@
 <template>
+  <div class="app-container">
+    <div class="filter-container">
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
+      </el-input>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
+        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
+        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
+        </el-option>
+      </el-select>
+      <el-select @change='handleFilter' style="width: 140px" class="filter-item" v-model="listQuery.sort">
+        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
+        </el-option>
+      </el-select>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>
+      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
+      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox>
+    </div>
+
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
       style="width: 100%">
-      <el-table-column align="center" :label="$t('table.id')" width="65">
+      <el-table-column align="center" :label="$t('bill.orderNo')" width="65">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.date')">
+      <el-table-column width="150px" align="center" :label="$t('bill.retailerCategories')">
         <template slot-scope="scope">
           <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('table.title')">
+      <el-table-column width="150px" align="center" :label="$t('bill.retailerNo')">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
+          <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.author')">
+      <el-table-column min-width="150px" :label="$t('bill.retailerName')">
+        <template slot-scope="scope">
+          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('bill.brandName')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
+      <el-table-column width="110px" align="center" :label="$t('bill.orderAmount')">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.reviewer}}</span>
+          <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="80px" :label="$t('table.importance')">
+      <el-table-column width="110px" align="center" :label="$t('bill.thirtyPercentDeposit')">
         <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
+          <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.readings')" width="95">
+      <el-table-column width="110px" align="center" :label="$t('bill.residualPayment')">
         <template slot-scope="scope">
-          <span v-if="scope.row.pageviews" class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
-          <span v-else>0</span>
+          <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
+      <el-table-column class-name="status-col" :label="$t('bill.orderStatus')" width="100">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('bill.operation')" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.edit')}}</el-button>
-          <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
+          <el-button v-if="scope.row.status!='published'" size="medium" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('bill.processPackage')}}
           </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
-          </el-button>
-          <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
-          </el-button>
+          <el-button type="primary" size="medium" @click="handleUpdate(scope.row)">{{$t('bill.reviewOrder')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,40 +82,187 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('table.type')" prop="type">
-          <el-select class="filter-item" v-model="temp.type" placeholder="Please select">
-            <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('table.date')" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item :label="$t('table.title')" prop="title">
-          <el-input v-model="temp.title"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.status')">
-          <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('table.importance')">
-          <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max='3'></el-rate>
-        </el-form-item>
-        <el-form-item :label="$t('table.remark')">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="temp.remark">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
-      </div>
+    <el-dialog :visible.sync="dialogFormVisible">
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.orderNo')}}</div></el-col>
+        <el-col :span="21"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.retailerNo')}}</div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.retailerName')}}</div></el-col>
+        <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.address')}}</div></el-col>
+        <el-col :span="13"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.city')}}</div></el-col>
+        <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.consignee')}}</div></el-col>
+        <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.contact')}}</div></el-col>
+        <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.tel')}}</div></el-col>
+        <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.receivables')}} SWFIT Code</div></el-col>
+        <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.receivables')}}{{$t('bill.bank')}}</div></el-col>
+        <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.bank')}}{{$t('bill.address')}}</div></el-col>
+        <el-col :span="7"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+      <el-row :gutter="5">
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.remittance')}}SWFIT Code</div></el-col>
+        <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.remittance')}}{{$t('bill.bank')}}</div></el-col>
+        <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="3" align="center"><div class="grid-content bg-purple">{{$t('bill.bank')}}{{$t('bill.address')}}</div></el-col>
+        <el-col :span="7"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
+
+      <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
+      style="width: 100%">
+      <el-table-column align="center" :label="$t('product.brandName')" width="65">
+        <template slot-scope="scope">
+          <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="150px" align="center" :label="$t('product.productNo')">
+        <template slot-scope="scope">
+          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="150px" align="center" :label="$t('product.productName')">
+        <template slot-scope="scope">
+          <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column min-width="150px" :label="$t('product.productSpecification')">
+        <template slot-scope="scope">
+          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
+        </template>
+      </el-table-column>
+       <el-table-column width="110px" align="center" :label="$t('product.packageSpecification')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.domesticRetailPrice')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.orderQuantity')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.originalDiscount')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.orderDiscount')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('product.orderUnitPrice')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('bill.orderAmount')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('bill.thirtyPercentDeposit')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
+      style="width: 100%">
+      <el-table-column align="center" :label="$t('product.brandName')" width="65">
+        <template slot-scope="scope">
+          <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="150px" align="center" :label="$t('product.productNo')">
+        <template slot-scope="scope">
+          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="150px" align="center" :label="$t('product.productName')">
+        <template slot-scope="scope">
+          <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column min-width="150px" :label="$t('product.productSpecification')">
+        <template slot-scope="scope">
+          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
+        </template>
+      </el-table-column>
+       <el-table-column width="110px" align="center" :label="$t('product.replenishmentSpecification')">
+          <el-table-column width="110px" align="center" :label="$t('product.replenishmentQuantity')">
+            <template slot-scope="scope">
+            <span>{{scope.row.author}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column width="110px" align="center" :label="$t('product.packageSpecification')">
+            <template slot-scope="scope">
+            <span>{{scope.row.author}}</span>
+            </template>
+          </el-table-column>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.domesticRetailPrice')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.orderQuantity')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.originalDiscount')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('product.orderDiscount')">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('product.orderUnitPrice')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('bill.orderAmount')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" :label="$t('bill.thirtyPercentDeposit')" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-row :gutter="5">
+        <el-col :span="10" align="left"><div class="grid-content bg-purple">{{$t('bill.paythirtyPercentDeposittime')}}2018-4-18 16:22:56</div></el-col>
+        <el-col :span="10" align="right"><div class="grid-content bg-purple">{{$t('bill.thirtyPercentDepositAmount')}}</div></el-col>
+        <el-col :span="4" align="center"><div class="grid-content bg-purple"></div></el-col>
+      </el-row>
     </el-dialog>
 
     <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
@@ -111,7 +279,12 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
+import {
+  fetchList,
+  fetchPv,
+  createArticle,
+  updateArticle
+} from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
@@ -149,7 +322,10 @@ export default {
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
+      sortOptions: [
+        { label: 'ID Ascending', key: '+id' },
+        { label: 'ID Descending', key: '-id' }
+      ],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
@@ -170,9 +346,20 @@ export default {
       dialogPvVisible: false,
       pvData: [],
       rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+        type: [
+          { required: true, message: 'type is required', trigger: 'change' }
+        ],
+        timestamp: [
+          {
+            type: 'date',
+            required: true,
+            message: 'timestamp is required',
+            trigger: 'change'
+          }
+        ],
+        title: [
+          { required: true, message: 'title is required', trigger: 'blur' }
+        ]
       },
       downloadLoading: false
     }
@@ -197,8 +384,8 @@ export default {
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.items
+        this.total = response.total
         this.listLoading = false
       })
     },
@@ -241,7 +428,7 @@ export default {
       })
     },
     createData() {
-      this.$refs['dataForm'].validate((valid) => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
           this.temp.author = 'vue-element-admin'
@@ -268,7 +455,7 @@ export default {
       })
     },
     updateData() {
-      this.$refs['dataForm'].validate((valid) => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
           tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
@@ -311,7 +498,13 @@ export default {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+        const filterVal = [
+          'timestamp',
+          'title',
+          'type',
+          'importance',
+          'status'
+        ]
         const data = this.formatJson(filterVal, this.list)
         excel.export_json_to_excel({
           header: tHeader,
@@ -322,14 +515,45 @@ export default {
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        })
+      )
     }
   }
 }
 </script>
+<style>
+  .el-dialog {
+    width: 90%;
+  }
+  .el-row {
+    margin-bottom: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+    padding-top: 6px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+</style>
