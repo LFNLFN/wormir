@@ -139,7 +139,7 @@ export const asyncRouterMap = [
   {
     path: '/orderManagement',
     component: Layout,
-    redirect: '/channelCooperator/billManagement',
+    // redirect: '/channelCooperator/billManagement',
     name: 'orderManagement',
     meta: {
       title: 'orderManagement',
@@ -149,25 +149,25 @@ export const asyncRouterMap = [
       {
         path: '/channelCooperator',
         name: 'channelCooperator',
-        component: () => import('@/views/billManagement/index'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/channelCooperator/billManagement',
         meta: { title: 'channelCooperator' },
         children: [
           {
             path: 'billManagement',
-            component: () => import('@/views/billManagement/index'),
+            component: () => import('@/views/orderManagement/channelCooperator/billManagement'),
             name: 'billManagement',
             meta: { title: 'billManagement' }
           },
           {
-            path: 'mergRefundOrders',
-            component: () => import('@/views/table/complexTable'),
-            name: 'mergRefundOrders',
-            meta: { title: 'mergRefundOrders' }
+            path: 'mergeRefundOrders',
+            component: () => import('@/views/orderManagement/channelCooperator/mergeRefundOrders'),
+            name: 'mergeRefundOrders',
+            meta: { title: 'mergeRefundOrders' }
           },
           {
             path: 'payOrder',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/channelCooperator/payOrder'),
             name: 'payOrder',
             meta: { title: 'payOrder' }
           }
@@ -176,19 +176,19 @@ export const asyncRouterMap = [
       {
         path: '/refundManagement',
         name: 'refundManagement',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/refundManagement/receivedRefund',
         meta: { title: 'refundManagement' },
         children: [
           {
             path: 'receivedRefund',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/refundManagement/receivedRefund'),
             name: 'receivedRefund',
             meta: { title: 'receivedRefund' }
           },
           {
             path: 'payRefund',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/refundManagement/payRefund'),
             name: 'payRefund',
             meta: { title: 'payRefund' }
           }
@@ -197,19 +197,19 @@ export const asyncRouterMap = [
       {
         path: '/compensationManagement',
         name: 'compensationManagement',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/compensationManagement/receivedCompensation',
         meta: { title: 'compensationManagement' },
         children: [
           {
             path: 'receivedCompensation',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/compensationManagement/receivedCompensation'),
             name: 'receivedCompensation',
             meta: { title: 'receivedCompensation' }
           },
           {
             path: 'payCompensation',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/compensationManagement/payCompensation'),
             name: 'payCompensation',
             meta: { title: 'payCompensation' }
           }

@@ -144,6 +144,14 @@ code {
   text-align: center
 }
 
+.text-muted {
+  color: #787878;
+}
+
+.text-danger {
+  color: $red;
+}
+
 .sub-navbar {
   height: 50px;
   line-height: 50px;

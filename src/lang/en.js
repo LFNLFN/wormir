@@ -22,7 +22,7 @@ export default {
     orderManagement: 'Order Management',
     allOrders: 'All Orders',
     billManagement: 'Bill Management',
-    mergRefundOrders: 'Merge Refund Orders',
+    mergeRefundOrders: 'Merge Refund Orders',
     payOrder: 'Pay Order',
     payRefund: 'Pay Refund',
     compensationManagement: 'Compensation Management',
