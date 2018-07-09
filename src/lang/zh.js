@@ -368,11 +368,14 @@ export default {
     refundedDeposit80Total: '已退订金80%合计'
   },
 
-  // 收到补款
-  receivedCompensation: {
+  // 补款
+  compensation: {
+    compensation: '补款',
     mergePayNo: '并单支付号',
     brandName: '品牌名称',
     paymentSwifitCode: '收款SWIFIT Code',
+    remitSwifitCode: '汇款SWIFIT Code',
+    remitBank: '汇款银行',
     bank: '收款银行',
     bankAddress: '银行地址',
     money: '补款金额',
@@ -381,33 +384,46 @@ export default {
     statusToReceive: '待收补款',
     statusReceived: '已收补款',
     viewDetail: '查看详情',
-    confirmOrderSplit: '确认拆单'
-  },
-
-  // 支付补款
-  payCompensation: {
+    confirmOrderSplit: '确认拆单',
     orderNo: '货单号',
     businessType: '交易方式',
-    brandName: '品牌名称',
     retailerCategories: '渠道属性',
     retailerNo: '渠道号',
     retailerName: '渠道名称',
     productNo: '商品编号',
     productName: '商品名称',
     localPrice: '国内售价',
-    money: '补款金额',
-    status: '补款状态',
     type: '补款类型',
-    operation: '操作',
-    statustoCompensate: '待补款',
+    statusToCompensate: '待补款',
     statusCompensated: '已补款',
     statusRefundAll: '取消退全款',
     statusOrderTermination: '取消订货',
     typeApply: '申请后补款',
     typeArgue: '申诉后补款',
     typeBroken: '破损转补款',
-    viewDetail: '查看详情',
-    toCompensate: '去补款'
+    toCompensate: '去补款',
+    description: '描述',
+    applicationReason: '申请理由',
+    applicationReasonContent: 'Apply offset compensation for customer on the account of defective appearance.',
+    applicationTime: '申请时间',
+    applicationResult: '申请结果',
+    photoEvidence: '图片证明',
+    clickToLarge: '点击放大',
+    applicationApproval: '同意申请',
+    reviewTime: '审核时间',
+    replenishmentStatus: '补款状态',
+    afterApplication: '申请后补款',
+    afterAppeal: '协商后补款',
+    appealTime: '协商时间',
+    applicationDismiss: '驳回申请',
+    appealRequest: '协商请求',
+    involveNegotiation: 'Involve wormir into negotiation.',
+    finalResult: '最终结果',
+    totalPending: '总计待补款',
+    totalCompensate: '总计已付补款',
+    mergeCompensationOrderTime: '合并补款时间',
+    compensationPayTime: '补款支付时间',
+
   },
 
   // 支付退补款

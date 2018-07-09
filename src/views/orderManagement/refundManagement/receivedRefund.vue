@@ -199,8 +199,8 @@ export default {
     // 拆单
     splitOrder(row) {
       this.$confirm('是否确定拆单?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: this.$t('table.confirm'),
+        cancelButtonText: this.$t('table.cancel'),
         type: 'warning'
       }).then(async () => {
         await splitOrderMerged(row)

@@ -23,60 +23,62 @@
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
       style="width: 100%">
-      <el-table-column align="center" :label="$t('receivedCompensation.mergePayNo')" width="65">
+      <el-table-column align="center" :label="$t('compensation.mergePayNo')" width="65">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('receivedCompensation.brandName')">
+      <el-table-column width="150px" align="center" :label="$t('compensation.brandName')">
         <template slot-scope="scope">
           <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('receivedCompensation.paymentSwifitCode')">
+      <el-table-column width="150px" align="center" :label="$t('compensation.paymentSwifitCode')">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('receivedCompensation.bank')">
+      <el-table-column min-width="150px" :label="$t('compensation.bank')">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('receivedCompensation.bankAddress')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.bankAddress')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('receivedCompensation.money')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.money')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('receivedCompensation.status')" width="100">
+      <el-table-column class-name="status-col" :label="$t('compensation.status')" width="100">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('receivedCompensation.operation')" width="230" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('compensation.operation')" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="dialogFormVisible = true">
-            {{$t('receivedCompensation.viewDetail')}}
+          <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+            {{$t('compensation.viewDetail')}}
           </el-button>
-          <el-button v-if="scope.row.status === 'statusReceived'" size="medium" type="warning" @click="dialogFormVisible = true">
-            {{$t('receivedCompensation.confirmOrderSplit')}}
+          <el-button v-if="'已收补款'" size="medium" type="warning" @click="splitOrder(scope.row)">
+            {{$t('compensation.confirmOrderSplit')}}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                     :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
+                     layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="dialogFormVisible">
-      <bill-detail></bill-detail>
+    <el-dialog :visible.sync="isDialogDetailShow" width="600px">
+      <compensation-form :order="currentOrder" v-if="isDialogDetailShow"></compensation-form>
     </el-dialog>
 
     <el-dialog :visible.sync="dialogTransportChangeVisible">
@@ -101,7 +103,8 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import BillDetail from '../BillDetail'
+import CompensationForm from './CompensationForm'
+import {splitOrderMerged} from '../../../api/bill'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -118,7 +121,7 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: 'pay-order',
-  components: { BillDetail },
+  components: { CompensationForm },
   directives: {
     waves
   },
@@ -153,7 +156,7 @@ export default {
         type: '',
         status: 'published'
       },
-      dialogFormVisible: false,
+      isDialogDetailShow: false,
       dialogStatus: '',
       textMap: {
         update: 'Edit',
@@ -177,7 +180,8 @@ export default {
           { required: true, message: 'title is required', trigger: 'blur' }
         ]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      currentOrder: {}
     }
   },
   filters: {
@@ -197,6 +201,27 @@ export default {
     this.getList()
   },
   methods: {
+    // 查看货单
+    viewDetail(row) {
+      this.currentOrder = row
+      this.isDialogDetailShow = true
+    },
+
+    // 拆单
+    splitOrder(row) {
+      this.$confirm('是否确定拆单?', '提示', {
+        confirmButtonText: this.$t('table.confirm'),
+        cancelButtonText: this.$t('table.cancel'),
+        type: 'warning'
+      }).then(async () => {
+        await splitOrderMerged(row)
+        this.$message({
+          type: 'success',
+          message: '拆单成功'
+        });
+      })
+    },
+
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
@@ -238,7 +263,7 @@ export default {
     handleCreate() {
       this.resetTemp()
       this.dialogStatus = 'create'
-      this.dialogFormVisible = true
+      this.isDialogDetailShow = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -250,7 +275,7 @@ export default {
           this.temp.author = 'vue-element-admin'
           createArticle(this.temp).then(() => {
             this.list.unshift(this.temp)
-            this.dialogFormVisible = false
+            this.isDialogDetailShow = false
             this.$notify({
               title: '成功',
               message: '创建成功',
@@ -265,7 +290,7 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.dialogStatus = 'update'
-      this.dialogFormVisible = true
+      this.isDialogDetailShow = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -283,7 +308,7 @@ export default {
                 break
               }
             }
-            this.dialogFormVisible = false
+            this.isDialogDetailShow = false
             this.$notify({
               title: '成功',
               message: '更新成功',

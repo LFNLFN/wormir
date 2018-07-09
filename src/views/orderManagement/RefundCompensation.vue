@@ -1,48 +1,49 @@
 <template>
   <div>
-    <el-dialog :visible.sync="isDialogPayShow">
-      <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-dialog :visible.sync="isDialogPayShow" width="450px">
+      <el-form label-width="80px">
         <el-form-item :label="$t('payment.orderNo')">
           {{ 'xxxxxxx' }}
         </el-form-item>
         <el-form-item :label="$t('payment.balance')">
-          {{balance}}
+          {{balance || 0}}
         </el-form-item>
         <el-form-item :label="type">
-          <el-input v-model="payMoney"></el-input>
+          <el-input v-model="payMoney" required></el-input>
         </el-form-item>
         <el-form-item v-if="!isBalanceEnough">
           <p class="text-muted">{{$t('payment.tipBalanceNotEnough')}}</p>
         </el-form-item>
         <el-form-item>
-          <el-button>{{$t('payment.cancel')}}</el-button>
+          <el-button @click="cancelPay">{{$t('payment.cancel')}}</el-button>
           <el-button type="primary" @click="pay" v-if="isBalanceEnough">{{$t('payment.confirmPay')}}</el-button>
           <el-button type="primary" @click="toRecharge" v-else>{{$t('payment.toRecharge')}}</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
 
-    <el-dialog :visible.sync="isDialogRechargeShow">
-      <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-dialog :visible.sync="isDialogRechargeShow" width="450px">
+      <el-form label-width="80px">
         <el-form-item :label="$t('payment.balance')">
           {{balance}}
         </el-form-item>
         <el-form-item :label="$t('payment.rechargeMoney')">
-          <el-input v-model="rechargeMoney" :placehoder="$t('payment.rechargeAtLease').replace('#rechargeMoney#', rechargeMoneyAtLease)"></el-input>
+          <el-input v-model="rechargeMoney" required
+                    :placehoder="$t('payment.rechargeAtLease').replace('#rechargeMoney#', rechargeMoneyAtLease)"></el-input>
         </el-form-item>
         <el-form-item v-if="!isBalanceEnough">
           <p class="text-muted">{{$t('payment.tipBalanceNotEnough')}}</p>
         </el-form-item>
         <el-form-item>
-          <el-button>{{$t('payment.cancel')}}</el-button>
+          <el-button @click="quickPay">{{$t('payment.cancel')}}</el-button>
           <el-button type="primary" @click="recharge">{{$t('payment.confirmRecharge')}}</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
 
     <!--充值失败-->
-    <el-dialog :visible.sync="isDialogRechargeErrorShow">
-      <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-dialog :visible.sync="isDialogRechargeErrorShow" width="450px">
+      <el-form label-width="80px">
         <el-form-item :label="$t('payment.rechargeMoney')">
           <el-input v-model="rechargeMoney"></el-input> <span class="text-danger">{{$t('payment.failRecharge')}}</span>
         </el-form-item>
@@ -71,11 +72,18 @@
         balance: '',
         payMoney: '',
         rechargeMoney: '',
-        rechargeMoneyAtLease: '',
         isDialogPayShow: false,
         isBalanceEnough: true,
         isDialogRechargeShow: false,
         isDialogRechargeErrorShow: false,
+      }
+    },
+    computed: {
+      rechargeMoneyAtLease() {
+        return this.order.shouldPaid - this.balance;
+      },
+      type() {
+        return '退补款'
       }
     },
     methods: {
@@ -87,20 +95,37 @@
           this.$alert(this.$t('payment.paySuccess').replace('#balance#', this.balance)
             .replace('#orderNo#', this.order.orderNo), {
           confirmButtonText: this.$t('payment.getIt'),
-          callback: action => {
-            // this.$router.push('/channelCooperator/billManagement')
+          callback:  action => {
+            this.$emit('pay')
           }
         });
         })
       },
 
+      cancelPay() {
+        this.payMoney = ''
+        this.isDialogPayShow = false
+      },
+
+      quickPay() {
+        this.payMoney = ''
+        this.rechargeMoney = ''
+        this.isDialogPayShow = false
+        this.isDialogRechargeShow = false
+        this.$emit('close')
+      },
+
+
       toRecharge() {
         this.isDialogPayShow = false
         this.isDialogRechargeShow = true
       },
+
       retryRecharge() {
-        this.isDialogPayShow = true
+        this.isDialogRechargeErrorShow = false
+        this.isDialogRechargeShow = true
       },
+
       async recharge() {
         let {state, balance} = await recharge(this.rechargeMoney)
 
@@ -115,16 +140,8 @@
             this.$emit('close')
           })
         } else {
-          this.$confirm(this.$t('payment.rechargeError').replace('#rechargeMoney#', balance), {
-            confirmButtonText: this.$t('payment.retryRecharge'),
-            cancelButtonText: this.$t('payment.cancel'),
-            type: 'error'
-          }).then(() => {
-            this.isDialogPayShow = true
-          }).catch(() => {
-            this.$emit('close')
-          })
-
+          // 显示出错弹框
+          this.isDialogRechargeErrorShow = true
         }
       },
     },

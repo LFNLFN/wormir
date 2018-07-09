@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export  function pay(money) {
-  return requst({
+  return request({
     url: 'xxxxx',
     data: {
       money
@@ -10,7 +10,7 @@ export  function pay(money) {
 }
 
 export  function recharge(money) {
-  return requst({
+  return request({
     url: 'xxxxx',
     data: {
       money

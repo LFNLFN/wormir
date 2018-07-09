@@ -12,7 +12,7 @@
         <span>xxxxxx</span>
       </el-form-item>
       <el-form-item :label="$t('mergeRefundOrders.quantityAtLeaseForTransportation')">
-        <el-inpu v-model="form.atLease"/>
+        <el-input v-model="form.atLease"/>
         pcs
       </el-form-item>
       <el-form-item :label="$t('mergeRefundOrders.whetherToChange')">

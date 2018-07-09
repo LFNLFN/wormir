@@ -68,12 +68,12 @@
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('payRefund.operation')" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('payRefund.operation')" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
             {{$t('payRefund.viewBill')}}
           </el-button>
-          <el-button v-if="scope.row.status === 'statusReceived'" size="medium" type="warning" @click="toPayRefund(scope.row)">
+          <el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">
             {{$t('payRefund.toRefund')}}
           </el-button>
         </template>
@@ -89,7 +89,8 @@
       <bill-detail></bill-detail>
     </el-dialog>
 
-    <refund-compensation ref="payment" :order="currentOrder"></refund-compensation>
+    <!--退款，支付后修改支付状态-->
+    <refund-compensation ref="payment" :order="currentOrder" @pay="currentOrder.hasPaid = true"></refund-compensation>
 
     <el-dialog :visible.sync="dialogTransportChangeVisible">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
@@ -218,7 +219,6 @@ export default {
     },
 
     toPayRefund(row) {
-      this.isDialogDetailShow = true
       this.currentOrder = row
       this.$refs.payment.open()
     },

@@ -23,73 +23,73 @@
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
       style="width: 100%">
-      <el-table-column align="center" :label="$t('payCompensation.orderNo')" width="65">
+      <el-table-column align="center" :label="$t('compensation.orderNo')" width="65">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('payCompensation.businessType')">
+      <el-table-column width="150px" align="center" :label="$t('compensation.businessType')">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('payCompensation.brandName')">
+      <el-table-column width="150px" align="center" :label="$t('compensation.brandName')">
         <template slot-scope="scope">
           <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('payCompensation.retailerCategories')">
+      <el-table-column min-width="150px" :label="$t('compensation.retailerCategories')">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.retailerNo')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.retailerNo')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.retailerName')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.retailerName')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.productNo')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.productNo')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.productName')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.productName')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.localPrice')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.localPrice')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.money')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.money')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('payCompensation.status')" width="100">
+      <el-table-column class-name="status-col" :label="$t('compensation.status')" width="100">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('payCompensation.type')">
+      <el-table-column width="110px" align="center" :label="$t('compensation.type')">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('payCompensation.operation')" width="230" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('compensation.operation')" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="medium" type="primary" @click="dialogFormVisible = true">
-            {{$t('payCompensation.viewDetail')}}
+            {{$t('compensation.viewDetail')}}
           </el-button>
           <el-button v-if="scope.row.status === 'statusReceived'" size="medium" type="warning" @click="dialogFormVisible = true">
-            {{$t('payCompensation.toCompensate')}}
+            {{$t('compensation.toCompensate')}}
           </el-button>
         </template>
       </el-table-column>
