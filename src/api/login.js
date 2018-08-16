@@ -3,7 +3,7 @@ import store from '@/store'
 
 export function loginByUsername(username, password) {
   return request({
-    url: '/user/login.json',
+    url: '/user/login.do',
     method: 'post',
     data: {
       'employeeNumber': username,
@@ -14,15 +14,15 @@ export function loginByUsername(username, password) {
 
 export function logout() {
   return request({
-    url: '/user/logout.json',
+    url: '/user/logout.do',
     method: 'post'
   })
 }
 
 export function getUserInfo(token) {
   return request({
-    url: '/user/userinfo.json',
-    method: 'post',
+    url: '/user/userinfo.do',
+    method: 'get',
     data: { 'token': store.getters.token }
   })
 }
