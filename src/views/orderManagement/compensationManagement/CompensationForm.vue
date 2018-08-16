@@ -99,9 +99,9 @@
 
 <script>
   export default {
-    name: "CompensationForm",
+    name: 'CompensationForm',
     props: {
-      order: Object,
+      order: Object
     }
   }
 </script>
@@ -109,9 +109,9 @@
 <style scoped>
   .el-row {
     margin-bottom: 5px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+  }
+  .el-row:last-child{
+    margin-bottom: 0;
   }
   .el-col {
     border-radius: 4px;

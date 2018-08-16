@@ -87,14 +87,13 @@
 <script>
 import {
   fetchList,
-  fetchPv,
   createArticle,
   updateArticle
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import BillDetailMergeOrders from '../BillDetailMergeOrders'
-import {splitOrderMerged} from '../../../api/bill'
+import { splitOrderMerged } from '../../../api/bill'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -202,12 +201,12 @@ export default {
         confirmButtonText: this.$t('table.confirm'),
         cancelButtonText: this.$t('table.cancel'),
         type: 'warning'
-      }).then(async () => {
+      }).then(async() => {
         await splitOrderMerged(row)
         this.$message({
           type: 'success',
           message: '拆单成功'
-        });
+        })
       })
     },
 

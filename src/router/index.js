@@ -149,7 +149,7 @@ export const asyncRouterMap = [
       {
         path: '/channelCooperator',
         name: 'channelCooperator',
-        component: () => import('@/views/layout/routerWrap'),
+        component: () => import('@/views/orderManagement/channelCooperator/billManagement'),
         redirect: '/channelCooperator/billManagement',
         meta: { title: 'channelCooperator' },
         children: [
@@ -176,7 +176,7 @@ export const asyncRouterMap = [
       {
         path: '/refundManagement',
         name: 'refundManagement',
-        component: () => import('@/views/layout/routerWrap'),
+        component: () => import('@/views/orderManagement/refundManagement/receivedRefund'),
         redirect: '/refundManagement/receivedRefund',
         meta: { title: 'refundManagement' },
         children: [
@@ -197,7 +197,7 @@ export const asyncRouterMap = [
       {
         path: '/compensationManagement',
         name: 'compensationManagement',
-        component: () => import('@/views/layout/routerWrap'),
+        component: () => import('@/views/orderManagement/compensationManagement/receivedCompensation'),
         redirect: '/compensationManagement/receivedCompensation',
         meta: { title: 'compensationManagement' },
         children: [

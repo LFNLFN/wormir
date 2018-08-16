@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export  function pay(money) {
+export function pay(money) {
   return request({
     url: 'xxxxx',
     data: {
@@ -9,7 +9,7 @@ export  function pay(money) {
   })
 }
 
-export  function recharge(money) {
+export function recharge(money) {
   return request({
     url: 'xxxxx',
     data: {

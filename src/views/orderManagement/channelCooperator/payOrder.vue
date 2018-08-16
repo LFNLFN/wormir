@@ -101,7 +101,7 @@ import {
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import BillDetailMergeOrders from '../BillDetailMergeOrders'
-import {cancelMergeOrder} from '../../../api/bill'
+import { cancelMergeOrder } from '../../../api/bill'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -212,7 +212,6 @@ export default {
         message: this.$t('payOrder.hadCancelMergeOrderTips'),
         type: 'success'
       })
-
     },
 
     getList() {

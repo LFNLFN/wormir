@@ -219,7 +219,7 @@ export default {
     mergeOrderNo: '并货单号',
     mailBillSuccess: '文件已发送至您所选的邮箱。',
     hadCancelOrder: '已取消订货',
-    hadCancelStockUp: '已取消备货',
+    hadCancelStockUp: '已取消备货'
 
   },
   product: {
@@ -240,7 +240,7 @@ export default {
     defectiveProduct: '瑕疵商品',
     damagedProduct: '破损商品',
     lessCargoProduct: '少货商品',
-    readSystem: '读取系统',
+    readSystem: '读取系统'
   },
 
   problematicProduct: {
@@ -276,7 +276,7 @@ export default {
     changeTransportationSuccessTips: '货单号：#orderNo#的运输方式已调整为#transportation#，采购金额已作相应变化，请知悉。',
     submitTime: '提交并单时间：',
     payTime: '支付货款时间（Wormir）：',
-    confirmTime: '确认货款到帐时间（Brand）',
+    confirmTime: '确认货款到帐时间（Brand）'
   },
 
   // 支付货款
@@ -297,7 +297,7 @@ export default {
     paidPayment: '已支付货款',
     receivedPayment: '已收到货款',
     cancelMergeOrder: '取消并单',
-    hadCancelMergeOrderTips: '已经取消并单',
+    hadCancelMergeOrderTips: '已经取消并单'
   },
 
   // 收到退款
@@ -422,14 +422,13 @@ export default {
     totalPending: '总计待补款',
     totalCompensate: '总计已付补款',
     mergeCompensationOrderTime: '合并补款时间',
-    compensationPayTime: '补款支付时间',
+    compensationPayTime: '补款支付时间'
 
   },
 
   // 支付退补款
   payment: {
     orderNo: '货单号',
-    balance: '账户余额',
     balance: '账户余额',
     confirmPay: '确认支付',
     cancel: '暂不',
@@ -444,7 +443,7 @@ export default {
     failRecharge: '未完成充值',
     rechargeAtLease: '灰字显示：请充入不少于 ¥ #rechargeMoney#',
     paySuccess: '货单号#orderNo#已支付退款，当前帐户余额¥ #balance#。可在“支付退款”页面『查看货单』。',
-    getIt: '知道了',
+    getIt: '知道了'
   },
 
   table: {

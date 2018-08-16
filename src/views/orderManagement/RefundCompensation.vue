@@ -60,12 +60,12 @@
 </template>
 
 <script>
-  import {pay, recharge} from '../../api/payment'
+  import { pay, recharge } from '../../api/payment'
 
   export default {
-    name: "RefundCompensation",
+    name: 'RefundCompensation',
     props: {
-      order: Object,
+      order: Object
     },
     data() {
       return {
@@ -75,12 +75,12 @@
         isDialogPayShow: false,
         isBalanceEnough: true,
         isDialogRechargeShow: false,
-        isDialogRechargeErrorShow: false,
+        isDialogRechargeErrorShow: false
       }
     },
     computed: {
       rechargeMoneyAtLease() {
-        return this.order.shouldPaid - this.balance;
+        return this.order.shouldPaid - this.balance
       },
       type() {
         return '退补款'
@@ -94,11 +94,11 @@
         pay(this.payMoney).then(() => {
           this.$alert(this.$t('payment.paySuccess').replace('#balance#', this.balance)
             .replace('#orderNo#', this.order.orderNo), {
-          confirmButtonText: this.$t('payment.getIt'),
-          callback:  action => {
-            this.$emit('pay')
-          }
-        });
+            confirmButtonText: this.$t('payment.getIt'),
+            callback: action => {
+              this.$emit('pay')
+            }
+          })
         })
       },
 
@@ -115,7 +115,6 @@
         this.$emit('close')
       },
 
-
       toRecharge() {
         this.isDialogPayShow = false
         this.isDialogRechargeShow = true
@@ -127,9 +126,9 @@
       },
 
       async recharge() {
-        let {state, balance} = await recharge(this.rechargeMoney)
+        const { state, balance } = await recharge(this.rechargeMoney)
 
-        if(state === 'success') {
+        if (state === 'success') {
           this.$confirm(this.$t('payment.rechargeSuccess').replace('#balance#', balance), {
             confirmButtonText: this.$t('table.yes'),
             cancelButtonText: this.$t('table.no'),
@@ -143,8 +142,8 @@
           // 显示出错弹框
           this.isDialogRechargeErrorShow = true
         }
-      },
-    },
+      }
+    }
   }
 </script>
 

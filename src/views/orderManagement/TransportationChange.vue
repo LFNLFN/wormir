@@ -37,9 +37,9 @@
   import { changeTransportation } from '../../api/bill'
 
   export default {
-    name: "TransportationChange",
+    name: 'TransportationChange',
     props: {
-      order: Object,
+      order: Object
     },
     data() {
       return {
@@ -48,16 +48,16 @@
           transportation: '',
           change: '',
           atLease: '',
-          transportQuantity: '',
+          transportQuantity: ''
         }
       }
     },
     methods: {
       async submit() {
-        await changeTransportation(this.form);
+        await changeTransportation(this.form)
         this.$message({
           message: this.$t('mergeRefundOrders.changeTransportationSuccessTips')
-                    .replace('#orderNo', this.form.orderNo).replace('#transportation#', this.form.transportation),
+            .replace('#orderNo', this.form.orderNo).replace('#transportation#', this.form.transportation),
           type: 'success'
         })
         this.$emit('change')
@@ -65,7 +65,7 @@
       cancel() {
         this.$emit('cancel')
       }
-    },
+    }
   }
 </script>
 

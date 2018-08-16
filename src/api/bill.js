@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import store from '@/store'
 
 // 发送货单
 export function sendOrderBill(mergeOrderNo, emails) {
@@ -26,7 +25,7 @@ export function mergeOrder() {
 export function changeTransportation() {
   return request({
     url: 'xxxxxx',
-    method: 'post',
+    method: 'post'
   })
 }
 
@@ -34,7 +33,7 @@ export function changeTransportation() {
 export function cancelMergeOrder() {
   return request({
     url: 'xxxxxx',
-    method: 'post',
+    method: 'post'
   })
 }
 
@@ -42,11 +41,6 @@ export function cancelMergeOrder() {
 export function splitOrderMerged(order) {
   return request({
     url: 'xxxxxx',
-    method: 'post',
+    method: 'post'
   })
 }
-
-
-
-
-

@@ -40,54 +40,52 @@
   import BillDetailMergeOrder from './BillDetailMergeOrder'
 
   export default {
-    name: "BillDetailMergeOrders",
+    name: 'BillDetailMergeOrders',
     components: { BillDetailMergeOrder },
     props: {
       bill: {
         type: Object,
         default: () => {
-          return {orders: [{},{}]}
+          return { orders: [{}, {}] }
         }
-      },
+      }
     },
     data() {
       return {
-        type: ""
+        type: ''
       }
     },
     computed: {
       billTime() {
-        if(this.bill.type === '并单确认') return ''
+        if (this.bill.type === '并单确认') return ''
 
-        if(this.bill.type === '支付货款') {
-          let submitTime = this.$t('mergeRefundOrders.submitTime') + this.order.submitTime
+        if (this.bill.type === '支付货款') {
+          const submitTime = this.$t('mergeRefundOrders.submitTime') + this.order.submitTime
 
-          if(this.bill.state === '待付款并单') return submitTime
+          if (this.bill.state === '待付款并单') return submitTime
 
-          let payTime = this.$t('mergeRefundOrders.payTime') + this.order.payTime
+          const payTime = this.$t('mergeRefundOrders.payTime') + this.order.payTime
 
-          if(this.bill.state === '待确认到账并单') return submitTime + '; ' + payTime
+          if (this.bill.state === '待确认到账并单') return submitTime + '; ' + payTime
 
-          let confirmTime = this.$t('mergeRefundOrders.confirmTime') + this.order.confirmTime
+          const confirmTime = this.$t('mergeRefundOrders.confirmTime') + this.order.confirmTime
 
-          if(this.bill.state === '货款到账并单') return `${submitTime}; ${payTime}; ${confirmTime}`
+          if (this.bill.state === '货款到账并单') return `${submitTime}; ${payTime}; ${confirmTime}`
         }
 
-        if(this.bill.type === '收到退款') {
-          let mergeTime = this.$t('receivedRefund.mergeRefundOrderTime') + this.order.mergeRefundOrderTime
+        if (this.bill.type === '收到退款') {
+          const mergeTime = this.$t('receivedRefund.mergeRefundOrderTime') + this.order.mergeRefundOrderTime
 
-          if(this.bill.state === '待付款') return mergeTime
+          if (this.bill.state === '待付款') return mergeTime
 
-          let refundTime = this.$t('mergeRefundOrders.refundPaymentTime') + this.order.refundTime
+          const refundTime = this.$t('mergeRefundOrders.refundPaymentTime') + this.order.refundTime
 
-          if(this.bill.state === '已付款') return mergeTime + '; ' + refundTime
+          if (this.bill.state === '已付款') return mergeTime + '; ' + refundTime
         }
-
       },
-
       payment() {
-        if(this.bill.type === '待确认到账') return this.$t('payOrder.paidPayment')
-        if(this.bill.type === '货款到账并单') return this.$t('payOrder.receivedPayment')
+        if (this.bill.type === '待确认到账') return this.$t('payOrder.paidPayment')
+        if (this.bill.type === '货款到账并单') return this.$t('payOrder.receivedPayment')
 
         return this.$t('bill.unpaidResidualPayment')
       }

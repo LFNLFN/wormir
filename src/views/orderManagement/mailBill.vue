@@ -27,30 +27,30 @@
   import { sendOrderBill } from '../../api/bill'
 
   export default {
-    name: "mailBill",
+    name: 'mailBill',
     data() {
       return {
         emails: [
-          "abc@abc.com"
+          'abc@abc.com'
         ],
         emailsChecked: [],
-        mergeOrderNo: "xxxxxxx",
-        orderNos: ["234235234"]
+        mergeOrderNo: 'xxxxxxx',
+        orderNos: ['234235234']
       }
     },
     methods: {
       cancel() {
-        this.$emit("cancel")
+        this.$emit('cancel')
         this.emailsChecked = []
       },
       async send() {
         await sendOrderBill(this.mergeOrderNo, this.emailsChecked)
         this.$message({
           message: this.$t('bill.mailBillSuccess'),
-          type: 'success',
+          type: 'success'
 
-        });
-        this.$emit("send")
+        })
+        this.$emit('send')
       }
     }
   }

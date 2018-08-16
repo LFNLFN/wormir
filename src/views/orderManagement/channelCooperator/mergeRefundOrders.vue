@@ -198,7 +198,7 @@ export default {
       ordersSelected: [], // 选中的货单
       isDialogMergeOrderConfirmShow: false, // 并单确认框控制
       currentOrder: {},
-      mergeOrderBill: {}, // 并单
+      mergeOrderBill: {} // 并单
     }
   },
   filters: {
@@ -358,57 +358,57 @@ export default {
 
     // 选择处理
     handleSelectionChange(value) {
-      this.ordersSelected = value;
+      this.ordersSelected = value
     },
 
     // 总计
     getSummaries(param) {
-      const { columns, data } = param;
-      const sums = [];
+      const { columns, data } = param
+      const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '合计';
-          return;
+          sums[index] = '合计'
+          return
         }
-        const values = data.map(item => Number(item[column.property]));
+        const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr);
+            const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr;
+              return prev + curr
             } else {
-              return prev;
+              return prev
             }
-          }, 0);
-          sums[index] += ' 元';
+          }, 0)
+          sums[index] += ' 元'
         } else {
           // sums[index] = 'N/A';
-          sums[index] = '';
+          sums[index] = ''
         }
-      });
+      })
 
-      return sums;
+      return sums
     },
 
     // 检查并单是否有多品牌
     checkMergeOrder() {
-      if(this.ordersSelected.length === 1) return false;
+      if (this.ordersSelected.length === 1) return false
 
-      let firstBrandName = this.ordersSelected[0].brandName;
+      const firstBrandName = this.ordersSelected[0].brandName
 
-      return this.ordersSelected.some(({brandName}) => {
-        return brandName !== firstBrandName;
+      return this.ordersSelected.some(({ brandName }) => {
+        return brandName !== firstBrandName
       })
     },
 
     // 提交并单
     submitMergeOrder() {
       // 检查并单是否有多个品牌
-      if(this.checkMergeOrder()) {
+      if (this.checkMergeOrder()) {
         this.$alert({
           message: this.$t('mergeRefundOrders.tipsMultiBrands'),
-          confirmButtonText: this.$t('mergeRefundOrders.getIt'),
-        });
+          confirmButtonText: this.$t('mergeRefundOrders.getIt')
+        })
         return
       }
 

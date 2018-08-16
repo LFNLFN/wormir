@@ -104,7 +104,6 @@
 import {
   fetchList,
   fetchPv,
-  createArticle,
   updateArticle
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令

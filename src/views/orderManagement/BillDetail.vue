@@ -402,7 +402,7 @@
     props: {
       bill: Object,
       table: String,
-      status: String,
+      status: String
     },
     data() {
       return {
@@ -424,16 +424,16 @@
       // 有问题商品表格
       hasProblematicProduct() {
 
-      },
+      }
     },
     methods: {
       updateRefundInfo() {
-        if(this.table !== 'payRefund') return
+        if (this.table !== 'payRefund') return
 
-        let timeDeposit30 = this.$t('bill.paythirtyPercentDeposittime') + this.bill.paythirtyPercentDeposittime
+        const timeDeposit30 = this.$t('bill.paythirtyPercentDeposittime') + this.bill.paythirtyPercentDeposittime
 
-        if(this.status === '缺货退订金-未去退款') {
-          let timeOrderCancel = this.$t('payRefund.timeOrderCancel') + this.bill.timeOrderCancel
+        if (this.status === '缺货退订金-未去退款') {
+          const timeOrderCancel = this.$t('payRefund.timeOrderCancel') + this.bill.timeOrderCancel
           this.refundTime = timeDeposit30 + '; ' + timeOrderCancel
           this.refundReason = this.$t('receivedRefund.reasonLackGoods')
           this.refundDescription = this.$t('payRefund.description1')
@@ -441,8 +441,8 @@
           return
         }
 
-        if(this.status === '缺货退订金-已去退款') {
-          let timeRefundDeposit30 = this.$t('payRefund.timeRefundDeposit30') + this.bill.timeRefundDeposit30
+        if (this.status === '缺货退订金-已去退款') {
+          const timeRefundDeposit30 = this.$t('payRefund.timeRefundDeposit30') + this.bill.timeRefundDeposit30
           this.refundTime = timeDeposit30 + '; ' + timeRefundDeposit30
           this.refundReason = this.$t('receivedRefund.reasonLackGoods')
           this.refundDescription = this.$t('payRefund.description2')
@@ -450,8 +450,8 @@
           return
         }
 
-        if(this.status === '取消退订金-未去退款') {
-          let timeOrderGoodsCancel = this.$t('payRefund.timeOrderGoodsCancel') + this.bill.timeOrderGoodsCancel
+        if (this.status === '取消退订金-未去退款') {
+          const timeOrderGoodsCancel = this.$t('payRefund.timeOrderGoodsCancel') + this.bill.timeOrderGoodsCancel
           this.refundTime = timeDeposit30 + '; ' + timeOrderGoodsCancel
           this.refundReason = this.$t('receivedRefund.reasonCancelRefundDeposit')
           this.refundDescription = this.$t('payRefund.description1')
@@ -459,8 +459,8 @@
           return
         }
 
-        if(this.status === '取消退订金-已去退款') {
-          let timeRefundDeposit30 = this.$t('payRefund.timeRefundDeposit30') + this.bill.timeRefundDeposit30
+        if (this.status === '取消退订金-已去退款') {
+          const timeRefundDeposit30 = this.$t('payRefund.timeRefundDeposit30') + this.bill.timeRefundDeposit30
           this.refundTime = timeDeposit30 + '; ' + timeRefundDeposit30
           this.refundReason = this.$t('receivedRefund.reasonCancelRefundDeposit')
           this.refundDescription = this.$t('payRefund.description2')
@@ -468,10 +468,10 @@
           return
         }
 
-        let timePayDeposit70AndTax = this.$t('payRefund.timePayDeposit70AndTax')
+        const timePayDeposit70AndTax = this.$t('payRefund.timePayDeposit70AndTax')
 
-        if(this.status === '取消退全款-未去退款，DLQD/FXQD没有跨境税金') {
-          let timeOrderGoodsCancel = this.$t('payRefund.timeOrderGoodsCancel') + this.bill.timeOrderGoodsCancel
+        if (this.status === '取消退全款-未去退款，DLQD/FXQD没有跨境税金') {
+          const timeOrderGoodsCancel = this.$t('payRefund.timeOrderGoodsCancel') + this.bill.timeOrderGoodsCancel
           this.refundTime = timePayDeposit70AndTax + '; ' + timeOrderGoodsCancel
           this.refundReason = this.$t('receivedRefund.reasonCancelRefundDeposit')
           this.refundDescription = this.$t('payRefund.description1')
@@ -479,8 +479,8 @@
           return
         }
 
-        if(this.status === '取消退全款-已去退款，DLQD/FXQD没有跨境税金') {
-          let timeRefundAll = this.$t('payRefund.timeRefundAll') + this.bill.timeRefundAll
+        if (this.status === '取消退全款-已去退款，DLQD/FXQD没有跨境税金') {
+          const timeRefundAll = this.$t('payRefund.timeRefundAll') + this.bill.timeRefundAll
           this.refundTime = timePayDeposit70AndTax + '; ' + timeRefundAll
           this.refundReason = this.$t('receivedRefund.reasonCancelRefundDeposit')
           this.refundDescription = this.$t('payRefund.description2')
@@ -488,7 +488,7 @@
           return
         }
 
-        if(this.status === '中断订货') {
+        if (this.status === '中断订货') {
           this.refundReason = this.$t('receivedRefund.reasonCancelRefundDeposit')
           this.refundAmountLabel = this.$t('receivedRefund.receivedDeposit30')
           return

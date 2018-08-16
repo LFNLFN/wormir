@@ -193,12 +193,12 @@
         default: () => {
           return {}
         }
-      },
+      }
     },
     data() {
       return {
         productList: [],
-        replenishmentList: [],
+        replenishmentList: []
       }
     },
     computed: {
@@ -209,7 +209,7 @@
 
       // 退款类型
       refundAmountLabel() {
-        switch(this.bill.type) {
+        switch (this.bill.type) {
           case '待收退款-缺货退订金':
           case '待收退款-取消退订金':
             return this.$t('receivedRefund.pendingRefundDeposit30')
@@ -229,8 +229,8 @@
 
       // 收到货款类型
       receivedPaymentLabel() {
-        if(this.bill.type === '收到30%订金') return this.$t('receivedRefund.receivedDeposit30')
-        if(this.bill.type === '收到70%余款') return this.$t('receivedRefund.receivedResidual70')
+        if (this.bill.type === '收到30%订金') return this.$t('receivedRefund.receivedDeposit30')
+        if (this.bill.type === '收到70%余款') return this.$t('receivedRefund.receivedResidual70')
 
         return this.$t('receivedRefund.receivedDeposit30')
       }
