@@ -1,24 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item" placeholder="货单号/品牌名称/渠道号/渠道名称" v-model="listQuery.title">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
-        </el-option>
-      </el-select>
-      <el-select @change='handleFilter' style="width: 140px" class="filter-item" v-model="listQuery.sort">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
-        </el-option>
-      </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
-      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox>
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间"
@@ -87,7 +72,7 @@
 
     <!--货单详情-->
     <el-dialog :visible.sync="dialogFormVisible">
-      <bill-detail></bill-detail>
+      <bill-detail :bill="currentOrder"></bill-detail>
     </el-dialog>
 
     <!--并单确认-->
@@ -99,7 +84,7 @@
       </div>
     </el-dialog>
 
-    // 调整运输
+    <!-- 调整运输 -->
     <el-dialog :visible.sync="isDialogTransportationChangeShow">
       <transportation-change :order="currentOrder" v-if="isDialogTransportationChangeShow"
                              @cancel="isDialogTransportationChangeShow = false"
@@ -123,19 +108,6 @@ import TransportationChange from '../TransportationChange'
 import BillDetailMergeOrders from '../BillDetailMergeOrders'
 import { mergeOrder } from '../../../api/bill'
 
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
 export default {
   name: 'merge-refund-orders',
   components: { BillDetail, TransportationChange, BillDetailMergeOrders },
@@ -157,7 +129,6 @@ export default {
         sort: '+id'
       },
       importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
       sortOptions: [
         { label: 'ID Ascending', key: '+id' },
         { label: 'ID Descending', key: '-id' }
@@ -201,19 +172,6 @@ export default {
       mergeOrderBill: {} // 并单
     }
   },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
-    }
-  },
   created() {
     this.getList()
   },
@@ -249,14 +207,6 @@ export default {
         type: ''
       }
     },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
@@ -276,13 +226,14 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.temp.timestamp = new Date(this.temp.timestamp)
+      // this.temp = Object.assign({}, row) // copy obj
+      // this.temp.timestamp = new Date(this.temp.timestamp)
+      this.currentOrder = row
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs['dataForm'].clearValidate()
+      // })
     },
     updateData() {
       this.$refs['dataForm'].validate(valid => {
@@ -404,13 +355,13 @@ export default {
     // 提交并单
     submitMergeOrder() {
       // 检查并单是否有多个品牌
-      if (this.checkMergeOrder()) {
-        this.$alert({
-          message: this.$t('mergeRefundOrders.tipsMultiBrands'),
-          confirmButtonText: this.$t('mergeRefundOrders.getIt')
-        })
-        return
-      }
+      // if (this.checkMergeOrder()) {
+      //   this.$alert({
+      //     message: this.$t('mergeRefundOrders.tipsMultiBrands'),
+      //     confirmButtonText: this.$t('mergeRefundOrders.getIt')
+      //   })
+      //   return
+      // }
 
       // 打开并单确认框
       this.isDialogMergeOrderConfirmShow = true

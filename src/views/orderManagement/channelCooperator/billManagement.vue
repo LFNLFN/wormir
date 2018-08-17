@@ -1,79 +1,35 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item" placeholder="货单号/渠道号/渠道名称/品牌名称/货单状态" v-model="listQuery.title">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
-        </el-option>
-      </el-select>
-      <el-select @change='handleFilter' style="width: 140px" class="filter-item" v-model="listQuery.sort">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
-        </el-option>
-      </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
-      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox>
     </div>
-
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
-      style="width: 100%">
-      <el-table-column align="center" :label="$t('bill.orderNo')" width="65">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
+      style="width: 100%" size="mini">
+      <el-table-column align="center" :label="$t('bill.orderNo')" >
       </el-table-column>
       <el-table-column width="150px" align="center" :label="$t('bill.retailerCategories')">
-        <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
-        </template>
       </el-table-column>
       <el-table-column width="150px" align="center" :label="$t('bill.retailerNo')">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
       </el-table-column>
       <el-table-column min-width="150px" :label="$t('bill.retailerName')">
-        <template slot-scope="scope">
-          <span class="link-type" @click="viewDetail(scope.row)">{{scope.row.title}}</span>
-        </template>
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('bill.brandName')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('bill.orderAmount')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('bill.thirtyPercentDeposit')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('bill.residualPayment')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('bill.orderStatus')" width="100">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('bill.operation')" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('bill.operation')" class-name="small-padding">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status!='published'" size="medium" type="success"
-                     @click="handleModifyStatus(scope.row,'published')">{{$t('bill.processPackage')}}
+          <el-button size="mini" type="primary" @click="handleModifyStatus(scope.row,'published')">{{$t('bill.processPackage')}}
           </el-button>
-          <el-button type="primary" size="medium" @click="viewDetail(scope.row)">{{$t('bill.reviewOrder')}}</el-button>
+          <el-button type="primary" size="mini" @click="viewDetail(scope.row)">{{$t('bill.reviewOrder')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -110,19 +66,6 @@ import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import BillDetail from '../BillDetail'
 
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
 export default {
   name: 'bill-management',
   directives: {
@@ -145,14 +88,6 @@ export default {
         type: undefined,
         sort: '+id'
       },
-      importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
-      sortOptions: [
-        { label: 'ID Ascending', key: '+id' },
-        { label: 'ID Descending', key: '-id' }
-      ],
-      statusOptions: ['published', 'draft', 'deleted'],
-      showReviewer: false,
       temp: {
         id: undefined,
         importance: 1,
@@ -164,43 +99,10 @@ export default {
       },
       isDialogBillDetailShow: false,
       dialogStatus: '',
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
-      },
       dialogPvVisible: false,
       pvData: [],
-      rules: {
-        type: [
-          { required: true, message: 'type is required', trigger: 'change' }
-        ],
-        timestamp: [
-          {
-            type: 'date',
-            required: true,
-            message: 'timestamp is required',
-            trigger: 'change'
-          }
-        ],
-        title: [
-          { required: true, message: 'title is required', trigger: 'blur' }
-        ]
-      },
       downloadLoading: false,
       currentOrder: {}
-    }
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
     }
   },
   created() {

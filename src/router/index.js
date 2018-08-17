@@ -60,7 +60,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: '/newManagement',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         name: 'newManagement',
         meta: { title: 'newManagement' },
         children: [
@@ -70,7 +70,7 @@ export const asyncRouterMap = [
       },
       {
         path: '/cooperationManagement',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         name: 'cooperationManagement',
         meta: { title: 'cooperationManagement' },
         children: [
@@ -116,7 +116,7 @@ export const asyncRouterMap = [
       },
       {
         path: '/sourceGeneration',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         name: 'sourceGeneration',
         meta: { title: 'sourceGeneration' },
         children: [
@@ -126,7 +126,7 @@ export const asyncRouterMap = [
       },
       {
         path: '/sourceTracking',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         name: 'sourceTracking',
         alwaysShow: true,
         meta: { title: 'sourceTracking' },
@@ -139,7 +139,7 @@ export const asyncRouterMap = [
   {
     path: '/orderManagement',
     component: Layout,
-    // redirect: '/channelCooperator/billManagement',
+    redirect: '/channelCooperator/billManagement',
     name: 'orderManagement',
     meta: {
       title: 'orderManagement',
@@ -149,7 +149,7 @@ export const asyncRouterMap = [
       {
         path: '/channelCooperator',
         name: 'channelCooperator',
-        component: () => import('@/views/orderManagement/channelCooperator/billManagement'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/channelCooperator/billManagement',
         meta: { title: 'channelCooperator' },
         children: [
@@ -176,7 +176,7 @@ export const asyncRouterMap = [
       {
         path: '/refundManagement',
         name: 'refundManagement',
-        component: () => import('@/views/orderManagement/refundManagement/receivedRefund'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/refundManagement/receivedRefund',
         meta: { title: 'refundManagement' },
         children: [
@@ -197,7 +197,7 @@ export const asyncRouterMap = [
       {
         path: '/compensationManagement',
         name: 'compensationManagement',
-        component: () => import('@/views/orderManagement/compensationManagement/receivedCompensation'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/compensationManagement/receivedCompensation',
         meta: { title: 'compensationManagement' },
         children: [
@@ -218,7 +218,7 @@ export const asyncRouterMap = [
       {
         path: '/problematicProductManagement',
         name: 'problematicProductManagement',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/layout/routerWrap'),
         redirect: '/problematicProductManagement/defectiveProduct',
         meta: { title: 'problematicProductManagement' },
         children: [

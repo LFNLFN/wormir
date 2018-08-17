@@ -86,7 +86,7 @@
     </div>
 
     <el-dialog :visible.sync="isDialogDetailShow">
-      <bill-detail></bill-detail>
+      <bill-detail :bill="currentOrder"></bill-detail>
     </el-dialog>
 
     <!--退款，支付后修改支付状态-->

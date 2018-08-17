@@ -100,8 +100,8 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="dialogFormVisible">
-      <bill-detail></bill-detail>
+    <el-dialog :visible.sync="dialogFormVisible" width="600px">
+      <compensation-status-form></compensation-status-form>
     </el-dialog>
 
     <el-dialog :visible.sync="dialogTransportChangeVisible">
@@ -127,23 +127,11 @@ import {
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import BillDetail from '../BillDetail'
-
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+import compensationStatusForm from './compensationStatusForm.vue'
 
 export default {
   name: 'pay-order',
-  components: { BillDetail },
+  components: { BillDetail, compensationStatusForm },
   directives: {
     waves
   },
@@ -162,7 +150,6 @@ export default {
         sort: '+id'
       },
       importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
       sortOptions: [
         { label: 'ID Ascending', key: '+id' },
         { label: 'ID Descending', key: '-id' }
@@ -203,19 +190,6 @@ export default {
         ]
       },
       downloadLoading: false
-    }
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
     }
   },
   created() {
