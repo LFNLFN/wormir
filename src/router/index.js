@@ -224,19 +224,19 @@ export const asyncRouterMap = [
         children: [
           {
             path: 'defectiveProduct',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/problematicProductManagement/defectiveProduct'),
             name: 'defectiveProduct',
             meta: { title: 'defectiveProduct' }
           },
           {
             path: 'damagedProduct',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/problematicProductManagement/damagedProduct'),
             name: 'damagedProduct',
             meta: { title: 'damagedProduct' }
           },
           {
             path: 'lessCargoProduct',
-            component: () => import('@/views/table/complexTable'),
+            component: () => import('@/views/orderManagement/problematicProductManagement/lessCargoProduct'),
             name: 'lessCargoProduct',
             meta: { title: 'lessCargoProduct' }
           }

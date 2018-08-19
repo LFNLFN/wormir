@@ -502,27 +502,6 @@ export default {
     hadCancelStockUp: '已取消备货'
 
   },
-  product: {
-    brandName: '商品品牌',
-    productNo: '商品编号',
-    productName: '商品名称',
-    productSpecification: '商品规格',
-    packageSpecification: '装箱规格',
-    replenishmentSpecification: '补货规格',
-    domesticRetailPrice: '国内零售价',
-    orderQuantity: '订货数量',
-    originalDiscount: '起始折扣',
-    orderDiscount: '订货折扣',
-    orderUnitPrice: '订货单价',
-    replenishmentQuantity: '补货数量',
-    quantity: '数量',
-    problematicProduct: '问题商品',
-    defectiveProduct: '瑕疵商品',
-    damagedProduct: '破损商品',
-    lessCargoProduct: '少货商品',
-    readSystem: '读取系统'
-  },
-
   problematicProduct: {
 
   },
@@ -754,6 +733,65 @@ export default {
     yes: '是',
     no: '否'
   },
+
+  product: {
+    thumbnail: '缩略图',
+    keyword: '关键字',
+    productSeries: '商品系列',
+    productRoughWeight: '商品净重',
+    productNo: '商品编号',
+    productName: '商品名称',
+    productSpecification: '商品规格',
+    productStockUp: '商品入库',
+    productCode: '商品编码',
+    productQuantity: '商品数量',
+    productSerialNo: '商品序列号',
+    size: '规格'
+  },
+  brand: {
+    brandName: '品牌名称',
+    brandNo: '品牌编号',
+    brandProductNo: '品牌商货号'
+  },
+
+  inventory: {
+    inventoryQuantity: '库存数量',
+    inventoryAmount: '库存总量',
+    inventoryDetail: '库存详情',
+    boxSpecification: '装箱规格',
+    boxSize: '箱子尺寸',
+    boxUnit: '箱',
+    boxNo: '箱码',
+    viewBoxNo: '箱码查看',
+    inTime: '入库时间',
+    outTime: '出库时间',
+    state: '状态',
+    basisInfo: '基础信息',
+    scanWarehouseEntry: '扫码入库',
+    immediateWarehouseEntry: '立即入库',
+    warehouseEntrySuccess: '入库成功',
+    warehouseEntryExplain: `
+      入库操作说明：<br>
+      第一步：选择装箱规格<br>
+      第二步：通过条码枪优先扫描箱码<br>
+      第三步：逐一扫描商品包装上的溯源码<br>
+      第四步：确认商品入库
+    `
+  },
+
+  // 溯源码
+  sourceCode: {
+    sourceCode: '溯源码',
+    viewSourceCode: '溯源码查看'
+  },
+
+  // 渠道
+  retailer: {
+    retailerCategories: '渠道属性',
+    retailerNo: '渠道号',
+    retailerName: '渠道名称'
+  },
+
   errorLog: {
     tips: '请点击右上角bug小图标',
     description: '现在的管理后台基本都是spa的形式了，它增强了用户体验，但同时也会增加页面出问题的可能性，可能一个小小的疏忽就导致整个页面的死锁。好在 Vue 官网提供了一个方法来捕获处理异常，你可以在其中进行错误处理或者异常上报。',
