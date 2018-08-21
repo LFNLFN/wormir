@@ -99,7 +99,7 @@
 
 <script>
   export default {
-    name: 'CompensationForm',
+    name: 'compensationForm',
     props: {
       order: Object
     }
