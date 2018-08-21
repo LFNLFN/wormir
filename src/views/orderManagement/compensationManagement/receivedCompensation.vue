@@ -88,7 +88,7 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import compensationForm from './compensationForm'
+import compensationForm from '@/views/orderManagement/compensationManagement/compensationForm'
 import { splitOrderMerged } from '../../../api/bill'
 
 const calendarTypeOptions = [
