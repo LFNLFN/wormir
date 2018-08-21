@@ -122,7 +122,8 @@ export default {
     exportZip: 'Export Zip',
     theme: '换肤',
     clipboardDemo: 'Clipboard',
-    i18n: '国际化'
+    i18n: '国际化',
+    salesPromotion: '审批促销'
   },
   navbar: {
     logOut: '退出登录',

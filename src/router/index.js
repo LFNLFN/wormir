@@ -87,7 +87,7 @@ export const asyncRouterMap = [
       },
       {
         path: 'levelChange',
-        component: () => import('@/views/svg-icons/index'),
+        component: () => import('@/views/channelManagement/levelChange/index'),
         name: 'levelChange',
         meta: { title: 'levelChange' }
       }
@@ -170,6 +170,12 @@ export const asyncRouterMap = [
             component: () => import('@/views/orderManagement/channelCooperator/payOrder'),
             name: 'payOrder',
             meta: { title: 'payOrder' }
+          },
+          {
+            path: 'salesPromotion',
+            component: () => import('@/views/orderManagement/channelCooperator/salesPromotion'),
+            name: 'salesPromotion',
+            meta: { title: 'salesPromotion' }
           }
         ]
       },
