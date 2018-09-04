@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" :placeholder="$t('product.inventoryDetailSearch')"
+      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="箱码/商品码/操作账号"
                 v-model="listQuery.keyword">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
@@ -17,23 +17,23 @@
         v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
       <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
       <el-table-column align="center" :label="$t('product.productName')" prop="goodsEnglishName" />
-      <el-table-column align="center" :label="$t('product.size')" prop="goodsSpecificationEnglish" />
+      <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish" />
       <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification" />
-      <el-table-column align="center" :label="$t('order.cartonType')" prop="cartonSizeId" />
-      <el-table-column align="center" :label="$t('product.cartonSize')" prop="boxSize" />
+      <el-table-column align="center" label="箱型编号" prop="cartonSizeId" />
+      <el-table-column align="center" label="箱子尺寸" prop="boxSize" />
     </el-table>
     <el-table :data="prodcutCodeList" border fit highlight-current-row :summary-method="getSummaries" show-summary
         v-loading="productListLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" :span-method="objectSpanMethod">
-      <el-table-column align="center" :label="$t('product.inStock')" >
-        <el-table-column align="center" :label="$t('product.boxCode')" prop="boxCode"/>
-        <el-table-column align="center" :label="$t('product.productCodeAll')" prop="sourceCode"/>
-        <el-table-column align="center" :label="$t('product.stockEntryTime')" >
+      <el-table-column align="center" label="已入库" >
+        <el-table-column align="center" label="箱码" prop="boxCode"/>
+        <el-table-column align="center" label="首次装箱的商品码" prop="sourceCode"/>
+        <el-table-column align="center" label="入库时间" >
           <template slot-scope="scope">{{getParseTime(scope.row.warehouseEntryTime)}}</template></el-table-column>
-        <el-table-column align="center" :label="$t('product.operationID')" prop="createUserId"/>
-        <el-table-column align="center" :label="$t('product.packingQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="cartonCount"/>
+        <el-table-column align="center" label="操作账号" prop="createUserId"/>
+        <el-table-column align="center" label="装箱数量">
+          <el-table-column align="center" label="(units)" prop="cartonCount"/>
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
+        <el-table-column align="center" label="商品数量">
           <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="goodsNum"/>
         </el-table-column>
       </el-table-column>

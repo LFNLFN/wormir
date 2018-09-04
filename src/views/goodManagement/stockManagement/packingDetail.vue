@@ -12,10 +12,10 @@
         v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 50%; float: left" >
       <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
       <el-table-column align="center" :label="$t('product.productName')" prop="englishName" />
-      <el-table-column align="center" :label="$t('product.size')" prop="capacityEnglish" />
+      <el-table-column align="center" label="商品规格" prop="capacityEnglish" />
     </el-table>
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" :placeholder="$t('product.packingDetailSearch')"
+      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="商品码/箱码/订货单号/操作账号"
                 v-model="listQuery.keyword">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
@@ -23,14 +23,14 @@
     </div>
     <el-table :data="packingDetailList" border fit highlight-current-row 
       v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
-      <el-table-column align="center" :label="$t('product.productCodeAll')" prop="productCode"/>
-      <el-table-column align="center" :label="$t('product.packingStatus')" prop="packingStatus"/>
-      <el-table-column align="center" :label="$t('product.boxCode')" prop="boxCode"/>
-      <el-table-column align="center" :label="$t('order.cartonType')" prop="cartonType"/>
-      <el-table-column align="center" :label="$t('product.packingTime')" prop="packingTime"/>
-      <el-table-column align="center" :label="$t('product.operationID')" prop="operationID"/>
-      <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
-      <el-table-column align="center" :label="$t('product.outboundOrderNo')" prop="outboundOrderNo"/>
+      <el-table-column align="center" label="商品码" prop="productCode"/>
+      <el-table-column align="center" label="混箱状态" prop="packingStatus"/>
+      <el-table-column align="center" label="箱码" prop="boxCode"/>
+      <el-table-column align="center" label="箱型编号" prop="cartonType"/>
+      <el-table-column align="center" label="装箱时间" prop="packingTime"/>
+      <el-table-column align="center" label="操作账号" prop="operationID"/>
+      <el-table-column align="center" label="库存状态" prop="inventoryStatus"/>
+      <el-table-column align="center" label="出库的订货单号" prop="outboundOrderNo"/>
       <el-table-column align="center" :label="$t('order.operation')" class-name="small-padding" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="reviewDetail(scope.row.productCode)">{{$t('order.reviewDetail')}}</el-button>
@@ -41,13 +41,13 @@
     <el-dialog :visible.sync="isDialogDetailShow" append-to-body>
       <el-table :data="productCodeDetailList" border fit highlight-current-row 
       v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
-        <el-table-column align="center" :label="$t('product.productCode')" prop="productCode"/>
-        <el-table-column align="center" :label="$t('product.packingStatus')" prop="packingStatus"/>
-        <el-table-column align="center" :label="$t('product.boxCode')" prop="boxCode"/>
-        <el-table-column align="center" :label="$t('order.cartonType')" prop="cartonType"/>
-        <el-table-column align="center" :label="$t('product.packingTime')" prop="packingTime"/>
-        <el-table-column align="center" :label="$t('product.operationID')" prop="operationID"/>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
+        <el-table-column align="center" label="商品码" prop="sourceCode"/>
+        <el-table-column align="center" label="装箱状态" prop="packingStatus"/>
+        <el-table-column align="center" label="箱码" prop="boxCode"/>
+        <el-table-column align="center" label="箱型编号" prop="cartonType"/>
+        <el-table-column align="center" label="装箱时间" prop="packingTime"/>
+        <el-table-column align="center" label="操作账号" prop="operationID"/>
+        <el-table-column align="center" label="库存状态" prop="inventoryStatus"/>
       </el-table>
     </el-dialog>
   </div>

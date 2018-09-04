@@ -12,13 +12,13 @@
         v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 50%; float: left" >
       <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
       <el-table-column align="center" :label="$t('product.productName')" prop="englishName" />
-      <el-table-column align="center" :label="$t('product.size')" prop="capacityEnglish" />
+      <el-table-column align="center" label="商品规格" prop="capacityEnglish" />
       <el-table-column align="center" :label="$t('order.packageSpecification')" prop="packageSpecification" />
-      <el-table-column align="center" :label="$t('order.cartonType')" prop="cartonType" />
-      <el-table-column align="center" :label="$t('product.cartonSize')" prop="cartonSize" />
+      <el-table-column align="center" label="箱型编号" prop="cartonType" />
+      <el-table-column align="center" label="箱子尺寸" prop="cartonSize" />
     </el-table>
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" :placeholder="$t('product.inventoryDetailSearch')"
+      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="箱码/商品码/订货单号/操作账号"
                 v-model="listQuery.keyword">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
@@ -26,47 +26,45 @@
     </div>
     <el-table class="empty-table" :data="emptyList" border fit highlight-current-row
         v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
-      <el-table-column align="center" :label="$t('product.inStock')" >
-        <el-table-column align="center" :label="$t('product.boxCode')"/>
-        <el-table-column align="center" :label="$t('product.productCodeAll')"/>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" />
+      <el-table-column align="center" label="已入库" >
+        <el-table-column align="center" label="箱码"/>
+        <el-table-column align="center" label="首次装箱的商品码"/>
+        <el-table-column align="center" label="装箱数量">
+          <el-table-column align="center" label="(units)" />
         </el-table-column>
         <el-table-column align="center" :label="$t('product.productQuantityAll')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" />
+          <el-table-column align="center" label="'(' + $t('order.pcs') + ')'" />
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')"/>
+        <el-table-column align="center" label="库存状态"/>
       </el-table-column>
-      <el-table-column align="center" :label="$t('product.outbound')" >
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" />
+      <el-table-column align="center" label="已出库" >
+        <el-table-column align="center" label="整箱">
+          <el-table-column align="center" label="(units)" />
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.devanningQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" />
+        <el-table-column align="center" label="拆箱">
+          <el-table-column align="center" :label="(units)" />
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualQuantity')">
+        <el-table-column align="center" label="散货">
           <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'"/>
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')"/>
-        <el-table-column align="center" :label="$t('product.operationID')" />
-        <el-table-column align="center" :label="$t('product.outbound')" >
-          <el-table-column align="center" :label="$t('order.orderNo')" />
-        </el-table-column>
+        <el-table-column align="center" label="出库时间"/>
+        <el-table-column align="center" label="操作账号" />
+        <el-table-column align="center" label="出库的订货单号" />
       </el-table-column>
-      <el-table-column align="center" :label="$t('product.outboundInventory')" >
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
+      <el-table-column align="center" label="实际库存" >
+        <el-table-column align="center" label="商品数量">
           <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" />
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" />
+        <el-table-column align="center" label="整箱">
+          <el-table-column align="center" label="(units)" />
         </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualProductQuantity')">
+        <el-table-column align="center" label="散货">
           <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" />
         </el-table-column>
       </el-table-column>
     </el-table>
     <el-row :gutter="5" style="width: 100%" >
-      <el-col align="center"><div class="grid-content bg-purple">Full Unit</div></el-col>
+      <el-col align="center"><div class="grid-content bg-purple">整箱</div></el-col>
     </el-row>
     <el-table :data="fullUnitList" border fit highlight-current-row :show-header="false"
         v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
@@ -110,7 +108,7 @@
       </el-table-column>
     </el-table>
     <el-row :gutter="5" style="width: 100%" >
-      <el-col align="center"><div class="grid-content bg-purple">Devanning</div></el-col>
+      <el-col align="center"><div class="grid-content bg-purple">拆箱</div></el-col>
     </el-row>
     <el-table :data="devanningList" border fit highlight-current-row :summary-method="getSummaries" show-summary
       :show-header="false"  v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >

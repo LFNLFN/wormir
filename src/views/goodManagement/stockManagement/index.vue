@@ -99,7 +99,7 @@ export default {
         page: 1,
         rows: 20
       },
-      list: [],
+      list: [{}],
       isInventoryDetailsShow: false,
       isHoldInventoryShow: false,
       isOutboundInventoryShow: false,
@@ -191,5 +191,8 @@ export default {
 <style>
 .el-table .cell {
   word-break: break-word;
+}
+.el-dialog {
+  width: 1200px
 }
 </style>
