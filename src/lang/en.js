@@ -122,7 +122,11 @@ export default {
     exportZip: 'Export Zip',
     theme: 'Theme',
     clipboardDemo: 'Clipboard',
-    i18n: 'I18n'
+    i18n: 'I18n',
+    abnormalTracking: 'Abnormal Tracking',
+    customerTracking: 'Customer Tracking',
+    verifySetting: 'Verify Setting',
+    stockManagement: 'Stock Management'
   },
   navbar: {
     logOut: 'Log Out',

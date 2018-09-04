@@ -123,7 +123,11 @@ export default {
     theme: '换肤',
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
-    salesPromotion: '审批促销'
+    salesPromotion: '审批促销',
+    abnormalTracking: '异常追踪',
+    customerTracking: '顾客追踪',
+    verifySetting: '验证设置',
+    stockManagement: '库存管理'
   },
   navbar: {
     logOut: '退出登录',

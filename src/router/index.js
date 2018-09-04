@@ -96,6 +96,7 @@ export const asyncRouterMap = [
   {
     path: '/goodManagement',
     component: Layout,
+    redirect: '/goodManagement/brandList',
     name: 'goodManagement',
     meta: {
       title: 'goodManagement',
@@ -115,24 +116,37 @@ export const asyncRouterMap = [
         meta: { title: 'goodList' }
       },
       {
-        path: '/sourceGeneration',
-        component: () => import('@/views/layout/routerWrap'),
+        path: 'sourceGeneration',
+        component: () => import('@/views/goodManagement/sourceGeneration/index'),
         name: 'sourceGeneration',
-        meta: { title: 'sourceGeneration' },
-        children: [
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'sourceCodeManagement', meta: { title: 'sourceCodeManagement' }},
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'boxCodeManagement', meta: { title: 'boxCodeManagement' }}
-        ]
+        meta: { title: 'sourceGeneration' }
       },
       {
-        path: '/sourceTracking',
-        component: () => import('@/views/layout/routerWrap'),
-        name: 'sourceTracking',
+        path: 'stockManagement',
+        component: () => import('@/views/goodManagement/stockManagement/index'),
+        name: 'stockManagement',
         alwaysShow: true,
-        meta: { title: 'sourceTracking' },
-        children: [
-          { path: 'inventoryTracking', component: () => import('@/views/table/complexTable'), name: 'inventoryTracking', meta: { title: 'inventoryTracking' }}
-        ]
+        meta: { title: 'stockManagement' }
+      },
+      {
+        path: 'abnormalTracking',
+        component: () => import('@/views/goodManagement/abnormalTracking/index'),
+        name: 'abnormalTracking',
+        meta: { title: 'abnormalTracking' }
+      },
+      {
+        path: 'customerTracking',
+        component: () => import('@/views/goodManagement/customerTracking/index'),
+        name: 'customerTracking',
+        alwaysShow: true,
+        meta: { title: 'customerTracking' }
+      },
+      {
+        path: 'verifySetting',
+        component: () => import('@/views/goodManagement/verifySetting/index'),
+        name: 'verifySetting',
+        alwaysShow: true,
+        meta: { title: 'verifySetting' }
       }
     ]
   },
