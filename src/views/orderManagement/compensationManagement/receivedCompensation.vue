@@ -88,8 +88,8 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import compensationForm from '@/views/orderManagement/compensationManagement/compensationForm'
-import { splitOrderMerged } from '../../../api/bill'
+import compensationForm from './compensationForm.vue'
+import { splitOrderMerged } from '@/api/bill'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
