@@ -64,8 +64,9 @@ export const asyncRouterMap = [
         name: 'newManagement',
         meta: { title: 'newManagement' },
         children: [
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'newChannel', meta: { title: 'newChannel' }},
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'newSubChannel', meta: { title: 'newSubChannel' }}
+          { path: 'newChannel', component: () => import('@/views/channelManagement/newManagement/newChannel'), name: 'newChannel', meta: { title: 'newChannel' }},
+          { path: 'newSubChannel', component: () => import('@/views/channelManagement/newManagement/newSubChannel'), name: 'newSubChannel', meta: { title: 'newSubChannel' }},
+          // { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'newSubChannel', meta: { title: 'newSubChannel' }}
         ]
       },
       {
@@ -74,14 +75,14 @@ export const asyncRouterMap = [
         name: 'cooperationManagement',
         meta: { title: 'cooperationManagement' },
         children: [
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'cooperationChannel', meta: { title: 'cooperationChannel' }},
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'inStopProcess', meta: { title: 'inStopProcess' }},
-          { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'stopChannel', meta: { title: 'stopChannel' }}
+          { path: 'cooperationChannel', component: () => import('@/views/channelManagement/cooperationManagement/cooperationChannel'), name: 'cooperationChannel', meta: { title: 'cooperationChannel' }},
+          { path: 'inStopProcess', component: () => import('@/views/channelManagement/cooperationManagement/inStopProcess'), name: 'inStopProcess', meta: { title: 'inStopProcess' }},
+          { path: 'stopChannel', component: () => import('@/views/channelManagement/cooperationManagement/stopChannel'), name: 'stopChannel', meta: { title: 'stopChannel' }}
         ]
       },
       {
         path: 'contact',
-        component: () => import('@/views/svg-icons/index'),
+        component: () => import('@/views/channelManagement/contact'),
         name: 'contact',
         meta: { title: 'contact' }
       },
@@ -105,21 +106,45 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'brandList',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/goodManagement/brandList'),
         name: 'brandList',
         meta: { title: 'brandList' }
       },
       {
         path: 'goodList',
-        component: () => import('@/views/table/complexTable'),
+        component: () => import('@/views/goodManagement/goodList'),
         name: 'goodList',
         meta: { title: 'goodList' }
       },
       {
-        path: 'sourceGeneration',
-        component: () => import('@/views/goodManagement/sourceGeneration/index'),
+        path: '/sourceGeneration',
+        component: () => import('@/views/layout/routerWrap'),
         name: 'sourceGeneration',
-        meta: { title: 'sourceGeneration' }
+        meta: { title: 'sourceGeneration' },
+        children: [{
+          path: 'sourceCodeManagement',
+          component: () => import('@/views/goodManagement/sourceGeneration/sourceCodeManagement'),
+          meta: { title: 'sourceCodeManagement' },
+          name: 'sourceCodeManagement'
+        }, {
+          path: 'boxCodeManagement',
+          component: () => import('@/views/goodManagement/sourceGeneration/boxCodeManagement'),
+          meta: { title: 'boxCodeManagement' },
+          name: 'boxCodeManagement'
+        }]
+      },
+      {
+        path: '/sourceTracking',
+        component: () => import('@/views/layout/routerWrap'),
+        name: 'sourceTracking',
+        meta: { title: 'sourceTracking' },
+        alwaysShow: true,
+        children: [{
+          path: 'inventoryTracking',
+          component: () => import('@/views/goodManagement/sourceTracking/inventoryTracking'),
+          meta: { title: 'inventoryTracking' },
+          name: 'inventoryTracking'
+        }]
       },
       {
         path: 'stockManagement',

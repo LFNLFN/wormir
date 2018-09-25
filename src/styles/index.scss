@@ -199,3 +199,32 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+// 自己添加的覆盖样式
+.el-table th {
+  background: #DFF2FC !important;
+  font-weight: 700 !important;
+  color: #424242!important;
+}
+td {
+  color: #424242!important;
+}
+.el-table--border, .el-table--group {
+  border: 1px solid #d5d5d5;
+}
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+  border-right: 1px solid #d5d5d5;
+}
+.el-table td, .el-table th.is-leaf {
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.bg-purple-dark {
+  background: transparent
+}
+.bg-purple {
+  background: transparent
+}
+.bg-purple-light {
+  background: transparent
+}
