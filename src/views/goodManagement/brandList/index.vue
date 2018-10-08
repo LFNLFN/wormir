@@ -19,48 +19,31 @@
         prop="brandNo"
         label="品牌序列号"
         align="center">
-        <template slot-scope="scope">
-          <span>10001</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandNo"
+        prop="chineseName"
         label="品牌名称（中文）"
         align="center">
-        <template slot-scope="scope">
-          <span>兰蔻</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandNo"
+        prop="englishName"
         label="品牌名称（英文）"
         align="center">
-        <template slot-scope="scope">
-          <span>LANCOME</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandNo"
+        prop="brandStatus"
         label="品牌状态"
         align="center">
-        <template slot-scope="scope">
-          <span>正常供货</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandNo"
+        prop="brandOrigin"
         label="原产国/产地"
         align="center">
-        <template slot-scope="scope">
-          <span>法国</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="checkInTime"
         label="录入时间"
         align="center">
-        <template slot-scope="scope">
-          <span>2018-03-20 09:44</span>
-        </template>
       </el-table-column>
       <el-table-column
         label="操作"
@@ -68,7 +51,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="">编辑
+            @click="showEditBrand(scope.row)">编辑
           </el-button>
           <el-button
             size="mini"
@@ -95,12 +78,16 @@
     <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
       <addBrand></addBrand>
     </el-dialog>
+    <el-dialog :visible.sync="isEditBrandShow" width="75%" @close="isEditBrandShow = false" title="编辑品牌">
+      <editBrand :brandObj="currentBrand"></editBrand>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { brand_BlurSearch } from '@/api/brand'
   import addBrand from './addBrand/index.vue'
+  import editBrand from './editBrand'
   export default {
     data() {
       return {
@@ -111,40 +98,41 @@
           page_size: 10,
           total: 0
         },
-        brandTableData: [{
-          brandNo: 'DLQD20180522001',
-          brandName_ZH: '兰蔻',
-          brandName_EN: 'LANCOME',
-          brandStatus: '淘宝企业店'
-        }],
-        isAddBrandShow: false
+        isAddBrandShow: false,
+        isEditBrandShow: false,
+        currentBrand: {}
       }
     },
     methods: {
       brandBlurSearch() {
         brand_BlurSearch(this.filterForm.brandMsg1)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
           // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         brand_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         brand_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
         this.filterForm.currentPage = val
       },
       showAddBrand() {
         this.isAddBrandShow = true
+      },
+      showEditBrand(row) {
+        this.isEditBrandShow = true
+        this.currentBrand = row
       }
     },
     mounted() {
       this.brandBlurSearch()
     },
     components: {
-      addBrand
+      addBrand,
+      editBrand
     }
   }
 </script>
