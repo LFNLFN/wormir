@@ -118,7 +118,7 @@
       brandBlurSearch() {
         brand_BlurSearch(this.filterForm.brandMsg1)
           .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
-          .catch(() => { this.$message.error('表格加载失败') })
+          // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         brand_BlurSearch(this.filterForm.value1, 1, val)

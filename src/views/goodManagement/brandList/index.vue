@@ -8,7 +8,7 @@
         <el-button type="warning" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-plus" @click="">新增品牌</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -92,11 +92,15 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
+    <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
+      <addBrand></addBrand>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { brand_BlurSearch } from '@/api/brand'
+  import addBrand from './addBrand/index.vue'
   export default {
     data() {
       return {
@@ -112,14 +116,15 @@
           brandName_ZH: '兰蔻',
           brandName_EN: 'LANCOME',
           brandStatus: '淘宝企业店'
-        }]
+        }],
+        isAddBrandShow: false
       }
     },
     methods: {
       brandBlurSearch() {
         brand_BlurSearch(this.filterForm.brandMsg1)
           .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
-          .catch(() => { this.$message.error('表格加载失败') })
+          // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         brand_BlurSearch(this.filterForm.value1, 1, val)
@@ -130,10 +135,16 @@
         brand_BlurSearch(this.filterForm.value1, val)
           .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
         this.filterForm.currentPage = val
+      },
+      showAddBrand() {
+        this.isAddBrandShow = true
       }
     },
     mounted() {
       this.brandBlurSearch()
+    },
+    components: {
+      addBrand
     }
   }
 </script>

@@ -65,7 +65,7 @@ export const asyncRouterMap = [
         meta: { title: 'newManagement' },
         children: [
           { path: 'newChannel', component: () => import('@/views/channelManagement/newManagement/newChannel'), name: 'newChannel', meta: { title: 'newChannel' }},
-          { path: 'newSubChannel', component: () => import('@/views/channelManagement/newManagement/newSubChannel'), name: 'newSubChannel', meta: { title: 'newSubChannel' }},
+          { path: 'newSubChannel', component: () => import('@/views/channelManagement/newManagement/newSubChannel'), name: 'newSubChannel', meta: { title: 'newSubChannel' }}
           // { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'newSubChannel', meta: { title: 'newSubChannel' }}
         ]
       },

@@ -130,7 +130,7 @@
       channelBlurSearch() {
         channel_BlurSearch_withTime(this.filterForm.channelMsg1, this.filterForm.channelMsg2)
           .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          .catch(() => { this.$message.error('表格加载失败') })
+          // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         channel_BlurSearch_withTime(this.filterForm.value1, null, 1, val)

@@ -152,7 +152,7 @@
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
           .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          .catch(() => { this.$message.error('表格加载失败') })
+          // .catch(() => { this.$message.error('表格加载失败') })
       },
       showAdd() {
         this.isAddShow = true

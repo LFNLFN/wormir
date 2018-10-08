@@ -228,3 +228,13 @@ td {
 .bg-purple-light {
   background: transparent
 }
+// 品牌列表的子品类输入框后方的删除按钮
+.subCategories-item .el-input-group__append {
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: #fff;
+  &:hover {
+    background: #f78989;
+    border-color: #f78989;
+  }
+}
