@@ -26,6 +26,131 @@ Mock.mock(/\/search\/user/, 'get', remoteSearchAPI.searchUser)
 // 账单相关
 Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
+// 商品列表相关
+Mock.mock(/\/goodsInfo\/addBaseInfoAction.do/, 'post', {
+  'data': {
+    items: [{
+      goodThumbnailSrc: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+      goodID: 100012018032010001,
+      goodBrand: '兰蔻',
+      goodProp: '常规',
+      mainCategory: '面部',
+      subCategory: '保湿',
+      goodSeries: '薰衣草',
+      goodNo: 32010001,
+      goodName_ZH: '兰蔻（LANCOME）空气轻垫唇油 口红唇釉唇彩 空气轻垫唇油166 6ML',
+      goodName_EN: 'Lancome (LANCOME) air cushion lip oil mouth red lip gloss lip gloss air cushion lip oil 166 6ML',
+      goodStatus: '正常销售',
+      goodPrice: 240.00,
+      minDiscount: 1.0,
+      checkInTime: '2018-03-20 09:50',
+      // 以上是商品管理的表格而下面是编辑商品所需要的补充信息
+      brandNo: 10001,
+      isSuite: false,
+      goodOrigin: '法国',
+      goodSpecificationArr: [
+        {
+          goodSpecification: {
+            chinese: '102毫升/支',
+            english: '102ml/pc'
+          },
+          capacity: {
+            chinese: '102毫升',
+            english: '102ml'
+          },
+          packingUnit: {
+            chinese: '支',
+            english: 'pc'
+          }
+        }
+      ],
+      goodNetWeight: 0.1,
+      goodGrossWeight: 0.2,
+      goodQuality: '特等品',
+      packingWay: 'carton',
+      slogan: '春日焕新肌，面膜混搭效果升级，敷出“嫩白润”，为美力打call，速度点击',
+      cartonSpecificationArr: [{
+        cartonNo: '02',
+        cartonSpecification: {
+          chinese: '10支/箱',
+          english: '10PCS/CTN'
+        },
+        goodQuantity: 10.0,
+        goodUnit: {
+          chinese: '支',
+          english: 'PCS'
+        },
+        cartonUnit: {
+          chinese: '箱',
+          english: 'CTN'
+        },
+        cartonSize: '100.0cm*100.0cm*100.0cm',
+        cartonWeight: 1
+      }],
+      goodPriceArr: [{
+        salesArea: '中国',
+        transactionCurrency: '人民币',
+        currencySymbol: '¥',
+        currencyUnit: '元',
+        amount: 24.00,
+        thePrice: {
+          withSymbol: '¥ 24',
+          withUnit: '24元'
+        }
+      }],
+      replenishmentArr: [{
+        transactionCurrency: '人民币',
+        currencySymbol: '¥',
+        currencyUnit: '元',
+        amount: 44.00,
+        replenishment: {
+          withSymbol: '¥ 44',
+          withUnit: '44元'
+        }
+      }],
+      goodNote: {
+        ingredients: '不详',
+        efficacy: '不详',
+        sellingPoint: '不详',
+        userfeeling: '不详',
+        targetUser: '不详'
+      },
+      fiveFilesList: [
+        { name: 'lancom1.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' },
+        { name: 'lancom2.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' },
+        { name: 'lancom2.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' },
+        { name: 'lancom2.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' },
+        { name: 'lancom2.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' }
+      ],
+      oneFileList: [
+        { name: 'lancom0.jpeg', url: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg' }
+      ],
+      sellingChannelList: ['A级', 'B级', '分销渠道'],
+      procurementPriceArr: [{
+        transportation: '空运',
+        transactionCurrency: '美元',
+        currencySymbol: '$',
+        currencyUnit: '美元',
+        amount: 16.00,
+        thePrice: {
+          withSymbol: '$ 16',
+          withUnit: '16美元'
+        }
+      }, {
+        transportation: '海运',
+        transactionCurrency: '美元',
+        currencySymbol: '$',
+        currencyUnit: '美元',
+        amount: 24.00,
+        thePrice: {
+          withSymbol: '$ 24',
+          withUnit: '24美元'
+        }
+      }]
+    }]
+  }
+})
+
 // 品牌列表相关
 Mock.mock(/\/brand\/list.do/, 'post', {
   'data': {

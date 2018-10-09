@@ -1,202 +1,185 @@
 <template>
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
-      <el-form-item label="">
-        <el-input v-model="filterForm.channelMsg1" :placeholder="filterForm.placeholder1"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="warning" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-plus" @click="">新增品牌</el-button>
-      </el-form-item>
-    </el-form>
+          <el-form-item label="">
+            <el-input v-model="filterForm.goodSearchingMsg1" :placeholder="filterForm.placeholder1" style="width:250px"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="warning" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              @click="addGood()">新增商品
+            </el-button>
+          </el-form-item>
+        </el-form>
     <el-table
       border
-      :data="brandTableData"
+      :data="goodTableData"
       style="width: 100%">
       <el-table-column
-        fixed
-        prop="thumbnail"
-        :label="$t('product.thumbnail')"
+        fixed="left"
+        prop="goodThumbnailSrc"
+        label="缩略图-点击放大"
+        width="80"
         align="center">
         <template slot-scope="scope">
-          <img src="" alt="No pic">
+          <img :src="scope.row.goodThumbnailSrc" alt="点击放大" width="50" height="30" @click="enlargePic(scope.row)">
         </template>
       </el-table-column>
       <el-table-column
-        prop="productSerialNo"
-        :label="$t('product.productSerialNo')"
+        prop="goodID"
+        label="商品序列号"
+        width="120"
         align="center">
-        <template slot-scope="scope">
-          <span>103883683</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandName"
-        :label="$t('brand.brandName')"
+        prop="goodBrand"
+        label="商品品牌"
         align="center">
-        <template slot-scope="scope">
-          <span>LANCOME</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop="goodProp"
         label="商品属性"
+        width="100"
+        :filters="[{ text: '常规', value: '常规' }, { text: '促销', value: '促销' }, { text: '新品', value: '新品' }]"
+        :filter-method="filterHandler_goodProp"
         align="center">
-        <template slot-scope="scope">
-          <span>常规</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="mainType"
+        prop="mainCategory"
         label="主品类"
         align="center">
-        <template slot-scope="scope">
-          <span>面部</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="subCategory"
         label="子品类"
         align="center">
-        <template slot-scope="scope">
-          <span>保湿</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodSeries"
         label="商品系列"
         align="center">
-        <template slot-scope="scope">
-          <span>薰衣草</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodNo"
         label="商品编号"
+        width="100"
         align="center">
-        <template slot-scope="scope">
-          <span>32453453</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodName_ZH"
         label="商品名称-中文"
+        width="180"
         align="center">
-        <template slot-scope="scope">
-          <span>兰蔻（LANCOME）空气轻垫唇油 口红唇釉唇彩 空气轻垫唇油166 6ML</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodName_EN"
         label="商品名称-英文"
+        width="180"
         align="center">
-        <template slot-scope="scope">
-          <span>Lancome (LANCOME) air cushion lip oil mouth red lip gloss lip gloss air cushion lip oil 166 6ML</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodStatus"
         label="商品状态"
         align="center">
-        <template slot-scope="scope">
-          <span>正常销售</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="goodPrice"
         label="商品售价"
         align="center">
-        <template slot-scope="scope">
-          <span>240.00</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="minDiscount"
         label="起订折扣"
         align="center">
-        <template slot-scope="scope">
-          <span>1.0</span>
-        </template>
       </el-table-column>
       <el-table-column
+        prop="checkInTime"
         label="录入时间"
         align="center">
-        <template slot-scope="scope">
-          <span>2018-03-20 09:50</span>
-        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
-        width="130"
         label="操作"
+        width="120"
         align="center">
         <template slot-scope="scope">
           <el-button
-            type="primary"
             size="mini"
-            @click="">查看详情
+            @click="checkGoodDetail(scope.row)">查看详情
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div style="margin-top: 1em;text-align: right">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="filterForm.currentPage"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="filterForm.page_size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="filterForm.total">
-      </el-pagination>
-    </div>
+    <el-dialog :visible.sync="isEnlargeGoodThumbnailShow" width="70%" @close="isEnlargeGoodThumbnailShow = false" title="商品图片" append-to-body>
+      <img :src="currentGoodThumbnail" alt="">
+    </el-dialog>
+    <el-dialog :visible.sync="isGoodDetailShow" width="70%" @close="isGoodDetailShow = false" title="品牌商品详情" append-to-body>
+      <goodDetail :theGoodDetail="theGoodDetail"></goodDetail>
+    </el-dialog>
+    <el-dialog :visible.sync="isAddGoodShow" width="70%" @close="isAddGoodShow = false" title="添加品牌商品" append-to-body>
+      <addGood></addGood>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { brand_BlurSearch } from '@/api/brand'
+  import { getGoodList } from '@/api/goods'
+  import goodDetail from './goodDetail.vue'
+  import addGood from './addGood/index.vue'
   export default {
     data() {
       return {
+        goodTableData: [],
         filterForm: {
-          placeholder1: '品牌号/品牌名称',
-          channelMsg1: '',
-          currentPage: 1,
-          page_size: 10,
-          total: 0
+          goodSearchingMsg1: '',
+          placeholder1: '商品编号/商品名称/商品系列'
         },
-        brandTableData: [{
-          brandNo: 'DLQD20180522001',
-          brandName_ZH: '兰蔻',
-          brandName_EN: 'LANCOME',
-          brandStatus: '淘宝企业店',
-        }]
+        currentGoodThumbnail: '',
+        isEnlargeGoodThumbnailShow: false,
+        isGoodDetailShow: false,
+        theGoodDetail: {},
+        isAddGoodShow: false
       }
     },
     methods: {
-      brandBlurSearch() {
-        brand_BlurSearch(this.filterForm.brandMsg1)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
-          // .catch(() => { this.$message.error('表格加载失败') })
+      goodBlurSearch() {
+        getGoodList(this.filterForm.brandMsg1)
+          .then((res) => {
+            this.goodTableData = res.data.items
+            this.filterForm.total = this.goodTableData.length
+          })
+        // .catch(() => { this.$message.error('表格加载失败') })
       },
-      handleSizeChange(val) {
-        brand_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
-        this.filterForm.page_size = val
+      addGood() {
+        this.isAddGoodShow = true
       },
-      handleCurrentChange(val) {
-        brand_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.brandTableData = res.data; this.filterForm.total = res.data.length })
-        this.filterForm.currentPage = val
+      enlargePic(row) {
+        this.currentGoodThumbnail = row.goodThumbnailSrc
+        this.isEnlargeGoodThumbnailShow = true
+      },
+      filterHandler_goodProp(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      },
+      checkGoodDetail(row) {
+        this.isGoodDetailShow = true
+        this.theGoodDetail = row
       }
     },
     mounted() {
-      this.brandBlurSearch()
+      this.goodBlurSearch()
+    },
+    components: {
+      goodDetail,
+      addGood
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .el-table .el-button {
-    width: 7em;
-    margin-left: 1px;
-    margin-bottom: 10px;
-  &:last-of-type {
-     margin-bottom: 0
-   }
-  }
+
 </style>

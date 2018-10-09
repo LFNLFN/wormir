@@ -165,3 +165,12 @@ export function getGoodsListStore(brandNo, keyword = '', sqlColumn = '') {
     data: { brandNo, keyword, sqlColumn }
   })
 }
+
+// 商品列表页面
+export function getGoodList(goodsNo = '', goodsName = '', goodsSeries = '') {
+  return request({
+    url: '/goodsInfo/addBaseInfoAction.do',
+    method: 'post',
+    data: { goodsNo, goodsName, goodsSeries }
+  })
+}
