@@ -661,7 +661,7 @@
         brandStatusOptions: [{
           value: '1',
           label: '正常供货'
-        },{
+        }, {
           value: '2',
           label: '停止供货'
         }],

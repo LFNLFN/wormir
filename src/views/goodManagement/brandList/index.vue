@@ -55,7 +55,7 @@
           </el-button>
           <el-button
             size="mini"
-            @click="">商品管理
+            @click="showGoodManagement(scope.row)">商品管理
           </el-button>
           <el-button
             size="mini"
@@ -114,6 +114,9 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog :visible.sync="isGoodManagementShow" width="70%" @close="isGoodManagementShow = false" :title="goodName + ' 商品管理'">
+      <goodManagement :goodTableData="goodTableData"></goodManagement>
+    </el-dialog>
   </div>
 </template>
 
@@ -121,9 +124,11 @@
   import { brand_BlurSearch } from '@/api/brand'
   import addBrand from './addBrand/index.vue'
   import editBrand from './editBrand'
+  import goodManagement from './goodManagement/index.vue'
   export default {
     data() {
       return {
+        brandTableData: [],
         filterForm: {
           placeholder1: '品牌号/品牌名称',
           brandMsg1: '',
@@ -145,16 +150,22 @@
         brandStatusOptions: [{
           value: '1',
           label: '正常供货'
-        },{
+        }, {
           value: '2',
           label: '停止供货'
         }],
+        isGoodManagementShow: false,
+        goodName: '',
+        goodTableData: []
       }
     },
     methods: {
       brandBlurSearch() {
         brand_BlurSearch(this.filterForm.brandMsg1)
-          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
+          .then((res) => {
+            this.brandTableData = res.data.items
+            this.filterForm.total = res.data.items.length
+          })
           // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
@@ -176,6 +187,11 @@
       },
       stopCooperationShow() {
         this.isStopCooperationShow = true
+      },
+      showGoodManagement(row) {
+        this.isGoodManagementShow = true
+        this.goodName = row.chineseName
+        this.goodTableData = row.goodManagement_Arr
       }
     },
     mounted() {
@@ -183,7 +199,8 @@
     },
     components: {
       addBrand,
-      editBrand
+      editBrand,
+      goodManagement
     }
   }
 </script>
