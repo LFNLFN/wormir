@@ -33,6 +33,8 @@
       <el-table-column
         prop="brandStatus"
         label="品牌状态"
+        :filters="[{ text: '正常供货', value: '正常供货' }, { text: '停止供货', value: '停止供货' }]"
+        :filter-method="filterHandler_brandStatus"
         align="center">
       </el-table-column>
       <el-table-column
@@ -177,6 +179,10 @@
         brand_BlurSearch(this.filterForm.value1, val)
           .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
         this.filterForm.currentPage = val
+      },
+      filterHandler_brandStatus(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
       },
       showAddBrand() {
         this.isAddBrandShow = true

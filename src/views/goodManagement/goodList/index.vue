@@ -83,7 +83,10 @@
       </el-table-column>
       <el-table-column
         prop="goodStatus"
+        width="110"
         label="商品状态"
+        :filters="[{ text: '待提交审核', value: '待提交审核' }, { text: '待审核', value: '待审核' }, { text: '正常销售', value: '正常销售' }, { text: '停止销售', value: '停止销售' }]"
+        :filter-method="filterHandler_goodStatus"
         align="center">
       </el-table-column>
       <el-table-column
@@ -162,6 +165,10 @@
         this.isEnlargeGoodThumbnailShow = true
       },
       filterHandler_goodProp(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      },
+      filterHandler_goodStatus(value, row, column) {
         const property = column['property'];
         return row[property] === value;
       },

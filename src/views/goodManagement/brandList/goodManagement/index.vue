@@ -23,6 +23,7 @@
       </el-table-column>
       <el-table-column
         prop="goodID"
+        width="100"
         label="商品序列号"
         align="center">
       </el-table-column>
@@ -33,7 +34,10 @@
       </el-table-column>
       <el-table-column
         prop="goodProp"
+        width="120"
         label="商品属性"
+        :filters="[{ text: '常规', value: '常规' }, { text: '促销', value: '促销' }, { text: '新品', value: '新品' }]"
+        :filter-method="filterHandler"
         align="center">
       </el-table-column>
       <el-table-column
@@ -53,22 +57,28 @@
       </el-table-column>
       <el-table-column
         prop="goodNo"
+        width="100"
         label="商品编号"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodName_ZH"
+        width="120"
         label="商品名称-中文"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodName_EN"
+        width="120"
         label="商品名称-英文"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodStatus"
+        width="110"
         label="商品状态"
+        :filters="[{ text: '待审核', value: '待审核' }, { text: '正常供货', value: '正常供货' }, { text: '停止供货', value: '停止供货' }]"
+        :filter-method="filterHandler"
         align="center">
       </el-table-column>
       <el-table-column
@@ -137,7 +147,11 @@
       editGood(row) {
         this.isEditGoodShow = true
         this.editGoodDetail = row
-      }
+      },
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      },
     },
     components: {
       editGood
