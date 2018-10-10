@@ -1,46 +1,46 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="品牌序列号">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+      <el-form-item label="品牌序列号" required>
         <el-input v-model="form.brandNo"></el-input>
       </el-form-item>
-      <el-form-item label="品牌名称（中文）">
+      <el-form-item label="品牌名称（中文）" required>
         <el-input v-model="form.chineseName"></el-input>
       </el-form-item>
-      <el-form-item label="品牌名称（英文）">
+      <el-form-item label="品牌名称（英文）" required>
         <el-input v-model="form.englishName"></el-input>
       </el-form-item>
-      <el-form-item label="原产国/产地">
+      <el-form-item label="原产国/产地" required>
         <el-input v-model="form.origin"></el-input>
       </el-form-item>
-      <el-form-item label="品牌公司名称">
+      <el-form-item label="品牌公司名称" required>
         <el-input v-model="form.brandCompany"></el-input>
       </el-form-item>
-      <el-form-item label="品牌公司地址">
+      <el-form-item label="品牌公司地址" required>
         <el-input v-model="form.brandCompanyAddress"></el-input>
       </el-form-item>
-      <el-form-item label="品牌介绍">
+      <el-form-item label="品牌介绍" required>
         <el-input type="textarea" v-model="form.brandIntroduction"></el-input>
       </el-form-item>
-      <el-form-item label="生产企业名称">
+      <el-form-item label="生产企业名称" required>
         <el-input v-model="form.producer"></el-input>
       </el-form-item>
-      <el-form-item label="生产企业地址">
+      <el-form-item label="生产企业地址" required>
         <el-input v-model="form.producerAddress"></el-input>
       </el-form-item>
-      <el-form-item label="海运订货量">
+      <el-form-item label="海运订货量" required>
         <el-input v-model.number="form.orderBySea"></el-input>
       </el-form-item>
-      <el-form-item label="外汇到账时间">
+      <el-form-item label="外汇到账时间" required>
         <el-col :span="11">
           <el-time-picker type="fixed-time" placeholder="请输入外汇到账时间" v-model="form.forexTime" style="width: 100%;"></el-time-picker>
         </el-col>
         <el-col :span="2">时</el-col>
       </el-form-item>
-      <el-form-item label="交易币种">
+      <el-form-item label="交易币种" required>
           <el-button type="success" icon="el-icon-plus">添加国内交易币种</el-button>
         <el-table
-          :data="emptyArr"
+          :data="emptyArr" border
           style="width: 100%">
           <el-table-column
             align="center"
@@ -96,7 +96,7 @@
         </el-table>
           <el-button type="success" icon="el-icon-plus">添加香港/国外交易币种</el-button>
         <el-table
-          :data="emptyArr"
+          :data="emptyArr" border
           style="width: 100%">
           <el-table-column
             align="center"
@@ -151,10 +151,10 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品品质">
+      <el-form-item label="商品品质" required>
         <el-button type="success" icon="el-icon-plus">添加商品品质</el-button>
         <el-table
-          :data="emptyArr"
+          :data="emptyArr" border
           style="width: 100%">
           <el-table-column
             align="center"
@@ -177,10 +177,10 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="包装设置">
+      <el-form-item label="包装设置" required>
         <el-button type="success" icon="el-icon-plus">添加包装方式</el-button>
         <el-table
-          :data="emptyArr"
+          :data="emptyArr" border
           style="width: 100%">
           <el-table-column
             align="center"
@@ -203,7 +203,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌系列">
+      <el-form-item label="品牌系列" required>
         <el-radio-group v-model="form.brandSeries_msg.hasBrandSeries">
           <el-radio :label="true">有品牌系列</el-radio>
           <el-radio :label="false">无品牌系列</el-radio>
@@ -212,7 +212,7 @@
           <el-button type="success" icon="el-icon-plus" v-if="form.brandSeries_msg.hasBrandSeries" @click="brandSeries_addBrandSeries">添加品牌系列</el-button>
         </el-row>
         <el-table
-          :data="form.brandSeries_msg.brandSeriesArr"
+          :data="form.brandSeries_msg.brandSeriesArr" border
           v-if="form.brandSeries_msg.hasBrandSeries"
           style="width: 100%">
           <el-table-column
@@ -262,13 +262,13 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌类型">
+      <el-form-item label="品牌类型" required>
         <el-row>
           <el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>
         </el-row>
-        <el-table
+        <el-table border
           :data="form.brandType_msg.brandTypeArr"
-          style="width: 100%">
+          :style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px' }">
           <el-table-column prop="typeName" align="center" label="品类" :width="brandType_mainCategoriesWrap_width">
             <template slot-scope="scope">
               <div class="mainCategories-wrap">
@@ -299,11 +299,11 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌商品规格">
+      <el-form-item label="品牌商品规格" required>
         <el-row>
           <el-button type="success" icon="el-icon-plus" @click="brandSpecification_addSpecification">添加品牌商品规格</el-button>
         </el-row>
-        <el-table
+        <el-table border
           :data="form.brandSpecification_msg.SpecificationArr"
           style="width: 100%">
           <el-table-column
@@ -370,11 +370,11 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌箱子">
+      <el-form-item label="品牌箱子" required>
         <el-row>
           <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox">添加品牌箱子</el-button>
         </el-row>
-        <el-table
+        <el-table border
         :data="form.brandBox_msg.boxArr"
         style="width: 100%">
           <el-table-column
@@ -426,11 +426,11 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌折扣">
+      <el-form-item label="品牌折扣" required>
         <el-row>
           <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
         </el-row>
-        <el-table
+        <el-table border
           :data="form.brandDiscount_msg.discountArr"
           style="width: 100%">
           <el-table-column
@@ -464,7 +464,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="合作管理">
+      <el-form-item label="合作管理" required>
         <el-col :span="13">
           <el-date-picker
             v-model="form.timeRange.timeValue"
@@ -480,7 +480,7 @@
           <el-checkbox v-model="form.timeRange.autoRenew" border>自动续签</el-checkbox>
         </el-col>
       </el-form-item>
-      <el-form-item label="品牌状态">
+      <el-form-item label="品牌状态" required>
         <el-select v-model="form.brandStatus" placeholder="请选择">
           <el-option
             v-for="item in brandStatusOptions"
@@ -596,26 +596,26 @@
               shortcuts: [{
                 text: '最近一周',
                 onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                  picker.$emit('pick', [start, end]);
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+                  picker.$emit('pick', [start, end])
                 }
               }, {
                 text: '最近一个月',
                 onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                  picker.$emit('pick', [start, end]);
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+                  picker.$emit('pick', [start, end])
                 }
               }, {
                 text: '最近三个月',
                 onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                  picker.$emit('pick', [start, end]);
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+                  picker.$emit('pick', [start, end])
                 }
               }]
             },
@@ -626,7 +626,7 @@
         brandStatusOptions: [{
           value: '1',
           label: '正常供货'
-        },{
+        }, {
           value: '2',
           label: '停止供货'
         }],
@@ -636,7 +636,7 @@
           AUD: { symbol: 'A$', unit: '澳元' },
           GBP: { symbol: '£', unit: '英磅' },
           USD: { symbol: '$', unit: '美元' },
-          EUR: { symbol: '€', unit: '欧元' },
+          EUR: { symbol: '€', unit: '欧元' }
         },
         emptyArr: [
           {
@@ -644,7 +644,9 @@
             quality: 'Top',
             packingWay: 'Auto'
           }
-        ]
+        ],
+        // 表单验证规则
+        formRules: {}
       }
     },
     computed: {

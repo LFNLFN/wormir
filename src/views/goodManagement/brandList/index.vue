@@ -83,23 +83,23 @@
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow" class="" width="70%" @close="isStopCooperationShow = false" title="终止合作">
       <el-form :model="stopCooperation_ruleForm" :rules="stopCooperation_rules" ref="stopCooperation_ruleForm" label-width="150px" class="demo-ruleForm">
-        <el-form-item label="申请中止时间">
+        <el-form-item label="申请中止时间" required>
           <el-date-picker
             v-model="stopCooperation_ruleForm.applyTime"
             type="date"
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="申请终止类型" prop="operateType">
+        <el-form-item label="申请终止类型" prop="operateType" required>
           <el-radio-group v-model="stopCooperation_ruleForm.operateType">
             <el-radio label="提前终止"></el-radio>
             <el-radio label="到期终止"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="申请理由" prop="applyReason">
+        <el-form-item label="申请理由" prop="applyReason" required>
           <el-input type="textarea" placeholder="请输入申请理由" v-model="stopCooperation_ruleForm.applyReason"></el-input>
         </el-form-item>
-        <el-form-item label="品牌状态">
+        <el-form-item label="品牌状态" required>
           <el-select v-model="stopCooperation_ruleForm.brandStatus" placeholder="请选择">
             <el-option
               v-for="item in brandStatusOptions"
