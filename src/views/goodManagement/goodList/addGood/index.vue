@@ -2,22 +2,27 @@
   <div>
     <el-form ref="form" :model="form" label-width="150px">
       <el-form-item label="品牌">
-        <el-col :span="4"><span style="color: #999">
-
-        </span></el-col>
+        <el-col :span="4">
+          <span v-if="chosenBrand" style="color: #999">{{ chosenBrand.brandName_ZH }}({{ chosenBrand.brandNo }})</span>
+        </el-col>
         <el-col :span="8">
           <el-button type="primary" size="mini" @click="chooseBrand">选择品牌</el-button>
         </el-col>
       </el-form-item>
       <el-form-item label="商品序列号">
-        <el-input v-model="form.goodID"></el-input>
+        <el-col :span="9">
+          <el-input v-model="form.goodID" disabled></el-input>
+        </el-col>
+        <el-col :span="9">
+          <span style="color: #999">&nbsp;企业商品自编号</span>
+        </el-col>
       </el-form-item>
       <el-form-item label="商品组成">
         <el-radio v-model="form.isSuite" :label="false">单品</el-radio>
         <el-radio v-model="form.isSuite" :label="true">套组</el-radio>
       </el-form-item>
       <el-form-item label="商品编号">
-        <el-input v-model="form.goodID"></el-input>
+        <el-input v-model="form.goodNo"></el-input>
       </el-form-item>
       <el-row>
         <el-col :span="12">
@@ -575,7 +580,7 @@
       </el-form-item>
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌" append-to-body>
-      <brandChoice></brandChoice>
+      <brandChoice @choice-close="isChooseBrandShow = false; chosenBrand = $event"></brandChoice>
     </el-dialog>
   </div>
 </template>
@@ -590,7 +595,7 @@
         uploadPicVisible: false,
         // 上传组件数据
         form: {
-          goodID: '',
+          goodID: 100032018101010001,
           goodBrand: '',
           goodProp: '',
           mainCategory: '',
@@ -742,7 +747,8 @@
           value: 'carton',
           label: 'carton'
         }],
-        isChooseBrandShow: false
+        isChooseBrandShow: false,
+        chosenBrand: null
       }
     },
     methods: {
