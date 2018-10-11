@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="品牌序列号/品牌名称"
+      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="顾客编号/联系电话/商品码"
                 v-model="listQuery.keyword">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
@@ -89,8 +89,6 @@ export default {
   }
 }
 </script>
-<style>
-.el-table .cell {
-  word-break: break-word;
-}
+<style scoped>
+
 </style>

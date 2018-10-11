@@ -228,6 +228,10 @@ td {
 .bg-purple-light {
   background: transparent
 }
+// 取消点击表格出现的背景颜色
+.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td, .el-table__body tr.hover-row.current-row>td, .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .el-table__body tr.hover-row.el-table__row--striped>td, .el-table__body tr.hover-row>td {
+  background-color: #fff;
+}
 // 品牌列表的子品类输入框后方的删除按钮
 .subCategories-item .el-input-group__append {
   background-color: #f56c6c;

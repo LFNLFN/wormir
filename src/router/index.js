@@ -117,34 +117,17 @@ export const asyncRouterMap = [
         meta: { title: 'goodList' }
       },
       {
-        path: '/sourceGeneration',
-        component: () => import('@/views/layout/routerWrap'),
+        path: 'sourceGeneration',
+        component: () => import('@/views/goodManagement/sourceGeneration'),
         name: 'sourceGeneration',
-        meta: { title: 'sourceGeneration' },
-        children: [{
-          path: 'sourceCodeManagement',
-          component: () => import('@/views/goodManagement/sourceGeneration/sourceCodeManagement'),
-          meta: { title: 'sourceCodeManagement' },
-          name: 'sourceCodeManagement'
-        }, {
-          path: 'boxCodeManagement',
-          component: () => import('@/views/goodManagement/sourceGeneration/boxCodeManagement'),
-          meta: { title: 'boxCodeManagement' },
-          name: 'boxCodeManagement'
-        }]
+        meta: { title: 'sourceGeneration' }
       },
       {
-        path: '/sourceTracking',
-        component: () => import('@/views/layout/routerWrap'),
+        path: 'sourceTracking',
+        component: () => import('@/views/goodManagement/sourceTracking/inventoryTracking'),
         name: 'sourceTracking',
         meta: { title: 'sourceTracking' },
-        alwaysShow: true,
-        children: [{
-          path: 'inventoryTracking',
-          component: () => import('@/views/goodManagement/sourceTracking/inventoryTracking'),
-          meta: { title: 'inventoryTracking' },
-          name: 'inventoryTracking'
-        }]
+        alwaysShow: true
       },
       {
         path: 'stockManagement',
