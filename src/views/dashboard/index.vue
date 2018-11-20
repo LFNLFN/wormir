@@ -29,3 +29,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .dashboard-container {
+    position: relative;
+  }
+</style>

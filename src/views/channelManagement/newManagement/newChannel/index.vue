@@ -19,7 +19,7 @@
         prop="channelNum"
         label="渠道号"
         width="180"
-      align="center">
+        align="center">
       </el-table-column>
       <el-table-column
         prop="channelName"
@@ -31,6 +31,9 @@
         prop="channelStatus"
         label="渠道状态"
         align="center">
+        <template slot-scope="scope">
+          <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="cooperationType"
@@ -104,11 +107,13 @@
 </template>
 
 <script>
+  import Mock from 'mockjs'
   import toAdd from './toAdd.vue'
   import toConfirm from './toConfirm.vue'
   import toCheck from './toCheck.vue'
   import toDelete from './toDelete.vue'
   import { channel_BlurSearch } from '@/api/channel'
+
   export default {
     data() {
       return {
@@ -119,28 +124,60 @@
           page_size: 10,
           total: 0
         },
-        channelTableData: [{
-          channelNum: 'DLQD20180522001',
-          channelName: 'FXQD',
-          channelStatus: '待激活账号',
-          cooperationType: '暂未开发',
-          channelType: '淘宝企业店',
-          channelProp: '独立渠道',
-          channelLevel: 'B级渠道',
-          createTime: '2018-05-22 17:58'
-        }, {
-          channelNum: 'FXQD20180526001',
-          channelName: 'FXQD',
-          channelStatus: '待激活账号',
-          cooperationType: '暂未开发',
-          channelType: '淘宝企业店',
-          channelProp: '分销渠道(FXQD)',
-          channelLevel: 'B级渠道',
-          createTime: '2018-05-26 22:33'
-        }],
-        channelStatus_filters: [
-          { text: '待激活账号', value: '' },
-          { text: '待签合同', value: '' }
+        channelTableData: [
+          {
+            channelNum: '20180522001',
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: '暂未开发',
+            channelType: '淘宝企业店',
+            channelProp: '独立渠道',
+            channelLevel: 'B级渠道',
+            createTime: '2018-05-22 17:58'
+          },
+//          {
+//            channelNum: '20180526001',
+//            channelCode: 'FXQD',
+//            channelStatus: Mock.Random.natural(0, 6),
+//            cooperationType: '暂未开发',
+//            channelType: '淘宝企业店',
+//            channelProp: '分销渠道(FXQD)',
+//            channelLevel: 'B级渠道',
+//            createTime: '2018-05-26 22:33'
+//          }
+        ],
+        channelCodeFilters: [
+          { text: 'DLQD', value: 0 },
+          { text: 'DFQD', value: 1 },
+          { text: 'FXQD', value: 2 }
+        ],
+        channelCodeMap: {
+          0: { text: 'DLQD', value: 0 },
+          1: { text: 'DFQD', value: 1 },
+          2: { text: 'FXQD', value: 2 }
+        },
+        channelStatusFilters: [
+          { text: '待签合同', value: 0 },
+          { text: '待激活账号', value: 1 },
+          { text: '待付保证金', value: 2 },
+          { text: '待接系统', value: 3 },
+          { text: '停止签合同', value: 4 },
+          { text: '停止激活账户', value: 5 },
+          { text: '停止付保证金', value: 6 },
+        ],
+        channelStatusMap: {
+          0: { text: '待签合同', value: 0 },
+          1: { text: '待激活账号', value: 1 },
+          2: { text: '待付保证金', value: 2 },
+          3: { text: '待接系统', value: 3 },
+          4: { text: '停止签合同', value: 4 },
+          5: { text: '停止激活账户', value: 5 },
+          6: { text: '停止付保证金', value: 6 }
+        },
+        cooperationTypeFilter: [
+          { text: '渠道入驻', value: 0 },
+          { text: 'DFQD', value: 1 },
+          { text: 'FXQD', value: 2 }
         ],
         isAddShow: false,
         isConfirmShow: false,
@@ -151,8 +188,13 @@
     methods: {
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          // .catch(() => { this.$message.error('表格加载失败') })
+          .then((res) => {
+//          this.channelTableData = res.data
+//          this.filterForm.total = res.data.length
+          })
+          .catch(() => {
+            this.$message.error('表格加载失败')
+          })
       },
       showAdd() {
         this.isAddShow = true
@@ -168,14 +210,20 @@
       },
       handleSizeChange(val) {
         channel_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         channel_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.currentPage = val
-      }
+      },
     },
     components: {
       toAdd,
@@ -194,8 +242,11 @@
     width: 7em;
     margin-left: 1px;
     margin-bottom: 10px;
-  &:last-of-type {
-     margin-bottom: 0
-   }
+
+  &
+  :last-of-type {
+    margin-bottom: 0
+  }
+
   }
 </style>

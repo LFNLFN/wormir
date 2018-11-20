@@ -62,7 +62,7 @@ export const asyncRouterMap = [
         path: '/newManagement',
         component: () => import('@/views/layout/routerWrap'),
         name: 'newManagement',
-        meta: { title: 'newManagement' },
+        meta: { title: 'newManagement', fontSizeSmall: true },
         children: [
           { path: 'newChannel', component: () => import('@/views/channelManagement/newManagement/newChannel'), name: 'newChannel', meta: { title: 'newChannel' }},
           { path: 'newSubChannel', component: () => import('@/views/channelManagement/newManagement/newSubChannel'), name: 'newSubChannel', meta: { title: 'newSubChannel' }}
@@ -73,7 +73,7 @@ export const asyncRouterMap = [
         path: '/cooperationManagement',
         component: () => import('@/views/layout/routerWrap'),
         name: 'cooperationManagement',
-        meta: { title: 'cooperationManagement' },
+        meta: { title: 'cooperationManagement', fontSizeSmall: true },
         children: [
           { path: 'cooperationChannel', component: () => import('@/views/channelManagement/cooperationManagement/cooperationChannel'), name: 'cooperationChannel', meta: { title: 'cooperationChannel' }},
           { path: 'inStopProcess', component: () => import('@/views/channelManagement/cooperationManagement/inStopProcess'), name: 'inStopProcess', meta: { title: 'inStopProcess' }},
@@ -173,7 +173,7 @@ export const asyncRouterMap = [
         name: 'channelCooperator',
         component: () => import('@/views/layout/routerWrap'),
         redirect: '/channelCooperator/billManagement',
-        meta: { title: 'channelCooperator' },
+        meta: { title: 'channelCooperator', fontSizeSmall: true },
         children: [
           {
             path: 'billManagement',
@@ -206,7 +206,7 @@ export const asyncRouterMap = [
         name: 'refundManagement',
         component: () => import('@/views/layout/routerWrap'),
         redirect: '/refundManagement/receivedRefund',
-        meta: { title: 'refundManagement' },
+        meta: { title: 'refundManagement', fontSizeSmall: true },
         children: [
           {
             path: 'receivedRefund',
@@ -227,7 +227,7 @@ export const asyncRouterMap = [
         name: 'compensationManagement',
         component: () => import('@/views/layout/routerWrap'),
         redirect: '/compensationManagement/receivedCompensation',
-        meta: { title: 'compensationManagement' },
+        meta: { title: 'compensationManagement', fontSizeSmall: true },
         children: [
           {
             path: 'receivedCompensation',
@@ -248,7 +248,7 @@ export const asyncRouterMap = [
         name: 'problematicProductManagement',
         component: () => import('@/views/layout/routerWrap'),
         redirect: '/problematicProductManagement/defectiveProduct',
-        meta: { title: 'problematicProductManagement' },
+        meta: { title: 'problematicProductManagement', fontSizeSmall: true },
         children: [
           {
             path: 'defectiveProduct',
