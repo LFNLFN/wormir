@@ -22,15 +22,22 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="channelName"
+        prop="channelCode"
         label="渠道名称"
         width="180"
-        align="center">
+        align="center"
+        :filters="channelCodeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelStatus"
         label="渠道状态"
-        align="center">
+        align="center"
+        :filters="channelStatusFilters"
+        :filter-method="filterHandler">
         <template slot-scope="scope">
           <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
         </template>
@@ -38,22 +45,42 @@
       <el-table-column
         prop="cooperationType"
         label="合作类型"
-        align="center">
+        align="center"
+        :filters="cooperationTypeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelType"
         label="渠道类别"
-        align="center">
+        align="center"
+        :filters="channelTypeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelProp"
         label="渠道属性"
-        align="center">
+        align="center"
+        :filters="channelPropFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
-        align="center">
+        align="center"
+        :filters="channelLevelFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -129,11 +156,11 @@
             channelNum: '20180522001',
             channelCode: Mock.Random.natural(0, 2),
             channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: '暂未开发',
-            channelType: '淘宝企业店',
-            channelProp: '独立渠道',
-            channelLevel: 'B级渠道',
-            createTime: '2018-05-22 17:58'
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.date('yyyy-MM-dd HH:mm:ss')
           },
 //          {
 //            channelNum: '20180526001',
@@ -174,15 +201,55 @@
           5: { text: '停止激活账户', value: 5 },
           6: { text: '停止付保证金', value: 6 }
         },
-        cooperationTypeFilter: [
+        cooperationTypeFilters: [
           { text: '渠道入驻', value: 0 },
-          { text: 'DFQD', value: 1 },
-          { text: 'FXQD', value: 2 }
+          { text: '渠道变更', value: 1 }
         ],
+        cooperationTypeMap: {
+          0: { text: '渠道入驻', value: 0 },
+          1: { text: '渠道变更', value: 1 }
+        },
+        channelTypeFilters: [
+          { text: '淘宝C店', value: 0 },
+          { text: '淘宝企业店', value: 1 },
+          { text: '天猫店', value: 2 },
+          { text: 'B2C平台', value: 3 },
+        ],
+        channelTypeMap: {
+          0: { text: '淘宝C店', value: 0 },
+          1: { text: '淘宝企业店', value: 1 },
+          2: { text: '天猫店', value: 2 },
+          3: { text: 'B2C平台', value: 3 },
+        },
+        channelPropFilters: [
+          { text: '独立渠道(DLQD)', value: 0 },
+          { text: '代发渠道(DFQD)', value: 1 },
+          { text: '分销渠道(FXQD)', value: 2 }
+        ],
+        channelPropMap: {
+          0: { text: '独立渠道(DLQD)', value: 0 },
+          1: { text: '代发渠道(DFQD)', value: 1 },
+          2: { text: '分销渠道(FXQD)', value: 2 },
+        },
+        channelLevelFilters: [
+          { text: 'A级渠道', value: 0 },
+          { text: 'B级渠道', value: 1 },
+          { text: 'C级渠道', value: 2 },
+          { text: 'D级渠道', value: 3 }
+        ],
+        channelLevelMap: {
+          0: { text: 'A级渠道', value: 0 },
+          1: { text: 'B级渠道', value: 1 },
+          2: { text: 'C级渠道', value: 2 },
+          3: { text: 'C级渠道', value: 3 },
+        },
         isAddShow: false,
-        isConfirmShow: false,
-        isCheckShow: false,
-        isDeleteShow: false
+        isConfirmShow:
+          false,
+        isCheckShow:
+          false,
+        isDeleteShow:
+          false
       }
     },
     methods: {
@@ -223,6 +290,10 @@
             this.filterForm.total = res.data.length
           })
         this.filterForm.currentPage = val
+      },
+      filterHandler(value, row, column) {
+        const property = column['property']
+        return row[property] === value
       },
     },
     components: {
