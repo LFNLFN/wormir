@@ -242,3 +242,85 @@ td {
     border-color: #f78989;
   }
 }
+// 表格筛选图标
+.el-table__column-filter-trigger i {
+  font-size: 20px;
+}
+[class*=" el-icon-"], [class^=el-icon-] {
+  vertical-align: middle;
+}
+// 边框样式
+.border-top {
+  border-top: solid #d5d5d5 1px;
+}
+.border-right {
+  border-right: solid #d5d5d5 1px;
+}
+.border-bottom {
+  border-bottom: solid #d5d5d5 1px;
+}
+.border-left {
+  border-left: solid #d5d5d5 1px;
+}
+.border-top2 {
+  border-top: solid #d5d5d5 2px;
+}
+.border-right2 {
+  border-right: solid #d5d5d5 2px;
+}
+.border-bottom2 {
+  border-bottom: solid #d5d5d5 2px;
+}
+.border-left2 {
+  border-left: solid #d5d5d5 2px;
+}
+.no-border-top{
+  border-top: none!important;
+}
+.no-border-left{
+  border-left: none!important;
+}
+.no-border-bottom{
+  border-bottom: none!important;
+}
+.no-border-right{
+  border-right: none!important;
+}
+.dialogBottomButton-wrap {
+  text-align: center;
+  margin-top: 1em;
+}
+// 新增渠道的表格的子栏目标题
+.form-part-title {
+  border-bottom: 2px solid #424242;
+  color: #424242
+}
+// 新增渠道的表格的表头
+.addChannelDialog .el-form-item__label {
+  background-color: #dff2fc;
+  border: 1px solid #D5D5D5;
+  border-bottom: none;
+  text-align: center;
+  padding: 0;
+}
+.addChannelDialog .el-form-item__content {
+  padding-left: 1em;
+  border: 1px solid #D5D5D5;
+  border-left: none;
+  border-bottom: none;
+}
+.addChannelDialog .el-form-item.el-form-item--medium {
+  margin: 0;
+  &:last-of-type {
+    border-bottom: 1px solid #D5D5D5;
+  }
+}
+.noBorderTextarea textarea {
+  border: none
+}
+.noBorderDatePicker {
+  border: none
+}
+.noBorderInput input{
+  border: none
+}

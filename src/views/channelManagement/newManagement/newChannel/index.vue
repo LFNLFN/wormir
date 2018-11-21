@@ -18,13 +18,13 @@
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        width="180"
+        min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
         prop="channelCode"
         label="渠道名称"
-        width="180"
+        min-width="100"
         align="center"
         :filters="channelCodeFilters"
         :filter-method="filterHandler">
@@ -36,6 +36,7 @@
         prop="channelStatus"
         label="渠道状态"
         align="center"
+        min-width="100"
         :filters="channelStatusFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
@@ -46,6 +47,7 @@
         prop="cooperationType"
         label="合作类型"
         align="center"
+        min-width="90"
         :filters="cooperationTypeFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
@@ -56,6 +58,7 @@
         prop="channelType"
         label="渠道类别"
         align="center"
+        min-width="90"
         :filters="channelTypeFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
@@ -66,16 +69,18 @@
         prop="channelProp"
         label="渠道属性"
         align="center"
+        min-width="100"
         :filters="channelPropFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
+          <div style="max-width: 4em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
         </template>
       </el-table-column>
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
         align="center"
+        min-width="90"
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
@@ -85,11 +90,14 @@
       <el-table-column
         prop="createTime"
         label="创建时间"
-        align="center">
+        align="center"
+        width="100">
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+      fixed="right"
+      min-width="100">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -153,25 +161,35 @@
         },
         channelTableData: [
           {
-            channelNum: '20180522001',
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
             channelCode: Mock.Random.natural(0, 2),
             channelStatus: Mock.Random.natural(0, 6),
             cooperationType: Mock.Random.natural(0, 1),
             channelType: Mock.Random.natural(0, 3),
             channelProp: Mock.Random.natural(0, 2),
             channelLevel: Mock.Random.natural(0, 3),
-            createTime: Mock.Random.date('yyyy-MM-dd HH:mm:ss')
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
           },
-//          {
-//            channelNum: '20180526001',
-//            channelCode: 'FXQD',
-//            channelStatus: Mock.Random.natural(0, 6),
-//            cooperationType: '暂未开发',
-//            channelType: '淘宝企业店',
-//            channelProp: '分销渠道(FXQD)',
-//            channelLevel: 'B级渠道',
-//            createTime: '2018-05-26 22:33'
-//          }
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
         ],
         channelCodeFilters: [
           { text: 'DLQD', value: 0 },
@@ -256,11 +274,12 @@
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
           .then((res) => {
-//          this.channelTableData = res.data
-//          this.filterForm.total = res.data.length
+          this.channelTableData = res.data
+          this.filterForm.total = res.data.length
           })
           .catch(() => {
-            this.$message.error('表格加载失败')
+//            this.$message.error('表格加载失败')
+            this.filterForm.total = this.channelTableData.length
           })
       },
       showAdd() {

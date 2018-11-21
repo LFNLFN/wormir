@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div class="addChannelDialog">
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
-        <dt>渠道特点</dt>
-        <hr>
+        <dt><h3 class="form-part-title">渠道特点</h3></dt>
         <dd>
           <el-form-item label="合作类型">
             <el-radio-group v-model="form.cooperativeType">
@@ -38,21 +37,20 @@
       </dl>
 
       <dl>
-        <dt>基本信息</dt>
-        <hr>
+        <dt><h3 class="form-part-title">基本信息</h3></dt>
         <dd>
-          <el-form-item label="经营主体">
+          <el-form-item label="经营主体" label-width="100px">
             <el-radio-group v-model="form.businessEntity">
               <el-radio label="1">个人</el-radio>
               <el-radio label="2">企业</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="身份证号码">
-            <el-input v-model="form.personID"></el-input>
+          <el-form-item label="身份证号码" label-width="100px">
+            <el-input style="margin-left: -1em" class="noBorderInput" v-model="form.personID" placeholder="请输入身份证号码"></el-input>
           </el-form-item>
           <el-form-item label="">
             <el-col :span="11">
-              <el-form-item prop="id1" label="身份证正面">
+              <el-form-item prop="id1" label="身份证正面" label-width="100px">
                 <el-upload
                   class="avatar-uploader"
                   action="https://jsonplaceholder.typicode.com/posts/"
@@ -66,7 +64,7 @@
             </el-col>
             <el-col class="line" :span="2">-</el-col>
             <el-col :span="11">
-              <el-form-item prop="id2" label="身份证反面">
+              <el-form-item prop="id2" label="身份证反面" label-width="100px">
                 <el-upload
                   class="avatar-uploader"
                   action="https://jsonplaceholder.typicode.com/posts/"
@@ -79,7 +77,7 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item label="店铺/平台名称">
+          <el-form-item label="店铺/平台名称" label-width="130px">
             <el-col :span="11">
               <el-form-item label="">
                 <el-input v-model="form.storeName"></el-input>
@@ -87,23 +85,23 @@
             </el-col>
             <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item label="PC店铺/平台链接">
+          <el-form-item label="PC店铺/平台链接" label-width="130px">
             <el-col :span="11">
               <el-form-item label="">
                 <el-input v-model="form.PCLink"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
-              <el-form-item label="手机店铺/平台链接">
+              <el-form-item label="手机店铺/平台链接" label-width="130px">
                 <el-input v-model="form.appLink"></el-input>
               </el-form-item>
             </el-col>
           </el-form-item>
           <p style="color: red">*由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
-          <el-form-item label="经营范围">
+          <el-form-item label="经营范围" label-width="130px">
             <el-input type="textarea" v-model="form.businessRange" placeholder="请输入经营内容（200字以内）"></el-input>
           </el-form-item>
-          <el-form-item label="经营过的类似商品">
+          <el-form-item label="经营过的类似商品" label-width="130px">
             <el-input type="textarea" v-model="form.similarGoods" placeholder="请提供商品名称和销量（200字以内）"></el-input>
           </el-form-item>
         </dd>
@@ -188,7 +186,7 @@
         <dt>保证金</dt>
         <hr>
         <dd>
-          <el-form-item label="保证金金额">
+          <el-form-item label="保证金金额" label-width="100px">
             <el-select v-model="form.depositValue" placeholder="请选择">
               <el-option
                 v-for="item in depositOptions"
@@ -305,5 +303,6 @@
     height: 178px;
     display: block;
   }
+
 
 </style>
