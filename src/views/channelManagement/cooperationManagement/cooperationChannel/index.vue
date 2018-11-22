@@ -22,67 +22,102 @@
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        width="180"
+        min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="channelName"
+        prop="channelCode"
         label="渠道名称"
-        width="180"
+        min-width="100"
         align="center">
+        <template slot-scope="scope">
+          <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="cooperationType"
         label="合作类型"
-        align="center">
+        align="center"
+        min-width="110"
+        :filters="cooperationTypeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelType"
         label="渠道类别"
-        align="center">
+        align="center"
+        min-width="110"
+        :filters="channelTypeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelProp"
         label="渠道属性"
-        align="center">
+        align="center"
+        min-width="100"
+        :filters="channelPropFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <div style="min-width: 4em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
-        align="center">
+        align="center"
+        min-width="110"
+        :filters="channelLevelFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="contractPeriod"
         label="合同期限"
-        align="center">
+        align="center"
+        min-width="110">
+        <template slot-scope="scope">
+          <div>{{ '2019-01-01' }}</div>
+          <div>{{ '至' }}</div>
+          <div>{{ '2020-01-01' }}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
         label="创建日期"
-        align="center">
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="openingTime"
         label="开通时间"
-        align="center">
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         label="操作"
         align="center">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="showConfirm">去确认
-          </el-button>
-          <el-button
-            size="mini"
-            @click="showCheck">去查看
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="showDelete">强制注销
-          </el-button>
+          <!--<el-button-->
+          <!--size="mini"-->
+          <!--@click="showConfirm">去确认-->
+          <!--</el-button>-->
+          <!--<el-button-->
+          <!--size="mini"-->
+          <!--@click="showCheck">去查看-->
+          <!--</el-button>-->
+          <!--<el-button-->
+          <!--size="mini"-->
+          <!--type="danger"-->
+          <!--@click="showDelete">强制注销-->
+          <!--</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -101,7 +136,9 @@
 </template>
 
 <script>
+  import Mock from 'mockjs'
   import { channel_BlurSearch_withTime } from '@/api/channel'
+
   export default {
     data() {
       return {
@@ -114,34 +151,145 @@
           page_size: 10,
           total: 0
         },
-        channelTableData: [{
-          channelNum: 'DLQD20180522001',
-          channelName: 'FXQD',
-          cooperationType: '暂未开发',
-          channelType: '淘宝企业店',
-          channelProp: '独立渠道',
-          channelLevel: 'B级渠道',
-          contractPeriod: '2018-05-22 17:58',
-          openingTime: '2018-05-22 17:58'
-        }]
+        channelTableData: [
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            contractPeriod: '2019-01-01 至 2020-01-01',
+            openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            contractPeriod: '2019-01-01 至 2020-01-01',
+            openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 2),
+            channelLevel: Mock.Random.natural(0, 3),
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            contractPeriod: '2019-01-01 至 2020-01-01',
+            openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+        ],
+        channelCodeFilters: [
+          { text: 'DLQD', value: 0 },
+          { text: 'DFQD', value: 1 },
+          { text: 'FXQD', value: 2 }
+        ],
+        channelCodeMap: {
+          0: { text: 'DLQD', value: 0 },
+          1: { text: 'DFQD', value: 1 },
+          2: { text: 'FXQD', value: 2 }
+        },
+        channelStatusFilters: [
+          { text: '待签合同', value: 0 },
+          { text: '待激活账号', value: 1 },
+          { text: '待付保证金', value: 2 },
+          { text: '待接系统', value: 3 },
+          { text: '停止签合同', value: 4 },
+          { text: '停止激活账户', value: 5 },
+          { text: '停止付保证金', value: 6 },
+        ],
+        channelStatusMap: {
+          0: { text: '待签合同', value: 0 },
+          1: { text: '待激活账号', value: 1 },
+          2: { text: '待付保证金', value: 2 },
+          3: { text: '待接系统', value: 3 },
+          4: { text: '停止签合同', value: 4 },
+          5: { text: '停止激活账户', value: 5 },
+          6: { text: '停止付保证金', value: 6 }
+        },
+        cooperationTypeFilters: [
+          { text: '渠道入驻', value: 0 },
+          { text: '渠道变更', value: 1 }
+        ],
+        cooperationTypeMap: {
+          0: { text: '渠道入驻', value: 0 },
+          1: { text: '渠道变更', value: 1 }
+        },
+        channelTypeFilters: [
+          { text: '淘宝C店', value: 0 },
+          { text: '淘宝企业店', value: 1 },
+          { text: '天猫店', value: 2 },
+          { text: 'B2C平台', value: 3 },
+        ],
+        channelTypeMap: {
+          0: { text: '淘宝C店', value: 0 },
+          1: { text: '淘宝企业店', value: 1 },
+          2: { text: '天猫店', value: 2 },
+          3: { text: 'B2C平台', value: 3 },
+        },
+        channelPropFilters: [
+          { text: '独立渠道(DLQD)', value: 0 },
+          { text: '代发渠道(DFQD)', value: 1 },
+          { text: '分销渠道(FXQD)', value: 2 }
+        ],
+        channelPropMap: {
+          0: { text: '独立渠道(DLQD)', value: 0 },
+          1: { text: '代发渠道(DFQD)', value: 1 },
+          2: { text: '分销渠道(FXQD)', value: 2 },
+        },
+        channelLevelFilters: [
+          { text: 'A级渠道', value: 0 },
+          { text: 'B级渠道', value: 1 },
+          { text: 'C级渠道', value: 2 },
+          { text: 'D级渠道', value: 3 }
+        ],
+        channelLevelMap: {
+          0: { text: 'A级渠道', value: 0 },
+          1: { text: 'B级渠道', value: 1 },
+          2: { text: 'C级渠道', value: 2 },
+          3: { text: 'C级渠道', value: 3 },
+        },
       }
     },
     methods: {
       channelBlurSearch() {
         channel_BlurSearch_withTime(this.filterForm.channelMsg1, this.filterForm.channelMsg2)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          // .catch(() => { this.$message.error('表格加载失败') })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
+        // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         channel_BlurSearch_withTime(this.filterForm.value1, null, 1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         channel_BlurSearch_withTime(this.filterForm.value1, null, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.currentPage = val
-      }
+      },
+      filterHandler(value, row, column) {
+        const property = column['property']
+        return row[property] === value
+      },
     },
     mounted() {
       this.channelBlurSearch()

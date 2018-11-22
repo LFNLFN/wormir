@@ -366,3 +366,12 @@ td {
 .noBorderInput input{
   border: none
 }
+// 去除表格底部那条奇怪的伪类线
+.twoTable-wrap .el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: transparent!important;
+}
+// 解决表头换行问题
+.el-table .cell {
+  word-break: keep-all;
+  word-wrap: break-word;
+}

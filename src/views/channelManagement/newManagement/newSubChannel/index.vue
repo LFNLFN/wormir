@@ -2,7 +2,7 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.channelName" placeholder="渠道名称"></el-input>
+        <el-input v-model="filterForm.channelName" placeholder="子渠道名称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
@@ -11,62 +11,104 @@
     <el-table
       border
       :data="channelTableData"
+      class="border-top2 border-left2"
       style="width: 100%">
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        width=""
-      align="center">
+        min-width="120"
+        align="center">
       </el-table-column>
       <el-table-column
-        prop="channelName"
+        prop="channelCode"
         label="渠道名称"
-        width="">
+        min-width="100"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelStatus"
-        label="渠道状态">
+        label="渠道状态"
+        align="center"
+        min-width="100"
+        :filters="channelStatusFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelType"
-        label="渠道类别">
+        label="渠道类别"
+        align="center"
+        min-width="110"
+        :filters="channelTypeFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelProp"
-        label="渠道属性">
+        label="渠道属性"
+        align="center"
+        min-width="100"
+        :filters="channelPropFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <div style="min-width: 5em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="channelLevel"
-        label="渠道级别">
+        label="渠道级别"
+        align="center"
+        min-width="110"
+        :filters="channelLevelFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="FXQD_Num"
-        label="所属FXQD号">
+        prop="FXQDbelongCode"
+        label="所属FXQD号"
+        align="center"
+        min-width="130">
       </el-table-column>
       <el-table-column
-        prop="FXQD_Name"
-        label="所属FXQD名称">
+        prop="FXQDbelongName"
+        label="所属FXQD名称"
+        align="center"
+        min-width="130">
       </el-table-column>
       <el-table-column
         prop="createTime"
-        label="创建时间">
+        label="创建时间"
+        align="center"
+        width="100">
       </el-table-column>
       <el-table-column
-        label="操作">
+        label="操作"
+        align="center"
+        fixed="right"
+        min-width="100">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="showConfirm">去确认
-          </el-button>
-          <el-button
-            size="mini"
-            @click="showCheck">去查看
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="showDelete">强制注销
-          </el-button>
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--@click="showConfirm">去确认-->
+          <!--</el-button>-->
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--@click="showCheck">去查看-->
+          <!--</el-button>-->
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--type="danger"-->
+            <!--@click="showDelete">强制注销-->
+          <!--</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -85,7 +127,9 @@
 </template>
 
 <script>
+  import Mock from 'mockjs'
   import { channel_BlurSearch } from '@/api/channel'
+
   export default {
     data() {
       return {
@@ -95,43 +139,139 @@
           page_size: 10,
           total: 0
         },
-        channelTableData: [{
-          channelNum: 'DLQD20180522001',
-          channelName: 'FXQD',
-          channelStatus: '待激活账号',
-          channelType: '淘宝企业店',
-          channelProp: '独立渠道',
-          channelLevel: 'B级渠道',
-          FXQD_Num: '',
-          FXQD_Name: '',
-          createTime: '2018-05-22 17:58'
-        }, {
-          channelNum: 'FXQD20180526001',
-          channelName: 'FXQD',
-          channelStatus: '待激活账号',
-          channelType: '淘宝企业店',
-          channelProp: '分销渠道(FXQD)',
-          channelLevel: 'B级渠道',
-          FXQD_Num: '',
-          FXQD_Name: '',
-          createTime: '2018-05-26 22:33'
-        }]
+        channelTableData: [
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: Mock.Random.natural(522001, 522009),
+            FXQDbelongName: 'QWERTY',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: Mock.Random.natural(522001, 522009),
+            FXQDbelongName: 'QWERTY',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+          {
+            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: Mock.Random.natural(0, 6),
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: Mock.Random.natural(0, 0),
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: Mock.Random.natural(522001, 522009),
+            FXQDbelongName: 'QWERTY',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+          },
+        ],
+        channelCodeFilters: [
+          { text: 'DLQD', value: 0 },
+          { text: 'DFQD', value: 1 },
+          { text: 'FXQD', value: 2 }
+        ],
+        channelCodeMap: {
+          0: { text: 'DLQD', value: 0 },
+          1: { text: 'DFQD', value: 1 },
+          2: { text: 'FXQD', value: 2 }
+        },
+        channelStatusFilters: [
+          { text: '待审核', value: 0 },
+          { text: '待签合同', value: 1 },
+          { text: '待付保证金', value: 2 },
+          { text: '待接系统', value: 3 },
+          { text: '驳回申请', value: 4 },
+          { text: '停止审核', value: 5 },
+          { text: '停止签合同', value: 6 },
+        ],
+        channelStatusMap: {
+          0: { text: '待审核', value: 0 },
+          1: { text: '待签合同', value: 1 },
+          2: { text: '待付保证金', value: 2 },
+          3: { text: '待接系统', value: 3 },
+          4: { text: '驳回申请', value: 4 },
+          5: { text: '停止审核', value: 5 },
+          6: { text: '停止签合同', value: 6 }
+        },
+        cooperationTypeFilters: [
+          { text: '渠道入驻', value: 0 },
+          { text: '渠道变更', value: 1 }
+        ],
+        cooperationTypeMap: {
+          0: { text: '渠道入驻', value: 0 },
+          1: { text: '渠道变更', value: 1 }
+        },
+        channelTypeFilters: [
+          { text: '淘宝C店', value: 0 },
+          { text: '淘宝企业店', value: 1 },
+          { text: '天猫店', value: 2 },
+          { text: 'B2C平台', value: 3 },
+        ],
+        channelTypeMap: {
+          0: { text: '淘宝C店', value: 0 },
+          1: { text: '淘宝企业店', value: 1 },
+          2: { text: '天猫店', value: 2 },
+          3: { text: 'B2C平台', value: 3 },
+        },
+        channelPropFilters: [
+          { text: '分销子渠道(FXZQD)', value: 0 },
+        ],
+        channelPropMap: {
+          0: { text: '分销子渠道(FXZQD)', value: 0 },
+        },
+        channelLevelFilters: [
+          { text: 'A级渠道', value: 0 },
+          { text: 'B级渠道', value: 1 },
+          { text: 'C级渠道', value: 2 },
+          { text: 'D级渠道', value: 3 }
+        ],
+        channelLevelMap: {
+          0: { text: 'A级渠道', value: 0 },
+          1: { text: 'B级渠道', value: 1 },
+          2: { text: 'C级渠道', value: 2 },
+          3: { text: 'C级渠道', value: 3 },
+        },
       }
     },
     methods: {
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          // .catch(() => { this.$message.error('表格加载失败') })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
+        // .catch(() => { this.$message.error('表格加载失败') })
+      },
+      filterHandler(value, row, column) {
+        const property = column['property']
+        return row[property] === value
       },
       handleSizeChange(val) {
         channel_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         channel_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.currentPage = val
       }
     },

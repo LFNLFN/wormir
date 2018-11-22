@@ -14,7 +14,8 @@
     <el-table
       border
       :data="channelTableData"
-      style="width: 100%">
+      style="width: 100%;"
+      class="border-top2 border-left2">
       <el-table-column
         prop="channelNum"
         label="渠道号"
@@ -25,9 +26,7 @@
         prop="channelCode"
         label="渠道名称"
         min-width="100"
-        align="center"
-        :filters="channelCodeFilters"
-        :filter-method="filterHandler">
+        align="center">
         <template slot-scope="scope">
           <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
         </template>
@@ -73,7 +72,7 @@
         :filters="channelPropFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <div style="max-width: 4em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
+          <div style="min-width: 4em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -96,8 +95,8 @@
       <el-table-column
         label="操作"
         align="center"
-      fixed="right"
-      min-width="100">
+        fixed="right"
+        min-width="100">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -274,8 +273,8 @@
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
           .then((res) => {
-          this.channelTableData = res.data
-          this.filterForm.total = res.data.length
+            this.channelTableData = res.data
+            this.filterForm.total = res.data.length
           })
           .catch(() => {
 //            this.$message.error('表格加载失败')
