@@ -175,8 +175,8 @@
               prop=""
               label="操作" width="170">
               <template slot-scope="scope">
-                <el-button type="success" icon="el-icon-plus"></el-button>
-                <el-button type="danger" icon="el-icon-delete"></el-button>
+                <el-button type="success" icon="el-icon-plus" @click="addContact()"></el-button>
+                <el-button type="danger" icon="el-icon-delete" @click="deleteContact(scope.$index)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -269,6 +269,19 @@
           this.$message.error('上传头像图片大小不能超过 2MB!')
         }
         return isJPG && isLt2M
+      },
+      addContact() {
+        this.contactData.push({
+          job: '技术对接人',
+          name: '王小虎',
+          mobile: 15268172199,
+          email: '315889743@qq.com',
+          address: '上海市普陀区金沙江路 1518 弄',
+          remark: '此人非常重要'
+        })
+      },
+      deleteContact(index) {
+        this.contactData.splice(index, 1)
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--渠道特点-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">渠道特点</h4>
+    <h3 class="form-part-title">渠道特点</h3>
     <!--content-->
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道属性'}}</div></el-col>
@@ -20,7 +20,7 @@
       <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'B级渠道'}}</div></el-col>
     </el-row>
     <!--基本信息below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">基本信息</h4>
+    <h3 class="form-part-title">基本信息</h3>
     <!--content-->
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道号'}}</div></el-col>
@@ -64,7 +64,7 @@
       <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
     </el-row>
     <!--合同签订below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">联系方式</h4>
+    <h3 class="form-part-title">联系方式</h3>
     <el-table
       border
       :data="contactData"
@@ -97,7 +97,7 @@
       </el-table-column>
     </el-table>
     <!--合同信息below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">合同信息</h4>
+    <h3 class="form-part-title">合同信息</h3>
     <el-table
       border
       :data="contractData"
@@ -126,7 +126,7 @@
       </el-table-column>
     </el-table>
     <!--保证金below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">保证金</h4>
+    <h3 class="form-part-title">保证金</h3>
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'保证金金额'}}</div></el-col>
       <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 未支付'}}</div></el-col>
