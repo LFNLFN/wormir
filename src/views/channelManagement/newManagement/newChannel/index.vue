@@ -19,7 +19,7 @@
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        min-width="120"
+        min-width="130"
         align="center">
       </el-table-column>
       <el-table-column
@@ -160,7 +160,7 @@
         },
         channelTableData: [
           {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelNum: 'FXQD' + Mock.Random.natural(20180522001, 20180522009),
             channelCode: Mock.Random.natural(0, 2),
             channelStatus: Mock.Random.natural(0, 6),
             cooperationType: Mock.Random.natural(0, 1),
@@ -170,7 +170,7 @@
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
           },
           {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelNum: 'DLQD' + Mock.Random.natural(20180522001, 20180522009),
             channelCode: Mock.Random.natural(0, 2),
             channelStatus: Mock.Random.natural(0, 6),
             cooperationType: Mock.Random.natural(0, 1),
@@ -180,7 +180,7 @@
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
           },
           {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelNum: 'DFQD' + Mock.Random.natural(20180522001, 20180522009),
             channelCode: Mock.Random.natural(0, 2),
             channelStatus: Mock.Random.natural(0, 6),
             cooperationType: Mock.Random.natural(0, 1),

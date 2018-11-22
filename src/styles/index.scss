@@ -286,6 +286,12 @@ td {
 .no-border-right{
   border-right: none!important;
 }
+.border1 {
+  border: solid #d5d5d5 1px;
+}
+.border2 {
+  border: solid #d5d5d5 2px;
+}
 .dialogBottomButton-wrap {
   text-align: center;
   margin-top: 1em;
@@ -355,6 +361,10 @@ td {
 .marginToLeft {
   margin-left: -1em;
 }
+.idCardUpload {
+  border-left: 1px solid #D5D5D5;
+  border-right: 1px solid #D5D5D5;
+}
 
 
 .noBorderTextarea textarea {
@@ -369,6 +379,9 @@ td {
 // 去除表格底部那条奇怪的伪类线
 .twoTable-wrap .el-table--border::after, .el-table--group::after, .el-table::before {
   background-color: transparent!important;
+}
+.el-table--border::after, .el-table--group::after {
+  width: 0
 }
 // 解决表头换行问题
 .el-table .cell {

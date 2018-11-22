@@ -3,72 +3,136 @@
     <!--渠道特点-->
     <h3 class="form-part-title">渠道特点</h3>
     <!--content-->
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道属性'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'独立渠道(DLQD)'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'合作类型'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'渠道入驻'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道类别'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'淘宝企业店'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道级别'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'B级渠道'}}</div></el-col>
-    </el-row>
+    <div class="border1">
+      <el-row class="border-top">
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'渠道属性'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'独立渠道(DLQD)'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'合作类型'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'渠道入驻'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'渠道类别'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'淘宝企业店'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'渠道级别'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'B级渠道'}}</div>
+        </el-col>
+      </el-row>
+    </div>
+
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
     <!--content-->
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道号'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'DLQD20180522001'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营主体'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'企业'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'公司名称'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'XX公司'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'营业执照'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <p style="margin: 3em"></p>
-    <el-row style="border-top: #d5d5d5 solid 1px">
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'公司地址'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营范围'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
+    <div class="border1">
+      <el-row class="border-top">
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'渠道号'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'DLQD20180522001'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营主体'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'企业'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'公司名称'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'XX公司'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'营业执照'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+    </div>
+    <p style="margin: .5em"></p>
+    <div class="border1">
+      <el-row class="border-top">
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'公司地址'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营范围'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div>
+        </el-col>
+      </el-row>
+    </div>
     <!--合同签订below-->
     <h3 class="form-part-title">联系方式</h3>
     <el-table
       border
       :data="contactData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right2">
       <el-table-column
         prop="job"
         label="职务"
@@ -101,7 +165,8 @@
     <el-table
       border
       :data="contractData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right2">
       <el-table-column
         prop="contractID"
         label="合同编号"
@@ -127,9 +192,13 @@
     </el-table>
     <!--保证金below-->
     <h3 class="form-part-title">保证金</h3>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'保证金金额'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 未支付'}}</div></el-col>
+    <el-row class="border-top2 border-left border-right border-bottom">
+      <el-col :span="5">
+        <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+      </el-col>
+      <el-col :span="19">
+        <div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 未支付'}}</div>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -174,15 +243,21 @@
 
 <style lang="scss" scoped>
   .el-row {
-  margin-bottom: 20px
-  &:last-child {
-     margin-bottom: 0
-     }
+
+  margin-bottom:
+
+  20
+  px
+  & :last-child {
+    margin-bottom: 0
+  }
+
   }
   .row-bg {
     padding: 10px 0;
     background-color: #f9fafc
   }
+
   .el-row .el-col:nth-child(odd) {
     background: #dff2fc;
     color: #424242;
@@ -194,6 +269,7 @@
     border-right: 1px #d5d5d5 solid;
     border-bottom: 1px #d5d5d5 solid;
   }
+
   .el-row .el-col:nth-child(even) {
     color: #424242;
     display: flex;
@@ -202,12 +278,15 @@
     border-right: 1px #d5d5d5 solid;
     border-bottom: 1px #d5d5d5 solid;
   }
+
   .el-row .el-col:nth-child(even) div {
     padding-left: 1em;
   }
+
   .el-row .el-col:first-of-type {
-    border-left:solid 1px #D5D5D5;
+    border-left: solid 1px #D5D5D5;
   }
+
   h4 + .el-row {
     border-top: #d5d5d5 solid 1px;
   }

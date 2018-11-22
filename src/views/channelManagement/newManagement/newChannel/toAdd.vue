@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
-        <dd>
+        <dd class="border1">
           <el-form-item label="合作类型">
             <el-radio-group v-model="form.cooperativeType">
               <el-radio label="1">渠道入驻</el-radio>
@@ -38,7 +38,7 @@
 
       <dl>
         <dt><h3 class="form-part-title">基本信息</h3></dt>
-        <dd>
+        <dd class="border1">
           <el-form-item label="经营主体" label-width="100px">
             <el-radio-group v-model="form.businessEntity">
               <el-radio label="1">个人</el-radio>
@@ -48,7 +48,7 @@
           <el-form-item label="身份证号码" label-width="100px" class="idCardCode">
             <el-input style="margin-left: -1em" class="noBorderInput" v-model="form.personID" placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item label="" style="margin: 10px 0;" class="idCardUpload">
+          <el-form-item label="" style="padding: 10px 0;" class="idCardUpload">
             <el-col :span="11">
               <el-form-item prop="id1" label="身份证正面" label-width="100px" class="idCardLabel">
                 <el-upload
@@ -97,7 +97,7 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <p style="color: red">*由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
+          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right">*由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
           <el-form-item label="经营范围" label-width="130px">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange" placeholder="请输入经营内容（200字以内）"></el-input>
           </el-form-item>
@@ -108,7 +108,7 @@
         <dt><h3 class="form-part-title">联系方式</h3></dt>
         <dd>
         <dt>联系方式 <span style="color: red">(温馨提示：渠道联系人及技术对接人必填哦！)</span></dt>
-        <dd>
+        <dd class="border1 no-border-bottom">
           <el-table
             border
             :data="contactData"
@@ -183,7 +183,7 @@
         </dd>
         </dd>
         <dt><h3 class="form-part-title">保证金</h3></dt>
-        <dd>
+        <dd class="border1">
           <el-form-item label="保证金金额" label-width="100px" class="form-row">
             <el-select class="noBorderInput marginToLeft" v-model="form.depositValue" placeholder="请选择">
               <el-option

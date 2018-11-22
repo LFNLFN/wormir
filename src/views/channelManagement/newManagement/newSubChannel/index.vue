@@ -16,7 +16,7 @@
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        min-width="120"
+        min-width="150"
         align="center">
       </el-table-column>
       <el-table-column
@@ -25,7 +25,7 @@
         min-width="100"
         align="center">
         <template slot-scope="scope">
-          <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
+          <span>{{ channelCodeMap['2'].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -36,7 +36,7 @@
         :filters="channelStatusFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
+          <span>{{ channelStatusMap['0'].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -69,14 +69,15 @@
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span v-if="scope.row.channelLevel===0">{{ '-----' }}</span>
+          <span v-else>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="FXQDbelongCode"
         label="所属FXQD号"
         align="center"
-        min-width="130">
+        min-width="150">
       </el-table-column>
       <el-table-column
         prop="FXQDbelongName"
@@ -96,19 +97,19 @@
         fixed="right"
         min-width="100">
         <template slot-scope="scope">
-          <!--<el-button-->
-            <!--size="mini"-->
-            <!--@click="showConfirm">去确认-->
-          <!--</el-button>-->
-          <!--<el-button-->
-            <!--size="mini"-->
-            <!--@click="showCheck">去查看-->
-          <!--</el-button>-->
-          <!--<el-button-->
-            <!--size="mini"-->
-            <!--type="danger"-->
-            <!--@click="showDelete">强制注销-->
-          <!--</el-button>-->
+          <el-button
+            size="mini"
+            @click="showConfirm">去确认
+          </el-button>
+          <el-button
+            size="mini"
+            @click="showCheck">去查看
+          </el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="showDelete">强制注销
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -123,14 +124,35 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
+
+    <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
+      <to-add></to-add>
+    </el-dialog>
+    <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="签订合同">
+      <to-confirm></to-confirm>
+    </el-dialog>
+    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案信息">
+      <to-check></to-check>
+    </el-dialog>
+    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
+      <to-delete></to-delete>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import Mock from 'mockjs'
   import { channel_BlurSearch } from '@/api/channel'
+  import toConfirm from './toConfirm.vue'
+  import toCheck from './toCheck.vue'
+  import toDelete from './toDelete.vue'
 
   export default {
+    components: {
+      toCheck,
+      toConfirm,
+      toDelete
+    },
     data() {
       return {
         filterForm: {
@@ -141,41 +163,41 @@
         },
         channelTableData: [
           {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
+            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
             channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
+            channelStatus: 0,
             cooperationType: Mock.Random.natural(0, 1),
             channelType: Mock.Random.natural(0, 3),
             channelProp: 0,
             channelLevel: Mock.Random.natural(0, 3),
-            FXQDbelongCode: Mock.Random.natural(522001, 522009),
-            FXQDbelongName: 'QWERTY',
+            FXQDbelongCode: 'FXQD' + 20180522001,
+            FXQDbelongName: 'FXQD',
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
           },
-          {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: 0,
-            channelLevel: Mock.Random.natural(0, 3),
-            FXQDbelongCode: Mock.Random.natural(522001, 522009),
-            FXQDbelongName: 'QWERTY',
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-          },
-          {
-            channelNum: Mock.Random.natural(20180522001, 20180522009),
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: Mock.Random.natural(0, 0),
-            channelLevel: Mock.Random.natural(0, 3),
-            FXQDbelongCode: Mock.Random.natural(522001, 522009),
-            FXQDbelongName: 'QWERTY',
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-          },
+//          {
+//            channelNum: 'FXQD' + Mock.Random.natural(20180522001, 20180522009),
+//            channelCode: Mock.Random.natural(0, 2),
+//            channelStatus: Mock.Random.natural(0, 6),
+//            cooperationType: Mock.Random.natural(0, 1),
+//            channelType: Mock.Random.natural(0, 3),
+//            channelProp: 0,
+//            channelLevel: Mock.Random.natural(0, 3),
+//            FXQDbelongCode: Mock.Random.natural(522001, 522009),
+//            FXQDbelongName: 'QWERTY',
+//            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+//          },
+//          {
+//            channelNum: 'FXQD' + Mock.Random.natural(20180522001, 20180522009),
+//            channelCode: Mock.Random.natural(0, 2),
+//            channelStatus: Mock.Random.natural(0, 6),
+//            cooperationType: Mock.Random.natural(0, 1),
+//            channelType: Mock.Random.natural(0, 3),
+//            channelProp: Mock.Random.natural(0, 0),
+//            channelLevel: Mock.Random.natural(0, 3),
+//            FXQDbelongCode: Mock.Random.natural(522001, 522009),
+//            FXQDbelongName: 'QWERTY',
+//            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
+//          },
         ],
         channelCodeFilters: [
           { text: 'DLQD', value: 0 },
@@ -243,13 +265,16 @@
           2: { text: 'C级渠道', value: 2 },
           3: { text: 'C级渠道', value: 3 },
         },
+        isConfirmShow: false,
+        isCheckShow: false,
+        isDeleteShow: false
       }
     },
     methods: {
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.value1)
           .then((res) => {
-            this.channelTableData = res.data;
+            this.channelTableData = res.data
             this.filterForm.total = res.data.length
           })
         // .catch(() => { this.$message.error('表格加载失败') })
@@ -261,7 +286,7 @@
       handleSizeChange(val) {
         channel_BlurSearch(this.filterForm.value1, 1, val)
           .then((res) => {
-            this.channelTableData = res.data;
+            this.channelTableData = res.data
             this.filterForm.total = res.data.length
           })
         this.filterForm.page_size = val
@@ -269,11 +294,20 @@
       handleCurrentChange(val) {
         channel_BlurSearch(this.filterForm.value1, val)
           .then((res) => {
-            this.channelTableData = res.data;
+            this.channelTableData = res.data
             this.filterForm.total = res.data.length
           })
         this.filterForm.currentPage = val
-      }
+      },
+      showConfirm() {
+        this.isConfirmShow = true
+      },
+      showCheck() {
+        this.isCheckShow = true
+      },
+      showDelete() {
+        this.isDeleteShow = true
+      },
     },
     mounted() {
       this.channelBlurSearch()
