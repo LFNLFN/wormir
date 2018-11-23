@@ -94,7 +94,7 @@
         label="操作"
         align="center"
         fixed="right"
-        min-width="100">
+        min-width="130">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -322,7 +322,7 @@
 
 <style lang="scss" scoped>
   .el-table .el-button {
-    width: 6em;
+    width: 7em;
     margin-left: 1px;
     margin-bottom: 10px;
   }
