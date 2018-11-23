@@ -98,7 +98,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="showConfirm">去确认
+            @click="showConfirm(scope.row)">去确认
           </el-button>
           <el-button
             size="mini"
@@ -127,8 +127,8 @@
     <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
       <to-add></to-add>
     </el-dialog>
-    <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="签订合同">
-      <to-confirm></to-confirm>
+    <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="子渠道审批">
+      <to-confirm :currentRow="currentRow"></to-confirm>
     </el-dialog>
     <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="子渠道档案">
       <to-check :currentRow="currentRow"></to-check>
@@ -302,7 +302,8 @@
           })
         this.filterForm.currentPage = val
       },
-      showConfirm() {
+      showConfirm(row) {
+        this.currentRow = row
         this.isConfirmShow = true
       },
       showCheck(row) {
