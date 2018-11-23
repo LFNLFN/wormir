@@ -86,11 +86,15 @@
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt="" height="48px" width="48px" class="link-type"></span></el-col>
+        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt="" height="48px" width="48px" class="link-type"></span></el-col>
+        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
       </el-row>
     </div>
     <p style="margin: .5em"></p>
@@ -116,7 +120,7 @@
           <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light " >{{'123456'}}</div>
+          <div class="grid-content bg-purple-light ">{{'123456'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -124,7 +128,7 @@
           <div class="grid-content bg-purple ">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light " >{{'化妆品'}}</div>
+          <div class="grid-content bg-purple-light ">{{'化妆品'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -180,50 +184,61 @@
         min-width="100">
       </el-table-column>
     </el-table>
-    <!--&lt;!&ndash;合同信息below&ndash;&gt;-->
-    <!--<h3 class="form-part-title">合同信息</h3>-->
-    <!--<el-table-->
-      <!--border-->
-      <!--:data="contractData"-->
-      <!--style="width: 100%"-->
-      <!--class="border-top2 border-left2 border-right2">-->
-      <!--<el-table-column-->
-        <!--prop="contractID"-->
-        <!--label="合同编号"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-      <!--<el-table-column-->
-        <!--prop="contractProp"-->
-        <!--label="合同属性"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-      <!--<el-table-column-->
-        <!--prop="startTime"-->
-        <!--label="开始时间">-->
-      <!--</el-table-column>-->
-      <!--<el-table-column-->
-        <!--prop="endTime"-->
-        <!--label="结束时间">-->
-      <!--</el-table-column>-->
-      <!--<el-table-column-->
-        <!--prop="channelStatus"-->
-        <!--label="渠道状态">-->
-      <!--</el-table-column>-->
-    <!--</el-table>-->
-    <!--&lt;!&ndash;保证金below&ndash;&gt;-->
-    <!--<h3 class="form-part-title">保证金</h3>-->
-    <!--<el-row class="border-top2 border-left border-right border-bottom">-->
-      <!--<el-col :span="5">-->
-        <!--<div class="grid-content bg-purple ">{{'保证金金额'}}</div>-->
-      <!--</el-col>-->
-      <!--<el-col :span="19">-->
-        <!--<div class="grid-content bg-purple-light ">{{'¥ 10000 - 未支付'}}</div>-->
-      <!--</el-col>-->
-    <!--</el-row>-->
+
+    <template v-if="currentRow.channelStatus===4">
+      <h3 class="form-part-title">开通审核</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'申请时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'审核结果'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'驳回申请'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'驳回理由'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'渠道不合法'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'驳回时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+      </div>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{0.00}} - 未支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
+  import Mock from 'mockjs'
+
   export default {
     props: {
       currentRow: {
@@ -233,6 +248,7 @@
     },
     data() {
       return {
+        Mock,
         contactData: [{
           job: '技术对接人',
           name: '王小虎',

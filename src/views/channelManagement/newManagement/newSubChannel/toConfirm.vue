@@ -198,6 +198,13 @@
     <div class="dialogBottomButton-wrap">
       <el-button type="primary" @click="onSubmit">审核确认</el-button>
     </div>
+
+    <el-dialog :visible.sync="rejectRemindVisible" width="30%" append-to-body :show-close="false">
+      <p style="text-align: center">开通申请被驳回，该子渠道已进入“驳回申请”状态。</p>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="closeOutDialog">知道了</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -259,6 +266,7 @@
           { label: '¥30000', value: 4 },
           { label: '¥50000', value: 5 }
         ],
+        rejectRemindVisible: false
       }
     },
     methods: {
@@ -267,7 +275,12 @@
         this.isViewImageShow = true
       },
       onSubmit() {
-        this.$message('submit!')
+        if (this.form.reviewResult === '0') {
+          this.rejectRemindVisible = true
+        }
+      },
+      closeOutDialog() {
+        this.$emit('closeDialog')
       }
     }
   }
