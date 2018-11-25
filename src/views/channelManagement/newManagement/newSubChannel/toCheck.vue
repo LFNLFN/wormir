@@ -233,6 +233,56 @@
         </el-row>
       </div>
     </template>
+    <template v-if="currentRow.channelStatus===5">
+      <h3 class="form-part-title">终止情况</h3>
+      <el-table
+        border
+        :data="terminationData"
+        style="width: 100%"
+        class="border-top2 border-left2 border-right2">
+        <el-table-column
+          prop="terminationType"
+          label="终止类型"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="terminationDate"
+          label="终止日期"
+          align="center"
+          min-width="80">
+        </el-table-column>
+        <el-table-column
+          prop="techConnect"
+          label="技术对接"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="terminationReason"
+          label="终止原因"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="terminationTime"
+          label="终止时间"
+          align="center"
+          min-width="140">
+        </el-table-column>
+      </el-table>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{0.00}} - 未支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -278,9 +328,18 @@
           0: { text: 'A级渠道', value: 0 },
           1: { text: 'B级渠道', value: 1 },
           2: { text: 'C级渠道', value: 2 },
-          3: { text: 'C级渠道', value: 3 },
+          3: { text: 'D级渠道', value: 3 },
           99: { text: '----', value: 99 },
         },
+        terminationData: [
+          {
+            terminationType: '强制终止',
+            terminationDate: Mock.Random.now('yyyy-MM-dd'),
+            techConnect: '未对接系统',
+            terminationReason: '渠道重复',
+            terminationTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+          }
+        ],
         isViewImageShow: false,
         imageViewed: null
       }

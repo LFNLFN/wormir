@@ -111,7 +111,7 @@
               @click="showDelete">强制注销
             </el-button>
           </div>
-          <div v-else-if="scope.row.channelStatus===4">
+          <div v-else-if="scope.row.channelStatus===4 || scope.row.channelStatus===5">
             <el-button
               size="mini"
               @click="showCheck(scope.row)">去查看
@@ -133,7 +133,7 @@
     </div>
 
     <!--<el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">-->
-      <!--<to-add v-if="isAddShow"></to-add>-->
+    <!--<to-add v-if="isAddShow"></to-add>-->
     <!--</el-dialog>-->
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="子渠道审批">
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @closeDialog="isConfirmShow=false"></to-confirm>
@@ -197,18 +197,20 @@
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
             proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
           },
-//          {
-//            channelNum: 'FXQD' + Mock.Random.natural(20180522001, 20180522009),
-//            channelCode: Mock.Random.natural(0, 2),
-//            channelStatus: Mock.Random.natural(0, 6),
-//            cooperationType: Mock.Random.natural(0, 1),
-//            channelType: Mock.Random.natural(0, 3),
-//            channelProp: Mock.Random.natural(0, 0),
-//            channelLevel: Mock.Random.natural(0, 3),
-//            FXQDbelongCode: Mock.Random.natural(522001, 522009),
-//            FXQDbelongName: 'QWERTY',
-//            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-//          },
+          // 停止审核
+          {
+            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: 5,
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: 99 || Mock.Random.natural(0, 3),
+            FXQDbelongCode: 'FXQD' + 20180522001,
+            FXQDbelongName: 'FXQD',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+          },
         ],
         channelCodeFilters: [
           { text: 'DLQD', value: 0 },
