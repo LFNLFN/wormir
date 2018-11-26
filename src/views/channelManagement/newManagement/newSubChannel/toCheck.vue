@@ -71,18 +71,27 @@
           <div class="grid-content bg-purple ">{{'经营主体'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'个人'}}</div>
+          <div class="grid-content bg-purple-light ">
+            <span v-if="currentRow.businessEntity===0">{{'个人'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'企业'}}</span>
+          </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'身份证号'}}</div>
+          <div class="grid-content bg-purple ">
+            <span v-if="currentRow.businessEntity===0">{{'身份证号'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'公司名称'}}</span>
+          </div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{440682199406776021}}</div>
+          <div class="grid-content bg-purple-light ">
+            <span v-if="currentRow.businessEntity===0">{{440682199406776021}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'jkl公司'}}</span>
+          </div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.businessEntity===0">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
         </el-col>
@@ -93,6 +102,14 @@
           <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
+      </el-row>
+      <el-row v-if="currentRow.businessEntity===1">
+        <el-col :span="5" style="min-height: 57px">
+          <div class="grid-content bg-purple ">{{'营业执照'}}</div>
+        </el-col>
+        <el-col :span="19"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
                                                                                height="48px" width="48px"
                                                                                class="link-type"></span></el-col>
       </el-row>
@@ -185,6 +202,213 @@
       </el-table-column>
     </el-table>
 
+    <template v-if="currentRow.channelStatus===1">
+      <h3 class="form-part-title">开通审核</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'申请时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'审核结果'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'通过申请'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'通过时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+      </div>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{10000.00}} - 未支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
+    <template v-if="currentRow.channelStatus===2">
+      <h3 class="form-part-title">开通审核</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'申请时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'审核结果'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'通过申请'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'通过时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+      </div>
+      <!--合同信息-->
+      <h3 class="form-part-title">合同信息</h3>
+      <el-table
+        border
+        :data="contractData"
+        style="width: 100%"
+        class="border-top2 border-left2 border-right2">
+        <el-table-column
+          prop="contractID"
+          label="合同编号"
+          align="center"
+          min-width="100">
+        </el-table-column>
+        <el-table-column
+          prop="contractProp"
+          label="合同属性"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="startTime"
+          label="开始时间"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="endTime"
+          label="结束时间"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="channelStatus"
+          label="渠道状态"
+          align="center"
+          min-width="140">
+          <template slot-scope="scope">
+            <span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>
+            <span v-if="currentRow.channelStatus===1">{{'待签合同'}}</span>
+            <span v-if="currentRow.channelStatus===2">{{'待付保证金'}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{10000.00}} - 未支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
+    <template v-if="currentRow.channelStatus===3">
+      <h3 class="form-part-title">开通审核</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'申请时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'审核结果'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'通过申请'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'通过时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+      </div>
+      <!--合同信息-->
+      <h3 class="form-part-title">合同信息</h3>
+      <el-table
+        border
+        :data="contractData"
+        style="width: 100%"
+        class="border-top2 border-left2 border-right2">
+        <el-table-column
+          prop="contractID"
+          label="合同编号"
+          align="center"
+          min-width="100">
+        </el-table-column>
+        <el-table-column
+          prop="contractProp"
+          label="合同属性"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="startTime"
+          label="开始时间"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="endTime"
+          label="结束时间"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="channelStatus"
+          label="渠道状态"
+          align="center"
+          min-width="140">
+          <template slot-scope="scope">
+            <span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>
+            <span v-if="currentRow.channelStatus===1">{{'待签合同'}}</span>
+            <span v-if="currentRow.channelStatus===2">{{'待付保证金'}}</span>
+            <span v-if="currentRow.channelStatus===3">{{'待接系统'}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{10000.00}} - 已支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
     <template v-if="currentRow.channelStatus===4">
       <h3 class="form-part-title">开通审核</h3>
       <div class="border1">
@@ -279,6 +503,83 @@
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light ">￥ {{0.00}} - 未支付</div>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
+    <template v-if="currentRow.channelStatus===6">
+      <h3 class="form-part-title">开通审核</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'申请时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'审核结果'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{'通过申请'}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'通过时间'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          </el-col>
+        </el-row>
+      </div>
+      <h3 class="form-part-title">终止情况</h3>
+      <el-table
+        border
+        :data="terminationData"
+        style="width: 100%"
+        class="border-top2 border-left2 border-right2">
+        <el-table-column
+          prop="terminationType"
+          label="终止类型"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="terminationDate"
+          label="终止日期"
+          align="center"
+          min-width="80">
+        </el-table-column>
+        <el-table-column
+          prop="techConnect"
+          label="技术对接"
+          align="center"
+          min-width="90">
+        </el-table-column>
+        <el-table-column
+          prop="terminationReason"
+          label="终止原因"
+          align="center"
+          min-width="110">
+        </el-table-column>
+        <el-table-column
+          prop="terminationTime"
+          label="终止时间"
+          align="center"
+          min-width="140">
+        </el-table-column>
+      </el-table>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light ">￥ {{10000.00}} - 未支付</div>
           </el-col>
         </el-row>
       </div>

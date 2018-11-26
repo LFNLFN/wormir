@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="currentRow.channelStatus!==1">
+    <template v-if="currentRow.channelStatus!==1 && currentRow.channelStatus!==3">
       <!--渠道特点-->
       <h3 class="form-part-title">渠道特点</h3>
       <!--content-->
@@ -56,18 +56,27 @@
           <div class="grid-content bg-purple ">{{'经营主体'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'个人'}}</div>
+          <div class="grid-content bg-purple-light ">
+            <span v-if="currentRow.businessEntity===0">{{'个人'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'企业'}}</span>
+          </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'身份证号'}}</div>
+          <div class="grid-content bg-purple ">
+            <span v-if="currentRow.businessEntity===0">{{'身份证号'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'公司名称'}}</span>
+          </div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{440682199406776021}}</div>
+          <div class="grid-content bg-purple-light">
+            <span v-if="currentRow.businessEntity===0">{{440682199406776021}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'jkl公司'}}</span>
+          </div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.businessEntity===0">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
         </el-col>
@@ -78,6 +87,14 @@
           <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
+      </el-row>
+      <el-row v-if="currentRow.businessEntity===1">
+        <el-col :span="5" style="min-height: 57px">
+          <div class="grid-content bg-purple ">{{'营业执照'}}</div>
+        </el-col>
+        <el-col :span="19"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
                                                                                height="48px" width="48px"
                                                                                class="link-type"></span></el-col>
       </el-row>
@@ -126,7 +143,7 @@
       </el-row>
     </div>
     <!--合同签订below-->
-    <template v-if="currentRow.channelStatus!==1">
+    <template v-if="currentRow.channelStatus!==1 && currentRow.channelStatus!==3">
       <h3 class="form-part-title">联系方式</h3>
       <el-table
         border
@@ -190,7 +207,7 @@
             <el-radio label="3">D级渠道</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="保证金金额" class="form-row">
+        <el-form-item label="保证金金额" class="form-row" style="height: 29px">
           <el-select class="noBorderInput" v-model="form.depositValue" placeholder="请选择">
             <el-option
               v-for="item in depositOptions"
@@ -205,7 +222,7 @@
         <el-button type="primary" @click="onSubmit">审核确认</el-button>
       </div>
     </template>
-    <template v-if="currentRow.channelStatus===1">
+    <template v-if="currentRow.channelStatus!==0 && currentRow.channelStatus!==1 && currentRow.channelStatus!==3">
       <h3 class="form-part-title">合同签订</h3>
       <!--content-->
       <el-form ref="form" :model="form" label-width="80px" style="margin-top: 1em">
@@ -231,7 +248,13 @@
         </div>
       </el-form>
     </template>
-
+    <template v-if="currentRow.channelStatus===3">
+      <h3 class="form-part-title">技术对接</h3>
+      <el-checkbox v-model="isSystemConnectComplete">完成对接系统</el-checkbox>
+      <div class="dialogBottomButton-wrap">
+        <el-button type="primary" @click="connectComplete">确认完成对接</el-button>
+      </div>
+    </template>
 
     <el-dialog :visible.sync="rejectRemindVisible" width="30%" append-to-body :show-close="false">
       <p style="text-align: center">开通申请被驳回，该子渠道已进入“驳回申请”状态。</p>
@@ -255,6 +278,7 @@
     data() {
       return {
         Mock,
+        isSystemConnectComplete: false,
         contactData: [{
           job: '技术对接人',
           name: '王小虎',
@@ -316,9 +340,29 @@
         if (this.form.reviewResult === '0') {
           this.rejectRemindVisible = true
         }
+        const vm = this
+        this.$alert('子渠道已签订合同，系统已发出系统消息和短信通知其所属的分销渠道尽快交付保证金。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.$emit('closeDialog')
+          }
+        })
       },
       closeOutDialog() {
         this.$emit('closeDialog')
+      },
+      connectComplete() {
+        const vm = this
+        this.$alert('已完成对接系统，该渠道订货功能已开通。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.$emit('closeDialog')
+          }
+        })
       }
     }
   }
@@ -372,5 +416,8 @@
 
   h4 + .el-row {
     border-top: #d5d5d5 solid 1px;
+  }
+  .form-row {
+    margin-bottom: 0;
   }
 </style>

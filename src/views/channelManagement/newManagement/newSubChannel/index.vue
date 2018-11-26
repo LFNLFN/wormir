@@ -108,10 +108,10 @@
             <el-button
               size="mini"
               type="danger"
-              @click="showDelete">强制注销
+              @click="showDelete">强制终止
             </el-button>
           </div>
-          <div v-else-if="scope.row.channelStatus===4 || scope.row.channelStatus===5">
+          <div v-if="scope.row.channelStatus===4 || scope.row.channelStatus===5">
             <el-button
               size="mini"
               @click="showCheck(scope.row)">去查看
@@ -129,7 +129,39 @@
             <el-button
               size="mini"
               type="danger"
-              @click="showDelete">强制注销
+              @click="showDelete">强制终止
+            </el-button>
+          </div>
+          <div v-if="scope.row.channelStatus===2">
+            <el-button
+              size="mini"
+              @click="showCheck(scope.row)">去查看
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="showDelete">强制终止
+            </el-button>
+          </div>
+          <div v-if="scope.row.channelStatus===3">
+            <el-button
+              size="mini"
+              @click="showConfirm(scope.row)">去确认
+            </el-button>
+            <el-button
+              size="mini"
+              @click="showCheck(scope.row)">去查看
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="showDelete(scope.row)">终止渠道
+            </el-button>
+          </div>
+          <div v-if="scope.row.channelStatus===6">
+            <el-button
+              size="mini"
+              @click="showCheck(scope.row)">去查看
             </el-button>
           </div>
         </template>
@@ -153,11 +185,11 @@
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" :title="confirmTitle">
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @closeDialog="isConfirmShow=false"></to-confirm>
     </el-dialog>
-    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="子渠道档案">
+    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" :title="checkTitle">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
-      <to-delete v-if="isDeleteShow"></to-delete>
+      <to-delete v-if="isDeleteShow" :currentRow="currentRow"  @closeOutDialog="isDeleteShow = false"></to-delete>
     </el-dialog>
   </div>
 </template>
@@ -197,6 +229,7 @@
             FXQDbelongName: 'FXQD',
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
             proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: 1
           },
           // 驳回申请
           {
@@ -211,6 +244,7 @@
             FXQDbelongName: 'FXQD',
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
             proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
           },
           // 停止审核
           {
@@ -225,6 +259,7 @@
             FXQDbelongName: 'FXQD',
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
             proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
           },
           // 待签合同
           {
@@ -239,6 +274,52 @@
             FXQDbelongName: 'FXQD',
             createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
             proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
+          },
+          // 待付保证金
+          {
+            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: 2,
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: 'FXQD' + 20180522001,
+            FXQDbelongName: 'FXQD',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
+          },
+          // 待接系统
+          {
+            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: 3,
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: 'FXQD' + 20180522001,
+            FXQDbelongName: 'FXQD',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
+          },
+          // 停止签合同
+          {
+            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
+            channelCode: Mock.Random.natural(0, 2),
+            channelStatus: 6,
+            cooperationType: Mock.Random.natural(0, 1),
+            channelType: Mock.Random.natural(0, 3),
+            channelProp: 0,
+            channelLevel: Mock.Random.natural(0, 3),
+            FXQDbelongCode: 'FXQD' + 20180522001,
+            FXQDbelongName: 'FXQD',
+            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+            businessEntity: Mock.Random.natural(0, 1)
           },
         ],
         channelCodeFilters: [
@@ -319,6 +400,15 @@
       confirmTitle() {
         if (this.currentRow && this.currentRow.channelStatus === 0) return '子渠道审批'
         if (this.currentRow && this.currentRow.channelStatus === 1) return '签订合同'
+      },
+      checkTitle() {
+        if (this.currentRow && this.currentRow.channelStatus === 2
+        ) {
+          return '子渠道档案'
+        }
+        else {
+          return '查看子渠道档案'
+        }
       }
     },
     methods: {
@@ -329,11 +419,13 @@
             this.filterForm.total = res.data.length
           })
         // .catch(() => { this.$message.error('表格加载失败') })
-      },
+      }
+      ,
       filterHandler(value, row, column) {
         const property = column['property']
         return row[property] === value
-      },
+      }
+      ,
       handleSizeChange(val) {
         channel_BlurSearch(this.filterForm.value1, 1, val)
           .then((res) => {
@@ -341,7 +433,8 @@
             this.filterForm.total = res.data.length
           })
         this.filterForm.page_size = val
-      },
+      }
+      ,
       handleCurrentChange(val) {
         channel_BlurSearch(this.filterForm.value1, val)
           .then((res) => {
@@ -349,19 +442,25 @@
             this.filterForm.total = res.data.length
           })
         this.filterForm.currentPage = val
-      },
+      }
+      ,
       showConfirm(row) {
         this.currentRow = row
         this.isConfirmShow = true
-      },
+      }
+      ,
       showCheck(row) {
         this.currentRow = row
         this.isCheckShow = true
-      },
-      showDelete() {
+      }
+      ,
+      showDelete(row) {
+        this.currentRow = row
         this.isDeleteShow = true
-      },
-    },
+      }
+      ,
+    }
+    ,
     mounted() {
       this.channelBlurSearch()
     }
