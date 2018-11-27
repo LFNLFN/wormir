@@ -12,7 +12,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="warning" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -22,7 +22,7 @@
       <el-table-column
         prop="channelNum"
         label="渠道号"
-        min-width="120"
+        min-width="190"
         align="center"
       show-overflow-tooltip>
         <template slot-scope="scope">
@@ -32,7 +32,7 @@
       <el-table-column
         prop="channelName"
         label="渠道名称"
-        min-width="100"
+        min-width="180"
         align="center">
       </el-table-column>
       <el-table-column

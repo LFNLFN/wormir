@@ -5,136 +5,236 @@
     <!--content-->
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道属性'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'独立渠道(DLQD)'}}</div></el-col>
+      <el-col :span="19"><div class="grid-content bg-purple-light">{{channelPropMap[currentRow.channelProp].text}}</div></el-col>
     </el-row>
     <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'合作类型'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'渠道入驻'}}</div></el-col>
+      <el-col :span="5"><div class="grid-content bg-purple">{{'合作类型'}}</div></el-col>
+      <el-col :span="19"><div class="grid-content bg-purple-light">{{cooperationTypeMap[currentRow.cooperationType].text}}</div></el-col>
     </el-row>
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道类别'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'淘宝企业店'}}</div></el-col>
+      <el-col :span="19"><div class="grid-content bg-purple-light ">{{channelTypeMap[currentRow.channelType].text}}</div></el-col>
     </el-row>
     <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道级别'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'B级渠道'}}</div></el-col>
+      <el-col :span="5"><div class="grid-content bg-purple">{{'渠道级别'}}</div></el-col>
+      <el-col :span="19"><div class="grid-content bg-purple-light">{{ channelLevelMap[currentRow.channelLevel].text }}</div></el-col>
     </el-row>
     <!--基本信息below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">基本信息</h4>
+    <h3 class="form-part-title">基本信息</h3>
     <!--content-->
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'渠道号'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'DLQD20180522001'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营主体'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'企业'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'公司名称'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'XX公司'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'营业执照'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <p style="margin: 3em"></p>
-    <el-row style="border-top: #d5d5d5 solid 1px">
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'公司地址'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营范围'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="5"><div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'aaaa'}}</div></el-col>
-    </el-row>
+    <div class="border1">
+      <el-row class="border-top">
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'渠道号'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{currentRow.channelNum}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营主体'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">
+            <span v-if="currentRow.businessEntity===0">{{'个人'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'企业'}}</span>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">
+            <span v-if="currentRow.businessEntity===0">{{'身份证号'}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'公司名称'}}</span>
+          </div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">
+            <span v-if="currentRow.businessEntity===0">{{440682199406776021}}</span>
+            <span v-if="currentRow.businessEntity===1">{{'jkl公司'}}</span>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row v-if="currentRow.businessEntity===0">
+        <el-col :span="5" style="min-height: 57px">
+          <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
+        </el-col>
+        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
+        <el-col :span="5" style="min-height: 57px">
+          <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
+        </el-col>
+        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+                                                                               height="48px" width="48px"
+                                                                               class="link-type"></span></el-col>
+      </el-row>
+      <el-row v-if="currentRow.businessEntity===1">
+        <el-col :span="5" style="min-height: 57px">
+          <div class="grid-content bg-purple ">{{'营业执照'}}</div>
+        </el-col>
+        <el-col :span="19"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt="" height="48px" width="48px" class="link-type"></span></el-col>
+      </el-row>
+    </div>
+    <p style="margin: .5em"></p>
+    <div class="border1" style="border-top-width: 2px">
+      <el-row v-if="currentRow.businessEntity===1">
+        <el-col :span="5">
+          <div class="grid-content bg-purple">{{'公司地址'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light">{{'广州海珠区'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{'asd专卖店'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{'www.baidu.com'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{'123456'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营范围'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{'化妆品'}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">
+          <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light ">{{'面膜'}}</div>
+        </el-col>
+      </el-row>
+    </div>
     <!--合同签订below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">联系方式</h4>
+    <h3 class="form-part-title">联系方式</h3>
     <el-table
       border
       :data="contactData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right2">
       <el-table-column
         prop="job"
         label="职务"
-        width="180">
+        align="center"
+        min-width="90">
       </el-table-column>
       <el-table-column
         prop="name"
         label="姓名"
-        width="180">
+        align="center"
+        min-width="80">
       </el-table-column>
       <el-table-column
         prop="mobile"
-        label="电话">
+        label="电话"
+        align="center"
+        min-width="90">
       </el-table-column>
       <el-table-column
         prop="email"
-        label="邮箱">
+        label="邮箱"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="address"
-        label="地址">
+        label="地址"
+        align="center"
+        min-width="140">
       </el-table-column>
       <el-table-column
         prop="remark"
-        label="备注">
+        label="备注"
+        align="center"
+        min-width="100">
       </el-table-column>
     </el-table>
     <!--合同信息below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">合同信息</h4>
+    <h3 class="form-part-title">合同信息</h3>
     <el-table
       border
       :data="contractData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right2">
       <el-table-column
         prop="contractID"
         label="合同编号"
-        width="180">
+        align="center"
+        min-width="100">
       </el-table-column>
       <el-table-column
         prop="contractProp"
         label="合同属性"
-        width="180">
+        align="center"
+        min-width="90">
       </el-table-column>
       <el-table-column
         prop="startTime"
-        label="开始时间">
+        label="开始时间"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="endTime"
-        label="结束时间">
+        label="结束时间"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="channelStatus"
-        label="渠道状态">
+        label="渠道状态"
+        align="center"
+        min-width="140">
+        <template slot-scope="scope">
+          <span v-if="">{{'正常合作'}}</span>
+          <!--<span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>-->
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="orderStockStatus"
+        label="订货状态"
+        align="center"
+        min-width="120">
+        <template slot-scope="scope">
+          <span v-if="">{{'关闭订货'}}</span>
+        </template>
       </el-table-column>
     </el-table>
     <!--终止情况below-->
-    <h4 style="border-bottom: 2px solid #424242;color: #424242">合同信息</h4>
+    <h3 class="form-part-title">终止情况</h3>
     <el-table
       border
       :data="contractData"
-      style="width: 100%">
+      style="width: 100%;border-bottom-width: 1px"
+    class="border2">
       <el-table-column
         prop=""
         label="终止操作"
-        width="180">
+        align="center"
+        min-width="150">
         <template slot-scope="scope">
           <span>注销渠道</span>
         </template>
@@ -142,13 +242,16 @@
       <el-table-column
         prop=""
         label="终止类型"
-        width="180">
+        align="center"
+        min-width="150">
         <template slot-scope="scope">
           <span>提前终止</span>
         </template>
       </el-table-column>
       <el-table-column
         prop=""
+        align="center"
+        min-width="140"
         label="终止日期">
         <template slot-scope="scope">
           <span>2018-04-11</span>
@@ -156,6 +259,8 @@
       </el-table-column>
       <el-table-column
         prop=""
+        align="center"
+        min-width="140"
         label="技术对接">
         <template slot-scope="scope">
           <span>完成对接系统</span>
@@ -163,13 +268,17 @@
       </el-table-column>
       <el-table-column
         prop=""
+        min-width="160"
+        align="center"
         label="终止原因">
         <template slot-scope="scope">
-          <span>人家不做了，就不做了，拜拜吧你了</span>
+          <span>渠道异常</span>
         </template>
       </el-table-column>
       <el-table-column
         prop=""
+        min-width="160"
+        align="center"
         label="注销时间">
         <template slot-scope="scope">
           <span>2018-04-11 21:39</span>
@@ -180,13 +289,19 @@
     <h4 style="border-bottom: 2px solid #424242;color: #424242">保证金</h4>
     <el-row>
       <el-col :span="5"><div class="grid-content bg-purple ">{{'保证金金额'}}</div></el-col>
-      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 未支付'}}</div></el-col>
+      <el-col :span="19"><div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 已支付'}}</div></el-col>
     </el-row>
   </div>
 </template>
 
 <script>
   export default {
+    props: {
+      currentRow: {
+        type: Object,
+        required: true
+      }
+    },
     data() {
       return {
         contactData: [{
@@ -216,8 +331,44 @@
           contractProp: '首次签订',
           startTime: '2018-05-26',
           endTime: '2018-05-29',
-          channelStatus: '待激活账号'
-        }]
+          channelStatus: '待激活账号',
+          orderStockStatus: null
+        }],
+        channelCodeMap: {
+          0: { text: 'DLQD', value: 0 },
+          1: { text: 'DFQD', value: 1 },
+          2: { text: 'FXQD', value: 2 }
+        },
+        channelStatusMap: {
+          0: { text: '待签合同', value: 0 },
+          1: { text: '待激活账号', value: 1 },
+          2: { text: '待付保证金', value: 2 },
+          3: { text: '待接系统', value: 3 },
+          4: { text: '停止签合同', value: 4 },
+          5: { text: '停止激活账户', value: 5 },
+          6: { text: '停止付保证金', value: 6 }
+        },
+        cooperationTypeMap: {
+          0: { text: '渠道入驻', value: 0 },
+          1: { text: '渠道变更', value: 1 }
+        },
+        channelTypeMap: {
+          0: { text: '淘宝C店', value: 0 },
+          1: { text: '淘宝企业店', value: 1 },
+          2: { text: '天猫店', value: 2 },
+          3: { text: 'B2C平台', value: 3 },
+        },
+        channelPropMap: {
+          0: { text: '独立渠道(DLQD)', value: 0 },
+          1: { text: '代发渠道(DFQD)', value: 1 },
+          2: { text: '分销渠道(FXQD)', value: 2 },
+        },
+        channelLevelMap: {
+          0: { text: 'A级渠道', value: 0 },
+          1: { text: 'B级渠道', value: 1 },
+          2: { text: 'C级渠道', value: 2 },
+          3: { text: 'C级渠道', value: 3 },
+        }
       }
     }
   }
