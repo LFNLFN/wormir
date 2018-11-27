@@ -2,6 +2,7 @@
   <div>
     <!--渠道特点-->
     <h3 class="form-part-title">保证金</h3>
+    <!--content-->
     <div class="border1" style="border-top-width: 2px">
       <el-row>
         <el-col :span="5">
