@@ -357,6 +357,16 @@ td {
   text-align: center;
   padding: 0;
 }
+// 新增品牌弹层^
+.add-brand-row.form-row .el-form-item__label {
+  line-height: 35px;
+  height: 35px;
+}
+.textareaTitle.add-brand-row.form-row .el-form-item__label {
+  line-height: 55px;
+  height: 55px;
+}
+// 新增品牌弹层$
 .table-row .el-form-item__label {
   height: 76px;
   padding-top: 25px;

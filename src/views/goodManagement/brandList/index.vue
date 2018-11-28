@@ -2,13 +2,13 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.brandMsg1" :placeholder="filterForm.placeholder1"></el-input>
+        <el-input v-model="filterForm.brandMsg1" placeholder="请输入 品牌编号/品牌名称/产地" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="warning" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -61,6 +61,7 @@
           </el-button>
           <el-button
             size="mini"
+            type="danger"
             @click="stopCooperationShow(scope.$index, scope.row)">终止合作
           </el-button>
         </template>
@@ -78,7 +79,7 @@
       </el-pagination>
     </div>
     <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
-      <addBrand></addBrand>
+      <addBrand @closeDialog="isAddBrandShow=false" v-if="isAddBrandShow"></addBrand>
     </el-dialog>
     <el-dialog :visible.sync="isEditBrandShow" width="75%" @close="isEditBrandShow = false" title="编辑品牌">
       <editBrand :brandObj="currentBrand"></editBrand>
