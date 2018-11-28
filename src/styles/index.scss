@@ -382,7 +382,9 @@ td {
   border-right: 1px solid #D5D5D5;
 }
 
-
+.noBorder {
+  border: none
+}
 .noBorderTextarea textarea {
   border: none
 }
@@ -403,4 +405,38 @@ td {
 .el-table .cell {
   word-break: keep-all;
   word-wrap: break-word;
+}
+// 弹层内部表格最后一列的右空隙去除
+.last-col {
+  border-right-width: 2px!important;
+}
+// 级别变化 弹层样式设置
+.noBorder .el-table__header {
+  border-top: 2px solid #D5D5D5;
+}
+.noBorder .el-table__body tr:last-of-type td{
+  border-bottom: 1px solid #D5D5D5;
+}
+.compareBorder .el-table__header {
+  border-top: none;
+}
+.compareBorder .el-table__body tr:last-of-type td{
+  border-bottom: none;
+}
+.sumBorder .el-table__header {
+  border-top: 1px solid #D5D5D5;
+}
+.sumBorder .el-table__body tr:last-of-type td{
+  border-bottom: 2px solid #D5D5D5;
+}
+// 双层表格的上层
+.el-table--border th, .el-table__fixed-right-patch {
+  border-bottom-color: #D5D5D5;
+}
+// 表格合计栏
+.el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
+  background-color: #B7E5F9;
+  color: #424242;
+  font-weight: 700;
+  padding: 0;
 }

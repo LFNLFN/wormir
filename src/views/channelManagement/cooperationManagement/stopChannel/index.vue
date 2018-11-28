@@ -11,6 +11,7 @@
     <el-table
       border
       :data="channelTableData"
+      class="border2"
       style="width: 100%">
       <el-table-column
         prop="channelNum"

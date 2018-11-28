@@ -18,7 +18,8 @@
     <el-table
       border
       :data="channelTableData"
-      style="width: 100%">
+      style="width: 100%"
+    class="border2">
       <el-table-column
         prop="channelNum"
         label="渠道号"
