@@ -109,35 +109,39 @@
                title="终止合作">
       <el-form :model="stopCooperation_ruleForm" :rules="stopCooperation_rules" ref="stopCooperation_ruleForm"
                label-width="150px" class="demo-ruleForm">
-        <el-form-item label="申请中止时间" required>
-          <el-date-picker
-            v-model="stopCooperation_ruleForm.applyTime"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="申请终止类型" prop="operateType" required>
-          <el-radio-group v-model="stopCooperation_ruleForm.operateType">
-            <el-radio label="提前终止"></el-radio>
-            <el-radio label="到期终止"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="申请理由" prop="applyReason" required>
-          <el-input type="textarea" placeholder="请输入申请理由" v-model="stopCooperation_ruleForm.applyReason"></el-input>
-        </el-form-item>
-        <el-form-item label="品牌状态" required>
-          <el-select v-model="stopCooperation_ruleForm.brandStatus" placeholder="请选择">
-            <el-option
-              v-for="item in brandStatusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitDelChannelForm('deleteChannel_ruleForm')">保存并提交</el-button>
-        </el-form-item>
+        <div class="border1">
+          <el-form-item label="终止日期" required class="form-row add-brand-row">
+            <el-date-picker
+              v-model="stopCooperation_ruleForm.applyTime"
+              type="date"
+              placeholder="请输入停止供货日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="终止类型" prop="operateType" required class="form-row add-brand-row">
+            <el-radio-group v-model="stopCooperation_ruleForm.operateType"
+                            style="margin:5px 3px 0;">
+              <el-radio label="到期终止" value="1"></el-radio>
+              <el-radio label="提前终止" value="2"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="终止原因" prop="applyReason" required class="form-row add-brand-row textareaTitle">
+            <el-input type="textarea" placeholder="请输入终止合作原因" v-model="stopCooperation_ruleForm.applyReason"
+                      style="margin: 3px;width: 98%"></el-input>
+          </el-form-item>
+          <el-form-item label="品牌状态" required class="form-row add-brand-row last-form-row">
+            <el-select v-model="stopCooperation_ruleForm.brandStatus" placeholder="请选择" style="margin: 3px;">
+              <el-option
+                v-for="item in brandStatusOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="dialogBottomButton-wrap">
+          <el-button type="primary" @click="submitCooperationTermination">保存并提交</el-button>
+        </div>
       </el-form>
     </el-dialog>
     <el-dialog :visible.sync="isGoodManagementShow" width="70%"
@@ -239,7 +243,18 @@
         this.isGoodManagementShow = true
         this.goodName = row.chineseName
         this.goodTableData = row.goodManagement_Arr
-      }
+      },
+      submitCooperationTermination() {
+        const vm = this
+        this.$alert('终止合作成功。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.isStopCooperationShow = false
+          }
+        })
+      },
     },
     mounted() {
       this.brandBlurSearch()
@@ -263,5 +278,22 @@
     margin-bottom: 0
   }
 
+  }
+
+  .form-row {
+    margin: 0;
+  }
+
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
+
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
+
+  .add-btn-wrap {
+    margin: 0 0 5px;
   }
 </style>
