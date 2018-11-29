@@ -21,7 +21,7 @@
           <el-input v-model="form.brandCompanyAddress" placeholder="请输入品牌公司地址"></el-input>
         </el-form-item>
         <el-form-item label="品牌介绍" required class="form-row add-brand-row textareaTitle">
-          <el-input type="textarea" v-model="form.brandIntroduction" style="margin: 3px;width: 98%"
+          <el-input type="textarea" :rows="2" v-model="form.brandIntroduction" style="margin: 3px;width: 98%"
                     placeholder="请输入品牌介绍"></el-input>
         </el-form-item>
         <el-form-item label="生产企业名称" required class="form-row add-brand-row">
@@ -45,8 +45,9 @@
       <p style="margin: 20px"></p>
 
       <el-form-item label="交易币种" required>
-        <el-button type="success" icon="el-icon-plus" @click="addInlandCurrencyType()">添加国内交易币种</el-button>
-        <p style="margin: 5px"></p>
+        <div class="add-btn-wrap">
+          <el-button type="success" icon="el-icon-plus" @click="addInlandCurrencyType()">添加国内交易币种</el-button>
+        </div>
         <el-table
           :data="inlandCurrencyArr"
           border
@@ -55,6 +56,7 @@
           <el-table-column
             align="center"
             label="类别"
+            width="120"
             prop="type">
             <template slot-scope="scope">
               <span>{{ scope.row.type }}</span>
@@ -80,6 +82,7 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种符号">
             <template slot-scope="scope">
               <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].symbol || '默认读取' }}</span>
@@ -87,12 +90,16 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种单位">
             <template slot-scope="scope">
               <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column
+            align="center"
+            label="操作"
+            min-width="100">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -102,9 +109,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <p style="margin: 10px"></p>
-        <el-button type="success" icon="el-icon-plus" @click="addOutlandCurrencyType()">添加香港/国外交易币种</el-button>
-        <p style="margin: 5px"></p>
+        <div class="add-btn-wrap" style="margin-top: 7px">
+          <el-button type="success" icon="el-icon-plus" @click="addOutlandCurrencyType()">添加香港/国外交易币种</el-button>
+        </div>
         <el-table
           :data="outlandCurrencyArr"
           border
@@ -113,6 +120,7 @@
           <el-table-column
             align="center"
             label="类别"
+            width="120"
             prop="type">
             <template slot-scope="scope">
               <span>{{ scope.row.type }}</span>
@@ -138,6 +146,7 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种符号">
             <template slot-scope="scope">
               <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].symbol || '默认读取' }}</span>
@@ -145,12 +154,14 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种单位">
             <template slot-scope="scope">
               <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column align="center" label="操作"
+                           min-width="100">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -356,6 +367,7 @@
         <el-table border
                   :data="form.brandSpecification_msg.SpecificationArr"
                   class="border2"
+                  :header-cell-style="{padding: 0}"
                   style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
@@ -711,7 +723,7 @@
           label: '停止供货'
         }],
         currencyInformation: {
-          RMB: { symbol: '¥', unit: '元' },
+          RMB: { symbol: '￥', unit: '元' },
           HKD: { symbol: 'HK$', unit: '港元' },
           AUD: { symbol: 'A$', unit: '澳元' },
           GBP: { symbol: '£', unit: '英磅' },

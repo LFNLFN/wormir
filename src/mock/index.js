@@ -237,13 +237,6 @@ Mock.mock(/\/brand\/list.do/, 'post', {
             boxHeight: 50.0,
             boxWeight: 0.5
           },
-          {
-            boxNo: '02',
-            boxLength: 100.0,
-            boxWidth: 100.0,
-            boxHeight: 100.0,
-            boxWeight: 1
-          }
         ]
       },
       brandDiscount_msg: {
@@ -255,11 +248,6 @@ Mock.mock(/\/brand\/list.do/, 'post', {
             orderMin: 300.0,
             orderMax: 500.0,
             decreasingDiscount: 0.0
-          },
-          {
-            orderMin: 501.0,
-            orderMax: 1000.0,
-            decreasingDiscount: 1.0
           }
         ]
       },
@@ -269,8 +257,8 @@ Mock.mock(/\/brand\/list.do/, 'post', {
         beginTime: '2018-03-20',
         endTime: '2019-03-20',
         brandStatus: '正常供货',
-        endDate: '\ ',
-        endType: '\ ',
+        endDate: '\\ ',
+        endType: '\\ ',
         endReason: '无'
       }],
       // 商品管理里面的信息

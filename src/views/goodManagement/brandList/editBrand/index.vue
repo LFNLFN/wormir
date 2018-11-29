@@ -1,53 +1,64 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="品牌序列号" required>
-        <el-input v-model="form.brandNo"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌名称（中文）" required>
-        <el-input v-model="form.chineseName"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌名称（英文）" required>
-        <el-input v-model="form.englishName"></el-input>
-      </el-form-item>
-      <el-form-item label="原产国/产地" required>
-        <el-input v-model="form.brandOrigin"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌公司名称" required>
-        <el-input v-model="form.brandCompany"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌公司地址" required>
-        <el-input v-model="form.brandCompanyAddress"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌介绍" required>
-        <el-input type="textarea" v-model="form.brandIntroduction"></el-input>
-      </el-form-item>
-      <el-form-item label="生产企业名称" required>
-        <el-input v-model="form.producer"></el-input>
-      </el-form-item>
-      <el-form-item label="生产企业地址" required>
-        <el-input v-model="form.producerAddress"></el-input>
-      </el-form-item>
-      <el-form-item label="海运订货量" required>
-        <el-input v-model.number="form.orderBySea"></el-input>
-      </el-form-item>
-      <el-form-item label="外汇到账时间" required>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time" placeholder="请输入外汇到账时间" v-model="form.forexTime" style="width: 100%;"></el-time-picker>
-        </el-col>
-        <el-col :span="2">时</el-col>
-      </el-form-item>
+      <div class="border1">
+        <el-form-item label="品牌序列号" required class="form-row add-brand-row">
+          <el-input v-model="form.brandNo"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌名称（中文）" required class="form-row add-brand-row">
+          <el-input v-model="form.chineseName"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌名称（英文）" required class="form-row add-brand-row">
+          <el-input v-model="form.englishName"></el-input>
+        </el-form-item>
+        <el-form-item label="原产国/产地" required class="form-row add-brand-row">
+          <el-input v-model="form.brandOrigin"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌公司名称" required class="form-row add-brand-row">
+          <el-input v-model="form.brandCompany"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌公司地址" required class="form-row add-brand-row">
+          <el-input v-model="form.brandCompanyAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌介绍" required class="form-row add-brand-row textareaTitle">
+          <el-input type="textarea" :rows="2" v-model="form.brandIntroduction"
+                    style="margin: 3px;width: 98%"></el-input>
+        </el-form-item>
+        <el-form-item label="生产企业名称" required class="form-row add-brand-row">
+          <el-input v-model="form.producer"></el-input>
+        </el-form-item>
+        <el-form-item label="生产企业地址" required class="form-row add-brand-row">
+          <el-input v-model="form.producerAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="海运订货量" required class="form-row add-brand-row">
+          <el-input v-model.number="form.orderBySea"></el-input>
+        </el-form-item>
+        <el-form-item label="外汇到账时间" required class="form-row last-form-row add-brand-row">
+          <el-col :span="11">
+            <el-time-picker type="fixed-time" placeholder="请输入外汇到账时间" v-model="form.forexTime"
+                            style="width: 100%;"></el-time-picker>
+          </el-col>
+        </el-form-item>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="交易币种" required>
-        <el-button type="success" icon="el-icon-plus">添加国内交易币种</el-button>
-        <el-table border
-          :data="emptyArr"
-          style="width: 100%">
+        <div class="add-btn-wrap">
+          <el-button type="success" icon="el-icon-plus" @click="addInlandCurrencyType()">添加国内交易币种</el-button>
+        </div>
+        <el-table
+          :data="inlandCurrencyArr"
+          border
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             label="类别"
+            width="120"
             prop="type">
             <template slot-scope="scope">
-              <span>{{ scope.row.type['inland'] }}</span>
+              <span>{{ scope.row.type }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -56,8 +67,8 @@
             prop="currencyName"
             width="190">
             <template slot-scope="scope">
-              <el-form-item label-width="0">
-                <el-select v-model="form.transactionCurrencyInland" placeholder="请选择币种">
+              <el-form-item label-width="0" style="margin: 0">
+                <el-select v-model="form.transactionCurrencyInland[scope.$index]" placeholder="请选择币种">
                   <el-option label="人民币" value="RMB"></el-option>
                   <el-option label="港币" value="HKD"></el-option>
                   <el-option label="澳元" value="AUD"></el-option>
@@ -70,40 +81,48 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <el-input disabled placeholder="默认读取" v-model="currencyInformation[form.transactionCurrencyInland] && currencyInformation[form.transactionCurrencyInland].symbol || ' '"></el-input>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种单位">
             <template slot-scope="scope">
-              <el-input disabled placeholder="默认读取" v-model="currencyInformation[form.transactionCurrencyInland] && currencyInformation[form.transactionCurrencyInland].unit || ' '"></el-input>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column
+            align="center"
+            label="操作"
+            min-width="100">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="deleteInlandCurrencyType(scope.$index)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-button type="success" icon="el-icon-plus">添加香港/国外交易币种</el-button>
+        <div class="add-btn-wrap" style="margin-top: 7px">
+          <el-button type="success" icon="el-icon-plus" @click="addOutlandCurrencyType()">添加香港/国外交易币种</el-button>
+        </div>
         <el-table
-          :data="emptyArr"
-          style="width: 100%">
+          :data="outlandCurrencyArr"
+          border
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             label="类别"
+            width="120"
             prop="type">
             <template slot-scope="scope">
-              <span>{{ scope.row.type['outland'] }}</span>
+              <span>{{ scope.row.type }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -112,8 +131,8 @@
             prop="currencyName"
             width="190">
             <template slot-scope="scope">
-              <el-form-item label-width="0">
-                <el-select v-model="form.transactionCurrencyOutland" placeholder="请选择币种">
+              <el-form-item label-width="0" style="margin: 0">
+                <el-select v-model="form.transactionCurrencyOutland[scope.$index]" placeholder="请选择币种">
                   <el-option label="人民币" value="RMB"></el-option>
                   <el-option label="港币" value="HKD"></el-option>
                   <el-option label="澳元" value="AUD"></el-option>
@@ -126,79 +145,83 @@
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <el-input disabled placeholder="默认读取" v-model="currencyInformation[form.transactionCurrencyOutland] && currencyInformation[form.transactionCurrencyOutland].symbol || ' '"></el-input>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
             label="币种单位">
             <template slot-scope="scope">
-              <el-input disabled placeholder="默认读取" v-model="currencyInformation[form.transactionCurrencyOutland] && currencyInformation[form.transactionCurrencyOutland].unit || ' '"></el-input>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column align="center" label="操作"
+                           min-width="100">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="deleteOutlandCurrencyType(scope.$index)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item label="商品品质" required>
-        <el-button type="success" icon="el-icon-plus">添加商品品质</el-button>
-        <el-table border
-          :data="emptyArr"
-          style="width: 100%">
+        <div class="add-btn-wrap">
+          <el-button type="success" icon="el-icon-plus" @click="addGoodsQuality()">添加商品品质</el-button>
+        </div>
+        <el-table
+          :data="goodsQualityArr" border
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             label="品质名称"
             prop="quality">
             <template slot-scope="scope">
-              <el-input placeholder="请填写品质名称" v-model="form.qualityName"></el-input>
+              <el-input placeholder="请填写品质名称" v-model="form.qualityName[scope.$index]"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button
-                size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="deleteGoodsQuality(scope.$index)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item label="包装设置" required>
-        <el-button type="success" icon="el-icon-plus">添加包装方式</el-button>
-        <el-table border
-          :data="emptyArr"
-          style="width: 100%">
+        <div class="add-btn-wrap">
+          <el-button type="success" icon="el-icon-plus" @click="addPackingWay()">添加包装方式</el-button>
+        </div>
+        <el-table
+          :data="packingWayArr"
+          border
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             label="包装方式"
             prop="packingWay">
             <template slot-scope="scope">
-              <el-input placeholder="请填写包装方式" v-model="form.packingWay"></el-input>
+              <el-input placeholder="请填写包装方式" v-model="form.packingWay[scope.$index]"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button
-                size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="deletePackingWay(scope.$index)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -209,12 +232,17 @@
           <el-radio :label="false">无品牌系列</el-radio>
         </el-radio-group>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" v-if="form.brandSeries_msg.hasBrandSeries" @click="brandSeries_addBrandSeries">添加品牌系列</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" v-if="form.brandSeries_msg.hasBrandSeries"
+                       @click="brandSeries_addBrandSeries">添加品牌系列
+            </el-button>
+          </div>
         </el-row>
-        <el-table border
-          :data="form.brandSeries_msg.brandSeriesArr"
+        <el-table
+          :data="form.brandSeries_msg.brandSeriesArr" border
           v-if="form.brandSeries_msg.hasBrandSeries"
-          style="width: 100%">
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             width="200"
             align="center"
@@ -222,36 +250,52 @@
             prop="seriesName">
             <template slot-scope="scope">
               <el-input v-model="form.brandSeries_msg.inputSeries[scope.$index]" placeholder="请输入品牌系列"></el-input>
-              <el-button
-                size="mini"
-                type="danger" icon="el-icon-delete"
-                @click="brandSeries_deleteSeries(scope.$index, scope.row)">删除系列</el-button>
-              <el-button
-                type="success" icon="el-icon-plus"
-                size="mini"
-                @click="brandSeries_addMainCategoties(scope.$index, scope.row)">添加主品类</el-button>
+              <div class="add-btn-wrap" style="margin-top: 10px">
+                <el-button
+                  size="mini"
+                  type="danger" icon="el-icon-delete"
+                  @click="brandSeries_deleteSeries(scope.$index, scope.row)">删除系列
+                </el-button>
+              </div>
+              <div class="add-btn-wrap">
+                <el-button
+                  type="success" icon="el-icon-plus"
+                  size="mini"
+                  @click="brandSeries_addMainCategoties(scope.$index, scope.row)">添加主品类
+                </el-button>
+              </div>
             </template>
           </el-table-column>
           <el-table-column align="center" label="品类" :width="brandSeries_mainCategoriesWrap_width">
             <template slot-scope="scope">
               <div class="mainCategories-wrap">
-                <div class="mainCategories-item" v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeries_msg.mainCategoriesArr">
+                <div class="mainCategories-item"
+                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeries_msg.mainCategoriesArr">
                   <el-form-item label="主品类">
-                    <el-input v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].value" placeholder="请输入主品类"></el-input>
+                    <el-input v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].value"
+                              placeholder="请输入主品类"></el-input>
+                    <div class="add-btn-wrap" style="margin-top: 5px">
+                      <el-button
+                        size="mini"
+                        type="danger" icon="el-icon-delete"
+                        @click="brandSeries_deleteMainCategoties(mainCateIndex)">删除主品类
+                      </el-button>
+                      <el-button
+                        type="success" icon="el-icon-plus"
+                        size="mini"
+                        @click="brandSeries_addSubCategoties(mainCateIndex)">添加子品类
+                      </el-button>
+                    </div>
                   </el-form-item>
-                  <el-button
-                    size="mini"
-                    type="danger" icon="el-icon-delete"
-                    @click="brandSeries_deleteMainCategoties(mainCateIndex)">删除主品类</el-button>
-                  <el-button
-                    type="success" icon="el-icon-plus"
-                    size="mini"
-                    @click="brandSeries_addSubCategoties(mainCateIndex)">添加子品类</el-button>
                   <div class="subCategories-wrap">
-                    <div class="subCategories-item" v-for="(subCategoriesItems,subCateIndex) in form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
+                    <div class="subCategories-item"
+                         v-for="(subCategoriesItems,subCateIndex) in form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
                       <el-form-item label="子品类">
-                        <el-input v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]" placeholder="请输入子品类">
-                          <el-button slot="append" type="danger" icon="el-icon-delete" @click="brandSeries_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
+                        <el-input
+                          v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          placeholder="请输入子品类">
+                          <el-button slot="append" type="danger" icon="el-icon-delete"
+                                     @click="brandSeries_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
                         </el-input>
                       </el-form-item>
                     </div>
@@ -264,31 +308,44 @@
       </el-form-item>
       <el-form-item label="品牌类型" required>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>
+          </div>
         </el-row>
         <el-table border
-          :data="form.brandType_msg.brandTypeArr"
-          style="width: 100%">
+                  :data="form.brandType_msg.brandTypeArr"
+                  class="border2"
+                  :style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px', borderBottom: '1px solid #D5D5D5' }">
           <el-table-column prop="typeName" align="center" label="品类" :width="brandType_mainCategoriesWrap_width">
             <template slot-scope="scope">
               <div class="mainCategories-wrap">
-                <div class="mainCategories-item" v-for="(mainCategoriesItems,mainCateIndex) in form.brandType_msg.mainCategoriesArr">
+                <div class="mainCategories-item"
+                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandType_msg.mainCategoriesArr">
                   <el-form-item label="主品类">
-                    <el-input v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].value" placeholder="请输入主品类"></el-input>
+                    <el-input v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].value"
+                              placeholder="请输入主品类"></el-input>
+                    <div class="add-btn-wrap" style="margin-top: 5px">
+                      <el-button
+                        size="mini"
+                        type="danger" icon="el-icon-delete"
+                        @click="brandType_deleteMainCategoties(mainCateIndex)">删除主品类
+                      </el-button>
+                      <el-button
+                        type="success" icon="el-icon-plus"
+                        size="mini"
+                        @click="brandType_addSubCategoties(mainCateIndex)">添加子品类
+                      </el-button>
+                    </div>
                   </el-form-item>
-                  <el-button
-                    size="mini"
-                    type="danger" icon="el-icon-delete"
-                    @click="brandType_deleteMainCategoties(mainCateIndex)">删除主品类</el-button>
-                  <el-button
-                    type="success" icon="el-icon-plus"
-                    size="mini"
-                    @click="brandType_addSubCategoties(mainCateIndex)">添加子品类</el-button>
                   <div class="subCategories-wrap">
-                    <div class="subCategories-item" v-for="(subCategoriesItems,subCateIndex) in form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
+                    <div class="subCategories-item"
+                         v-for="(subCategoriesItems,subCateIndex) in form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
                       <el-form-item label="子品类">
-                        <el-input v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]" placeholder="请输入子品类">
-                          <el-button slot="append" type="danger" icon="el-icon-delete" @click="brandType_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
+                        <el-input
+                          v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          placeholder="请输入子品类">
+                          <el-button slot="append" type="danger" icon="el-icon-delete"
+                                     @click="brandType_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
                         </el-input>
                       </el-form-item>
                     </div>
@@ -301,11 +358,16 @@
       </el-form-item>
       <el-form-item label="品牌商品规格" required>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" @click="brandSpecification_addSpecification">添加品牌商品规格</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" @click="brandSpecification_addSpecification">添加品牌商品规格
+            </el-button>
+          </div>
         </el-row>
         <el-table border
-          :data="form.brandSpecification_msg.SpecificationArr"
-          style="width: 100%">
+                  :data="form.brandSpecification_msg.SpecificationArr"
+                  class="border2"
+                  :header-cell-style="{padding: 0}"
+                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             label="商品规格"
@@ -314,14 +376,18 @@
               align="center"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.chinese" placeholder="例：30ml/支"></el-input>
+                <el-input
+                  v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.chinese"
+                  placeholder="例：30ml/支"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.english" placeholder="例：30ml/pc"></el-input>
+                <el-input
+                  v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.english"
+                  placeholder="例：30ml/pc"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -332,14 +398,16 @@
               align="center"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.chinese" placeholder="例：30毫升"></el-input>
+                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.chinese"
+                          placeholder="例：30毫升"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.english" placeholder="例：30ml"></el-input>
+                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.english"
+                          placeholder="例：30ml"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -350,14 +418,16 @@
               align="center"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.chinese" placeholder="例：支"></el-input>
+                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.chinese"
+                          placeholder="例：支"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.english" placeholder="例：pc"></el-input>
+                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.english"
+                          placeholder="例：pc"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -365,18 +435,22 @@
             align="center"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini" @click="brandSpecification_deleteSpecification(scope.$index, '')"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini"
+                         @click="brandSpecification_deleteSpecification(scope.$index, '')"></el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item label="品牌箱子" required>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox">添加品牌箱子</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox()">添加品牌箱子</el-button>
+          </div>
         </el-row>
         <el-table border
-          :data="form.brandBox_msg.boxArr"
-          style="width: 100%">
+                  :data="form.brandBox_msg.boxArr"
+                  class="border2"
+                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             width="150"
@@ -414,36 +488,43 @@
             width="200"
             label="箱子重量(kgs)">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxHeight" placeholder="请输入箱子重量(kgs)"></el-input>
+              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxHeight"
+                        placeholder="请输入箱子重量(kgs)"></el-input>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini" @click="brandBox_deleteBox(scope.$index, '')"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini"
+                         @click="brandBox_deleteBox(scope.$index, '')"></el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item label="品牌折扣" required>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
+          </div>
         </el-row>
         <el-table border
-          :data="form.brandDiscount_msg.discountArr"
-          style="width: 100%">
+                  :data="form.brandDiscount_msg.discountArr"
+                  class="border2"
+                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             width="250"
             label="订货区间">
             <template slot-scope="scope">
               <el-col :span="11">
-                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMin" placeholder="区间起订量"></el-input>
+                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMin"
+                          placeholder="区间起订量"></el-input>
               </el-col>
               <el-col :span="2"><span> - </span></el-col>
               <el-col :span="11">
-                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMax" placeholder="区间结束量"></el-input>
+                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMax"
+                          placeholder="区间结束量"></el-input>
               </el-col>
             </template>
           </el-table-column>
@@ -452,64 +533,77 @@
             width="200"
             label="降幅折扣 -%">
             <template slot-scope="scope">
-              <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].decreasingDiscount"></el-input>
+              <el-input
+                v-model.number="form.brandDiscount_msg.discountInput[scope.$index].decreasingDiscount"></el-input>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini" @click="brandDiscount_deleteDiscount(scope.$index, '')"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini"
+                         @click="brandDiscount_deleteDiscount(scope.$index, '')"></el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item label="合作管理" required>
         <el-table border
-          :data="form.cooperationManagement_Arr"
-          style="width: 100%">
+                  :data="form.cooperationManagement_Arr"
+                  class="border2"
+                  style="width: 100%; border-bottom: 1px solid #D5D5D5; border-right: 1px solid #D5D5D5">
           <el-table-column
             prop="contractNo"
             align="center"
+            min-width="140"
             label="合同编号">
           </el-table-column>
           <el-table-column
             prop="contractProp"
             align="center"
+            min-width="100"
             label="合同属性">
           </el-table-column>
           <el-table-column
             prop="beginTime"
             align="center"
+            min-width="120"
             label="开始时间">
           </el-table-column>
           <el-table-column
             prop="endTime"
             align="center"
+            min-width="120"
             label="结束时间">
           </el-table-column>
           <el-table-column
             prop="brandStatus"
             align="center"
+            min-width="110"
             label="品牌状态">
           </el-table-column>
           <el-table-column
             prop="endDate"
             align="center"
+            min-width="120"
             label="终止日期">
           </el-table-column>
           <el-table-column
             prop="endType"
             align="center"
+            min-width="110"
             label="终止类型">
           </el-table-column>
           <el-table-column
             prop="endReason"
             align="center"
+            min-width="140"
             label="终止原因">
           </el-table-column>
           <el-table-column
             align="center"
+            min-width="100"
+            fixed="right"
             label="操作">
             <template slot-scope="scope">
               <el-button type="danger" size="mini" @click="showStopContract">终止合同</el-button>
@@ -517,41 +611,46 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="">
-        <el-button type="primary">保存并提交</el-button>
-      </el-form-item>
+      <div class="dialogBottomButton-wrap">
+        <el-button type="primary" @click="submitEdit()">保存并提交</el-button>
+      </div>
     </el-form>
-    <el-dialog :visible.sync="isStopContractShow" class="" width="70%" @close="isStopContractShow = false" title="终止合同" append-to-body>
-      <el-form :model="stopContract_ruleForm" :rules="stopContract_rules" ref="deleteChannel_ruleForm" label-width="150px" class="demo-ruleForm">
-        <el-form-item label="申请中止时间">
-          <el-date-picker
-            v-model="stopContract_ruleForm.applyTime"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="申请终止类型" prop="operateType">
-          <el-radio-group v-model="stopContract_ruleForm.operateType">
-            <el-radio label="提前终止"></el-radio>
-            <el-radio label="到期终止"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="申请理由" prop="applyReason">
-          <el-input type="textarea" placeholder="请输入申请理由" v-model="stopContract_ruleForm.applyReason"></el-input>
-        </el-form-item>
-        <el-form-item label="品牌状态">
-          <el-select v-model="stopContract_ruleForm.brandStatus" placeholder="请选择">
-            <el-option
-              v-for="item in brandStatusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitDelChannelForm('deleteChannel_ruleForm')">保存并提交</el-button>
-        </el-form-item>
+    <el-dialog :visible.sync="isStopContractShow" class="" width="70%" @close="isStopContractShow = false" title="终止合同"
+               append-to-body>
+      <el-form :model="stopContract_ruleForm" :rules="stopContract_rules" ref="deleteChannel_ruleForm"
+               label-width="150px" class="demo-ruleForm">
+        <div class="border1">
+          <el-form-item label="终止日期" class="form-row add-brand-row">
+            <el-date-picker
+              v-model="stopContract_ruleForm.applyTime"
+              type="date"
+              placeholder="请输入停止供货日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="终止类型" prop="operateType" class="form-row add-brand-row">
+            <el-radio-group v-model="stopContract_ruleForm.operateType" style="margin:5px 3px 0;">
+              <el-radio label="到期终止" value="1"></el-radio>
+              <el-radio label="提前终止" value="2"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="终止原因" prop="applyReason" class="form-row add-brand-row textareaTitle">
+            <el-input type="textarea" placeholder="请输入终止合作原因" :rows="2" v-model="stopContract_ruleForm.applyReason"
+                      style="margin: 3px;width: 98%"></el-input>
+          </el-form-item>
+          <el-form-item label="品牌状态" class="form-row add-brand-row last-form-row">
+            <el-select v-model="stopContract_ruleForm.brandStatus" placeholder="请选择" style="margin: 3px;">
+              <el-option
+                v-for="item in brandStatusOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="dialogBottomButton-wrap">
+          <el-button type="primary" @click="sumbitTerminationContract()">保存并提交</el-button>
+        </div>
       </el-form>
     </el-dialog>
   </div>
@@ -567,6 +666,7 @@
     },
     data() {
       return {
+        test: ['USD', 'RMB'],
         form: {
           brandNo: '',
           chineseName: '',
@@ -579,10 +679,10 @@
           producerAddress: '',
           orderBySea: null,
           forexTime: null,
-          transactionCurrencyInland: '',
-          transactionCurrencyOutland: '',
-          qualityName: '',
-          packingWay: '',
+          transactionCurrencyInland: [],
+          transactionCurrencyOutland: [],
+          qualityName: [],
+          packingWay: [],
           brandSeries_msg: {
             hasBrandSeries: true,
             inputSeries: [''],
@@ -666,7 +766,7 @@
           label: '停止供货'
         }],
         currencyInformation: {
-          RMB: { symbol: '¥', unit: '元' },
+          RMB: { symbol: '￥', unit: '元' },
           HKD: { symbol: 'HK$', unit: '港元' },
           AUD: { symbol: 'A$', unit: '澳元' },
           GBP: { symbol: '£', unit: '英磅' },
@@ -677,6 +777,26 @@
           {
             type: { inland: '国内', outland: '香港/国外' },
             quality: 'Top',
+            packingWay: 'Auto'
+          }
+        ],
+        inlandCurrencyArr: [
+          {
+            type: '国内'
+          }
+        ],
+        outlandCurrencyArr: [
+          {
+            type: '香港/国外'
+          }
+        ],
+        goodsQualityArr: [
+          {
+            quality: 'Top',
+          }
+        ],
+        packingWayArr: [
+          {
             packingWay: 'Auto'
           }
         ],
@@ -699,6 +819,50 @@
       }
     },
     methods: {
+      addInlandCurrencyType() {
+        this.inlandCurrencyArr.push(
+          {
+            type: '国内'
+          }
+        )
+      },
+      deleteInlandCurrencyType(index) {
+        this.inlandCurrencyArr.splice(index, 1)
+        this.form.transactionCurrencyInland.splice(index, 1)
+      },
+      addOutlandCurrencyType() {
+        this.outlandCurrencyArr.push(
+          {
+            type: '香港/国外'
+          }
+        )
+      },
+      deleteOutlandCurrencyType(index) {
+        this.outlandCurrencyArr.splice(index, 1)
+        this.form.transactionCurrencyOutland.splice(index, 1)
+      },
+      addGoodsQuality() {
+        this.goodsQualityArr.push(
+          {
+            quality: 'Top'
+          }
+        )
+      },
+      deleteGoodsQuality(index) {
+        this.goodsQualityArr.splice(index, 1)
+        this.form.qualityName.splice(index, 1)
+      },
+      addPackingWay() {
+        this.packingWayArr.push(
+          {
+            packingWay: 'Auto'
+          }
+        )
+      },
+      deletePackingWay(index) {
+        this.packingWayArr.splice(index, 1)
+        this.form.packingWay.splice(index, 1)
+      },
       brandSeries_addBrandSeries() {
         this.form.brandSeries_msg.brandSeriesArr.push(this.form.brandSeries_msg.brandSeriesArr[0])
         this.form.brandSeries_msg.inputSeries.push('')
@@ -767,7 +931,7 @@
       brandBox_addBox() {
         this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0])
         this.form.brandBox_msg.boxInput.push({
-          boxNo: '',
+          boxNo: null,
           boxLength: '',
           boxWidth: '',
           boxHeight: '',
@@ -794,11 +958,32 @@
       },
       showStopContract() {
         this.isStopContractShow = true
+      },
+      sumbitTerminationContract() {
+        const vm = this
+        this.$alert('终止合同成功。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.isStopContractShow = false
+          }
+        })
+      },
+      submitEdit() {
+        const vm = this
+        this.$alert('编辑成功。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.$emit('closeDialog')
+          }
+        })
       }
     },
     mounted() {
       this.form = this.brandObj
-      console.log(this.form)
     }
   }
 </script>
@@ -808,7 +993,25 @@
     display: flex;
     justify-content: flex-start;
   }
+
   .mainCategories-item {
     width: 450px
+  }
+
+  .form-row {
+    margin: 0;
+  }
+
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
+
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
+
+  .add-btn-wrap {
+    margin: 0 0 5px;
   }
 </style>

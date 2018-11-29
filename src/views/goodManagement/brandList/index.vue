@@ -14,25 +14,31 @@
     <el-table
       border
       :data="brandTableData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right1">
       <el-table-column
         prop="brandNo"
         label="品牌序列号"
-        align="center">
+        min-width="100"
+        align="center"
+        fixed="left">
       </el-table-column>
       <el-table-column
         prop="chineseName"
         label="品牌名称（中文）"
+        min-width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="englishName"
         label="品牌名称（英文）"
+        min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
         prop="brandStatus"
         label="品牌状态"
+        min-width="120"
         :filters="[{ text: '正常供货', value: '正常供货' }, { text: '停止供货', value: '停止供货' }]"
         :filter-method="filterHandler_brandStatus"
         align="center">
@@ -40,15 +46,19 @@
       <el-table-column
         prop="brandOrigin"
         label="原产国/产地"
+        min-width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="checkInTime"
         label="录入时间"
+        min-width="140"
         align="center">
       </el-table-column>
       <el-table-column
         label="操作"
+        min-width="130"
+        fixed="right"
         align="center">
         <template slot-scope="scope">
           <el-button
@@ -81,11 +91,24 @@
     <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
       <addBrand @closeDialog="isAddBrandShow=false" v-if="isAddBrandShow"></addBrand>
     </el-dialog>
-    <el-dialog :visible.sync="isEditBrandShow" width="75%" @close="isEditBrandShow = false" title="编辑品牌">
-      <editBrand :brandObj="currentBrand"></editBrand>
+    <el-dialog
+      :visible.sync="isEditBrandShow"
+      width="75%"
+      @close="isEditBrandShow = false"
+      title="编辑品牌">
+      <editBrand
+        :brandObj="currentBrand"
+        v-if="isEditBrandShow"
+        @closeDialog="isEditBrandShow=false">
+      </editBrand>
     </el-dialog>
-    <el-dialog :visible.sync="isStopCooperationShow" class="" width="70%" @close="isStopCooperationShow = false" title="终止合作">
-      <el-form :model="stopCooperation_ruleForm" :rules="stopCooperation_rules" ref="stopCooperation_ruleForm" label-width="150px" class="demo-ruleForm">
+    <el-dialog :visible.sync="isStopCooperationShow"
+               class="" width="70%"
+               v-if="isStopCooperationShow"
+               @close="isStopCooperationShow = false"
+               title="终止合作">
+      <el-form :model="stopCooperation_ruleForm" :rules="stopCooperation_rules" ref="stopCooperation_ruleForm"
+               label-width="150px" class="demo-ruleForm">
         <el-form-item label="申请中止时间" required>
           <el-date-picker
             v-model="stopCooperation_ruleForm.applyTime"
@@ -117,7 +140,10 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog :visible.sync="isGoodManagementShow" width="70%" @close="isGoodManagementShow = false" :title="goodName + ' 商品管理'">
+    <el-dialog :visible.sync="isGoodManagementShow" width="70%"
+               v-if="isGoodManagementShow"
+               @close="isGoodManagementShow = false"
+               :title="goodName + ' 商品管理'">
       <goodManagement :goodTableData="goodTableData"></goodManagement>
     </el-dialog>
   </div>
@@ -126,8 +152,9 @@
 <script>
   import { brand_BlurSearch } from '@/api/brand'
   import addBrand from './addBrand/index.vue'
-  import editBrand from './editBrand'
+  import editBrand from './editBrand/index.vue'
   import goodManagement from './goodManagement/index.vue'
+
   export default {
     data() {
       return {
@@ -166,19 +193,32 @@
       brandBlurSearch() {
         brand_BlurSearch(this.filterForm.brandMsg1)
           .then((res) => {
+            // 这里添加的是补充数据，补充品牌需要但是接口没有给出的信息
+            res.data.items.forEach((item, index, arr) => {
+              item.transactionCurrencyInland = ['RMB']
+              item.transactionCurrencyOutland = ['EUR']
+              item.qualityName = ['顶级品质']
+              item.packingWay = ['自动包装']
+            })
             this.brandTableData = res.data.items
             this.filterForm.total = res.data.items.length
           })
-          // .catch(() => { this.$message.error('表格加载失败') })
+        // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         brand_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
+          .then((res) => {
+            this.brandTableData = res.data.items;
+            this.filterForm.total = res.data.items.length
+          })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         brand_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.brandTableData = res.data.items; this.filterForm.total = res.data.items.length })
+          .then((res) => {
+            this.brandTableData = res.data.items;
+            this.filterForm.total = res.data.items.length
+          })
         this.filterForm.currentPage = val
       },
       filterHandler_brandStatus(value, row, column) {
@@ -217,8 +257,11 @@
     width: 7em;
     margin-left: 1px;
     margin-bottom: 10px;
-    &:last-of-type {
-       margin-bottom: 0
-     }
+
+  &
+  :last-of-type {
+    margin-bottom: 0
+  }
+
   }
 </style>
