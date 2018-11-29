@@ -666,7 +666,6 @@
     },
     data() {
       return {
-        test: ['USD', 'RMB'],
         form: {
           brandNo: '',
           chineseName: '',
@@ -984,6 +983,7 @@
     },
     mounted() {
       this.form = this.brandObj
+      console.log(this.brandObj)
     }
   }
 </script>

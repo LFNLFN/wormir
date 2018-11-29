@@ -485,15 +485,10 @@
           <el-input v-model="form.goodNote.targetUser" type="textarea" :rows="2"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-      </div>
 
-      <p style="margin: 20px"></p>
 
-      <el-form-item label="商品方形图" required>
-        <el-row>
-          <span style="color: red">温馨提示：商品方形图最多支持5张图片哦！</span>
-        </el-row>
-        <el-row>
+      <el-form-item label="商品方形图(最多五张)" required class="form-row imgUploadTitle">
+        <el-row style="padding-top: 17px">
           <el-upload
             action="https://jsonplaceholder.typicode.com/posts/"
             list-type="picture-card"
@@ -504,16 +499,14 @@
             :on-preview="handlePictureCardPreview">
             <i class="el-icon-plus"></i>
           </el-upload>
+          <!--<span style="color: red">温馨提示：商品方形图最多支持5张图片哦！</span>-->
           <el-dialog :visible.sync="uploadPicVisible" append-to-body>
             <img width="100%" :src="uploadImageUrl" alt="">
           </el-dialog>
         </el-row>
       </el-form-item>
-      <el-form-item label="商品详情图" required>
-        <el-row>
-          <span style="color: red">温馨提示：商品详情图最多支持1张图片哦！</span>
-        </el-row>
-        <el-row>
+      <el-form-item label="商品详情图(最多一张)" required class="form-row imgUploadTitle">
+        <el-row style="padding-top: 17px">
           <el-upload
             action="https://jsonplaceholder.typicode.com/posts/"
             list-type="picture-card"
@@ -525,8 +518,6 @@
           </el-upload>
         </el-row>
       </el-form-item>
-
-      <div class="border1">
         <el-form-item label="可售渠道" required class="form-row add-brand-row last-form-row">
           <el-checkbox-group v-model="form.sellingChannelList" style="margin-top: 4px">
             <el-checkbox border label="A级"></el-checkbox>

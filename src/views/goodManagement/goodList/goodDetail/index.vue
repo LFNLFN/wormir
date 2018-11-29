@@ -1,57 +1,63 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="品牌">
-        <span class="msg-span">{{ form.goodBrand }}({{ form.brandNo }})</span>
-      </el-form-item>
-      <el-form-item label="商品序列号">
-        <span class="msg-span">{{ form.goodID }}</span>
-      </el-form-item>
-      <el-form-item label="商品组成">
-        <span class="msg-span">{{ form.isSuite? '套组' : '非套组' }}</span>
-      </el-form-item>
-      <el-form-item label="商品编号">
-        <span class="msg-span">{{ form.goodID }}</span>
-      </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="商品名称（中文）">
-            <span class="msg-span">{{ form.goodName_ZH }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="商品名称（英文）">
-            <span class="msg-span">{{ form.goodName_EN }}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="原产国/产地">
-        <span class="msg-span">{{ form.goodOrigin }}</span>
-      </el-form-item>
-      <el-form-item label="商品属性">
-        <span class="msg-span">{{ form.goodProp }}</span>
-      </el-form-item>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="商品系列">
-            <span class="msg-span">{{ form.goodSeries }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品主品类">
-            <span class="msg-span">{{ form.mainCategory }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品子品类">
-            <span class="msg-span">{{ form.subCategory }}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <div class="border1" style="border-bottom-width: 2px">
+        <el-form-item label="品牌" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodBrand }}({{ form.brandNo }})</span>
+        </el-form-item>
+        <el-form-item label="商品序列号" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodID }}</span>
+        </el-form-item>
+        <el-form-item label="商品组成" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.isSuite? '套组' : '非套组' }}</span>
+        </el-form-item>
+        <el-form-item label="商品编号" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodID }}</span>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="商品名称（中文）" class="form-row add-brand-row clear-border-right textareaTitleShow">
+              <span class="msg-span">{{ form.goodName_ZH }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="商品名称（英文）" class="form-row add-brand-row textareaTitleShow">
+              <span class="msg-span">{{ form.goodName_EN }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="原产国/产地" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodOrigin }}</span>
+        </el-form-item>
+        <el-form-item label="商品属性" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodProp }}</span>
+        </el-form-item>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="商品系列" class="form-row add-brand-row clear-border-right">
+              <span class="msg-span">{{ form.goodSeries }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="商品主品类" class="form-row add-brand-row clear-border-right">
+              <span class="msg-span">{{ form.mainCategory }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="商品子品类" class="form-row add-brand-row">
+              <span class="msg-span">{{ form.subCategory }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="商品规格">
         <el-table
           :data="form.goodSpecificationArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="商品规格">
@@ -90,7 +96,8 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="包装单位">
+            label="包装单位"
+            class-name="last-col">
             <el-table-column
               align="center"
               label="中文">
@@ -100,7 +107,8 @@
             </el-table-column>
             <el-table-column
               align="center"
-              label="英文">
+              label="英文"
+              class-name="last-col">
               <template slot-scope="scope">
                 <span class="msg-span">{{ scope.row.packingUnit.english }}</span>
               </template>
@@ -108,38 +116,45 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="商品净重">
-            <span class="msg-span">{{ form.goodNetWeight }}kgs</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品毛重">
-            <span class="msg-span">{{ form.goodGrossWeight }}kgs</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="商品品质">
-        <span class="msg-span">{{ form.goodQuality }}</span>
-      </el-form-item>
-      <el-form-item label="包装方式">
-        <span class="msg-span">{{ form.packingWay }}</span>
-      </el-form-item>
-      <el-form-item label="申报要素">
-        <span class="msg-span">{{ form.slogan }}</span>
-      </el-form-item>
-      <el-row>
-        <el-col :span="9">
-          <el-form-item label="起始折扣">
-            <span class="msg-span">{{ form.minDiscount }}%</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
+
+      <div class="border1">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="商品净重" class="form-row add-brand-row clear-border-right">
+              <span class="msg-span">{{ form.goodNetWeight }}kgs</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="商品毛重" class="form-row add-brand-row">
+              <span class="msg-span">{{ form.goodGrossWeight }}kgs</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="商品品质" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodQuality }}</span>
+        </el-form-item>
+        <el-form-item label="包装方式" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.packingWay }}</span>
+        </el-form-item>
+        <el-form-item label="申报要素" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.slogan }}</span>
+        </el-form-item>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="起始折扣" class="form-row add-brand-row last-form-row">
+              <span class="msg-span">{{ form.minDiscount }}%</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="装箱规格">
         <el-table
           :data="form.cartonSpecificationArr"
-          style="width: 100%">
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
             align="center"
             width="140"
@@ -246,7 +261,8 @@
         <el-table
           border
           :data="form.goodPriceArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="销售区域">
@@ -289,7 +305,8 @@
           <el-table-column
             align="center"
             width="200"
-            label="商品售价">
+            label="商品售价"
+            class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11"><span class="msg-span">{{ scope.row.thePrice.withSymbol }}</span></el-col>
@@ -304,7 +321,8 @@
         <el-table
           border
           :data="form.replenishmentArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="交易币种">
@@ -338,7 +356,8 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="商品售价">
+            label="商品售价"
+            class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11"><span class="msg-span">{{ scope.row.replenishment.withSymbol }}</span></el-col>
@@ -349,31 +368,36 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品成份">
-        <span class="msg-span">{{ form.goodNote.ingredients }}</span>
-      </el-form-item>
-      <el-form-item label="商品功效">
-        <span class="msg-span">{{ form.goodNote.efficacy }}</span>
-      </el-form-item>
-      <el-form-item label="商品卖点">
-        <span class="msg-span">{{ form.goodNote.sellingPoint }}</span>
-      </el-form-item>
-      <el-form-item label="使用感受">
-        <span class="msg-span">{{ form.goodNote.userfeeling }}</span>
-      </el-form-item>
-      <el-form-item label="适用人群">
-        <span class="msg-span">{{ form.goodNote.targetUser }}</span>
-      </el-form-item>
-      <el-form-item label="商品方形图">
-        <el-row>
-          <img v-for="item in form.fiveFilesList" :src="item.url" alt="" width="126" height="126" style="margin-right: 0.5em">
-        </el-row>
-      </el-form-item>
-      <el-form-item label="商品详情图">
-        <el-row>
-          <img v-for="item in form.oneFileList" :src="item.url" alt="" width="126" height="126">
-        </el-row>
-      </el-form-item>
+
+      <div class="border1">
+        <el-form-item label="商品成份" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodNote.ingredients }}</span>
+        </el-form-item>
+        <el-form-item label="商品功效" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodNote.efficacy }}</span>
+        </el-form-item>
+        <el-form-item label="商品卖点" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodNote.sellingPoint }}</span>
+        </el-form-item>
+        <el-form-item label="使用感受" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodNote.userfeeling }}</span>
+        </el-form-item>
+        <el-form-item label="适用人群" class="form-row add-brand-row">
+          <span class="msg-span">{{ form.goodNote.targetUser }}</span>
+        </el-form-item>
+
+        <el-form-item label="商品方形图" class="form-row imgTitle">
+          <el-row>
+            <img v-for="item in form.fiveFilesList" :src="item.url" alt="" width="126" height="126"
+                 style="margin-right: 0.5em">
+          </el-row>
+        </el-form-item>
+        <el-form-item label="商品详情图" class="form-row imgTitle last-form-row">
+          <el-row>
+            <img v-for="item in form.oneFileList" :src="item.url" alt="" width="126" height="126">
+          </el-row>
+        </el-form-item>
+      </div>
     </el-form>
   </div>
 </template>
@@ -391,8 +415,7 @@
         form: {}
       }
     },
-    methods: {
-    },
+    methods: {},
     mounted() {
       this.form = this.theGoodDetail
     }
@@ -402,5 +425,22 @@
 <style lang="scss" scoped>
   .msg-span {
     color: #999
+  }
+
+  .form-row {
+    margin: 0;
+  }
+
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
+
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
+
+  .add-btn-wrap {
+    margin: 0 0 5px;
   }
 </style>

@@ -5,7 +5,7 @@
             <el-input v-model="filterForm.goodSearchingMsg1" :placeholder="filterForm.placeholder1" style="width:250px"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="warning" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -18,26 +18,28 @@
     <el-table
       border
       :data="goodTableData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right1">
       <el-table-column
         fixed="left"
         prop="goodThumbnailSrc"
         label="缩略图-点击放大"
-        width="80"
+        width="100"
         align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.goodThumbnailSrc" alt="点击放大" width="50" height="30" @click="enlargePic(scope.row)">
+          <img :src="scope.row.goodThumbnailSrc" alt="点击放大" width="50" height="50" @click="enlargePic(scope.row)">
         </template>
       </el-table-column>
       <el-table-column
         prop="goodID"
         label="商品序列号"
-        width="120"
+        min-width="150"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodBrand"
         label="商品品牌"
+        min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
@@ -51,16 +53,19 @@
       <el-table-column
         prop="mainCategory"
         label="主品类"
+        min-width="90"
         align="center">
       </el-table-column>
       <el-table-column
         prop="subCategory"
         label="子品类"
+        min-width="90"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodSeries"
         label="商品系列"
+        min-width="110"
         align="center">
       </el-table-column>
       <el-table-column
@@ -72,14 +77,16 @@
       <el-table-column
         prop="goodName_ZH"
         label="商品名称-中文"
-        width="180"
-        align="center">
+        width="120"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="goodName_EN"
         label="商品名称-英文"
-        width="180"
-        align="center">
+        width="120"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="goodStatus"
@@ -92,22 +99,29 @@
       <el-table-column
         prop="goodPrice"
         label="商品售价"
+        width="100"
         align="center">
+        <template slot-scope="scope">
+          <span>￥ {{ scope.row.goodPrice.toFixed(2) }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="minDiscount"
         label="起订折扣"
+        width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="checkInTime"
         label="录入时间"
-        align="center">
+        min-width="120"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
-        width="120"
+        min-width="100"
         align="center">
         <template slot-scope="scope">
           <el-button
@@ -124,14 +138,14 @@
       <goodDetail :theGoodDetail="theGoodDetail"></goodDetail>
     </el-dialog>
     <el-dialog :visible.sync="isAddGoodShow" width="70%" @close="isAddGoodShow = false" title="添加品牌商品" append-to-body>
-      <addGood></addGood>
+      <addGood v-if="isAddGoodShow" @closeDialog="isAddGoodShow = false"></addGood>
     </el-dialog>
   </div>
 </template>
 
 <script>
   import { getGoodList } from '@/api/goods'
-  import goodDetail from './goodDetail.vue'
+  import goodDetail from './goodDetail/index.vue'
   import addGood from './addGood/index.vue'
   export default {
     data() {

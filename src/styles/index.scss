@@ -357,6 +357,7 @@ td {
   text-align: center;
   padding: 0;
 }
+
 // 新增品牌弹层^
 .add-brand-row.form-row .el-form-item__label {
   line-height: 35px;
@@ -365,6 +366,10 @@ td {
 .textareaTitle.add-brand-row.form-row .el-form-item__label {
   line-height: 55px;
   height: 55px;
+}
+.textareaTitleShow.add-brand-row.form-row .el-form-item__label  {
+  line-height: 56px;
+  height: 56px;
 }
 // 新增品牌弹层$
 .table-row .el-form-item__label {
@@ -380,6 +385,14 @@ td {
 .form-row {
   border-top: 1px solid #D5D5D5;
   border-right: 1px solid #D5D5D5;
+}
+.imgTitle.form-row .el-form-item__label {
+  height: 135px;
+  line-height: 135px;
+}
+.imgUploadTitle.form-row .el-form-item__label {
+  height: 182px;
+  line-height: 182px;
 }
 .clear-border-right.form-row {
   border-right: none
