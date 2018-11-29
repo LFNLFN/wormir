@@ -103,7 +103,7 @@
       </editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
-               class="" width="70%"
+               width="70%"
                v-if="isStopCooperationShow"
                @close="isStopCooperationShow = false"
                title="终止合作">
@@ -144,11 +144,14 @@
         </div>
       </el-form>
     </el-dialog>
-    <el-dialog :visible.sync="isGoodManagementShow" width="70%"
-               v-if="isGoodManagementShow"
+    <el-dialog :visible.sync="isGoodManagementShow" width="90%"
                @close="isGoodManagementShow = false"
                :title="goodName + ' 商品管理'">
-      <goodManagement :goodTableData="goodTableData"></goodManagement>
+      <goodManagement
+        :goodTableData="goodTableData"
+        v-if="isGoodManagementShow"
+        @closeDialog="isGoodManagementShow=false">
+      </goodManagement>
     </el-dialog>
   </div>
 </template>

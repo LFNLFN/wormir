@@ -381,6 +381,15 @@ td {
   border-top: 1px solid #D5D5D5;
   border-right: 1px solid #D5D5D5;
 }
+.clear-border-right.form-row {
+  border-right: none
+}
+.select-form-margin {
+  margin: 3px 3px 0;
+}
+.select-form-width {
+  width: 98%;
+}
 .last-form-row {
   border-bottom: 1px solid #D5D5D5;
 }
@@ -426,6 +435,9 @@ td {
 }
 .noBorder .el-table__body tr:last-of-type td{
   border-bottom: 1px solid #D5D5D5;
+}
+.last-tr2 .el-table__body tr:last-of-type td{
+  border-bottom: 2px solid #D5D5D5;
 }
 .compareBorder .el-table__header {
   border-top: none;

@@ -1,86 +1,96 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="品牌">
-        <span style="color: #999">{{ form.goodBrand }}({{ form.brandNo }})</span>
-      </el-form-item>
-      <el-form-item label="商品序列号" required>
-        <el-input v-model="form.goodID"></el-input>
-      </el-form-item>
-      <el-form-item label="商品组成" required>
-        <el-radio v-model="form.isSuite" :label="false">非套组</el-radio>
-        <el-radio v-model="form.isSuite" :label="true">套组</el-radio>
-      </el-form-item>
-      <el-form-item label="商品编号" required>
-        <el-input v-model="form.goodNo"></el-input>
-      </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="商品名称（中文）" required>
-            <el-input v-model="form.goodName_ZH" type="textarea" autosize></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="商品名称（英文）" required>
-            <el-input v-model="form.goodName_EN" type="textarea" autosize></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="原产国/产地" required>
-        <el-input v-model="form.goodOrigin"></el-input>
-      </el-form-item>
-      <el-form-item label="商品属性" required>
-        <el-select v-model="form.goodProp" placeholder="请选择">
-          <el-option
-            v-for="item in goodPropOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="商品系列" required>
-            <el-select v-model="form.goodSeries" placeholder="请选择">
-              <el-option
-                v-for="item in goodSeriesOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品主品类" required>
-            <el-select v-model="form.mainCategory" placeholder="请选择">
-              <el-option
-                v-for="item in mainCategoryOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品子品类" required>
-            <el-select v-model="form.subCategory" placeholder="请选择">
-              <el-option
-                v-for="item in subCategoryOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <div class="border1" style="border-bottom-width: 2px">
+        <el-form-item label="品牌" class="form-row add-brand-row">
+          <span style="color: #999">{{ form.goodBrand }}({{ form.brandNo }})</span>
+        </el-form-item>
+        <el-form-item label="商品序列号" required class="form-row add-brand-row">
+          <el-input v-model="form.goodID"></el-input>
+        </el-form-item>
+        <el-form-item label="商品组成" required class="form-row add-brand-row">
+          <el-radio-group v-model="form.isSuite" style="margin:5px 3px 0;">
+            <el-radio :label="false">非套组</el-radio>
+            <el-radio :label="true">套组</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="商品编号" required class="form-row add-brand-row">
+          <el-input v-model="form.goodNo"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="商品名称（中文）" required class="form-row add-brand-row textareaTitle clear-border-right">
+              <el-input v-model="form.goodName_ZH" type="textarea" :rows="2" style="margin: 3px;width: 98%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="商品名称（英文）" required class="form-row add-brand-row textareaTitle">
+              <el-input v-model="form.goodName_EN" type="textarea" :rows="2" style="margin: 3px;width: 98%"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="原产国/产地" required class="form-row add-brand-row">
+          <el-input v-model="form.goodOrigin"></el-input>
+        </el-form-item>
+        <el-form-item label="商品属性" required class="form-row add-brand-row">
+          <el-select v-model="form.goodProp" placeholder="请选择" class="select-form-margin">
+            <el-option
+              v-for="item in goodPropOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="商品系列" required class="form-row add-brand-row clear-border-right">
+              <el-select v-model="form.goodSeries" placeholder="请选择" class="select-form-margin">
+                <el-option
+                  v-for="item in goodSeriesOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="商品主品类" required class="form-row add-brand-row clear-border-right">
+              <el-select v-model="form.mainCategory" placeholder="请选择" class="select-form-margin">
+                <el-option
+                  v-for="item in mainCategoryOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="商品子品类" required class="form-row add-brand-row">
+              <el-select v-model="form.subCategory" class="select-form-margin" placeholder="请选择">
+                <el-option
+                  v-for="item in subCategoryOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="商品规格" required>
         <el-table
           :data="form.goodSpecificationArr"
-          style="width: 100%">
+          border
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5"
+          :header-cell-style="{padding: 0}">>
           <el-table-column
             align="center"
             label="商品规格">
@@ -119,7 +129,8 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="包装单位">
+            label="包装单位"
+            class-name="last-col">
             <el-table-column
               align="center"
               label="中文">
@@ -129,7 +140,8 @@
             </el-table-column>
             <el-table-column
               align="center"
-              label="英文">
+              label="英文"
+              class-name="last-col">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.packingUnit.english" placeholder="例：pc"></el-input>
               </template>
@@ -137,60 +149,69 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="商品净重" required>
-            <el-input v-model="form.goodNetWeight">
-              <template slot="append">kgs</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品毛重" required>
-            <el-input v-model="form.goodGrossWeight">
-              <template slot="append">kgs</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="商品品质" required>
-        <el-select v-model="form.goodQuality" placeholder="请选择">
-          <el-option
-            v-for="item in goodQualityOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="包装方式" required>
-        <el-select v-model="form.packingWay" placeholder="请选择">
-          <el-option
-            v-for="item in packingWayOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="申报要素" required>
-        <el-input v-model="form.slogan"></el-input>
-      </el-form-item>
-      <el-row>
-        <el-col :span="9">
-          <el-form-item label="起始折扣" required>
-            <el-input v-model="form.minDiscount">
-              <template slot="append">%</template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+
+      <div class="border1">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="商品净重" required class="form-row add-brand-row clear-border-right">
+              <el-input v-model="form.goodNetWeight">
+                <template slot="append">kgs</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="商品毛重" required class="form-row add-brand-row">
+              <el-input v-model="form.goodGrossWeight">
+                <template slot="append">kgs</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="商品品质" required class="form-row add-brand-row">
+          <el-select v-model="form.goodQuality" class="select-form-margin" placeholder="请选择">
+            <el-option
+              v-for="item in goodQualityOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="包装方式" required class="form-row add-brand-row">
+          <el-select v-model="form.packingWay" class="select-form-margin" placeholder="请选择">
+            <el-option
+              v-for="item in packingWayOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="申报要素" required class="form-row add-brand-row">
+          <el-input v-model="form.slogan"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="起始折扣" required class="form-row add-brand-row last-form-row">
+              <el-input v-model="form.minDiscount" style="width: 200px;">
+                <template slot="append">%</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="装箱规格" required>
         <el-row>
-          <el-button type="success" icon="el-icon-plus" @click="addPackingSpecification">添加装箱规格</el-button>
+          <div class="add-btn-wrap">
+            <el-button type="success" icon="el-icon-plus" @click="addPackingSpecification">添加装箱规格</el-button>
+          </div>
         </el-row>
         <el-table
           :data="form.cartonSpecificationArr"
+          class="border2"
           style="width: 100%">
           <el-table-column
             align="center"
@@ -303,7 +324,8 @@
             align="center"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="deletePackingSpecification(scope.$index)"></el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete"
+                         @click="deletePackingSpecification(scope.$index)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -312,7 +334,8 @@
         <el-table
           border
           :data="form.goodPriceArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="销售区域">
@@ -362,12 +385,17 @@
           <el-table-column
             align="center"
             width="200"
-            label="商品售价">
+            label="商品售价"
+            class-name="last-col">
             <template slot-scope="scope">
               <el-row>
-                <el-col :span="11"><el-input v-model="scope.row.thePrice.withSymbol"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.thePrice.withSymbol"></el-input>
+                </el-col>
                 <el-col :span="2">&nbsp;</el-col>
-                <el-col :span="11"><el-input v-model="scope.row.thePrice.withUnit"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.thePrice.withUnit"></el-input>
+                </el-col>
               </el-row>
             </template>
           </el-table-column>
@@ -377,7 +405,8 @@
         <el-table
           border
           :data="form.replenishmentArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="交易币种">
@@ -418,32 +447,48 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="商品售价">
+            label="商品售价"
+            class-name="last-col">
             <template slot-scope="scope">
               <el-row>
-                <el-col :span="11"><el-input v-model="scope.row.replenishment.withSymbol"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.replenishment.withSymbol"></el-input>
+                </el-col>
                 <el-col :span="2">&nbsp;</el-col>
-                <el-col :span="11"><el-input v-model="scope.row.replenishment.withUnit"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.replenishment.withUnit"></el-input>
+                </el-col>
               </el-row>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品成份" required>
-        <el-input v-model="form.goodNote.ingredients" type="textarea" :rows="3"></el-input>
-      </el-form-item>
-      <el-form-item label="商品功效" required>
-        <el-input v-model="form.goodNote.efficacy" type="textarea" :rows="3"></el-input>
-      </el-form-item>
-      <el-form-item label="商品卖点" required>
-        <el-input v-model="form.goodNote.sellingPoint" type="textarea" :rows="3"></el-input>
-      </el-form-item>
-      <el-form-item label="使用感受" required>
-        <el-input v-model="form.goodNote.userfeeling" type="textarea" :rows="3"></el-input>
-      </el-form-item>
-      <el-form-item label="适用人群" required>
-        <el-input v-model="form.goodNote.targetUser" type="textarea" :rows="3"></el-input>
-      </el-form-item>
+
+      <div class="border1">
+        <el-form-item label="商品成份" required class="form-row add-brand-row textareaTitle">
+          <el-input v-model="form.goodNote.ingredients" type="textarea" :rows="2"
+                    class="select-form-margin select-form-width"></el-input>
+        </el-form-item>
+        <el-form-item label="商品功效" required class="form-row add-brand-row textareaTitle">
+          <el-input v-model="form.goodNote.efficacy" type="textarea" :rows="2"
+                    class="select-form-margin select-form-width"></el-input>
+        </el-form-item>
+        <el-form-item label="商品卖点" required class="form-row add-brand-row textareaTitle">
+          <el-input v-model="form.goodNote.sellingPoint" type="textarea" :rows="2"
+                    class="select-form-margin select-form-width"></el-input>
+        </el-form-item>
+        <el-form-item label="使用感受" required class="form-row add-brand-row textareaTitle">
+          <el-input v-model="form.goodNote.userfeeling" type="textarea" :rows="2"
+                    class="select-form-margin select-form-width"></el-input>
+        </el-form-item>
+        <el-form-item label="适用人群" required class="form-row add-brand-row textareaTitle last-form-row">
+          <el-input v-model="form.goodNote.targetUser" type="textarea" :rows="2"
+                    class="select-form-margin select-form-width"></el-input>
+        </el-form-item>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="商品方形图" required>
         <el-row>
           <span style="color: red">温馨提示：商品方形图最多支持5张图片哦！</span>
@@ -480,20 +525,27 @@
           </el-upload>
         </el-row>
       </el-form-item>
-      <el-form-item label="可售渠道" required>
-        <el-checkbox-group v-model="form.sellingChannelList">
-          <el-checkbox border label="A级"></el-checkbox>
-          <el-checkbox border label="B级"></el-checkbox>
-          <el-checkbox border label="C级"></el-checkbox>
-          <el-checkbox border label="D级"></el-checkbox>
-          <el-checkbox border label="分销渠道"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
+
+      <div class="border1">
+        <el-form-item label="可售渠道" required class="form-row add-brand-row last-form-row">
+          <el-checkbox-group v-model="form.sellingChannelList" style="margin-top: 4px">
+            <el-checkbox border label="A级"></el-checkbox>
+            <el-checkbox border label="B级"></el-checkbox>
+            <el-checkbox border label="C级"></el-checkbox>
+            <el-checkbox border label="D级"></el-checkbox>
+            <el-checkbox border label="分销渠道"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </div>
+
+      <p style="margin: 20px"></p>
+
       <el-form-item label="商品采购价" required>
         <el-table
           border
           :data="form.procurementPriceArr"
-          style="width: 100%">
+          class="noBorder last-tr2"
+          style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
             label="采购方式">
@@ -543,30 +595,38 @@
           <el-table-column
             align="center"
             width="200"
-            label="商品售价">
+            label="商品售价"
+            class-name="last-col">
             <template slot-scope="scope">
               <el-row>
-                <el-col :span="11"><el-input v-model="scope.row.thePrice.withSymbol"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.thePrice.withSymbol"></el-input>
+                </el-col>
                 <el-col :span="2">&nbsp;</el-col>
-                <el-col :span="11"><el-input v-model="scope.row.thePrice.withUnit"></el-input></el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.thePrice.withUnit"></el-input>
+                </el-col>
               </el-row>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品状态" required>
-        <el-select v-model="form.goodStatus" placeholder="请选择">
-          <el-option
-            v-for="item in [{value: '正常销售',label: '正常销售'},{value: '停止销售',label: '停止销售'}]"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="">
-        <el-button type="primary" @click="">保存</el-button>
-      </el-form-item>
+
+      <div class="border1">
+        <el-form-item label="商品状态" required class="form-row add-brand-row last-form-row">
+          <el-select v-model="form.goodStatus" class="select-form-margin" placeholder="请选择">
+            <el-option
+              v-for="item in [{value: '正常销售',label: '正常销售'},{value: '停止销售',label: '停止销售'}]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </div>
+      <div class="dialogBottomButton-wrap">
+        <el-button type="primary" @click="submitSaving">保存</el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -581,10 +641,10 @@
     },
     data() {
       return {
-      // 上传组件数据
+        // 上传组件数据
         uploadImageUrl: '',
         uploadPicVisible: false,
-      // 上传组件数据
+        // 上传组件数据
         form: {},
         goodPropOptions: [{
           value: '常规',
@@ -665,6 +725,17 @@
       handlePictureCardPreview(file) {
         this.uploadImageUrl = file.url
         this.uploadPicVisible = true
+      },
+      submitSaving() {
+        const vm = this
+        this.$alert('保存成功。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.$emit('closeDialog')
+          }
+        })
       }
     },
     mounted() {
@@ -674,5 +745,20 @@
 </script>
 
 <style lang="scss" scoped>
+  .form-row {
+    margin: 0;
+  }
 
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
+
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
+
+  .add-btn-wrap {
+    margin: 0 0 5px;
+  }
 </style>

@@ -2,39 +2,44 @@
   <div>
     <el-form :inline="true" :model="filterForm" class="demo-form-inline" style="margin: 1em">
       <el-form-item label="">
-        <el-input v-model="filterForm.goodSearchingMsg1" :placeholder="filterForm.placeholder1"></el-input>
+        <el-input v-model="filterForm.goodSearchingMsg1" style="width: 250px" placeholder="商品编号/商品名称/商品系列"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="warning" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
       border
       :data="goodTableData"
-      style="width: 100%">
+      style="width: 100%"
+      class="border-top2 border-left2 border-right1">
       <el-table-column
         fixed="left"
         prop="goodThumbnailSrc"
         label="缩略图-点击放大"
+        min-width="100"
         align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.goodThumbnailSrc" alt="点击放大" width="50" height="30" @click="enlargePic(scope.row)">
+          <span class="link-type">
+          <img :src="scope.row.goodThumbnailSrc" alt="点击放大" width="50" height="50"
+               @click="enlargePic(scope.row)"></span>
         </template>
       </el-table-column>
       <el-table-column
         prop="goodID"
-        width="100"
+        min-width="150"
         label="商品序列号"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodBrand"
         label="商品品牌"
+        min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
         prop="goodProp"
-        width="120"
+        width="100"
         label="商品属性"
         :filters="[{ text: '常规', value: '常规' }, { text: '促销', value: '促销' }, { text: '新品', value: '新品' }]"
         :filter-method="filterHandler"
@@ -43,16 +48,19 @@
       <el-table-column
         prop="mainCategory"
         label="主品类"
+        min-width="90"
         align="center">
       </el-table-column>
       <el-table-column
-      prop="subCategory"
-      label="子品类"
-      align="center">
+        prop="subCategory"
+        label="子品类"
+        min-width="90"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="goodSeries"
         label="商品系列"
+        min-width="110"
         align="center">
       </el-table-column>
       <el-table-column
@@ -65,13 +73,15 @@
         prop="goodName_ZH"
         width="120"
         label="商品名称-中文"
-        align="center">
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="goodName_EN"
         width="120"
         label="商品名称-英文"
-        align="center">
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="goodStatus"
@@ -84,21 +94,29 @@
       <el-table-column
         prop="goodPrice"
         label="商品售价"
+        width="100"
         align="center">
+        <template slot-scope="scope">
+          <span>￥ {{ scope.row.goodPrice.toFixed(2) }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="minDiscount"
         label="起订折扣"
+        width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="checkInTime"
         label="录入时间"
-        align="center">
+        min-width="120"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
+        min-width="100"
         align="center">
         <template slot-scope="scope">
           <el-button
@@ -108,17 +126,19 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :visible.sync="isEnlargeGoodThumbnailShow" width="70%" @close="isEnlargeGoodThumbnailShow = false" title="商品图片" append-to-body>
+    <el-dialog :visible.sync="isEnlargeGoodThumbnailShow" width="70%" @close="isEnlargeGoodThumbnailShow = false"
+               title="商品图片" append-to-body>
       <img :src="currentGoodThumbnail" alt="">
     </el-dialog>
-    <el-dialog :visible.sync="isEditGoodShow" width="70%" @close="isEditGoodShow = false" title="编辑品牌商品" append-to-body>
-      <editGood :editGoodDetail="editGoodDetail"></editGood>
+    <el-dialog :visible.sync="isEditGoodShow" width="90%" @close="isEditGoodShow = false" title="编辑品牌商品" append-to-body>
+      <editGood v-if="isEditGoodShow" :editGoodDetail="editGoodDetail" @closeDialog="isEditGoodShow = false"></editGood>
     </el-dialog>
   </div>
 </template>
 
 <script>
   import editGood from './editGood'
+
   export default {
     props: {
       goodTableData: {
@@ -130,7 +150,6 @@
       return {
         filterForm: {
           goodSearchingMsg1: '',
-          placeholder1: '商品编号/商品名称/商品系列'
         },
         currentGoodThumbnail: '',
         isEnlargeGoodThumbnailShow: false,
@@ -139,7 +158,8 @@
       }
     },
     methods: {
-      goodBlurSearch() {},
+      goodBlurSearch() {
+      },
       enlargePic(row) {
         this.currentGoodThumbnail = row.goodThumbnailSrc
         this.isEnlargeGoodThumbnailShow = true
