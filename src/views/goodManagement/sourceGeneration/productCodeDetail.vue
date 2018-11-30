@@ -41,7 +41,7 @@
       <el-table-column align="center" label="商品码" min-width="120px" prop="productCode"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px" prop="">
         <template slot-scope="scope">
-          <span>{{ downloaadFileBagName }}</span>
+          <span class="link-type">{{ downloadFileBagName }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作账号" min-width="100px" prop="createUserId"/>
@@ -69,7 +69,7 @@
       waves
     },
     computed: {
-      downloaadFileBagName() {
+      downloadFileBagName() {
         return this.brand.brandNo.toString() + '-' + this.totalCount.toString() + '-' + this.fileNameTime(new Date()).toString()
       }
     },
