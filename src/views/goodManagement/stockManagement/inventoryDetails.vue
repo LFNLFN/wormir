@@ -7,28 +7,37 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
     <el-table :data="brandList" border fit highlight-current-row
-        v-loading="brandListLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
+        v-loading="brandListLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%;"
+    class="no-border-bottom border-left2 border-top2">
       <el-table-column align="center" label="品牌序列号" prop="brandNo"/>
       <el-table-column align="center" label="品牌名称（中文）" prop="brandChineseName" />
       <el-table-column align="center" label="品牌名称（英文）" prop="brandEnglishName" />
       <el-table-column align="center" label="商品名称（中文）" prop="goodsChineseName" />
     </el-table>
     <el-table :data="list" border fit highlight-current-row
-        v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" >
+        v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
+              class="no-border-bottom no-border-top border-left2">
       <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
       <el-table-column align="center" :label="$t('product.productName')" prop="goodsEnglishName" />
       <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish" />
       <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification" />
       <el-table-column align="center" label="箱型编号" prop="cartonSizeId" />
-      <el-table-column align="center" label="箱子尺寸" prop="boxSize" />
+      <el-table-column align="center" label="箱子尺寸" prop="cartonSize" />
     </el-table>
-    <el-table :data="prodcutCodeList" border fit highlight-current-row :summary-method="getSummaries" show-summary
-        v-loading="productListLoading" element-loading-text="给我一点时间" stripe size="mini" style="width: 100%" :span-method="objectSpanMethod">
+    <el-table :data="prodcutCodeList" size="mini"
+              border fit highlight-current-row
+              :summary-method="getSummaries" show-summary
+        v-loading="productListLoading" element-loading-text="给我一点时间"
+              :header-cell-style="{padding: 0}"
+              style="width: 100%"
+              class="no-border-top border-left2"
+              >
       <el-table-column align="center" label="已入库" >
         <el-table-column align="center" label="箱码" prop="boxCode"/>
         <el-table-column align="center" label="首次装箱的商品码" prop="sourceCode"/>
         <el-table-column align="center" label="入库时间" >
-          <template slot-scope="scope">{{getParseTime(scope.row.warehouseEntryTime)}}</template></el-table-column>
+          <template slot-scope="scope">{{scope.row.warehouseEntryTime}}</template>
+        </el-table-column>
         <el-table-column align="center" label="操作账号" prop="createUserId"/>
         <el-table-column align="center" label="装箱数量">
           <el-table-column align="center" label="(units)" prop="cartonCount"/>
@@ -61,8 +70,10 @@ export default {
   },
   created() {
     this.list[0] = this.product
-    console.log(this.product)
-    this.getProdcutCodeList(this.product.goodsNo, this.product.cartonSizeId)
+    this.brandList[0] = this.product
+    this.prodcutCodeList[0] = this.product
+//    console.log(this.product)
+//    this.getProdcutCodeList(this.product.goodsNo, this.product.cartonSizeId)
   },
   data() {
     return {
@@ -199,9 +210,7 @@ export default {
   }
 }
 </script>
-<style>
-  .el-table .cell {
-    word-break: break-word;
-  }
+<style scoped>
+
 </style>
 

@@ -452,6 +452,9 @@ td {
 .last-tr2 .el-table__body tr:last-of-type td{
   border-bottom: 2px solid #D5D5D5;
 }
+.last-tr0 .el-table__body tr:last-of-type td{
+  border-bottom: 0px solid #D5D5D5;
+}
 .compareBorder .el-table__header {
   border-top: none;
 }
@@ -474,4 +477,8 @@ td {
   color: #424242;
   font-weight: 700;
   padding: 0;
+}
+// 实际库存明细
+.empty-table .el-table__body-wrapper {
+  display: none;
 }

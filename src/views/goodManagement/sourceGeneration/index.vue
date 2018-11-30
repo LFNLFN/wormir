@@ -125,8 +125,8 @@
         this.listQuery.rows = val
       },
       filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+        const property = column['property']
+        return row[property] === value
       },
     }
   }
