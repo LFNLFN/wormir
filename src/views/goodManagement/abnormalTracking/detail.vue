@@ -58,8 +58,16 @@
         </template>
       </el-table-column>
       <el-table-column width="120" align="center" label="流转时间" prop="transferTime"/>
-      <el-table-column min-width="100" align="center" label="商品售价" prop="goodsPrice"/>
-      <el-table-column min-width="100" align="center" label="实际售价" prop="actualPrice"/>
+      <el-table-column min-width="100" align="center" label="商品售价" prop="goodsPrice">
+        <template slot-scope="scope">
+          <span>￥ {{ scope.row.goodsPrice.toFixed(2) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column min-width="100" align="center" label="实际售价" prop="actualPrice">
+        <template slot-scope="scope">
+          <span>￥ {{ scope.row.actualPrice.toFixed(2) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column min-width="120" align="center" label="激活状态" prop="activeStatus">
         <template slot-scope="scope">
           <span>{{ activeStatusMap[scope.row.activeStatus].text }}</span>
