@@ -34,7 +34,7 @@
     </el-row>
     <el-table :data="list" border fit highlight-current-row
               v-loading="listLoading" element-loading-text="给我一点时间"
-              size="mini" style="width: 100%;border-top: none"
+              size="mini" style="width: 100%;border-top:none"
               class="border2">
       <el-table-column min-width="120" align="center" label="商品编号" fixed="left" prop="goodsNo"/>
       <el-table-column min-width="120" align="center" label="商品名称" prop="goodsEnglishName"/>

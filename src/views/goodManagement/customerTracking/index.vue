@@ -7,15 +7,18 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
-     <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间"
-              border fit highlight-current-row stripe size="mini" style="width: 100%" >
-      <el-table-column align="center" label="顾客编号" prop="customerNo"/>
-      <el-table-column align="center" label="顾客姓名" prop="name" />
-      <el-table-column align="center" label="电话号码" prop="phone" />
-      <el-table-column align="center" label="顾客性别" prop="gender" />
-      <el-table-column align="center" label="顾客年龄" prop="age" />
-      <el-table-column align="center" label="顾客生日" prop="birthday" />
-      <el-table-column width= "200" align="center" :label="$t('order.operation')" class-name="small-padding">
+     <el-table :data="list"
+               v-loading="listLoading" element-loading-text="给我一点时间"
+              border fit highlight-current-row size="mini"
+               class="border-top2 border-left2"
+               style="width: 100%" >
+      <el-table-column  min-width="120" align="center" label="顾客编号" prop="customerNo" />
+      <el-table-column  min-width="100" align="center" label="顾客姓名" prop="name" />
+      <el-table-column  min-width="120" align="center" label="电话号码" prop="phone" />
+      <el-table-column  min-width="100" align="center" label="顾客性别" prop="gender" />
+      <el-table-column  min-width="100" align="center" label="顾客年龄" prop="age" />
+      <el-table-column  min-width="120" align="center" label="顾客生日" prop="birthday" />
+      <el-table-column width= "120" align="center" :label="$t('order.operation')" class-name="small-padding">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="buyingDetail(scope.row)">购买详情</el-button>
         </template>
@@ -32,15 +35,19 @@
     <el-dialog :visible.sync="isBuyingDetailShow" width="1200px">
       <buying-detail :brand="currentCustomer" v-if="isBuyingDetailShow"></buying-detail>
     </el-dialog>
+
   </div>
 </template>
 <script>
 import waves from '@/directive/waves'
 import buyingDetail from './buyingDetail'
+import Mock from 'mockjs'
+import toCheckDetail  from './toCheckDetail'
 
 export default {
   components: {
-    buyingDetail
+    buyingDetail,
+    toCheckDetail
   },
   directives: {
     waves
@@ -66,7 +73,7 @@ export default {
     getList() {
       this.listLoading = true
       this.list.push({
-        customerNo: '123456',
+        customerNo: Mock.Random.natural(1000000000, 9999999999),
         name: '兰蔻',
         phone: '18588888888',
         gender: '女',
@@ -85,7 +92,8 @@ export default {
     },
     handleSizeChange(val) {
       this.listQuery.rows = val
-    }
+    },
+
   }
 }
 </script>
