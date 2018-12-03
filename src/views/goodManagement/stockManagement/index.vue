@@ -123,7 +123,7 @@
           rows: 20
         },
         list: [{
-          brandNo: Mock.Random.natural(123456, 19999),
+          brandNo: Mock.Random.natural(123456, 199999),
           brandEnglishName: 'LANCOM',
           brandChineseName: '兰蔻',
           goodsNo: Mock.Random.natural(123, 199),
