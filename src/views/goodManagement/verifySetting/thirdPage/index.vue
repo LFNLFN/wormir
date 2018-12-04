@@ -3,33 +3,19 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <div style="display: flex;justify-content: flex-start">
         <div class="flex-item" style=";width: 50%">
-          <el-form-item label="" label-width="0" style="margin-bottom: 0">
-            <div>提示：订购者或申请人手机号只作为激活验证功能，手持商品的非订购者或申请人的手机号皆可进行验证。</div>
-          </el-form-item>
-          <el-form-item label="手机号" class="form-row add-brand-row">
-            <el-input v-model.number.lazy="form.phoneNum"></el-input>
-          </el-form-item>
-
-          <el-form-item label="验证码" class="form-row add-brand-row last-form-row">
-            <el-input v-model="form.verifyCode">
-              <el-button slot="append" v-if="isFirstTimeReceiveSuccess" type="primary" @click="receiveVerifyCode()">获取
-              </el-button>
-              <el-button slot="append" v-else type="primary" @click="receiveVerifyCode()">重发</el-button>
-            </el-input>
-          </el-form-item>
-          <div v-if="isReceivingVerifyCode">
-            剩余 {{ countTime }}S 发送至您手机
+          <div style="display: flex;flex-flow: column;justify-content: center;align-items: center">
+            <h3>恭喜您获得30会员积分！</h3>
+            <ol class="memberOl">
+              <li>生日可获购买AESOP产品优惠券；</li>
+              <li>累积积分换领AESOP、BONPOINT等品牌商品；</li>
+              <li>还有机会参与会员活动享受多种福利；</li>
+            </ol>
+            <el-button style="width: 10em" type="primary" @click="toOfficialMemberWebsite('www.baidu.com')">进入会员官网
+            </el-button>
           </div>
-          <div v-if="isTimeout">
-            请求验证码超时，请重新获取验证码。
-          </div>
-          <el-form-item label-width="0">
-            <div style="text-align: center">
-              <el-button type="primary" @click="onSubmit" style="width: 8em;margin-top: 10px">验证</el-button>
-            </div>
-          </el-form-item>
+          <h3 style="text-align: center">广告位</h3>
+          <div class="advertisementArea"></div>
         </div>
-
         <!--右边灵活组合选项-->
         <div class="flex-item" style="width: 50%">
 
@@ -119,6 +105,7 @@
           </el-form-item>
 
 
+
         </div>
       </div>
     </el-form>
@@ -129,29 +116,9 @@
   export default {
     data() {
       return {
-        isFirstTimeReceiveSuccess: true,
-        isReceivingVerifyCode: false,
         isChangeBottomPage: false,
-        isTimeout: false,
-        countTime: 1,
         isAddTopAd: false,
         isAddBottomAd: false,
-        form: {
-          phoneNum: null,
-          VerifyCode: null,
-          topAdJumpLink: null,
-          bottomAdJumpLink: null
-        },
-        rules: {
-          phoneNum: [
-            { required: true, message: '请输入手机号', trigger: 'blur' },
-            { min: 11, max: 11, message: '长度应为11个字符', trigger: 'blur' }
-          ],
-          verifyCode: [
-            { required: true, message: '请输入验证码', trigger: 'blur' },
-//            { min: 11, max: 11, message: '长度应为11个字符', trigger: 'blur' }
-          ],
-        },
         bottomPagePreviewUrl: '',
         bottomPagePreviewVisible: false,
         bottomPageFileList: [
@@ -187,32 +154,22 @@
             name: 'food2.jpeg',
             url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
           }
-        ]
+        ],
+        form: {
+          topAdJumpLink: null,
+          bottomAdJumpLink: null
+        },
+        rules: {
+          phoneNum: [
+            { required: true, message: '请输入手机号', trigger: 'blur' },
+            { min: 11, max: 11, message: '长度应为11个字符', trigger: 'blur' }
+          ],
+        },
       }
     },
     methods: {
-      onSubmit() {
-        this.$emit('toSecondLevelPage')
-      },
-      receiveVerifyCode() {
-        this.isReceivingVerifyCode = true
-        this.isTimeout = false
-        const countingClock = window.setInterval(() => {
-          if (this.countTime > 0) {
-            this.countTime -= 1
-          } else {
-            window.clearInterval(countingClock)
-            if (this.countTime < 1) {
-              this.isTimeout = true
-              this.isReceivingVerifyCode = false
-              this.isFirstTimeReceiveSuccess = false
-            }
-            else {
-              this.isReceivingVerifyCode = false
-            }
-            this.countTime = 1
-          }
-        }, 1000)
+      toOfficialMemberWebsite(url) {
+        window.location.href = url
       },
       handleRemove(file, fileList) {
         console.log(file, fileList)
@@ -283,6 +240,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .memberOl:before {
+    content: '成为会员：';
+    margin-left: -1em;
+  }
   .form-row {
     margin: 0;
   }

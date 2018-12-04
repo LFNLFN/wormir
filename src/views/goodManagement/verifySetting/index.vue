@@ -54,14 +54,14 @@
     </div>
 
     <el-dialog :visible.sync="isFirstPageDetailShow" width="95%" title="一级页面">
-      <first-page :brand="currentBrand" v-if="isFirstPageDetailShow"></first-page>
+      <first-page :brand="currentBrand" v-if="isFirstPageDetailShow" @toSecondLevelPage="toSecondLevelPage"></first-page>
     </el-dialog>
 
-    <el-dialog :visible.sync="isSecondPageDetailShow">
-      <second-page :brand="currentBrand" v-if="isSecondPageDetailShow"></second-page>
+    <el-dialog :visible.sync="isSecondPageDetailShow" width="95%" title="二级页面">
+      <second-page :brand="currentBrand" v-if="isSecondPageDetailShow" @toThirdLevelPage="toThirdLevelPage"></second-page>
     </el-dialog>
 
-    <el-dialog :visible.sync="isThirdPageDetailShow">
+    <el-dialog :visible.sync="isThirdPageDetailShow" width="95%" title="三级页面">
       <third-page :brand="currentBrand" v-if="isThirdPageDetailShow"></third-page>
     </el-dialog>
   </div>
@@ -71,10 +71,14 @@
   import waves from '@/directive/waves'
   import Mock from 'mockjs'
   import firstPage from './firstPage/index.vue'
+  import secondPage from './secondPage/index.vue'
+  import thirdPage from './thirdPage/index.vue'
 
   export default {
     components: {
-      firstPage
+      firstPage,
+      secondPage,
+      thirdPage
     },
     directives: {
       waves
@@ -153,9 +157,19 @@
         const property = column['property']
         return row[property] === value
       },
+      toSecondLevelPage() {
+        this.isFirstPageDetailShow = false
+        this.isSecondPageDetailShow = true
+      },
+      toThirdLevelPage() {
+        this.isSecondPageDetailShow = false
+        this.isThirdPageDetailShow = true
+      },
     }
   }
 </script>
 <style scoped>
-
+  .el-button {
+    margin: 3px;
+  }
 </style>

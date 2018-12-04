@@ -123,7 +123,11 @@
           a: date.getDay()
         }
         return formatObj.y.toString() + formatObj.m.toString() + formatObj.d.toString() + formatObj.h.toString() + formatObj.i.toString() + formatObj.s.toString()
-      }
+      },
+      handleFilter(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
+      },
     }
   }
 </script>
