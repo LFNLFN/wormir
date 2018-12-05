@@ -145,6 +145,10 @@ export default {
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },
+  price: {
+    domesticRetailPrice: '国内零售价',
+    orderUnitPrice: '订货单价'
+  },
   order: {
     orderNo: '货单号',
     orderAmount: '订货金额',

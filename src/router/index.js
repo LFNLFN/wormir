@@ -161,7 +161,7 @@ export const asyncRouterMap = [
   {
     path: '/orderManagement',
     component: Layout,
-    redirect: '/channelCooperator/billManagement',
+    redirect: '/channelCooperator/billManagement/index.vue',
     name: 'orderManagement',
     meta: {
       title: 'orderManagement',
@@ -172,12 +172,12 @@ export const asyncRouterMap = [
         path: '/channelCooperator',
         name: 'channelCooperator',
         component: () => import('@/views/layout/routerWrap'),
-        redirect: '/channelCooperator/billManagement',
+        redirect: '/channelCooperator/billManagement/index.vue',
         meta: { title: 'channelCooperator', fontSizeSmall: true },
         children: [
           {
             path: 'billManagement',
-            component: () => import('@/views/orderManagement/channelCooperator/billManagement'),
+            component: () => import('@/views/orderManagement/channelCooperator/billManagement/index.vue'),
             name: 'billManagement',
             meta: { title: 'billManagement' }
           },

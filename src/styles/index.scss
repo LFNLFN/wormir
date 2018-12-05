@@ -482,3 +482,33 @@ td {
 .empty-table .el-table__body-wrapper {
   display: none;
 }
+/*伪类补框*/
+td.units-wrap:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px #d5d5d5 solid;
+  width: 1px;
+  height: 100%;
+}
+.rowFlex {
+  display: flex;
+  justify-content: center;
+}
+.colFlex {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.theTopMsgBorder {
+  border: solid #d5d5d5 2px;
+  & .el-row {
+    border-bottom: solid #d5d5d5 1px;
+    margin-bottom: 0;
+    & .el-col:nth-child(even) {
+      padding-left: 1em;
+    }
+  }
+}
