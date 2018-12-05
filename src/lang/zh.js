@@ -147,7 +147,9 @@ export default {
   },
   price: {
     domesticRetailPrice: '国内零售价',
-    orderUnitPrice: '订货单价'
+    orderUnitPrice: '订货单价',
+    orderDiscount: '起始折扣',
+    startDiscount: '订单折扣',
   },
   order: {
     orderNo: '货单号',

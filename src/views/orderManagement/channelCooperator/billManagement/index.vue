@@ -21,7 +21,7 @@
         label="渠道属性"
         :filters="channelPropFilters"
         :filter-method="filterHandler"
-      prop="channelProp">
+        prop="channelProp">
         <template slot-scope="scope">
           <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
         </template>
@@ -68,12 +68,50 @@
       <el-table-column align="center" label="操作" class-name="small-padding" min-width="100" fixed="right">
         <template slot-scope="scope">
           <div class="table-btn-wrap">
-            <el-button size="mini" type="primary" v-if="scope.row.orderStatus===4" @click="viewHandleReceive(scope.row)">
-             处理收货
+            <el-button size="mini" type="primary" v-if="scope.row.orderStatus===4"
+                       @click="viewHandleReceive(scope.row)">
+              处理收货
             </el-button>
           </div>
           <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===4" @click="viewWaitReceiveOrder(scope.row)">查看货单</el-button>
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===4"
+                       @click="viewWaitReceiveOrder(scope.row)">查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===0" @click="viewWaitStock(scope.row)">
+              查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===1"
+                       @click="viewShortageWaiting(scope.row)">查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===2"
+                       @click="viewWaitReceiveResidual(scope.row)">查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===3" @click="viewWaitShipment(scope.row)">
+              查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===5" @click="viewAlreadyReceive(scope.row)">
+              查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===6" @click="viewStopOrdering(scope.row)">
+              查看货单
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===7" @click="viewInterruptOrdering(scope.row)">
+              查看货单
+            </el-button>
           </div>
         </template>
       </el-table-column>
@@ -90,12 +128,41 @@
       <bill-detail :bill="currentOrder"></bill-detail>
     </el-dialog>
 
-    <el-dialog :visible.sync="isHandleReceiveShow" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="isHandleReceiveShow" fullscreen style="padding: 20px" title="处理收货">
       <handleReceive v-if="isHandleReceiveShow" :currentRow="currentRow"></handleReceive>
     </el-dialog>
 
-    <el-dialog :visible.sync="isWaitReceiveOrderShow" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="isWaitReceiveOrderShow" fullscreen style="padding: 20px" title="待收货信息查看">
       <waitReceive v-if="isWaitReceiveOrderShow" :currentRow="currentRow"></waitReceive>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isWaitStockShow" fullscreen style="padding: 20px" title="待备货信息查看">
+      <waitStock v-if="isWaitStockShow" :currentRow="currentRow"></waitStock>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isShortageWaitingShow" fullscreen style="padding: 20px" title="缺货等待信息查看">
+      <shortageWaiting v-if="isShortageWaitingShow" :currentRow="currentRow"
+                       @close="isShortageWaitingShow=false"></shortageWaiting>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isWaitReceiveResidualShow" fullscreen style="padding: 20px" title="待收余款信息查看">
+      <waitReceiveResidual v-if="isWaitReceiveResidualShow" :currentRow="currentRow"></waitReceiveResidual>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isWaitShipmentShow" fullscreen style="padding: 20px" title="待发货信息查看">
+      <waitShipment v-if="isWaitShipmentShow" :currentRow="currentRow"></waitShipment>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isAlreadyReceiveShow" fullscreen style="padding: 20px" title="已收货信息查看">
+      <alreadyReceive v-if="isAlreadyReceiveShow" :currentRow="currentRow"></alreadyReceive>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isStopOrderingShow" fullscreen style="padding: 20px" title="停止订货信息查看">
+      <stopOrdering v-if="isStopOrderingShow" :currentRow="currentRow"></stopOrdering>
+    </el-dialog>
+
+    <el-dialog :visible.sync="isInterruptOrderingShow" fullscreen style="padding: 20px" title="中断订货信息查看">
+      <interruptOrdering v-if="isInterruptOrderingShow" :currentRow="currentRow"></interruptOrdering>
     </el-dialog>
 
     <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
@@ -121,8 +188,16 @@
   import { parseTime } from '@/utils'
   import BillDetail from '../../BillDetail'
   import Mock from 'mockjs'
+
   import handleReceive from './handleReceive/index.vue'
   import waitReceive from './waitReceive/index.vue'
+  import waitStock from './waitStock/index.vue'
+  import shortageWaiting from './shortageWaiting/index.vue'
+  import waitReceiveResidual from './waitReceiveResidual/index.vue'
+  import waitShipment from './waitShipment/index.vue'
+  import alreadyReceive from './alreadyReceive/index.vue'
+  import stopOrdering from './stopOrdering/index.vue'
+  import interruptOrdering from './interruptOrdering/index.vue'
 
   export default {
     name: 'bill-management',
@@ -132,7 +207,14 @@
     components: {
       BillDetail,
       handleReceive,
-      waitReceive
+      waitReceive,
+      waitStock,
+      shortageWaiting,
+      waitReceiveResidual,
+      waitShipment,
+      alreadyReceive,
+      stopOrdering,
+      interruptOrdering
     },
     data() {
       return {
@@ -140,6 +222,13 @@
         currentRow: null,
         isHandleReceiveShow: false,
         isWaitReceiveOrderShow: false,
+        isWaitStockShow: false,
+        isShortageWaitingShow: false,
+        isWaitReceiveResidualShow: false,
+        isWaitShipmentShow: false,
+        isAlreadyReceiveShow: false,
+        isStopOrderingShow: false,
+        isInterruptOrderingShow: false,
         list: [
           {
             orderNo: Mock.Random.natural(123456, 999999),
@@ -150,6 +239,83 @@
             orderAmount: Mock.Random.natural(1000, 3000),
 //            orderStatus: Mock.Random.natural(0, 7),
             orderStatus: 4,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 0,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 1,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 2,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 3,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 5,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 6,
+            channelClassify: Mock.Random.natural(1, 99),
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            orderAmount: Mock.Random.natural(1000, 3000),
+//            orderStatus: Mock.Random.natural(0, 7),
+            orderStatus: 7,
             channelClassify: Mock.Random.natural(1, 99),
           }
         ],
@@ -355,7 +521,34 @@
         this.currentRow = row
         this.isWaitReceiveOrderShow = true
       },
-
+      viewWaitStock(row) {
+        this.currentRow = row
+        this.isWaitStockShow = true
+      },
+      viewShortageWaiting(row) {
+        this.currentRow = row
+        this.isShortageWaitingShow = true
+      },
+      viewWaitReceiveResidual(row) {
+        this.currentRow = row
+        this.isWaitReceiveResidualShow = true
+      },
+      viewWaitShipment(row) {
+        this.currentRow = row
+        this.isWaitShipmentShow = true
+      },
+      viewAlreadyReceive(row) {
+        this.currentRow = row
+        this.isAlreadyReceiveShow = true
+      },
+      viewStopOrdering(row) {
+        this.currentRow = row
+        this.isStopOrderingShow = true
+      },
+      viewInterruptOrdering(row) {
+        this.currentRow = row
+        this.isInterruptOrderingShow = true
+      },
     }
   }
 </script>
