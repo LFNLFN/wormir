@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="货单号/品牌名称/渠道号/渠道名称" v-model="listQuery.title">
+                placeholder="并单支付号/货单号/品牌名称" v-model="listQuery.title">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -13,91 +13,50 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border-left2 border-top2 border-bottom2"
-      style="width: 100%">
+      class="border2"
+      style="width: 100%;border-right-width: 1px">
 
-      <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left"/>
-
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.businessType')"
-                       :filters="dealWayFilters"
-                       :filter-method="filterHandler"
-                       prop="dealWay">
-        <template slot-scope="scope">
-          <span>{{scope.row.dealWay | dealWayFilter}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column align="center" :label="$t('payOrder.mergePayNo')" min-width="120" fixed="left" prop="mergePayNo"/>
 
       <el-table-column
         min-width="120px" align="center"
-        :label="$t('payRefund.brandName')"
+        :label="$t('payOrder.brandName')"
         :filters="brandNameFilters"
         :filter-method="filterHandler"
-        prop="brandName">
+        prop="brandName" />
+
+      <el-table-column min-width="150px" align="center" :label="$t('payOrder.paymentSwifitCode')" prop="paymentSwifitCode" />
+
+      <el-table-column min-width="120px" align="center" :label="$t('payOrder.bank')" prop="receiptBankName" />
+
+      <el-table-column min-width="120px" align="center" :label="$t('payOrder.bankAddress')" prop="receiptBankAddress" />
+
+      <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentReceive')" prop="paymentReceive">
         <template slot-scope="scope">
-          <span>{{scope.row.brandName}}</span>
+          <span>￥ {{scope.row.paymentReceive.toFixed(2)}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        min-width="120px"
-        :label="$t('payRefund.retailerCategories')"
-        align="center"
-        prop="retailerCategories"
-        :filters="retailerCategoriesFilters"
-        :filter-method="filterHandler">
+      <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentPay')" prop="paymentPay">
         <template slot-scope="scope">
-          <span>{{scope.row.retailerCategories | retailerCategoriesFilters}}</span>
+          <span>￥ {{scope.row.paymentPay.toFixed(2)}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerNo')">
-        <template slot-scope="scope">
-          <span>{{scope.row.retailerNo}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerName')" prop="retailerName">
-        <template slot-scope="scope">
-          <span>{{scope.row.retailerName}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" :label="$t('payRefund.orderStatus')" min-width="120" prop="orderStatus"
-                       :filters="orderStatusFilters"
+      <el-table-column class-name="status-col" :label="$t('payOrder.status')" min-width="120" prop="payOrderStatus"
+                       :filters="payOrderStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.orderStatus | orderStatusFilters}}</span>
+          <span>{{ scope.row.payOrderStatus | payOrderStatusFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.refundType')"
-                       prop="orderStatus"
-                       :filters="refundTypeFilters"
-                       :filter-method="filterHandler">
-        <template slot-scope="scope">
-          <span>{{scope.row.orderStatus | refundTypeFilters}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.refundMoney')" prop="refundMoney">
-        <template slot-scope="scope">
-          <span>￥ {{scope.row.refundMoney.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
+      <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <div class="table-btn-wrap">
-            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
-              {{$t('payRefund.viewBill')}}
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">
-              {{$t('payRefund.toRefund')}}
-            </el-button>
-          </div>
+          <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+            查看并单
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -109,21 +68,12 @@
       </el-pagination>
     </div>
 
+    <!--取消并单-->
     <el-dialog :visible.sync="isDialogDetailShow">
-      <bill-detail :bill="currentOrder"></bill-detail>
-    </el-dialog>
-
-    <!--退款，支付后修改支付状态-->
-    <refund-compensation ref="payment" :order="currentOrder" @pay="currentOrder.hasPaid = true"></refund-compensation>
-
-    <el-dialog :visible.sync="dialogTransportChangeVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"></el-table-column>
-        <el-table-column prop="pv" label="Pv"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogTransportChangeVisible = false">{{$t('table.confirm')}}</el-button>
-      </span>
+      <bill-detail-merge-orders v-if="isDialogDetailShow"></bill-detail-merge-orders>
+      <div class="text-center dialog-footer">
+        <el-button type="primary" @click="cancelOrder">{{$t('payOrder.cancelMergeOrder')}}</el-button>
+      </div>
     </el-dialog>
 
   </div>
@@ -138,8 +88,8 @@
   } from '@/api/article'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
-  import BillDetail from '../BillDetail'
-  import RefundCompensation from '../RefundCompensation'
+  import BillDetailMergeOrders from '../../BillDetailMergeOrders'
+  import { cancelMergeOrder } from '../../../../api/bill'
   import Mock from 'mockjs'
 
   const calendarTypeOptions = [
@@ -157,7 +107,7 @@
 
   export default {
     name: 'pay-order',
-    components: { BillDetail, RefundCompensation },
+    components: { BillDetailMergeOrders },
     directives: {
       waves
     },
@@ -166,40 +116,15 @@
         tableKey: 0,
         list: [
           {
-            orderNo: Mock.Random.natural(20180522001, 20180522100),
-            dealWay: Mock.Random.natural(0, 1),
+            mergePayNo: Mock.Random.natural(1234567, 9999999),
             brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            retailerCategories: Mock.Random.natural(0, 2),
-            retailerNo: Mock.Random.natural(2018001, 2018100),
-            retailerName: 'QWE总店',
-            orderStatus: Mock.Random.natural(0, 3),
-            refundMoney: Mock.Random.natural(1000, 2000),
+            paymentSwifitCode: Mock.Random.natural(1234567, 9999999),
+            receiptBankName: Mock.Random.pick(['中国农业银行', '中国工商银行']),
+            receiptBankAddress: Mock.Random.pick(['广州市天河区', '上海市浦东区']),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            paymentPay: Mock.Random.natural(1000, 2000),
+            payOrderStatus: Mock.Random.natural(0, 2),
           }
-        ],
-        dealWayFilters: [
-          { text: '国内交易', value: 0 },
-          { text: '香港交易', value: 1 }
-        ],
-        brandNameFilters: [
-          { text: 'LANCOM', value: 'LANCOM' },
-          { text: 'AESOP', value: 'AESOP' }
-        ],
-        retailerCategoriesFilters: [
-          { text: 'DLQD', value: 0 },
-          { text: 'FXQD', value: 1 },
-          { text: 'DFQD', value: 2 }
-        ],
-        orderStatusFilters: [
-          { text: '缺货退订金', value: 0 },
-          { text: '取消退订金', value: 1 },
-          { text: '取消退全款', value: 2 },
-          { text: '中断订货', value: 3 },
-        ],
-        refundTypeFilters: [
-          { text: '订金', value: 0 },
-          { text: '订金', value: 1 },
-          { text: '全款', value: 2 },
-          { text: '退还80%订金', value: 3 },
         ],
         total: null,
         listLoading: false,
@@ -253,7 +178,16 @@
           ]
         },
         downloadLoading: false,
-        currentOrder: {}
+        currentOrder: {},
+        brandNameFilters: [
+          { text: 'LANCOM', value: 'LANCOM' },
+          { text: 'AESOP', value: 'AESOP' }
+        ],
+        payOrderStatusFilters: [
+          { text: '待付货款', value: 0 },
+          { text: '待确认到账', value: 1 },
+          { text: '货款已到账', value: 2 },
+        ],
       }
     },
     filters: {
@@ -268,62 +202,46 @@
       typeFilter(type) {
         return calendarTypeKeyValue[type]
       },
-      dealWayFilter(status) {
+      payOrderStatusFilter(status) {
         const statusMap = {
-          0: '国内交易',
-          1: '香港交易',
-        }
-        return statusMap[status]
-      },
-      retailerCategoriesFilters(status) {
-        const statusMap = {
-          0: 'DLQD',
-          1: 'FXQD',
-          2: 'DFQD',
-        }
-        return statusMap[status]
-      },
-      orderStatusFilters(status) {
-        const statusMap = {
-          0: '缺货退订金',
-          1: '取消退订金',
-          2: '取消退全款',
-          3: '中断订货',
-        }
-        return statusMap[status]
-      },
-      refundTypeFilters(status) {
-        const statusMap = {
-          0: '订金',
-          1: '订金',
-          2: '全款',
-          3: '退还80%订金',
+          0: '待付货款',
+          1: '待确认到账',
+          2: '货款已到账'
         }
         return statusMap[status]
       },
     },
     created() {
-//    this.getList()
+      this.getList()
     },
     methods: {
-      // 查看货单
+      filterHandler(value, row, column) {
+        const property = column['property']
+        return row[property] === value
+      },
+      // 查看并单
       viewDetail(row) {
         this.currentOrder = row
         this.isDialogDetailShow = true
       },
 
-      toPayRefund(row) {
-        this.currentOrder = row
-        this.$refs.payment.open()
+      // 取消并单
+      async cancelOrder() {
+        console.log('cancel order')
+        await cancelMergeOrder(this.currentOrder)
+        this.$message({
+          message: this.$t('payOrder.hadCancelMergeOrderTips'),
+          type: 'success'
+        })
       },
 
       getList() {
-        this.listLoading = true
-        fetchList(this.listQuery).then(response => {
-          this.list = response.items
-          this.total = response.total
-          this.listLoading = false
-        })
+//      this.listLoading = true
+//      fetchList(this.listQuery).then(response => {
+//        this.list = response.items
+//        this.total = response.total
+//        this.listLoading = false
+//      })
       },
       handleFilter() {
         this.listQuery.page = 1
@@ -337,13 +255,7 @@
         this.listQuery.page = val
         this.getList()
       },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-      },
+
       resetTemp() {
         this.temp = {
           id: undefined,
@@ -362,10 +274,6 @@
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
-      },
-      filterHandler(value, row, column) {
-        const property = column['property']
-        return row[property] === value
       },
       createData() {
         this.$refs['dataForm'].validate(valid => {

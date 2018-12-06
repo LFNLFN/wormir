@@ -16,6 +16,7 @@
       style="width: 100%;border-right-width: 1px">
       <el-table-column align="center" label="货单号" prop="orderNo" min-width="120">
       </el-table-column>
+
       <el-table-column
         min-width="120px" align="center"
         label="渠道属性"
@@ -26,10 +27,13 @@
           <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
         </template>
       </el-table-column>
+
       <el-table-column min-width="150px" align="center" label="渠道号" prop="channelNo">
       </el-table-column>
+
       <el-table-column min-width="120px" label="渠道名称" align="center" prop="channelName">
       </el-table-column>
+
       <el-table-column
         min-width="120px" align="center"
         label="品牌名称" prop="brandName"

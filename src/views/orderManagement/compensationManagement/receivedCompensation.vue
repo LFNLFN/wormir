@@ -6,51 +6,56 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
+    <el-table
+      :key='tableKey' :data="list"
+      v-loading="listLoading" element-loading-text="给我一点时间"
+      border fit highlight-current-row
+      class="border-left2 border-top2"
       style="width: 100%">
-      <el-table-column align="center" :label="$t('compensation.mergePayNo')" width="65">
+
+      <el-table-column align="center" :label="$t('receivedRefund.mergePayNo')" min-width="100" prop="mergePayNo"/>
+
+      <el-table-column
+        min-width="120px" align="center"
+        :label="$t('payOrder.brandName')"
+        :filters="brandNameFilters"
+        :filter-method="filterHandler"
+        prop="brandName"/>
+
+      <el-table-column min-width="120px" align="center" label="汇款 SWIFT Code" prop="remittanceSwifitCode"/>
+
+      <el-table-column min-width="120px" align="center" label="汇款银行" prop="remittanceBankName"/>
+
+      <el-table-column min-width="120px" align="center" label="汇款银行地址" prop="remittanceBankAddress"/>
+
+      <el-table-column min-width="100px" align="center" label="补款金额" prop="compensationAmount">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>€ {{scope.row.compensationAmountAmount.toFixed(2)}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('compensation.brandName')">
+
+      <el-table-column
+        class-name="status-col" align="center" label="补款状态" min-width="120" prop="compensationStatus"
+        :filters="compensationStatusFilters"
+        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{ scope.row.compensationStatus | compensationStatusFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('compensation.paymentSwifitCode')">
+
+      <el-table-column align="center" :label="$t('receivedRefund.operation')" min-width="120px"
+                       class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column min-width="150px" :label="$t('compensation.bank')">
-        <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.bankAddress')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.money')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('compensation.status')" width="100">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('compensation.operation')" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
-            {{$t('compensation.viewDetail')}}
-          </el-button>
-          <el-button v-if="'已收补款'" size="medium" type="warning" @click="splitOrder(scope.row)">
-            {{$t('compensation.confirmOrderSplit')}}
-          </el-button>
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+              {{$t('receivedRefund.viewDetail')}}
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button v-if="scope.row.refundStatus===1" size="medium" type="warning" @click="splitOrder(scope.row)">
+              {{$t('receivedRefund.confirmOrderSplit')}}
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -90,6 +95,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import compensationForm from './compensationForm.vue'
 import { splitOrderMerged } from '@/api/bill'
+import Mock from 'mockjs'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -113,9 +119,27 @@ export default {
   data() {
     return {
       tableKey: 0,
-      list: null,
+      list: [
+        {
+          mergePayNo: Mock.Random.natural(1234567, 9999999),
+          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+          remittanceSwifitCode: Mock.Random.natural(1234567, 9999999),
+          remittanceBankName: Mock.Random.pick(['中国农业银行', '中国工商银行']),
+          remittanceBankAddress: Mock.Random.pick(['广州市天河区', '上海市浦东区']),
+          compensationAmountAmount: Mock.Random.natural(1000, 2000),
+          compensationStatus: Mock.Random.natural(0, 1),
+        }
+      ],
+      brandNameFilters: [
+        { text: 'LANCOM', value: 'LANCOM' },
+        { text: 'AESOP', value: 'AESOP' }
+      ],
+      compensationStatusFilters: [
+        { text: '待收补款', value: 0 },
+        { text: '已收补款', value: 1 },
+      ],
       total: null,
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         page: 1,
         limit: 20,
@@ -180,10 +204,17 @@ export default {
     },
     typeFilter(type) {
       return calendarTypeKeyValue[type]
-    }
+    },
+    compensationStatusFilter(status) {
+      const statusMap = {
+        0: '待收补款',
+        1: '已收补款',
+      }
+      return statusMap[status]
+    },
   },
   created() {
-    this.getList()
+//    this.getList()
   },
   methods: {
     // 查看货单
@@ -191,7 +222,10 @@ export default {
       this.currentOrder = row
       this.isDialogDetailShow = true
     },
-
+    filterHandler(value, row, column) {
+      const property = column['property']
+      return row[property] === value
+    },
     // 拆单
     splitOrder(row) {
       this.$confirm('是否确定拆单?', '提示', {
@@ -354,7 +388,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .el-dialog {
     width: 90%;
   }

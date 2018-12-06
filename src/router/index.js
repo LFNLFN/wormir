@@ -183,19 +183,19 @@ export const asyncRouterMap = [
           },
           {
             path: 'mergeRefundOrders',
-            component: () => import('@/views/orderManagement/channelCooperator/mergeRefundOrders'),
+            component: () => import('@/views/orderManagement/channelCooperator/mergeRefundOrders/index.vue'),
             name: 'mergeRefundOrders',
             meta: { title: 'mergeRefundOrders' }
           },
           {
             path: 'payOrder',
-            component: () => import('@/views/orderManagement/channelCooperator/payOrder'),
+            component: () => import('@/views/orderManagement/channelCooperator/payOrder/index.vue'),
             name: 'payOrder',
             meta: { title: 'payOrder' }
           },
           {
             path: 'salesPromotion',
-            component: () => import('@/views/orderManagement/channelCooperator/salesPromotion'),
+            component: () => import('@/views/orderManagement/channelCooperator/salesPromotion/index.vue'),
             name: 'salesPromotion',
             meta: { title: 'salesPromotion' }
           }

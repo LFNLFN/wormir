@@ -6,76 +6,108 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
+    <el-table
+      :key='tableKey' :data="list"
+      v-loading="listLoading" element-loading-text="给我一点时间"
+      border fit highlight-current-row
+      class="border-left2 border-top2 border-bottom2"
       style="width: 100%">
-      <el-table-column align="center" :label="$t('compensation.orderNo')" width="65">
+
+      <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span class="link-type">{{ scope.row.orderNo }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('compensation.businessType')">
+
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.businessType')"
+                       :filters="dealWayFilters"
+                       :filter-method="filterHandler"
+                       prop="dealWay">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.dealWay | dealWayFilter}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('compensation.brandName')">
+
+      <el-table-column
+        min-width="120px" align="center"
+        :label="$t('payRefund.brandName')"
+        :filters="brandNameFilters"
+        :filter-method="filterHandler"
+        prop="brandName">
         <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.brandName}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('compensation.retailerCategories')">
+
+      <el-table-column
+        min-width="120px"
+        :label="$t('payRefund.retailerCategories')"
+        align="center"
+        prop="retailerCategories"
+        :filters="retailerCategoriesFilters"
+        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
+          <span>{{scope.row.retailerCategories | retailerCategoriesFilters}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.retailerNo')">
+
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerNo')">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.retailerNo}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.retailerName')">
+
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerName')" prop="retailerName">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.retailerName}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.productNo')">
+
+      <el-table-column min-width="120px" align="center" label="商品编号" prop="goodsNo" />
+
+      <el-table-column min-width="120px" align="center" label="商品名称" prop="goodsName" />
+
+      <el-table-column min-width="120px" align="center" label="国内售价" prop="inlandPrice">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>￥ {{scope.row.inlandPrice.toFixed(2)}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.productName')">
+
+      <el-table-column min-width="120px" align="center" label="补款金额" prop="compensationMoney">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>￥ {{scope.row.compensationMoney.toFixed(2)}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.localPrice')">
+
+      <el-table-column min-width="120px" align="center" label="补款状态"
+                       prop="compensationType">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.compensationType | compensationStatusFilters}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.money')">
+
+      <el-table-column min-width="120px" align="center" label="补款类型"
+                       prop="compensationType"
+                       :filters="compensationTypeFilters"
+                       :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.compensationType | compensationTypeFilters}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('compensation.status')" width="100">
+
+      <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
+                       class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('compensation.type')">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('compensation.operation')" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="dialogFormVisible = true">
-            {{$t('compensation.viewDetail')}}
-          </el-button>
-          <el-button v-if="scope.row.status === 'statusReceived'" size="medium" type="warning" @click="dialogFormVisible = true">
-            {{$t('compensation.toCompensate')}}
-          </el-button>
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+              查看详情
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">
+              去补款
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -113,6 +145,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import BillDetail from '../BillDetail'
 import compensationStatusForm from './compensationStatusForm.vue'
+import Mock from 'mockjs'
 
 export default {
   name: 'pay-order',
@@ -123,9 +156,48 @@ export default {
   data() {
     return {
       tableKey: 0,
-      list: null,
+      list: [
+        {
+          orderNo: Mock.Random.natural(20180522001, 20180522100),
+          dealWay: Mock.Random.natural(0, 1),
+          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+          retailerCategories: Mock.Random.natural(0, 2),
+          retailerNo: Mock.Random.natural(2018001, 2018100),
+          retailerName: 'QWE总店',
+          compensationType: Mock.Random.natural(0, 3),
+          compensationMoney: Mock.Random.natural(1000, 2000),
+          goodsNo: Mock.Random.natural(10000, 30000),
+          goodsName: '补水面膜',
+          inlandPrice: Mock.Random.natural(100, 200),
+        }
+      ],
+      dealWayFilters: [
+        { text: '国内交易', value: 0 },
+        { text: '香港交易', value: 1 }
+      ],
+      brandNameFilters: [
+        { text: 'LANCOM', value: 'LANCOM' },
+        { text: 'AESOP', value: 'AESOP' }
+      ],
+      retailerCategoriesFilters: [
+        { text: 'DLQD', value: 0 },
+        { text: 'FXQD', value: 1 },
+        { text: 'DFQD', value: 2 }
+      ],
+      orderStatusFilters: [
+        { text: '缺货退订金', value: 0 },
+        { text: '取消退订金', value: 1 },
+        { text: '取消退全款', value: 2 },
+        { text: '中断订货', value: 3 },
+      ],
+      compensationTypeFilters: [
+        { text: '申请后补款', value: 0 },
+        { text: '申诉后补款', value: 1 },
+        { text: '破损转补款', value: 2 },
+        { text: '--', value: 3 },
+      ],
       total: null,
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         page: 1,
         limit: 20,
@@ -178,7 +250,7 @@ export default {
     }
   },
   created() {
-    this.getList()
+//    this.getList()
   },
   methods: {
     getList() {
@@ -188,6 +260,10 @@ export default {
         this.total = response.total
         this.listLoading = false
       })
+    },
+    filterHandler(value, row, column) {
+      const property = column['property']
+      return row[property] === value
     },
     handleFilter() {
       this.listQuery.page = 1
@@ -325,10 +401,65 @@ export default {
         })
       )
     }
-  }
+  },
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    },
+    typeFilter(type) {
+      return calendarTypeKeyValue[type]
+    },
+    dealWayFilter(status) {
+      const statusMap = {
+        0: '国内交易',
+        1: '香港交易',
+      }
+      return statusMap[status]
+    },
+    retailerCategoriesFilters(status) {
+      const statusMap = {
+        0: 'DLQD',
+        1: 'FXQD',
+        2: 'DFQD',
+      }
+      return statusMap[status]
+    },
+    orderStatusFilters(status) {
+      const statusMap = {
+        0: '缺货退订金',
+        1: '取消退订金',
+        2: '取消退全款',
+        3: '中断订货',
+      }
+      return statusMap[status]
+    },
+    compensationTypeFilters(status) {
+      const statusMap = {
+        0: '申请后补款',
+        1: '申诉后补款',
+        2: '破损转补款',
+        3: '--',
+      }
+      return statusMap[status]
+    },
+    compensationStatusFilters(status) {
+      const statusMap = {
+        0: '待补款',
+        1: '待补款',
+        2: '待补款',
+        3: '已补款'
+      }
+      return statusMap[status]
+    },
+  },
 }
 </script>
-<style>
+<style scoped>
   .el-dialog {
     width: 90%;
   }
