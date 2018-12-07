@@ -19,8 +19,11 @@
               style="width: 100%;border-right-width: 1px">
       <el-table-column type="selection" align="center" width="100"></el-table-column>
 
-      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="100" prop="orderNo"
-                       fixed="left"/>
+      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="100" prop="orderNo" fixed="left">
+        <template slot-scope="scope">
+          <span class="link-type" @click="viewOrderDetail(scope.row)">{{ scope.row.orderNo }}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column
         min-width="120px" align="center"
@@ -122,10 +125,28 @@
     </el-dialog>
 
     <!-- 调整运输 -->
-    <el-dialog :visible.sync="isDialogTransportationChangeShow">
+    <el-dialog :visible.sync="isDialogTransportationChangeShow" title="调整运输" width="70%">
       <transportation-change :order="currentOrder" v-if="isDialogTransportationChangeShow"
                              @cancel="isDialogTransportationChangeShow = false"
                              @change="handleChangeTransportationSuccess"/>
+    </el-dialog>
+
+    <!-- 待付30%订金详情 -->
+    <el-dialog :visible.sync="waitPayDepositVisible" title="待付订金" fullscreen style="padding: 20px">
+      <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
+                             @cancel="waitPayDepositVisible = false"/>
+    </el-dialog>
+
+    <!-- 待付70%详情 -->
+    <el-dialog :visible.sync="waitPayResidualVisible" title="待付余款" fullscreen style="padding: 20px">
+      <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible"
+                      @cancel="waitPayResidualVisible = false"/>
+    </el-dialog>
+
+    <!-- 提交并单详情 -->
+    <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
+      <mergeOrderDetail v-if="mergeOrderDetailVisible"
+                       @cancel="mergeOrderDetailVisible = false"/>
     </el-dialog>
 
   </div>
@@ -145,10 +166,14 @@
   import BillDetailMergeOrders from '../../BillDetailMergeOrders'
   import { mergeOrder } from '../../../../api/bill'
   import Mock from 'mockjs'
+  import waitPayDeposit from './waitPayDeposit/index.vue'
+  import waitPayResidual from './waitPayResidual/index.vue'
+  import mergeOrderDetail from './mergeOrderDetail/index.vue'
 
   export default {
     name: 'merge-refund-orders',
-    components: { BillDetail, TransportationChange, BillDetailMergeOrders },
+    components: { BillDetail, TransportationChange, BillDetailMergeOrders,
+      waitPayDeposit, waitPayResidual, mergeOrderDetail },
     directives: {
       waves
     },
@@ -167,6 +192,7 @@
             paymentReceive: Mock.Random.natural(1000, 2000),
             purchasePrice: Mock.Random.natural(23, 99),
             paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 30,
           },
           {
             orderNo: Mock.Random.natural(123456, 999999),
@@ -178,9 +204,26 @@
             paymentReceive: Mock.Random.natural(1000, 2000),
             purchasePrice: Mock.Random.natural(23, 99),
             paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 70,
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: 'LANCOM',
+            transportation: Mock.Random.natural(0, 1),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            purchasePrice: Mock.Random.natural(23, 99),
+            paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 30,
           },
         ],
         total: null,
+        waitPayDepositVisible: false,
+        waitPayResidualVisible: false,
+        mergeOrderDetailVisible: false,
+        currentRow: null,
         listLoading: false,
         listQuery: {
           page: 1,
@@ -428,9 +471,8 @@
         }
 
         // 打开并单确认框
-        this.isDialogMergeOrderConfirmShow = true
+        this.mergeOrderDetailVisible = true
       },
-
       // 确认并单
       async confirmMerge() {
         await mergeOrder(this.ordersSelected)
@@ -476,6 +518,16 @@
               colspan: 1
             }
           }
+        }
+      },
+
+      viewOrderDetail(row) {
+        this.currentRow = row
+        if (row.thirtyOrseventy === 30) {
+          this.waitPayDepositVisible = true
+        }
+        if (row.thirtyOrseventy === 70) {
+          this.waitPayResidualVisible = true
         }
       },
     },

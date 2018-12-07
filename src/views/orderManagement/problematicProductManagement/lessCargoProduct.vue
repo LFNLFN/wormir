@@ -6,30 +6,109 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
-    <el-table key='0' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-      highlight-current-row size="mini" stripe style="width: 100%">
-      <el-table-column align="center" :label="$t('order.orderNo')" prop="orderNo" fixed="left" />
-      <el-table-column align="center" label="交易方式" prop="orderNo" fixed="left" />
-      <el-table-column align="center" label="品牌名称" prop="orderNo" fixed="left" />
-      <el-table-column align="center" :label="$t('retailer.retailerCategories')" prop="retailerCategories" />
-      <el-table-column align="center" :label="$t('retailer.retailerNo')" prop="retailerNo" />
-      <el-table-column align="center" label="渠道名称" prop="retailerNo" />
-      <el-table-column align="center" label="少货商品明细" prop="boxNo" >
+    <el-table key='0' :data="list"
+              v-loading="listLoading" element-loading-text="给我一点时间"
+              border fit highlight-current-row size="mini"
+              class="border2"
+              style="width: 100%;border-right-width: 1px">
+
+      <el-table-column min-width="90" align="center" label="货单号" prop="orderNo" fixed="left"/>
+
+      <el-table-column min-width="100" align="center" label="交易方式" prop="tradeWay"
+                       :filters="tradeWayFilter"
+                       :filter-method="filterHandler">
         <template slot-scope="scope">
-          <a href="javascript:void(0)" @click="viewCargoShortageDetails(scope.row)" class="click-link">{{$t('order.clickToView')}}</a>
+          <span>{{ tradeWayMap[scope.row.tradeWay].status }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="补货状态" >
-        <template slot-scope="scope">{{replenishmentStatuses[scope.row.replenishmentStatus || 0].status}}</template>
-      </el-table-column>
-      <el-table-column align="center" label="补货类型" prop="cargoShortageType" :filters="typeFilter"/>
-      <el-table-column align="center" :label="$t('order.operation')" class-name="small-padding" fixed="right">
+
+
+      <el-table-column min-width="100" align="center" label="品牌名称" prop="brandName"
+                       :filters="[{text: 'LANCOME', value: 'LANCOME'}]"
+                       :filter-method="filterHandler"/>
+
+
+      <el-table-column
+        min-width="120px"
+        label="渠道属性"
+        align="center"
+        prop="retailerCategories"
+        :filters="retailerCategoriesFilters"
+        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="reviewDetail(scope.row)" >
-            {{$t('order.reviewApplication')}}
+          <span>{{scope.row.retailerCategories | retailerCategoriesFilters}}</span>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column min-width="100" align="center" label="渠道号" prop="channelNo"/>
+
+      <el-table-column min-width="100" align="center" label="渠道名称" prop="channelName"/>
+
+
+      <el-table-column min-width="150" align="center" label="少货商品明细" prop="orderNo">
+        <template slot-scope="scope">
+            <span class="link-type"
+                  @click=" isCargoShortageDetailsShow=true; cargoShortageDetailsList=scope.row.cargoShortageDetailsList ">点击查看</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="补货类型" min-width="100"
+                       :filters="lessCargoTypeFilter"
+                       :filter-method="filterHandler">
+        <template slot-scope="scope">{{ lessCargoTypeMap[scope.row.lessCargoType].status }}</template>
+      </el-table-column>
+
+      <el-table-column min-width="100" align="center" label="补货状态" prop="lessReplenishmentStatus"
+                       :filters="lessCargoStatusFilter"
+                       :filter-method="filterHandler">
+        <template slot-scope="scope">{{ lessCargoStatusMap[scope.row.lessCargoStatus].status }}</template>
+      </el-table-column>
+
+      <el-table-column min-width="100" align="center" :label="$t('order.operation')" class-name="small-padding" fixed="right">
+        <template slot-scope="scope">
+          <!--申请补货或者待审核状态-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus<2&&scope.row.lessCargoType===0"
+                     @click="viewApplicationAndWaitReview0(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
+          </el-button>
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus<2&&scope.row.lessCargoType===1"
+                     @click="viewApplicationAndWaitReview1(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
+          </el-button>
+
+          <!--同意申请-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus===2"
+                     @click="viewAgreeApplication(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
+          </el-button>
+
+          <!--待补货-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus===3"
+                     @click="viewWaitReplenishment(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
+          </el-button>
+
+          <!--待收货-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus===4"
+                     @click="viewWaitReceive(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
+          </el-button>
+
+          <!--已收货-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.lessCargoStatus===5"
+                     @click="viewAlreadyReceive(scope.row)">
+            {{ lessCargoStatusMap[scope.row.lessCargoStatus].operation }}
           </el-button>
         </template>
       </el-table-column>
+
     </el-table>
 
     <div class="pagination-container">
@@ -101,6 +180,7 @@
 import { issueGoods } from '@/api/goods'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
+import Mock from 'mockjs'
 
 export default {
   name: 'defective-product',
@@ -120,9 +200,21 @@ export default {
         { text: 'Cargo Shortage From Order', value: '0' },
         { text: 'Mending Replenishment', value: '1' }
       ],
-      list: null,
+      list: [
+        {
+          orderNo: 123456,
+          brandName: 'LANCOM',
+          tradeWay: 0,
+          lessCargoType: 1,
+          lessReplenishmentStatus: 0,
+          lessCargoStatus: 0,
+          retailerCategories: 0,
+          channelNo: 123123,
+          channelName: 'QWE总店'
+        }
+      ],
       total: null,
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         page: 1,
         keyword: undefined,
@@ -146,11 +238,58 @@ export default {
       detail: {},
       reviewResult: undefined,
       imageViewed: '',
-      isViewImageShow: false
+      isViewImageShow: false,
+      tradeWayFilter: [
+        { text: '非交易', value: 0 },
+        { text: '国内交易', value: 1 },
+        { text: '香港交易', value: 2 }
+      ],
+
+      tradeWayMap: {
+        0: { status: '非交易' },
+        1: { status: '国内交易' },
+        2: { status: '香港交易' }
+      },
+      retailerCategoriesFilters: [
+        { text: 'DLQD', value: 0 },
+        { text: 'FXQD', value: 1 },
+        { text: 'DFQD', value: 2 }
+      ],
+      lessCargoTypeFilter: [
+        { text: '订货少货', value: 0 },
+        { text: '补寄破损/少货', value: 1 }
+      ],
+      lessCargoTypeMap: {
+        0: { status: '订货少货' },
+        1: { status: '补寄破损/少货' }
+      },
+
+      lessCargoStatusFilter: [
+        { text: '待审核', value: 0 },
+        { text: '待补货', value: 1 },
+        { text: '待收货', value: 2 },
+        { text: '已补货', value: 3 }
+      ],
+      lessCargoStatusMap: {
+        0: { status: '待审核', operation: '申请补货' },
+        1: { status: '待补货', operation: '查看详情' },
+        2: { status: '待收货', operation: '去补货' },
+        3: { status: '已补货', operation: '查看详情' },
+      },
     }
   },
+  filters: {
+    retailerCategoriesFilters(status) {
+      const statusMap = {
+        0: 'DLQD',
+        1: 'FXQD',
+        2: 'DFQD',
+      }
+      return statusMap[status]
+    },
+  },
   created() {
-    this.getList()
+//    this.getList()
   },
   methods: {
     getList() {
@@ -213,6 +352,10 @@ export default {
           return v[j]
         }
       }))
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
     }
   }
 }
@@ -224,9 +367,5 @@ export default {
   .click-link {
     color: #1e6abc;
     text-decoration: underline;
-  }
-
-  .el-table .cell {
-    word-break: break-word;
   }
 </style>

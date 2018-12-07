@@ -6,27 +6,100 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
-    <el-table key='0' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-      highlight-current-row size="mini" stripe style="width: 100%">
-      <el-table-column align="center" :label="$t('order.orderNo')" prop="orderNo" fixed="left" />
-      <el-table-column align="center" label="品牌名称" prop="orderNo" fixed="left" />
-      <el-table-column align="center" :label="$t('retailer.retailerCategories')" prop="retailerCategories" />
-      <el-table-column align="center" :label="$t('retailer.retailerNo')" prop="retailerNo" />
-      <el-table-column align="center" label="渠道名称" prop="boxNo" />
-      <el-table-column align="center" label="商品编号" prop="size" />
-      <el-table-column align="center" label="商品编码" prop="size" />
-      <el-table-column align="center" :label="$t('product.productName')" prop="productName" />
-      <el-table-column align="center" label="内地售价" prop="compensation"  />
-      <el-table-column align="center" label="补款金额" prop="compensation"  />
-      <el-table-column align="center" :label="$t('order.replenishmentStatus')" :filters="statusFilter" :filter-method="statusFilterHandler">
-        <template slot-scope="scope">{{replenishmentStatuses[scope.row.replenishmentStatus || 0].status}}</template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('order.replenishmentType')" prop="compensationType" :filters="replenishmentTypeFilter" :filter-method="replenishmentTypeFilterHandler"/>
-      <el-table-column align="center" :label="$t('order.operation')" class-name="small-padding" fixed="right">
+    <el-table
+      :key='tableKey' :data="list"
+      v-loading="listLoading" element-loading-text="给我一点时间"
+      border fit highlight-current-row
+      class="border-left2 border-top2 border-bottom2"
+      style="width: 100%">
+
+      <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="reviewDetail(scope.row)" >
-            {{replenishmentStatuses[scope.row.replenishmentStatus || 0].operation}}
-          </el-button>
+          <span class="link-type">{{ scope.row.orderNo }}</span>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column
+        min-width="120px" align="center"
+        :label="$t('payRefund.brandName')"
+        :filters="brandNameFilters"
+        :filter-method="filterHandler"
+        prop="brandName">
+        <template slot-scope="scope">
+          <span>{{scope.row.brandName}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        min-width="120px"
+        :label="$t('payRefund.retailerCategories')"
+        align="center"
+        prop="retailerCategories"
+        :filters="retailerCategoriesFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{scope.row.retailerCategories | retailerCategoriesFilters}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerNo')">
+        <template slot-scope="scope">
+          <span>{{scope.row.retailerNo}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerName')" prop="retailerName">
+        <template slot-scope="scope">
+          <span>{{scope.row.retailerName}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" label="商品编号" prop="goodsNo" />
+
+      <el-table-column min-width="120px" align="center" label="商品名称" prop="goodsName" />
+
+      <el-table-column min-width="120px" align="center" label="国内售价" prop="inlandPrice">
+        <template slot-scope="scope">
+          <span>￥ {{scope.row.inlandPrice.toFixed(2)}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" label="补款金额" prop="compensationMoney">
+        <template slot-scope="scope">
+          <span>￥ {{scope.row.compensationMoney.toFixed(2)}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" label="补货状态"
+                       prop="compensationStatus"
+                       :filters="compensationStatusFilters"
+                       :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{scope.row.compensationStatus | compensationStatusFilters}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="120px" align="center" label="补货类型"
+                       prop="compensationStatus">
+        <template slot-scope="scope">
+          <span>{{scope.row.compensationStatus | compensationTypeFilters}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
+                       class-name="small-padding fixed-width" fixed="right">
+        <template slot-scope="scope">
+          <!--<div class="table-btn-wrap">-->
+          <!--<el-button size="medium" type="primary" @click="viewDetail(scope.row)">-->
+          <!--查看详情-->
+          <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+          <!--<el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">-->
+          <!--去补款-->
+          <!--</el-button>-->
+          <!--</div>-->
         </template>
       </el-table-column>
     </el-table>
@@ -297,6 +370,7 @@
 import { issueGoods } from '@/api/goods'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
+import Mock from 'mockjs'
 
 export default {
   name: 'defective-product',
@@ -327,9 +401,48 @@ export default {
         { text: 'Replenishment After Appeal', value: '2' },
         { text: 'No Replenishment ', value: '3' }
       ],
-      list: null,
+      list: [
+        {
+          orderNo: Mock.Random.natural(20180522001, 20180522100),
+          dealWay: Mock.Random.natural(0, 1),
+          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+          retailerCategories: Mock.Random.natural(0, 2),
+          retailerNo: Mock.Random.natural(2018001, 2018100),
+          retailerName: 'QWE总店',
+          compensationType: Mock.Random.natural(0, 3),
+          compensationStatus: Mock.Random.natural(0, 4),
+          compensationMoney: Mock.Random.natural(10, 40),
+          goodsNo: Mock.Random.natural(10000, 30000),
+          goodsName: '补水面膜',
+          inlandPrice: Mock.Random.natural(100, 200),
+        }
+      ],
+      brandNameFilters: [
+        { text: 'LANCOM', value: 'LANCOM' },
+        { text: 'AESOP', value: 'AESOP' }
+      ],
+      retailerCategoriesFilters: [
+        { text: 'DLQD', value: 0 },
+        { text: 'FXQD', value: 1 },
+        { text: 'DFQD', value: 2 }
+      ],
+      compensationStatusFilters: [
+        { text: '待协商', value: 0 },
+        { text: '待审核', value: 1 },
+        { text: '申请后补货', value: 2 },
+        { text: '申诉后补货', value: 3 },
+        { text: '驳回申请', value: 4 },
+        { text: '申诉中', value: 5 },
+        { text: '驳回申诉', value: 6 },
+      ],
+      compensationTypeFilters: [
+        { text: '申请后补款', value: 0 },
+        { text: '申诉后补款', value: 1 },
+        { text: '破损转补款', value: 2 },
+        { text: '--', value: 3 },
+      ],
       total: null,
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         page: 1,
         keyword: undefined,
@@ -354,7 +467,7 @@ export default {
     }
   },
   created() {
-    this.getList()
+//    this.getList()
   },
   methods: {
     getList() {
@@ -365,7 +478,10 @@ export default {
         this.listLoading = false
       })
     },
-
+    filterHandler(value, row, column) {
+      const property = column['property']
+      return row[property] === value
+    },
     // 操作详情
     async reviewDetail(row) {
       this.isDetailShow = true
@@ -417,7 +533,59 @@ export default {
         }
       }))
     }
-  }
+  },
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    },
+    typeFilter(type) {
+      return calendarTypeKeyValue[type]
+    },
+    dealWayFilter(status) {
+      const statusMap = {
+        0: '国内交易',
+        1: '香港交易',
+      }
+      return statusMap[status]
+    },
+    retailerCategoriesFilters(status) {
+      const statusMap = {
+        0: 'DLQD',
+        1: 'FXQD',
+        2: 'DFQD',
+      }
+      return statusMap[status]
+    },
+    compensationStatusFilters(status) {
+      const statusMap = {
+        0: '待协商',
+        1: '待审核',
+        2: '申请后补货',
+        3: '申诉后补货',
+        4: '驳回申请',
+        5: '申诉中',
+        6: '驳回申诉',
+      }
+      return statusMap[status]
+    },
+    compensationTypeFilters(status) {
+      const statusMap = {
+        0: '--',
+        1: '--',
+        2: '申请后补货',
+        3: '申诉后补货',
+        4: '不支持补货',
+        5: '--',
+        6: '不支持补货',
+      }
+      return statusMap[status]
+    },
+  },
 }
 </script>
 <style scoped>
