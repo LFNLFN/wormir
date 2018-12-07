@@ -54,7 +54,7 @@
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+          <el-button size="medium" type="primary" @click="viewMergeOrder">
             查看并单
           </el-button>
         </template>
@@ -76,6 +76,12 @@
       </div>
     </el-dialog>
 
+    <!-- 提交并单详情 -->
+    <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
+      <mergeOrderDetail v-if="mergeOrderDetailVisible"
+                        @cancel="mergeOrderDetailVisible = false"/>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -91,6 +97,7 @@
   import BillDetailMergeOrders from '../../BillDetailMergeOrders'
   import { cancelMergeOrder } from '../../../../api/bill'
   import Mock from 'mockjs'
+  import mergeOrderDetail from './mergeOrderDetail/index.vue'
 
   const calendarTypeOptions = [
     { key: 'CN', display_name: 'China' },
@@ -107,13 +114,14 @@
 
   export default {
     name: 'pay-order',
-    components: { BillDetailMergeOrders },
+    components: { BillDetailMergeOrders, mergeOrderDetail },
     directives: {
       waves
     },
     data() {
       return {
         tableKey: 0,
+        mergeOrderDetailVisible: false,
         list: [
           {
             mergePayNo: Mock.Random.natural(1234567, 9999999),
@@ -372,6 +380,9 @@
             }
           })
         )
+      },
+      viewMergeOrder() {
+        this.mergeOrderDetailVisible = true
       }
     }
   }
