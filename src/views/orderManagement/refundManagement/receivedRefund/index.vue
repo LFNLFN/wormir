@@ -74,6 +74,10 @@
       <bill-detail-merge-orders :bill="currentOrder" v-if="isDialogDetailShow"></bill-detail-merge-orders>
     </el-dialog>
 
+    <!-- 全款退款 -->
+    <el-dialog :visible.sync="mergeOrderRefundVisible" title="货单详情" fullscreen style="padding: 20px">
+      <mergeOrderDetail v-if="mergeOrderRefundVisible"></mergeOrderDetail>
+    </el-dialog>
   </div>
 </template>
 
@@ -85,9 +89,12 @@
   } from '@/api/article'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
-  import BillDetailMergeOrders from '../BillDetailMergeOrders'
-  import { splitOrderMerged } from '../../../api/bill'
+  import BillDetailMergeOrders from '../../BillDetailMergeOrders'
+  import { splitOrderMerged } from '../../../../api/bill'
   import Mock from 'mockjs'
+  import depositRefund from './depositRefund/index.vue'
+  import residualRefund from './residualRefund/index.vue'
+  import mergeOrderDetail from './mergeOrderDetail/index.vue'
 
   const calendarTypeOptions = [
     { key: 'CN', display_name: 'China' },
@@ -104,13 +111,16 @@
 
   export default {
     name: 'pay-order',
-    components: { BillDetailMergeOrders },
+    components: { BillDetailMergeOrders, depositRefund, residualRefund, mergeOrderDetail },
     directives: {
       waves
     },
     data() {
       return {
         tableKey: 0,
+        depositRefundVisible: false,
+        residualRefundVisible: false,
+        mergeOrderRefundVisible: false,
         list: [
           {
             mergePayNo: Mock.Random.natural(1234567, 9999999),
@@ -211,7 +221,9 @@
       // 查看货单
       viewDetail(row) {
         this.currentOrder = row
-        this.isDialogDetailShow = true
+//        this.depositRefundVisible = true
+//        this.residualRefundVisible = true
+        this.mergeOrderRefundVisible = true
       },
       filterHandler(value, row, column) {
         const property = column['property']

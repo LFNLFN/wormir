@@ -210,7 +210,7 @@ export const asyncRouterMap = [
         children: [
           {
             path: 'receivedRefund',
-            component: () => import('@/views/orderManagement/refundManagement/receivedRefund'),
+            component: () => import('@/views/orderManagement/refundManagement/receivedRefund/index.vue'),
             name: 'receivedRefund',
             meta: { title: 'receivedRefund' }
           },
