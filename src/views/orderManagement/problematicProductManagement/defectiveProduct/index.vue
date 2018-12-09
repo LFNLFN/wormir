@@ -7,7 +7,7 @@
     </div>
 
     <el-table
-      :key='tableKey' :data="list"
+      :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
       class="border-left2 border-top2 border-bottom2"
@@ -90,16 +90,11 @@
       <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <!--<div class="table-btn-wrap">-->
-            <!--<el-button size="medium" type="primary" @click="viewDetail(scope.row)">-->
-              <!--查看详情-->
-            <!--</el-button>-->
-          <!--</div>-->
-          <!--<div class="table-btn-wrap">-->
-            <!--<el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">-->
-              <!--去补款-->
-            <!--</el-button>-->
-          <!--</div>-->
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+              查看详情
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -110,7 +105,7 @@
       </el-pagination>
     </div>
 
-    <!--viweDetail-->
+    <!--viweDetail 作废-->
     <el-dialog :visible.sync="isDetailShow" class="image-view" width="50%">
       <div v-if="isDetailShow">
         <el-row>
@@ -242,6 +237,12 @@
         <img :src="imageViewed" alt="" width="100%">
       </el-dialog>
     </el-dialog>
+
+    <!--查看订单详情-->
+    <el-dialog :visible.sync="orderDetailVisible" width="70%">
+      <orderDetail v-if="orderDetailVisible"></orderDetail>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -250,14 +251,17 @@ import { issueGoods } from '@/api/goods'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import Mock from 'mockjs'
+import orderDetail from './orderDetail/index.vue'
 
 export default {
   name: 'defective-product',
+  components: { orderDetail },
   directives: {
     waves
   },
   data() {
     return {
+      orderDetailVisible: false,
       replenishmentStatuses: {
         0: { status: this.$t('order.pendingApproval'), operation: this.$t('order.reviewDetail') },
         1: { status: this.$t('order.requestRejected'), operation: this.$t('order.reviewDetail') },
@@ -397,6 +401,10 @@ export default {
           return v[j]
         }
       }))
+    },
+
+    viewDetail(row) {
+      this.orderDetailVisible = true
     },
 
     statusFilterHandler(value, row, column) {},
