@@ -67,9 +67,100 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="isDialogDetailShow" width="600px">
-      <compensation-form :order="currentOrder" v-if="isDialogDetailShow"></compensation-form>
+    <!--放大看图片-->
+    <el-dialog :visible.sync="isViewImageShow" width="75%">
+      <img :src="imageViewed" alt="" width="100%">
     </el-dialog>
+
+    <el-dialog :visible.sync="isDialogDetailShow" width="70%">
+      <div v-if="isDialogDetailShow" class="dialog-wrap border-top2 border-left2 border-bottom border-right" style="">
+        <el-row>
+          <el-col :span="8">
+            <div class="grid-content bg-purple">{{$t('order.mergePaymentNo')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{123456343}}</div>
+          </el-col>
+        </el-row>
+
+        <el-row style="border-right: 1px #d5d5d5 solid;">
+          <orderItemDetail @image-view="viewImage($event)"/>
+        </el-row>
+
+        <el-row style="background-color: grey;line-height: 24px;height: 24px"></el-row>
+
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Total Pending Compensation：')}}</div>
+            <!--<div class="grid-content bg-purple">{{$t('Total Paid Compensation：')}}</div>-->
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">€ {{ '1754.00' }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="16" :offset="8" class="border-right"
+                  style="border-bottom: none;background-color: #fff;font-weight: normal;color: rgb(153, 153, 153);justify-content: flex-start">
+            {{ $t('The Time of Merge Compensation Orders') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+          </el-col>
+        </el-row>
+        <!--<el-row>-->
+          <!--<el-col :span="16" :offset="8"-->
+                  <!--style="border-bottom: none;background-color: #fff;font-weight: normal;color: rgb(153, 153, 153);justify-content: flex-start">-->
+            <!--{{ $t('The Time of Compensation Payment') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Beneficiary Bank SWIFT Code')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 44573345645 }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Beneficiary Bank Name')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 'Bank Of China' }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Beneficiary Bank Address')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 'Guangzhou Haizhu' }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Remitting Bank SWIFT Code')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 4477865767 }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Remitting Bank Name')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 'Bank Of China' }}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8" align="right">
+            <div class="grid-content bg-purple">{{$t('Remitting Bank Address')}}</div>
+          </el-col>
+          <el-col :span="16">
+            <div class="grid-content bg-purple-light">{{ 'Guangzhou Panyu' }}</div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-dialog>
+
 
     <el-dialog :visible.sync="dialogTransportChangeVisible">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
@@ -93,9 +184,10 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import compensationForm from './compensationForm.vue'
+import compensationForm from '../compensationForm.vue'
 import { splitOrderMerged } from '@/api/bill'
 import Mock from 'mockjs'
+import orderItemDetail from './orderItemDetail.vue'
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -112,12 +204,13 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: 'pay-order',
-  components: { compensationForm },
+  components: { compensationForm, orderItemDetail },
   directives: {
     waves
   },
   data() {
     return {
+      isMergeOrderShow: false,
       tableKey: 0,
       list: [
         {
@@ -138,6 +231,8 @@ export default {
         { text: '待收补款', value: 0 },
         { text: '已收补款', value: 1 },
       ],
+      isViewImageShow: false,
+      imageViewed: null,
       total: null,
       listLoading: false,
       listQuery: {
@@ -384,36 +479,76 @@ export default {
           }
         })
       )
-    }
+    },
+    viewImage(src) {
+      this.imageViewed = src
+      this.isViewImageShow = true
+    },
   }
 }
 </script>
 <style scoped>
-  .el-dialog {
-    width: 90%;
+
+  .col-head {
+    background: rgb(223, 242, 252);
+    color: rgb(66, 66, 66);
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 36px;
+    text-align: center;
+    width: 100px;
   }
+
+  .col-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: rgb(66, 66, 66);
+    width: 100px;
+  }
+
+  .orderTable .el-col {
+    border-right: none;
+  }
+
   .el-row {
-    margin-bottom: 20px;
+    border-bottom: 1px solid #D5D5D5;
   }
+
   .el-col {
-    border-radius: 4px;
+    border-radius: 0;
   }
-  .bg-purple-dark {
-    background: #99a9bf;
+
+  .el-col:nth-child(odd) {
+    background: #dff2fc;
+    color: #424242;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .bg-purple {
-    background: #d3dce6;
+
+  .el-col:nth-child(odd):not(:last-of-type) {
+    border-right: 1px solid #d5d5d5;
   }
-  .bg-purple-light {
-    background: #e5e9f2;
+
+  .el-col:nth-child(even) {
+    color: #424242;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
   }
+
+  .el-col:nth-child(even) {
+    border-right: 1px solid #d5d5d5;
+  }
+
   .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-    padding-top: 6px;
+    border: none;
   }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
+  .el-col:nth-child(even) div {
+    padding-left: 1em;
   }
 </style>

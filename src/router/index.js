@@ -226,12 +226,12 @@ export const asyncRouterMap = [
         path: '/compensationManagement',
         name: 'compensationManagement',
         component: () => import('@/views/layout/routerWrap'),
-        redirect: '/compensationManagement/receivedCompensation',
+        redirect: '/compensationManagement/receivedCompensation/index.vue',
         meta: { title: 'compensationManagement', fontSizeSmall: true },
         children: [
           {
             path: 'receivedCompensation',
-            component: () => import('@/views/orderManagement/compensationManagement/receivedCompensation'),
+            component: () => import('@/views/orderManagement/compensationManagement/receivedCompensation/index.vue'),
             name: 'receivedCompensation',
             meta: { title: 'receivedCompensation' }
           },
