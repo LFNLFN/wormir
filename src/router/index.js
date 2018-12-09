@@ -237,7 +237,7 @@ export const asyncRouterMap = [
           },
           {
             path: 'payCompensation',
-            component: () => import('@/views/orderManagement/compensationManagement/payCompensation'),
+            component: () => import('@/views/orderManagement/compensationManagement/payCompensation/index.vue'),
             name: 'payCompensation',
             meta: { title: 'payCompensation' }
           }

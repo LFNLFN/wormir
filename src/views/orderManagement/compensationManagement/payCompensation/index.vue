@@ -104,7 +104,7 @@
             </el-button>
           </div>
           <div class="table-btn-wrap">
-            <el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">
+            <el-button v-if="'未退款'" size="medium" type="warning" @click="viewGoPayRefund(scope.row)">
               去补款
             </el-button>
           </div>
@@ -131,6 +131,80 @@
       </span>
     </el-dialog>
 
+
+
+    <!--点击去付退款-->
+    <el-dialog :visible.sync="payWindowVisible" width="30%" :show-close="false">
+      <div style="text-align: center">货单号: <span>{{'100001'}}</span></div>
+      <div style="text-align: center;">账户余额: ￥{{accountResidual.toFixed(2)}}</div>
+      <div style="text-align: center;">补款金额: ￥{{refundCompensation.toFixed(2)}}</div>
+      <div style="text-align: center" class="text-muted" v-if="accountResidual<refundCompensation">
+        提醒：帐户余额不足扣减 ，请先充值。
+      </div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="payWindowVisible=false">暂不</el-button>
+        <el-button type="primary" v-if="accountResidual>=refundCompensation" @click="handlePaymentConfirm()">确认支付</el-button>
+        <el-button type="primary" v-else @click="goRecharge()">去充值</el-button>
+      </div>
+    </el-dialog>
+    <!--支付成功提示-->
+    <el-dialog :visible.sync="completePaymentVisible" width="36%" :show-close="false">
+      <div style="text-align: center">货单号 <span>{{'1000001'}}</span> 已支付补款。<br>当前帐户余额 ￥ <span>{{(accountResidual-refundCompensation).toFixed(2)}}</span><br>可在“支付退款”页面『查看货单』。
+      </div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="completePaymentVisible=false">知道了</el-button>
+      </div>
+    </el-dialog>
+    <!--充值界面-->
+    <el-dialog :visible.sync="rechargeWindowVisible" width="30%" append-to-body :show-close="false">
+      <div style="text-align: center;">账户余额: ￥ {{accountResidual.toFixed(2)}}</div>
+      <div style="text-align: center;">充值金额:<span
+        style="color: red">请充入不少于 ￥ {{(refundCompensation-accountResidual).toFixed(2)}}</span>
+        <el-input v-model.number.lazy="rechargeAmount"></el-input>
+      </div>
+      <div style="text-align: center" class="text-danger">温馨提示：充值前请确保已绑定的银行卡有足够金额进行充值。</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeWindowVisible=false">暂不</el-button>
+        <el-button type="primary" @click="handleRechargeConfirm()">确认充值</el-button>
+        <el-button type="primary" @click="handleRechargeFailConfirm()">确认充值(失败)</el-button>
+      </div>
+    </el-dialog>
+    <!--充值成功-->
+    <el-dialog :visible.sync="rechargeSuccessVisible" width="30%" append-to-body :show-close="false">
+      <div style="text-align: center">已完成充值，当前帐户余额：¥ <span>{{(accountResidual+this.rechargeAmount).toFixed(2)}}</span>，是否继续完成之前的补款支付？</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeSuccessVisible=false;payWindowVisible=false">否</el-button>
+        <el-button type="primary" @click="stayInGoPayDeposit()">是</el-button>
+      </div>
+    </el-dialog>
+    <!--充值失败-->
+    <el-dialog :visible.sync="rechargeFailVisible" width="30%" append-to-body :show-close="false">
+      <div style="text-align: center">充值金额: ￥ <span>{{Number(rechargeAmount).toFixed(2)}}</span><span
+        style="color: red">未完成充值！</span></div>
+      <div style="text-align: center" class="text-muted">说明：由于帐户绑定的银行卡余额不足，无法完成此次充值。请先确认银行卡金额充足再充值。</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeFailVisible=false;payWindowVisible=false">暂不</el-button>
+        <el-button type="primary" @click="rechargeAgain()">再去充值</el-button>
+      </div>
+    </el-dialog>
+
+
+
+
+
+
+    <!--待补款状态-->
+    <el-dialog :visible.sync="waitCompensationStatusVisible" width="70%">
+      <waitCompensationStatus v-if="waitCompensationStatusVisible"></waitCompensationStatus>
+    </el-dialog>
+
+    <!--已补款状态-->
+    <el-dialog :visible.sync="alreadyCompensationStatusVisible" width="70%">
+      <alreadyCompensationStatus v-if="alreadyCompensationStatusVisible"></alreadyCompensationStatus>
+    </el-dialog>
+
+
+
   </div>
 </template>
 
@@ -143,13 +217,15 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import BillDetail from '../BillDetail'
-import compensationStatusForm from './compensationStatusForm.vue'
+import BillDetail from '../../BillDetail'
+import compensationStatusForm from '../compensationStatusForm.vue'
 import Mock from 'mockjs'
+import waitCompensationStatus from './waitCompensationStatus/index.vue'
+import alreadyCompensationStatus from './alreadyCompensationStatus/index.vue'
 
 export default {
   name: 'pay-order',
-  components: { BillDetail, compensationStatusForm },
+  components: { BillDetail, compensationStatusForm, waitCompensationStatus, alreadyCompensationStatus },
   directives: {
     waves
   },
@@ -246,7 +322,19 @@ export default {
           { required: true, message: 'title is required', trigger: 'blur' }
         ]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      // 去退款流程^
+      payWindowVisible: false,
+      accountResidual: 10000,
+      refundCompensation: 1000,
+      completePaymentVisible: false,
+      rechargeWindowVisible: false,
+      rechargeAmount: 0,
+      rechargeSuccessVisible: false,
+      rechargeFailVisible: false,
+      // 去退款流程$
+      waitCompensationStatusVisible: false,
+      alreadyCompensationStatusVisible: false,
     }
   },
   created() {
@@ -400,6 +488,43 @@ export default {
           }
         })
       )
+    },
+    // 点击退款流程^
+    viewGoPayRefund(row) {
+      this.payWindowVisible = true
+    },
+    handlePaymentConfirm() {
+      this.completePaymentVisible = true
+      this.payWindowVisible = false
+    },
+    goRecharge() {
+      this.rechargeAmount = 0
+      this.rechargeWindowVisible = true
+    },
+    handleRechargeConfirm() {
+      this.rechargeSuccessVisible = true
+      this.rechargeWindowVisible = false
+    },
+    handleRechargeFailConfirm() {
+      this.accountResidual += this.rechargeAmount
+      this.rechargeFailVisible = true
+      this.rechargeWindowVisible = false
+    },
+    stayInGoPayDeposit() {
+      this.rechargeSuccessVisible = false
+      this.payWindowVisible = true
+    },
+    rechargeAgain() {
+      this.rechargeAmount = 0
+      this.refundAmount = 1000
+      this.accountResidual = 100
+      this.rechargeFailVisible = true
+      this.rechargeWindowVisible = true
+    },
+    // 点击退款流程$
+    viewDetail(row) {
+//      this.waitCompensationStatusVisible = true
+      this.alreadyCompensationStatusVisible = true
     }
   },
   filters: {
