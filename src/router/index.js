@@ -216,7 +216,7 @@ export const asyncRouterMap = [
           },
           {
             path: 'payRefund',
-            component: () => import('@/views/orderManagement/refundManagement/payRefund'),
+            component: () => import('@/views/orderManagement/refundManagement/payRefund/index.vue'),
             name: 'payRefund',
             meta: { title: 'payRefund' }
           }
