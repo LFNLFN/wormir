@@ -15,7 +15,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
         </template>
       </el-table-column>
 
@@ -90,16 +90,16 @@
       <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <!--<div class="table-btn-wrap">-->
-          <!--<el-button size="medium" type="primary" @click="viewDetail(scope.row)">-->
-          <!--查看详情-->
-          <!--</el-button>-->
-          <!--</div>-->
-          <!--<div class="table-btn-wrap">-->
-          <!--<el-button v-if="'未退款'" size="medium" type="warning" @click="toPayRefund(scope.row)">-->
-          <!--去补款-->
-          <!--</el-button>-->
-          <!--</div>-->
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
+              查看详情
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewTurnToBrand(scope.row)">
+              转给品牌
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -363,6 +363,23 @@
         <img :src="imageViewed" alt="" width="100%">
       </el-dialog>
     </el-dialog>
+
+
+    <!--查看订单详情-->
+    <el-dialog :visible.sync="orderDetailVisible" width="70%">
+      <orderDetail v-if="orderDetailVisible"></orderDetail>
+    </el-dialog>
+
+    <!--转给品牌-->
+    <el-dialog :visible.sync="turnToBrandVisible" width="70%">
+      <turnToBrand v-if="turnToBrandVisible" @closeDialog="turnToBrandVisible=false"></turnToBrand>
+    </el-dialog>
+
+    <!--货单号详情-->
+    <el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">
+      <alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -371,14 +388,24 @@ import { issueGoods } from '@/api/goods'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import Mock from 'mockjs'
+import orderDetail from './orderDetail/index.vue'
+import turnToBrand from './turnToBrand/index.vue'
+import alreadyReceive from './alreadyReceive/index.vue'
 
 export default {
   name: 'defective-product',
+  components: { orderDetail, turnToBrand, alreadyReceive },
   directives: {
     waves
   },
   data() {
     return {
+      // 按钮弹层
+      orderDetailVisible: false,
+      turnToBrandVisible: false,
+      orderNoDetailVisible: false,
+
+
       replenishmentStatuses: {
         0: { status: this.$t('order.pendingApproval'), operation: this.$t('order.reviewApplication') },
         1: { status: this.$t('order.replenishmentCompleted'), operation: this.$t('order.reviewDetail') },
@@ -532,7 +559,20 @@ export default {
           return v[j]
         }
       }))
-    }
+    },
+
+    // 按钮弹层
+    viewDetail(row) {
+      this.orderDetailVisible = true
+    },
+    viewTurnToBrand(row) {
+      this.turnToBrandVisible = true
+    },
+    viewOrderNoDetail(row) {
+      this.orderNoDetailVisible = true
+    },
+
+
   },
   filters: {
     statusFilter(status) {

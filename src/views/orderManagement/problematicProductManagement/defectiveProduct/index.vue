@@ -422,6 +422,7 @@ export default {
       }))
     },
 
+    // 按钮弹层
     viewDetail(row) {
       this.orderDetailVisible = true
     },
@@ -431,6 +432,8 @@ export default {
     viewOrderNoDetail(row) {
       this.orderNoDetailVisible = true
     },
+
+
 
     statusFilterHandler(value, row, column) {},
     compensationTypeFilterHandler(value, row, column) {}

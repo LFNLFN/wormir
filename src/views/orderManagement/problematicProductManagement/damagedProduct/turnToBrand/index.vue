@@ -36,26 +36,8 @@
         <el-col :span="4"><span>￥ {{ currentRow.compensationAmount.toFixed(2) }}</span></el-col>
       </el-row>
 
-      <!--驳回申请-->
-      <template v-if="currentRow.compensationStatus===1">
-        <el-row class="border-top">
-          <el-col :span="4"><span>审核结果: </span></el-col>
-          <el-col :span="14"><span>驳回申请</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><span>补款类型: </span></el-col>
-          <el-col :span="4"><span>不支持补款</span></el-col>
-        </el-row>
-      </template>
-
-      <!--申诉中-->
-      <template v-if="currentRow.compensationStatus===2">
+      <!--审核结果为 驳回申请-->
+      <template v-if="currentRow.compensationStatus===0">
         <el-row class="border-top">
           <el-col :span="4"><span>审核结果: </span></el-col>
           <el-col :span="14"><span>驳回申请</span></el-col>
@@ -69,7 +51,7 @@
 
         <el-row class="no-border-bottom">
           <el-col :span="4"><span>申诉理由: </span></el-col>
-          <el-col :span="14"><span>给予顾客补款，减少带来投诉</span></el-col>
+          <el-col :span="14"><span>请求吾蜜公司介入协商</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6">
             <div class="text-muted">{{
@@ -78,98 +60,36 @@
           </el-col>
         </el-row>
       </template>
-
-      <!--驳回申诉-->
-      <template v-if="currentRow.compensationStatus===3">
+      <!--审核结果为 破损转补款-->
+      <template v-if="currentRow.compensationStatus===1">
         <el-row class="border-top">
           <el-col :span="4"><span>审核结果: </span></el-col>
-          <el-col :span="14"><span>驳回申请</span></el-col>
+          <el-col :span="14"><span>破损转补款</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
+          <span class="text-muted">{{
+            $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+          </span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="4"><span>申诉理由: </span></el-col>
-          <el-col :span="14"><span>给予顾客补款，减少带来投诉</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
+          <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
+          <el-col :span="4"><span>￥ {{ currentRow.compensationAmount.toFixed(2) }}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :offset="4" :span="16"
+                  style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
             <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              $t('order.appealTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
             </div>
           </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="4"><span>审核结果: </span></el-col>
-          <el-col :span="14"><span>驳回申诉</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><span>补款类型: </span></el-col>
-          <el-col :span="4"><span>不支持补款</span></el-col>
         </el-row>
       </template>
-      <!--驳回申诉--请求吾蜜介入-->
-      <template v-if="currentRow.compensationStatus===4">
-        <el-row class="border-top">
-          <el-col :span="4"><span>审核结果: </span></el-col>
-          <el-col :span="14"><span>驳回申请</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><span>申诉理由: </span></el-col>
-          <el-col :span="14"><span>请求吾蜜公司界入协商</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.appealTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="4"><span>审核结果: </span></el-col>
-          <el-col :span="14"><span>驳回申诉</span></el-col>
-          <el-col :span="0"></el-col>
-          <el-col :span="6">
-            <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><span>补款类型: </span></el-col>
-          <el-col :span="4"><span>不支持补款</span></el-col>
-        </el-row>
-      </template>
-
     </div>
 
-    <!--待审核-->
-    <template v-if="currentRow.compensationStatus===0">
-      <div class="dialogBottomButton-wrap">
-        <el-button type="primary" disabled>审核中</el-button>
-      </div>
-    </template>
-    <!--申诉中-->
-    <template v-if="currentRow.compensationStatus===2">
-      <div class="dialogBottomButton-wrap">
-        <el-button type="primary" disabled>申诉中</el-button>
-      </div>
-    </template>
+    <div class="dialogBottomButton-wrap">
+      <el-button type="primary" @click="turnItToBrand">转给品牌处理</el-button>
+    </div>
 
 
     <!-- viewImage -->
@@ -195,7 +115,7 @@
             channelClassify: 1,
             channelNo: 20001,
             compensation: 170,
-            compensationStatus: 4,
+            compensationStatus: 1,
             compensationType: 11,
             description: "Lancome (LANCOME) air cushion lip oil",
             mergePaymentNo: 857938502482,
@@ -230,6 +150,17 @@
         this.imageViewed = src
         this.isViewImageShow = true
       },
+      turnItToBrand() {
+        const vm = this
+        this.$alert('已转给品牌处理申诉，商品进入“申诉中”状态。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.$emit('closeDialog')
+          }
+        })
+      }
     }
   }
 </script>
