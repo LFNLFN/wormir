@@ -495,6 +495,16 @@ td.units-wrap:after {
   width: 1px;
   height: 100%;
 }
+.units-wrap .el-col {
+  border: none;
+  background-color: transparent;
+  font-weight: normal;
+}
+.units-wrap .el-input--medium .el-input__inner {
+  height: 24px;
+  line-height: 24px;
+  max-width: 40px;
+}
 .rowFlex {
   display: flex;
   justify-content: center;

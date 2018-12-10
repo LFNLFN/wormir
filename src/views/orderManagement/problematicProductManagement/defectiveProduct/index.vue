@@ -15,7 +15,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
         </template>
       </el-table-column>
 
@@ -93,6 +93,11 @@
           <div class="table-btn-wrap">
             <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
               查看详情
+            </el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button size="medium" type="primary" @click="viewTurnToBrand(scope.row)">
+              转给品牌
             </el-button>
           </div>
         </template>
@@ -243,6 +248,16 @@
       <orderDetail v-if="orderDetailVisible"></orderDetail>
     </el-dialog>
 
+    <!--转给品牌-->
+    <el-dialog :visible.sync="turnToBrandVisible" width="70%">
+      <turnToBrand v-if="turnToBrandVisible" @closeDialog="turnToBrandVisible=false"></turnToBrand>
+    </el-dialog>
+
+    <!--货单号详情-->
+    <el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">
+      <alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -252,16 +267,20 @@ import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 import Mock from 'mockjs'
 import orderDetail from './orderDetail/index.vue'
+import turnToBrand from './turnToBrand/index.vue'
+import alreadyReceive from './alreadyReceive/index.vue'
 
 export default {
   name: 'defective-product',
-  components: { orderDetail },
+  components: { orderDetail, turnToBrand, alreadyReceive },
   directives: {
     waves
   },
   data() {
     return {
       orderDetailVisible: false,
+      turnToBrandVisible: false,
+      orderNoDetailVisible: false,
       replenishmentStatuses: {
         0: { status: this.$t('order.pendingApproval'), operation: this.$t('order.reviewDetail') },
         1: { status: this.$t('order.requestRejected'), operation: this.$t('order.reviewDetail') },
@@ -405,6 +424,12 @@ export default {
 
     viewDetail(row) {
       this.orderDetailVisible = true
+    },
+    viewTurnToBrand(row) {
+      this.turnToBrandVisible = true
+    },
+    viewOrderNoDetail(row) {
+      this.orderNoDetailVisible = true
     },
 
     statusFilterHandler(value, row, column) {},
