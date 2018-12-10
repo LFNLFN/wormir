@@ -458,6 +458,9 @@ td {
 .last-tr0 .el-table__body tr:last-of-type td{
   border-bottom: 0px solid #D5D5D5;
 }
+.last-col-td0 {
+  border-right-width: 0!important;
+}
 .compareBorder .el-table__header {
   border-top: none;
 }

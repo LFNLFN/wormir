@@ -123,13 +123,6 @@ export const asyncRouterMap = [
         meta: { title: 'sourceGeneration' }
       },
       {
-        path: 'sourceTracking',
-        component: () => import('@/views/goodManagement/sourceTracking/inventoryTracking'),
-        name: 'sourceTracking',
-        meta: { title: 'sourceTracking' },
-        alwaysShow: true
-      },
-      {
         path: 'stockManagement',
         component: () => import('@/views/goodManagement/stockManagement/index'),
         name: 'stockManagement',
