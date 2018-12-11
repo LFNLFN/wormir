@@ -77,7 +77,7 @@
         <template slot-scope="scope">
           <!---->
           <el-button type="primary" size="mini"
-                     @click="viewTwoTypesDetailVisible(scope.row)">
+                     @click="viewOrderStatus(scope.row)">
             查看详情
           </el-button>
           <!--<el-button type="primary" size="mini"-->
@@ -487,13 +487,13 @@
       viewOrderNoDetail(row) {
         this.orderNoDetailVisible = true
       },
-      viewOneTypeDetailVisible(row) {
+      viewOneTypeDetail(row) {
         this.oneTypeDetailVisible = true
       },
-      viewTwoTypesDetailVisible(row) {
+      viewTwoTypesDetail(row) {
         this.twoTypesDetailVisible = true
       },
-      viewOrderStatusVisible(row) {
+      viewOrderStatus(row) {
         this.orderStatusVisible = true
       },
     }
