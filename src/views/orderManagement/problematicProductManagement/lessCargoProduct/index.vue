@@ -218,7 +218,7 @@
     </el-dialog>
 
     <!--生成的补货单详情-->
-    <el-dialog :visible.sync="orderStatusVisible" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="orderStatusVisible" fullscreen style="padding: 20px" title="">
       <orderStatus v-if="orderStatusVisible"></orderStatus>
     </el-dialog>
 

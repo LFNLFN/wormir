@@ -41,16 +41,68 @@
         <dd class="border1">
           <el-form-item label="经营主体" label-width="100px">
             <el-radio-group v-model="form.businessEntity">
-              <el-radio label="1">个人</el-radio>
-              <el-radio label="2">企业</el-radio>
+              <el-radio :label="0">个人</el-radio>
+              <el-radio :label="1">企业</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="身份证号码" label-width="100px" class="idCardCode">
-            <el-input style="margin-left: -1em" class="noBorderInput" v-model="form.personID" placeholder="请输入身份证号码"></el-input>
+
+
+
+          <!--<el-form-item label="身份证号码" label-width="100px" class="idCardCode">-->
+            <!--<el-input style="margin-left: -1em" class="noBorderInput" v-model="form.personID" placeholder="请输入身份证号码"></el-input>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item label="" style="padding: 10px 0;" class="idCardUpload">-->
+            <!--<el-col :span="11">-->
+              <!--<el-form-item prop="id1" label="身份证正面" label-width="100px" class="idCardLabel">-->
+                <!--<el-upload-->
+                  <!--class="avatar-uploader"-->
+                  <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+                  <!--:show-file-list="false"-->
+                  <!--:on-success="handleAvatarSuccess"-->
+                  <!--:before-upload="beforeAvatarUpload">-->
+                  <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+                  <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+                <!--</el-upload>-->
+              <!--</el-form-item>-->
+            <!--</el-col>-->
+            <!--<el-col class="line" :span="2">-</el-col>-->
+            <!--<el-col :span="11">-->
+              <!--<el-form-item prop="id2" label="身份证反面" label-width="100px" class="idCardLabel">-->
+                <!--<el-upload-->
+                  <!--class="avatar-uploader"-->
+                  <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+                  <!--:show-file-list="false"-->
+                  <!--:on-success="handleAvatarSuccess"-->
+                  <!--:before-upload="beforeAvatarUpload">-->
+                  <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+                  <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+                <!--</el-upload>-->
+              <!--</el-form-item>-->
+            <!--</el-col>-->
+          <!--</el-form-item>-->
+
+
+
+
+
+
+          <el-form-item v-if="form.businessEntity===0" label="身份证号码" label-width="100px" class="form-row idCardCode last-form-row">
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.personID"
+                      placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item label="" style="padding: 10px 0;" class="idCardUpload">
-            <el-col :span="11">
-              <el-form-item prop="id1" label="身份证正面" label-width="100px" class="idCardLabel">
+          <el-form-item v-if="form.businessEntity===1" label="公司名称" label-width="100px" class="form-row idCardCode">
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyID"
+                      placeholder="请输入公司名称"></el-input>
+          </el-form-item>
+          <el-form-item v-if="form.businessEntity===1" label="公司简介" label-width="100px" class="form-row idCardCode last-form-row">
+            <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
+                      placeholder="请输入公司简介"></el-input>
+          </el-form-item>
+          <el-form-item v-if="form.businessEntity===0" label="" style="padding: 10px 0;" class="idCardUpload">
+            <el-col :span="0"></el-col>
+            <el-col :span="11" class="no-border-right">
+              <el-form-item prop="id1" label="身份证正面" label-width="100px" class="form-row idCardLabel"
+                            style="border: none">
                 <el-upload
                   class="avatar-uploader"
                   action="https://jsonplaceholder.typicode.com/posts/"
@@ -62,9 +114,10 @@
                 </el-upload>
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="0"></el-col>
             <el-col :span="11">
-              <el-form-item prop="id2" label="身份证反面" label-width="100px" class="idCardLabel">
+              <el-form-item prop="id2" label="身份证反面" label-width="100px" class="form-row idCardLabel "
+                            style="border: none">
                 <el-upload
                   class="avatar-uploader"
                   action="https://jsonplaceholder.typicode.com/posts/"
@@ -77,6 +130,44 @@
               </el-form-item>
             </el-col>
           </el-form-item>
+          <el-form-item v-if="form.businessEntity===1" label="" style="padding: 10px 0;" class="idCardUpload">
+            <el-col :span="0"></el-col>
+            <el-col :span="11" class="no-border-right">
+              <el-form-item prop="id1" label="营业执照" label-width="100px" class="form-row idCardLabel"
+                            style="border: none">
+                <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+          </el-form-item>
+          <el-form-item v-if="form.businessEntity===1" label="法人" label-width="130px" class="form-row idCardCode">
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.legalPerson"
+                      placeholder="请输入法人"></el-input>
+          </el-form-item>
+          <el-form-item v-if="form.businessEntity===1" label="公司地址" label-width="130px" class="form-row idCardCode">
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.legalPerson"
+                      placeholder="请输入公司地址"></el-input>
+          </el-form-item>
+
+
+
+
+
+
+
+
+
+
+
+
+
           <el-form-item label="店铺/平台名称" label-width="130px" class="form-row">
             <el-col :span="11" class="marginToLeft">
               <el-form-item label="">
@@ -315,5 +406,8 @@
     display: block;
   }
 
+  .el-form-item {
+    margin-bottom: 0;
+  }
 
 </style>
