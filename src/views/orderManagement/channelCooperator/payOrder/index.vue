@@ -27,19 +27,19 @@
 
       <el-table-column min-width="150px" align="center" :label="$t('payOrder.paymentSwifitCode')" prop="paymentSwifitCode" />
 
-      <el-table-column min-width="120px" align="center" :label="$t('payOrder.bank')" prop="receiptBankName" />
+      <el-table-column min-width="160px" align="center" :label="$t('payOrder.bank')" prop="receiptBankName" />
 
-      <el-table-column min-width="120px" align="center" :label="$t('payOrder.bankAddress')" prop="receiptBankAddress" />
+      <el-table-column min-width="180px" align="center" :label="$t('payOrder.bankAddress')" prop="receiptBankAddress" />
 
       <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentReceive')" prop="paymentReceive">
         <template slot-scope="scope">
-          <span>￥ {{scope.row.paymentReceive.toFixed(2)}}</span>
+          <span>$ {{scope.row.paymentReceive.toFixed(2)}}</span>
         </template>
       </el-table-column>
 
       <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentPay')" prop="paymentPay">
         <template slot-scope="scope">
-          <span>￥ {{scope.row.paymentPay.toFixed(2)}}</span>
+          <span>$ {{scope.row.paymentPay.toFixed(2)}}</span>
         </template>
       </el-table-column>
 
@@ -127,11 +127,11 @@
             mergePayNo: Mock.Random.natural(1234567, 9999999),
             brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
             paymentSwifitCode: Mock.Random.natural(1234567, 9999999),
-            receiptBankName: Mock.Random.pick(['中国农业银行', '中国工商银行']),
-            receiptBankAddress: Mock.Random.pick(['广州市天河区', '上海市浦东区']),
+            receiptBankName: Mock.Random.pick(['Bank of America']),
+            receiptBankAddress: Mock.Random.pick(['New York Manhattan']),
             paymentReceive: Mock.Random.natural(1000, 2000),
             paymentPay: Mock.Random.natural(1000, 2000),
-            payOrderStatus: Mock.Random.natural(0, 2),
+            payOrderStatus: Mock.Random.natural(0, 2)
           }
         ],
         total: null,

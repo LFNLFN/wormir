@@ -338,6 +338,7 @@
           style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
+            width="200px"
             label="销售区域">
             <template slot-scope="scope">
               <el-input v-model="scope.row.salesArea"></el-input>
@@ -349,12 +350,12 @@
             label="交易币种">
             <template slot-scope="scope">
               <el-select v-model="scope.row.transactionCurrency" placeholder="请选择">
-                <el-option
-                  v-for="item in [{value: '人民币',label: '人民币'},{value: '美元',label: '美元'}]"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
+                <el-option label="人民币" value="RMB"></el-option>
+                <el-option label="港币" value="HKD"></el-option>
+                <el-option label="澳元" value="AUD"></el-option>
+                <el-option label="英镑" value="GBP"></el-option>
+                <el-option label="美元" value="USD"></el-option>
+                <el-option label="欧元" value="EUR"></el-option>
               </el-select>
             </template>
           </el-table-column>
@@ -363,7 +364,7 @@
             width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencySymbol"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -371,7 +372,7 @@
             width="100"
             label="单位">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencyUnit"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -384,17 +385,20 @@
           </el-table-column>
           <el-table-column
             align="center"
-            width="200"
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withSymbol"></el-input>
+                  <el-input v-model="scope.row.thePrice.withSymbol">
+                    <template slot="prepend">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withUnit"></el-input>
+                  <el-input v-model="scope.row.thePrice.withUnit">
+                    <template slot="append">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
               </el-row>
             </template>
@@ -409,15 +413,16 @@
           style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
+            width="320px"
             label="交易币种">
             <template slot-scope="scope">
               <el-select v-model="scope.row.transactionCurrency" placeholder="请选择">
-                <el-option
-                  v-for="item in [{value: '人民币',label: '人民币'},{value: '美元',label: '美元'}]"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
+                <el-option label="人民币" value="RMB"></el-option>
+                <el-option label="港币" value="HKD"></el-option>
+                <el-option label="澳元" value="AUD"></el-option>
+                <el-option label="英镑" value="GBP"></el-option>
+                <el-option label="美元" value="USD"></el-option>
+                <el-option label="欧元" value="EUR"></el-option>
               </el-select>
             </template>
           </el-table-column>
@@ -426,7 +431,7 @@
             width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencySymbol"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -434,7 +439,7 @@
             width="100"
             label="单位">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencyUnit"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -452,11 +457,15 @@
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.replenishment.withSymbol"></el-input>
+                  <el-input v-model="scope.row.replenishment.withSymbol">
+                    <template slot="prepend">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.replenishment.withUnit"></el-input>
+                  <el-input v-model="scope.row.replenishment.withUnit">
+                    <template slot="append">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
               </el-row>
             </template>
@@ -539,6 +548,7 @@
           style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column
             align="center"
+            width="120"
             label="采购方式">
             <template slot-scope="scope">
               <span>{{scope.row.transportation}}</span>
@@ -550,12 +560,12 @@
             label="交易币种">
             <template slot-scope="scope">
               <el-select v-model="scope.row.transactionCurrency" placeholder="请选择">
-                <el-option
-                  v-for="item in [{value: '人民币',label: '人民币'},{value: '美元',label: '美元'}]"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
+                <el-option label="人民币" value="RMB"></el-option>
+                <el-option label="港币" value="HKD"></el-option>
+                <el-option label="澳元" value="AUD"></el-option>
+                <el-option label="英镑" value="GBP"></el-option>
+                <el-option label="美元" value="USD"></el-option>
+                <el-option label="欧元" value="EUR"></el-option>
               </el-select>
             </template>
           </el-table-column>
@@ -564,7 +574,7 @@
             width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencySymbol"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -572,7 +582,7 @@
             width="100"
             label="单位">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currencyUnit"></el-input>
+              <span>{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -585,17 +595,20 @@
           </el-table-column>
           <el-table-column
             align="center"
-            width="200"
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withSymbol"></el-input>
+                  <el-input v-model="scope.row.thePrice.withSymbol">
+                    <template slot="prepend">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].symbol || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withUnit"></el-input>
+                  <el-input v-model="scope.row.thePrice.withUnit">
+                    <template slot="append">{{ currencyInformation[scope.row.transactionCurrency] && currencyInformation[scope.row.transactionCurrency].unit || '默认读取' }}</template>
+                  </el-input>
                 </el-col>
               </el-row>
             </template>
@@ -636,7 +649,15 @@
         uploadImageUrl: '',
         uploadPicVisible: false,
         // 上传组件数据
-        form: {},
+        form: {
+          goodNote: {
+            ingredients: '不详',
+            efficacy: '不详',
+            sellingPoint: '不详',
+            userfeeling: '不详',
+            targetUser: '不详',
+          }
+        },
         goodPropOptions: [{
           value: '常规',
           label: '常规'
@@ -678,7 +699,15 @@
         packingWayOptions: [{
           value: 'carton',
           label: 'carton'
-        }]
+        }],
+        currencyInformation: {
+          RMB: { symbol: '￥', unit: '元' },
+          HKD: { symbol: 'HK$', unit: '港元' },
+          AUD: { symbol: 'A$', unit: '澳元' },
+          GBP: { symbol: '£', unit: '英磅' },
+          USD: { symbol: '$', unit: '美元' },
+          EUR: { symbol: '€', unit: '欧元' }
+        },
       }
     },
     methods: {

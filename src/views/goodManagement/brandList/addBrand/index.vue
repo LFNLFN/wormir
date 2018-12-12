@@ -33,12 +33,10 @@
         <el-form-item label="海运订货量" required class="form-row add-brand-row">
           <el-input v-model.number="form.orderBySea" placeholder="请输入海运订货量"></el-input>
         </el-form-item>
-        <el-form-item label="外汇到账时间" required class="form-row last-form-row add-brand-row">
-          <el-col :span="11">
-            <el-time-picker type="fixed-time" placeholder="请输入外汇到账时间" v-model="form.forexTime"
-                            style="width: 100%;"></el-time-picker>
-          </el-col>
-          <el-col :span="2"></el-col>
+        <el-form-item label="交易账号" required class="form-row add-brand-row last-form-row few-input-item">
+          <el-input v-model.lazy="form.tradeAccount.swfitCode" placeholder="请输入SWFIT Code"></el-input>
+          <el-input v-model.lazy="form.tradeAccount.bankName" placeholder="请输入银行名称"></el-input>
+          <el-input v-model.lazy="form.tradeAccount.bankAddress" placeholder="请输入银行地址"></el-input>
         </el-form-item>
       </div>
 
@@ -603,6 +601,11 @@
           producer: '',
           producerAddress: '',
           orderBySea: null,
+          tradeAccount: {
+            swfitCode: null,
+            bankName: null,
+            bankAddress: null,
+          },
           forexTime: null,
           transactionCurrencyInland: [],
           transactionCurrencyOutland: [],
