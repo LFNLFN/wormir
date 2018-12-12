@@ -81,10 +81,10 @@
       </div>
 
       <div class="agreeTime-msg" v-if="'待补货'">
-        <el-row class="no-border-bottom">
+        <el-row>
           <el-col :span="0"></el-col>
           <el-col :span="24">
-            <span class="text-muted">{{ 同意申请时间：2018-4-14  23：48：56' }}</span>
+            <span class="text-muted">{{ '同意申请时间：2018-4-14  23：48：56' }}</span>
           </el-col>
         </el-row>
       </div>
