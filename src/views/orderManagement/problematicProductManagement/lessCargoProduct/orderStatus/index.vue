@@ -12,7 +12,7 @@
         <el-col :span="20"><span>{{ currentRow.orderNo }}</span></el-col>
       </el-row>
 
-      <div class="zh-msg">
+      <div class="zh-msg" v-if="'国内交易'">
         <el-row>
           <el-col :span="4"><span>地址: </span></el-col>
           <!--<el-col :span="20"><span>{{ currentRow.orderNo }}</span></el-col>-->
@@ -27,7 +27,7 @@
         </el-row>
       </div>
 
-      <div class="en-msg">
+      <div class="en-msg" v-if="'香港交易'">
         <el-row>
           <el-col :span="4"><span>Address:</span></el-col>
           <!--<el-col :span="20"><span>{{ currentRow.orderNo }}</span></el-col>-->
@@ -80,7 +80,16 @@
         </el-table>
       </div>
 
-      <div class="shipment-msg">
+      <div class="agreeTime-msg" v-if="'待补货'">
+        <el-row class="no-border-bottom">
+          <el-col :span="0"></el-col>
+          <el-col :span="24">
+            <span class="text-muted">{{ 同意申请时间：2018-4-14  23：48：56' }}</span>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div class="shipment-msg" v-if="'待收货开始之后'">
         <el-row>
           <el-col :span="4"><span>快递公司：</span></el-col>
           <!--<el-col :span="20"><span>{{ currentRow.orderNo }}</span></el-col>-->
@@ -90,7 +99,7 @@
         </el-row>
       </div>
 
-      <div class="sendTime-msg">
+      <div class="sendTime-msg" v-if="'待收货开始之后'">
         <el-row class="no-border-bottom">
           <el-col :span="0"></el-col>
           <el-col :span="24">
@@ -98,6 +107,94 @@
           </el-col>
         </el-row>
       </div>
+
+      <!--问题表格-->
+      <div class="problem-product-wrap" v-if="'已收货'">
+        <el-table :key='2' :data="problematicProduct" border fit ref="problematicTable"
+                  v-loading="listLoading" element-loading-text="给我一点时间"
+                  size="mini" style="width: 100%;" class="orderTable no-border-left no-border-bottom no-border-right"
+                  :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',padding:0}">
+
+          <el-table-column align="center" :label="$t('order.defectiveProduct')">
+            <el-table-column align="center" label="商品编号"
+                             prop="defectiveCode"></el-table-column>
+            <el-table-column align="center" label="商品名称"
+                             prop="defectiveDesc"></el-table-column>
+          </el-table-column>
+          <el-table-column align="center" :label="defective_product_num.toString()" ref="defeTotalCol">
+            <el-table-column align="center" class-name="units-wrap" :label="$t('order.quantity')"
+                             prop="defectiveQuantity">
+              <template slot-scope="scope">
+                <el-row style="padding-left: 0">
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>{{scope.row.defectiveQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+          </el-table-column>
+
+
+          <el-table-column align="center" :label="$t('order.damagedProduct')">
+            <el-table-column align="center" label="商品编号"
+                             prop="damagedCode"></el-table-column>
+            <el-table-column align="center" label="商品名称"
+                             prop="damagedDesc"></el-table-column>
+          </el-table-column>
+          </el-table-column>
+          <el-table-column align="center" :label="damage_product_num.toString()">
+            <el-table-column align="center" class-name="units-wrap" :label="$t('order.quantity')"
+                             prop="damagedQuantity">
+              <template slot-scope="scope">
+                <el-row style="padding-left: 0">
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>{{scope.row.damagedQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+          </el-table-column>
+
+
+          <el-table-column align="center" :label="$t('order.lessCargoProduct')">
+            <el-table-column align="center" label="商品编号"
+                             prop="LessCargoCode"></el-table-column>
+            <el-table-column align="center" label="商品名称"
+                             prop="LessCargoDesc"></el-table-column>
+          </el-table-column>
+          <el-table-column align="center" :label="lessCargo_product_num.toString()" class-name="last-col-td0">
+            <el-table-column align="center" class-name="units-wrap last-col-td0" :label="$t('order.quantity')" prop="LessCargoQuantity">
+              <template slot-scope="scope">
+                <el-row style="padding-left: 0">
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>{{scope.row.LessCargoQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center;padding-left: 0">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+          </el-table-column>
+
+
+        </el-table>
+      </div>
+      <div class="receiveTime-msg">
+        <el-row class="no-border-bottom">
+          <el-col :span="0"></el-col>
+          <el-col :span="24">
+            <span class="text-muted">{{ '确认收货时间：2018-4-14  23：48：56' }}</span>
+          </el-col>
+        </el-row>
+      </div>
+
 
     </div>
 
@@ -153,9 +250,13 @@
         cargoShortageDetailsListLoading: false,
         isViewImageShow: false,
         imageViewed: null,
+        listLoading: false,
         submitLoading: false,
         tableHeight: 0,
         productType: 'less',
+        defective_product_num: 3,
+        damage_product_num: 4,
+        lessCargo_product_num: 5,
         cargoShortageDetailsList: [
           {
             brandEnglishName: 'LANCOM',
@@ -173,6 +274,19 @@
             cargoShortageQuantity: 2,
             shipmentQuantity: 3
           },
+        ],
+        problematicProduct: [
+          {
+            defectiveCode: 7356775,
+            defectiveDesc: '弹力水润',
+            defectiveQuantity: 3,
+            damagedCode: 3365875,
+            damagedDesc: '保湿精华',
+            damagedQuantity: 4,
+            LessCargoCode: 5456875,
+            LessCargoDesc: '美白眼霜',
+            LessCargoQuantity: 5
+          }
         ],
       }
     },
@@ -245,6 +359,10 @@
 
       window.setTimeout(() => {
         this.$refs['sumTable'].$el.children[2].children["0"].children[1].children[this.cargoShortageDetailsList.length - 1].cells[0].style.textAlign = 'right'
+
+        this.$refs['problematicTable'].$el.children[1].children[0].children[1].children[0].cells[1].attributes.style.nodeValue += 'background-color: transparent!important'
+        this.$refs['problematicTable'].$el.children[1].children[0].children[1].children[0].cells[3].attributes.style.nodeValue += 'background-color: transparent!important'
+        this.$refs['problematicTable'].$el.children[1].children[0].children[1].children[0].cells[5].attributes.style.nodeValue += 'background-color: transparent!important'
       }, 10)
 
     }
@@ -313,5 +431,17 @@
 
   .el-col:only-of-type {
     border-right: none;
+  }
+
+  .units-wrap .el-col {
+    border: none;
+    background-color: transparent;
+    font-weight: normal;
+  }
+
+  .units-wrap .el-row {
+    border: none;
+    background-color: transparent;
+    font-weight: normal;
   }
 </style>
