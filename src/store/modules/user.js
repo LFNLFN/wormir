@@ -53,6 +53,7 @@ const user = {
           const data = response.data
           commit('SET_TOKEN', data.token)
           setToken(data.token)
+          window.localStorage.token = data.token
           resolve()
         }).catch(error => {
           reject(error)

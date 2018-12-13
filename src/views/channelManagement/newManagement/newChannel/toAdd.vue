@@ -53,11 +53,11 @@
               <el-form-item prop="id1" label="身份证正面" label-width="100px" class="idCardLabel">
                 <el-upload
                   class="avatar-uploader"
-                  action="https://jsonplaceholder.typicode.com/posts/"
+                  action=""
                   :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
+                  :http-request="uploadfrontAction"
                   :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <img v-if="form.idcardFront" :src="form.idcardFront" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
@@ -67,11 +67,11 @@
               <el-form-item prop="id2" label="身份证反面" label-width="100px" class="idCardLabel">
                 <el-upload
                   class="avatar-uploader"
-                  action="https://jsonplaceholder.typicode.com/posts/"
+                  action=""
                   :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
+                  :http-request="uploadbackAction"
                   :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <img v-if="form.idcardBack" :src="form.idcardBack" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
@@ -196,7 +196,7 @@
           </el-form-item>
         <dd>
           <div class="dialogBottomButton-wrap">
-            <el-button type="primary" @click="">立即提交</el-button>
+            <el-button type="primary" @click="submitAction">立即提交</el-button>
           </div>
         </dd>
         </dd>
@@ -206,6 +206,10 @@
 </template>
 
 <script>
+
+  const qiniu = require('qiniu-js')
+  import request from "@/utils/request";
+
   export default {
     data() {
       return {
@@ -214,7 +218,8 @@
           channelProp: '',
           channelType: '',
           channelLevel: '',
-
+          idcardFront: '',
+          idcardBack: '',
           businessEntity: '',
           personID: '',
           storeName: '',
@@ -226,7 +231,6 @@
           personName: '',
           depositValue: ''
         },
-        imageUrl: '',
         contactData: [{
           job: '技术对接人',
           name: '王小虎',
@@ -258,17 +262,53 @@
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw)
       },
+      uploadfrontAction(options) {
+        this.uploadAction(options.file, key => {
+          
+        })
+      },
+      uploadbackAction(options) {
+        this.uploadAction(options.file, key => {
+
+        })
+      },
+      uploadAction(file,callback) {
+        request({
+          url: '/getToken',
+          method: 'get'
+        }).then(res => {
+          let observable = qiniu.upload(options.file, null, res.data, null, null)
+          observable.subscribe({
+            next(res){
+              // console.log(res);
+            },
+            error(err){
+              console.log(err)
+            },
+            complete(res){
+              // console.log(res);
+              callback(res.key)
+            }
+          })
+        })
+      },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
-        const isLt2M = file.size / 1024 / 1024 < 2
+        const isLt2M = file.size / 1024 / 1024 < 10
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!')
+          this.$message.error('上传图片只能是 JPG 格式!')
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!')
+          this.$message.error('上传图片大小不能超过 10MB!')
         }
         return isJPG && isLt2M
+      },
+      submitAction() {
+        console.log(this.form);
+        console.log(this.contactData);
+        
+        
       },
       addContact() {
         this.contactData.push({
