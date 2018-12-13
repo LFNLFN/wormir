@@ -126,7 +126,7 @@
       </el-pagination>
     </div>
     <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
-      <to-add></to-add>
+      <to-add v-if="isAddShow"></to-add>
     </el-dialog>
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="签订合同">
       <to-confirm></to-confirm>

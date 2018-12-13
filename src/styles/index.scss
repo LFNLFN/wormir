@@ -549,3 +549,13 @@ td.units-wrap:after {
   top: 40px;
   right: 40px;
 }
+
+// 用于填写提交信息的表格
+.vali-table.el-table .cell, .vali-table.el-table th div {
+  overflow: visible;
+}
+.vali-table .el-form-item__content {
+  margin-left: 0!important;
+  padding-left: 0!important;
+  border: none!important;
+}
