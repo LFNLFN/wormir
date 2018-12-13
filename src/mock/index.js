@@ -89,23 +89,23 @@ Mock.mock(/\/goodsInfo\/addBaseInfoAction.do/, 'post', {
       }],
       goodPriceArr: [{
         salesArea: '中国',
-        transactionCurrency: '人民币',
+        transactionCurrency: 'RMB',
         currencySymbol: '¥',
         currencyUnit: '元',
         amount: 24.00,
         thePrice: {
-          withSymbol: '¥ 24',
-          withUnit: '24元'
+          withSymbol: '24',
+          withUnit: '24'
         }
       }],
       replenishmentArr: [{
-        transactionCurrency: '人民币',
+        transactionCurrency: 'RMB',
         currencySymbol: '¥',
         currencyUnit: '元',
         amount: 44.00,
         replenishment: {
-          withSymbol: '¥ 44',
-          withUnit: '44元'
+          withSymbol: '44',
+          withUnit: '44'
         }
       }],
       goodNote: {
@@ -133,8 +133,8 @@ Mock.mock(/\/goodsInfo\/addBaseInfoAction.do/, 'post', {
         currencyUnit: '美元',
         amount: 16.00,
         thePrice: {
-          withSymbol: '$ 16',
-          withUnit: '16美元'
+          withSymbol: '16',
+          withUnit: '16'
         }
       }, {
         transportation: '海运',
@@ -143,8 +143,8 @@ Mock.mock(/\/goodsInfo\/addBaseInfoAction.do/, 'post', {
         currencyUnit: '美元',
         amount: 24.00,
         thePrice: {
-          withSymbol: '$ 24',
-          withUnit: '24美元'
+          withSymbol: '24',
+          withUnit: '24'
         }
       }]
     }]
@@ -322,23 +322,23 @@ Mock.mock(/\/brand\/list.do/, 'post', {
         }],
         goodPriceArr: [{
           salesArea: '中国',
-          transactionCurrency: '人民币',
+          transactionCurrency: 'RMB',
           currencySymbol: '¥',
           currencyUnit: '元',
           amount: 24.00,
           thePrice: {
-            withSymbol: '¥ 24',
-            withUnit: '24元'
+            withSymbol: '24',
+            withUnit: '24'
           }
         }],
         replenishmentArr: [{
-          transactionCurrency: '人民币',
+          transactionCurrency: 'RMB',
           currencySymbol: '¥',
           currencyUnit: '元',
           amount: 44.00,
           replenishment: {
-            withSymbol: '¥ 44',
-            withUnit: '44元'
+            withSymbol: '44',
+            withUnit: '44'
           }
         }],
         goodNote: {
@@ -363,8 +363,8 @@ Mock.mock(/\/brand\/list.do/, 'post', {
           currencyUnit: '美元',
           amount: 16.00,
           thePrice: {
-            withSymbol: '$ 16',
-            withUnit: '16美元'
+            withSymbol: '16',
+            withUnit: '16'
           }
         }, {
           transportation: '海运',
@@ -373,8 +373,8 @@ Mock.mock(/\/brand\/list.do/, 'post', {
           currencyUnit: '美元',
           amount: 24.00,
           thePrice: {
-            withSymbol: '$ 24',
-            withUnit: '24美元'
+            withSymbol: '24',
+            withUnit: '24'
           }
         }]
       }]

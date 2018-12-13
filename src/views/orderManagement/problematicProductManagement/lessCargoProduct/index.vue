@@ -77,7 +77,7 @@
         <template slot-scope="scope">
           <!---->
           <el-button type="primary" size="mini"
-                     @click="viewTwoTypesDetailVisible(scope.row)">
+                     @click="viewOrderStatus(scope.row)">
             查看详情
           </el-button>
           <!--<el-button type="primary" size="mini"-->
@@ -218,7 +218,7 @@
     </el-dialog>
 
     <!--生成的补货单详情-->
-    <el-dialog :visible.sync="orderStatusVisible" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="orderStatusVisible" fullscreen style="padding: 20px" title="">
       <orderStatus v-if="orderStatusVisible"></orderStatus>
     </el-dialog>
 
@@ -487,13 +487,13 @@
       viewOrderNoDetail(row) {
         this.orderNoDetailVisible = true
       },
-      viewOneTypeDetailVisible(row) {
+      viewOneTypeDetail(row) {
         this.oneTypeDetailVisible = true
       },
-      viewTwoTypesDetailVisible(row) {
+      viewTwoTypesDetail(row) {
         this.twoTypesDetailVisible = true
       },
-      viewOrderStatusVisible(row) {
+      viewOrderStatus(row) {
         this.orderStatusVisible = true
       },
     }

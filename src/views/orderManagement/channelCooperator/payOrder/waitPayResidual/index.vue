@@ -118,8 +118,7 @@
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input>
-                      <!--<span>{{scope.row.orderQuantity}}</span>-->
+                      <span>{{scope.row.orderQuantity}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -130,19 +129,19 @@
 
               <el-table-column align="center" width="140" label="Unit Purchase price" fixed="right">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
+                  <span>$ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
               <el-table-column align="center" width="140" label="Total Purchase Price" fixed="right">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
+                  <span>$ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
               <el-table-column align="center" label="30% Deposit" width="130" fixed="right">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+                  <span>$ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -213,20 +212,20 @@
               <el-table-column width="140" align="center" label="Unit Purchase Price" fixed="right">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">{{ 'unpaid 70% residual payment：' }}</span>
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+                  <span v-else>$ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
               <el-table-column width="140" align="center" label="Total Purchase Price" fixed="right">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+                  <span>$ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
               <el-table-column align="center" width="130" label="30% Deposit" fixed="right">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">$ {{ deposit30Amount.toFixed(2) }}</span>
+                  <span v-else>$ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
@@ -255,8 +254,8 @@
     <!--点击去付订金-->
     <el-dialog :visible.sync="payWindowVisible" width="30%" append-to-body :show-close="false">
       <div style="text-align: center">货单号: <span>{{currentRow.orderNo}}</span></div>
-      <div style="text-align: center;">账户余额: ￥{{accountResidual.toFixed(2)}}</div>
-      <div style="text-align: center;">支付30%订金: ￥{{deposit30.toFixed(2)}}</div>
+      <div style="text-align: center;">账户余额: ${{accountResidual.toFixed(2)}}</div>
+      <div style="text-align: center;">支付30%订金: ${{deposit30.toFixed(2)}}</div>
       <!--<div style="text-align: center" class="text-muted" v-if="accountResidual<deposit30">提醒：帐户余额不足扣减 ，请先充值。</div>-->
       <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button type="primary" @click="payWindowVisible=false">暂不</el-button>
@@ -266,7 +265,7 @@
       </div>
     </el-dialog>
     <el-dialog :visible.sync="completePaymentVisible" width="36%" append-to-body :show-close="false">
-      <div style="text-align: center">货单号 <span>{{currentRow.orderNo}}</span> 已完成订金支付。<br>当前帐户余额 ￥ <span>{{(accountResidual-deposit30).toFixed(2)}}</span><br>可在待备货状态项下『查看货单』。
+      <div style="text-align: center">货单号 <span>{{currentRow.orderNo}}</span> 已完成订金支付。<br>当前帐户余额 $ <span>{{(accountResidual-deposit30).toFixed(2)}}</span><br>可在待备货状态项下『查看货单』。
       </div>
       <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button type="primary" @click="completePaymentVisible=false">知道了</el-button>
@@ -276,9 +275,9 @@
 
     <!--充值环节-->
     <el-dialog :visible.sync="rechargeWindowVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center;">账户余额: ￥ {{accountResidual.toFixed(2)}}</div>
+      <div style="text-align: center;">账户余额: $ {{accountResidual.toFixed(2)}}</div>
       <div style="text-align: center;">充值金额:<span
-        style="color: red">请充入不少于 ￥ {{(deposit30-accountResidual).toFixed(2)}}</span>
+        style="color: red">请充入不少于 $ {{(deposit30-accountResidual).toFixed(2)}}</span>
         <el-input v-model.number.lazy="rechargeAmount"></el-input>
       </div>
       <div style="text-align: center" class="text-danger">温馨提示：充值前请确保已绑定的银行卡有足够金额进行充值。</div>
@@ -298,7 +297,7 @@
     </el-dialog>
     <!--充值失败-->
     <el-dialog :visible.sync="rechargeFailVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center">充值金额: ￥ <span>{{Number(rechargeAmount).toFixed(2)}}</span><span
+      <div style="text-align: center">充值金额: $ <span>{{Number(rechargeAmount).toFixed(2)}}</span><span
         style="color: red">未完成充值！</span></div>
       <div style="text-align: center" class="text-muted">说明：由于帐户绑定的银行卡余额不足，无法完成此次充值。请先确认银行卡金额充足再充值。</div>
       <div slot="footer" class="dialog-footer" style="text-align: center">
@@ -364,7 +363,7 @@
           r_bankAccount: 3674506939865543,
           r_bankName: 'Bank of China',
           r_bankAddress: 'Guangzhou Panyu District',
-          paymentAmount: '￥ 3,763.70',
+          paymentAmount: '$ 3,763.70',
           b_bankAccount: 1456884739665543,
           b_bankName: 'China Construction Bank',
           b_bankAddress: 'Guangzhou Panyu District',
@@ -396,7 +395,7 @@
               inventoryQuantity: 200,
               waitingForStock: 0,
               outOfStock: 0,
-              supplyCurrencySymbol: '￥ ',
+              supplyCurrencySymbol: '$ ',
               supplyPrice: 20,
               orderGoodsNum: 10,
               unitPrice: '',
@@ -416,7 +415,7 @@
               inventoryQuantity: 200,
               waitingForStock: 0,
               outOfStock: 0,
-              supplyCurrencySymbol: '￥ ',
+              supplyCurrencySymbol: '$ ',
               supplyPrice: 20,
               orderGoodsNum: 10,
               unitPrice: '',
@@ -436,7 +435,7 @@
               inventoryQuantity: 10,
               waitingForStock: 0,
               outOfStock: 0,
-              supplyCurrencySymbol: '￥ ',
+              supplyCurrencySymbol: '$ ',
               supplyPrice: 30,
               orderGoodsNum: 20,
               unitPrice: '',
@@ -456,7 +455,7 @@
               inventoryQuantity: 10,
               waitingForStock: 0,
               outOfStock: 0,
-              supplyCurrencySymbol: '￥ ',
+              supplyCurrencySymbol: '$ ',
               supplyPrice: 30,
               orderGoodsNum: 20,
               unitPrice: '',
@@ -473,7 +472,7 @@
               goodsChineseName: '美白保湿',
               specificationChinese: '200 ml',
               packingUnit: 12,
-              supplyCurrencySymbol: '￥ ',
+              supplyCurrencySymbol: '$ ',
               supplyPrice: 40,
               unitsReplenishment: 10,
               individualReplenishment: 0,
@@ -624,7 +623,7 @@
         goodsChineseName: '美白保湿',
         specificationChinese: '200 ml',
         packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
+        supplyCurrencySymbol: '$ ',
         supplyPrice: 40,
         unitsReplenishment: 10,
         individualReplenishment: 0,
@@ -655,7 +654,7 @@
         goodsChineseName: '美白保湿',
         specificationChinese: '200 ml',
         packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
+        supplyCurrencySymbol: '$ ',
         supplyPrice: 40,
         unitsReplenishment: 10,
         individualReplenishment: 0,
