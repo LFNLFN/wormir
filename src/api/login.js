@@ -22,7 +22,7 @@ export function logout() {
 export function getUserInfo(token) {
   return request({
     url: '/user/userinfo.do',
-    method: 'get',
+    method: 'post',
     data: { 'token': store.getters.token }
   })
 }

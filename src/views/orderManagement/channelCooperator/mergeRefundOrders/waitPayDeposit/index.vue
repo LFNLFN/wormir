@@ -308,7 +308,7 @@
 <script>
   /* eslint-disable */
 
-  import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  // import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
 
   export default {
     components: {},
@@ -537,11 +537,11 @@
 //        })
       },
       removeAction(cartId, index) {
-        cartRemove(cartId).then(res => {
-          if (res.errorCode == 0) {
-            this.list.splice(index, 1)
-          }
-        })
+        // cartRemove(cartId).then(res => {
+        //   if (res.errorCode == 0) {
+        //     this.list.splice(index, 1)
+        //   }
+        // })
       },
       arraySpanMethod_replenishment({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 1) {

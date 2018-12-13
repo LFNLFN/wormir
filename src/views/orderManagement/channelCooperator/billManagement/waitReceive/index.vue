@@ -807,11 +807,11 @@
 //        })
       },
       removeAction(cartId, index) {
-        cartRemove(cartId).then(res => {
-          if (res.errorCode == 0) {
-            this.list.splice(index, 1)
-          }
-        })
+        // cartRemove(cartId).then(res => {
+        //   if (res.errorCode == 0) {
+        //     this.list.splice(index, 1)
+        //   }
+        // })
       },
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 1) {
