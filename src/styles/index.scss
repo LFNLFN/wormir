@@ -541,3 +541,11 @@ td.units-wrap:after {
 .merge-order-wrap .filter-container {
   padding: 0;
 }
+
+
+// 弹层悬浮关闭按钮
+.el-dialog.is-fullscreen .el-dialog__headerbtn {
+  position: fixed;
+  top: 40px;
+  right: 40px;
+}

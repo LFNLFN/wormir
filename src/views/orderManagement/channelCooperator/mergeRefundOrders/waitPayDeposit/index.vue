@@ -118,8 +118,7 @@
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input>
-                      <!--<span>{{scope.row.orderQuantity}}</span>-->
+                      <span>{{scope.row.orderQuantity}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -533,9 +532,9 @@
         let param = {}
       },
       getList() {
-        requestShopCart().then(res => {
-          this.list = res.data
-        })
+//        requestShopCart().then(res => {
+//          this.list = res.data
+//        })
       },
       removeAction(cartId, index) {
         cartRemove(cartId).then(res => {

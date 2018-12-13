@@ -118,8 +118,7 @@
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input>
-                      <!--<span>{{scope.row.orderQuantity}}</span>-->
+                      <span>{{scope.row.orderQuantity}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -128,21 +127,26 @@
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" label="Unit Purchase price" fixed="right">
+              <el-table-column align="center" width="140" label="Unit Purchase price">
                 <template slot-scope="scope">
                   <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" label="Total Purchase Price" fixed="right">
+              <el-table-column align="center" width="140" label="Total Purchase Price">
                 <template slot-scope="scope">
                   <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" label="30% Deposit" width="130" fixed="right">
+              <el-table-column align="center" label="30% Deposit" width="130">
                 <template slot-scope="scope">
                   <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
+                <template slot-scope="scope">
+                  <span>￥ {{ (scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.7).toFixed(2) }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -210,26 +214,32 @@
                 </template>
               </el-table-column>
 
-              <el-table-column width="140" align="center" label="Unit Purchase Price" fixed="right">
+              <el-table-column width="140" align="center" label="Unit Purchase Price">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">{{ 'unpaid 70% residual payment：' }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column width="140" align="center" label="Total Purchase Price" fixed="right">
+              <el-table-column width="140" align="center" label="Total Purchase Price">
                 <template slot-scope="scope">
                   <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="130" label="30% Deposit" fixed="right">
+              <el-table-column align="center" width="130" label="30% Deposit">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
 
+              <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
+                <template slot-scope="scope">
+                  <span v-if="scope.$index===order.replenishmentList.length-3" class="text-total">￥ {{ deposit70Amount.toFixed(2) }}</span>
+                  <span v-else>￥ {{ (scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.7).toFixed(2) }}</span>
+                </template>
+              </el-table-column>
             </el-table>
           </div>
 
@@ -336,6 +346,20 @@
         const deposit30_amount = itemOrder_amount + itemReplenish_amount
         return deposit30_amount
       },
+      deposit70Amount() {
+        let itemOrder_amount = 0
+        this.order.orderSubs.forEach((subsItem, index) => {
+          itemOrder_amount += subsItem.orderQuantity * subsItem.packingSpecification * subsItem.supplyPrice * 0.7
+        })
+        let itemReplenish_amount = 0
+        this.order.replenishmentList.forEach((replenishItem, index, arr) => {
+          if (index >= arr.length - 2) return false
+          itemReplenish_amount += replenishItem.supplyPrice * replenishItem.replenishmentQuantity * 0.7
+        })
+        const deposit70_amount = itemOrder_amount + itemReplenish_amount
+        return deposit70_amount
+      },
+
     },
     data() {
       return {
@@ -536,9 +560,9 @@
         let param = {}
       },
       getList() {
-        requestShopCart().then(res => {
-          this.list = res.data
-        })
+//        requestShopCart().then(res => {
+//          this.list = res.data
+//        })
       },
       removeAction(cartId, index) {
         cartRemove(cartId).then(res => {
@@ -557,9 +581,9 @@
           } else if (columnIndex === 7) {
             return {
               rowspan: 1,
-              colspan: 2
+              colspan: 3
             }
-          } else if (columnIndex === 9) {
+          } else if (columnIndex === 10) {
             return {
               rowspan: 1,
               colspan: 1

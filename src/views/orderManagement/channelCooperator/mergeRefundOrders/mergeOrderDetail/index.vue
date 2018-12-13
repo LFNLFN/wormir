@@ -1,7 +1,8 @@
 <template>
   <div class="merge-order-wrap">
-    <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1247px', padding: 0}">
-      <el-row>
+
+    <div class="filter-container theTopMsgBorder" :style="{width: '1417px', padding: 0}">
+      <el-row class="no-border-bottom">
         <el-col :span="3">
           <div class="grid-content bg-purple">Merge Payment NO. :</div>
         </el-col>
@@ -13,10 +14,95 @@
 
     <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
                     @cancel="waitPayDepositVisible = false" style="padding: 0;" class="addGrayBlock"/>
-    <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible"
+    <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible" ref="longerTable"
                      @cancel="waitPayResidualVisible = false" style="padding: 0" class="addGrayBlock"/>
 
-    <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1247px', padding: 0}">
+    <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1417px', padding: 0}">
+      <el-table key='mergeTotal' :data="mergeTotalList"
+                border fit size="mini"
+                style="width: 100%;border: none"
+                class="orderTable" ref="mergeTotalTable"
+                :span-method="arraySpanMethod_merge"
+                :show-header="false"
+                :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
+        <el-table-column align="center" width="85" label="Code" prop="goodsNo">
+          <template slot-scope="scope">
+            <span>{{ scope.row.goodsNo }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
+                         show-overflow-tooltip/>
+
+        <el-table-column align="center" width="190" label="Size"
+                         prop="specificationChinese" show-overflow-tooltip/>
+
+        <el-table-column align="center" label="Replenishment Package">
+          <el-table-column align="center" width="120" class-name="units-wrap"
+                           label="Replenishment Quantity">
+            <template slot-scope="scope">
+              <el-row>
+                <el-col :span="12" style="display: flex;justify-content: center">
+                  <span>{{scope.row.replenishmentQuantity}}</span>
+                </el-col>
+                <el-col :span="12" style="display: flex;justify-content: center">
+                  <span>瓶</span>
+                </el-col>
+              </el-row>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" width="100" label="Packing Unit">
+            <template slot-scope="scope">
+              <span>{{scope.row.packingUnit}} 瓶/箱</span>
+            </template>
+          </el-table-column>
+        </el-table-column>
+
+        <el-table-column align="center" width="90" label="Retail Price">
+          <template slot-scope="scope">
+            <span v-if="scope.$index===mergeTotalList.length-1&&currentRow.payWay===2" class="text-danger">{{ '温馨提醒：由于收到订金后才备货，所以请及时自行转帐，并核准以上帐号信息以人民币种转帐，因个人错误转帐造成r的损失自行承担。' }}</span>
+            <span v-else-if="scope.$index===mergeTotalList.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+            <span v-else>{{scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2)}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" width="120" class-name="units-wrap"
+                         label="Replenishment Quantity">
+          <template slot-scope="scope">
+            <el-row>
+              <el-col :span="12" style="display: flex;justify-content: center">
+                <span style="color:gray">{{scope.row.replenishmentQuantity}}</span>
+              </el-col>
+              <el-col :span="12" style="display: flex;justify-content: center">
+                <span>箱</span>
+              </el-col>
+            </el-row>
+          </template>
+        </el-table-column>
+
+        <el-table-column width="140" align="center" label="Unit Purchase Price">
+          <template slot-scope="scope">
+            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">{{ 'unpaid 30% deposit： ' }}</span>
+            <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column width="140" align="center" label="Total Purchase Price">
+          <template slot-scope="scope">
+            <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" width="128" label="30% Deposit">
+          <template slot-scope="scope">
+            <span class="text-total">{{ 'Unpaid Payment:' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" width="170px" label="70% Residual Payment" class-name="last-col-td0">
+          <template slot-scope="scope">
+            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">￥ {{ 122 }}</span>
+            <span v-else>￥ {{(122 * 0.3).toFixed(2)}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
       <el-row>
         <el-col :span="4" align="center">
           <div class="grid-content bg-purple">Beneficiary Bank SWIFT Code:</div>
@@ -57,12 +143,12 @@
           <div class="grid-content bg-purple">广州市番禺区市桥</div>
         </el-col>
       </el-row>
-      <span style="color: red">温馨提醒：并单一经提交不可更改，但可做取消并单操作。</span>
+      <div class="text-danger" style="margin-top: 20px">温馨提醒：并单一经提交不可更改，但可做取消并单操作。</div>
     </div>
 
     <div class="filter-container" :style="{width: '1247px', padding: 0}">
       <div class="dialogBottomButton-wrap">
-        <el-button @click="submitMergeOrder" type="primary">确认</el-button>
+        <el-button @click="submitMergeOrder" type="primary" style="width: 10em">确认</el-button>
       </div>
     </div>
 
@@ -82,7 +168,12 @@
         currentRow: {},
         waitPayDepositVisible: true,
         waitPayResidualVisible: true,
-        rowLength: 0
+        rowLength: 0,
+        mergeTotalList: [
+          {
+            goodsNo: 123456
+          }
+        ]
       }
     },
     methods: {
@@ -96,9 +187,33 @@
             vm.$emit('cancel')
           }
         })
-      }
+      },
+      arraySpanMethod_merge({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === this.mergeTotalList.length - 1) {
+         if (columnIndex === 9) {
+            return {
+              rowspan: 1,
+              colspan: 10
+            }
+          } else if (columnIndex === 10) {
+            return {
+              rowspan: 1,
+              colspan: 1
+            }
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            }
+          }
+        }
+      },
     },
     mounted() {
+      this.$nextTick(()=>{
+        this.rowLength = this.$refs['longerTable'].$el.offsetWidth
+        this.$refs['mergeTotalTable'].$el.children[1].children["0"].children[1].children["0"].children["0"].style.textAlign = 'right'
+      })
     }
   }
 </script>
@@ -161,7 +276,6 @@
   }
 
   .addGrayBlock {
-    width: 1247px;
-    border-bottom: 20px solid #D5D5D5;
+    margin: 20px 0;
   }
 </style>
