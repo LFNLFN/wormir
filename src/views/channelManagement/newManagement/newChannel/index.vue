@@ -126,7 +126,7 @@
       </el-pagination>
     </div>
     <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
-      <to-add v-if="isAddShow"></to-add>
+      <to-add v-if="isAddShow" @submitSuccess="addSuccess"></to-add>
     </el-dialog>
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="签订合同">
       <to-confirm></to-confirm>
@@ -313,6 +313,13 @@
         const property = column['property']
         return row[property] === value
       },
+      addSuccess() {
+        this.isAddShow = false
+        this.$message({
+          message: '新增成功！',
+          type: 'success'
+        });
+      }
     },
     components: {
       toAdd,

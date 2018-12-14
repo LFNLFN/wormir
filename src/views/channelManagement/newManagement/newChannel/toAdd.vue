@@ -165,7 +165,7 @@
             :data="form.contactData"
             class="vali-table"
             :cell-style="{height: '100px'}"
-            style="width: 100%">
+            style="width: 100%;border-right-width: 0">
             <el-table-column
               align="center"
               prop="job"
@@ -186,49 +186,53 @@
               align="center"
               prop="name"
               label="姓名"
-              width="">
+              width="120px"
+            >
               <template slot-scope="scope">
                 <el-input v-model="form.contactData[scope.$index].name" placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
+              width="150px"
               prop="mobile"
               label="电话">
               <template slot-scope="scope">
-                <el-form-item label="" label-width="0" prop="mobile">
-                  <el-input v-model="form.contactData[scope.$index].mobile" placeholder=""></el-input>
-                </el-form-item>
+                <el-input v-model="form.contactData[scope.$index].mobile" placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               prop="email"
+              width="250px"
               label="邮箱">
               <template slot-scope="scope">
-                <el-form-item label="" label-width="0" prop="email">
-                  <el-input v-model="form.contactData[scope.$index].email" placeholder=""></el-input>
-                </el-form-item>
+                <el-input v-model="form.contactData[scope.$index].email" placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               prop="address"
+              width="300px"
               label="地址">
               <template slot-scope="scope">
-                <el-input v-model="form.contactData[scope.$index].address" placeholder=""></el-input>
+                <el-input type="textarea" :rows="1" v-model="form.contactData[scope.$index].address"
+                          placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
               prop="remark"
+              width="300px"
               label="备注">
               <template slot-scope="scope">
-                <el-input v-model="form.contactData[scope.$index].remark" placeholder=""></el-input>
+                <el-input type="textarea" :rows="1" v-model="form.contactData[scope.$index].remark"
+                          placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
               align="center"
+              fixed="right"
               prop=""
               label="操作" width="170">
               <template slot-scope="scope">
@@ -269,8 +273,16 @@
 
   export default {
     data() {
+      var validateName = (rule, value, callback) => {
+        console.log(value)
+        if (!value) {
+          callback(new Error('请输入正确名字'));
+        } else {
+          callback();
+        }
+      };
       var validateEmail = (rule, value, callback) => {
-        const reg = /./
+        const reg = /^\@/
         if (!reg.test(value)) {
           callback(new Error('请输入正确邮箱'));
         } else {
@@ -307,7 +319,7 @@
 
           contactData: [{
             job: '',
-            name: '',
+            name: '1223',
             mobile: '',
             email: '',
             address: '',
@@ -399,11 +411,23 @@
           depositValue: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          email: [
-            { validator: validateEmail, trigger: 'blur' },
+          job: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          name: [
+            { validator: validateName, trigger: 'change' },
           ],
           mobile: [
             { validator: validateMobile, trigger: 'blur' },
+          ],
+          email: [
+            { validator: validateEmail, trigger: 'blur' },
+          ],
+          address: [
+            { required: true, message: '不能为空', trigger: 'blur' },
+          ],
+          remark: [
+            { required: true, message: '不能为空', trigger: 'blur' },
           ],
         },
 
@@ -465,31 +489,74 @@
 
       submitAction() {
         this.isSubmitting = true
+
+        // 验证渠道联系人和技术对接人
+        let channelContactPerson = this.form.contactData.some((item, index, arr) => {
+          return item.job == 1
+        })
+        let technologyConnectPerson = this.form.contactData.some((item, index, arr) => {
+          return item.job == 2
+        })
+        if (!(channelContactPerson && technologyConnectPerson)) {
+          this.$message.error('渠道联系人及技术对接人必填!');
+          this.isSubmitting = false
+          return false
+        }
+
+        // 验证联系表格是否为空
+        let contactTableValidate = this.form.contactData.some((item, index, arr) => {
+          let wrongValue = false
+          for (var a in item) {
+            if(!item[a]) {
+              wrongValue = true
+              break
+            }
+          }
+          return wrongValue
+        })
+        if (contactTableValidate) {
+          this.$message.error('请完整填写联系人表格内容!');
+          this.isSubmitting = false
+          return false
+        }
+
+        // 验证联系表格邮箱和电话
+        let contactEmail = this.form.contactData.some((item, index, arr) => {
+          const regEmail = /^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$/
+          return !regEmail.test(item.email)
+        })
+        // 验证联系表格邮箱和电话
+        let contactMobile = this.form.contactData.some((item, index, arr) => {
+          const regMobile = /^1[3|4|5|8]\d{9}$/
+          return !regMobile.test(item.mobile)
+        })
+        if (contactMobile) {
+          this.$message.error('请正确填写联系人表格电话!');
+          this.isSubmitting = false
+          return false
+        }
+        if (contactEmail) {
+          this.$message.error('请正确填写联系人表格邮箱!');
+          this.isSubmitting = false
+          return false
+        }
+
         this.$refs['form'].validate((valid) => {
           if (valid) {
-            console.log('通过前端验证')
-            return false
             request({
               url: '/channel/createChannel.do',
               method: 'post',
               data: this.form
             }).then(() => {
-              this.isSubmitting = false
+              this.$emit('submitSuccess')
             }).catch(() => {
+              this.$message.error('新增失败');
               this.isSubmitting = false
             })
           } else {
             this.isSubmitting = false
-            const vm = this
-            this.$alert('请完整填写信息。', '', {
-              confirmButtonText: this.$t('table.confirm'),
-              showClose: false,
-              center: true,
-              callback() {
-                vm.$emit('close')
-              }
-            })
-            return false;
+            this.$message.error('请填写全部信息')
+            return false
           }
         })
       },
