@@ -2,10 +2,10 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.value1" :placeholder="filterForm.placeholder"></el-input>
+        <el-input v-model="filterForm.searchText" :placeholder="filterForm.placeholder"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="channelSearch">查询</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="success" icon="el-icon-plus" @click="showAdd">新增渠道</el-button>
@@ -28,7 +28,7 @@
         min-width="100"
         align="center">
         <template slot-scope="scope">
-          <span>{{ channelCodeMap[scope.row.channelCode].text }}</span>
+          <span>{{ scope.row.channelCode }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -90,7 +90,8 @@
         prop="createTime"
         label="创建时间"
         align="center"
-        width="100">
+        width="120"
+      show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         label="操作"
@@ -100,11 +101,12 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="showConfirm">去确认
+            v-if="scope.row.channelStatus==100"
+            @click="showConfirm(scope.row)">去确认
           </el-button>
           <el-button
             size="mini"
-            @click="showCheck">去查看
+            @click="showCheck(scope.row)">去查看
           </el-button>
           <el-button
             size="mini"
@@ -120,19 +122,20 @@
         @current-change="handleCurrentChange"
         :current-page="filterForm.currentPage"
         :page-sizes="[10, 20, 30, 50]"
-        :page-size="filterForm.page_size"
+        :page-size="filterForm.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="filterForm.total">
       </el-pagination>
     </div>
+
     <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
       <to-add v-if="isAddShow" @submitSuccess="addSuccess"></to-add>
     </el-dialog>
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="签订合同">
-      <to-confirm></to-confirm>
+      <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @submitSuccess="confirmSuccess"></to-confirm>
     </el-dialog>
     <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案信息">
-      <to-check></to-check>
+      <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
       <to-delete></to-delete>
@@ -147,106 +150,96 @@
   import toCheck from './toCheck.vue'
   import toDelete from './toDelete.vue'
   import { channel_BlurSearch } from '@/api/channel'
+  import request from "@/utils/request";
 
   export default {
     data() {
       return {
         filterForm: {
           placeholder: '渠道号/渠道名称',
-          value1: '',
+          searchText: '',
           currentPage: 1,
-          page_size: 10,
+          pageSize: 10,
           total: 0
         },
-        channelTableData: [
-          {
-            channelNum: 'FXQD' + Mock.Random.natural(20180522001, 20180522009),
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: Mock.Random.natural(0, 2),
-            channelLevel: Mock.Random.natural(0, 3),
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-          },
-          {
-            channelNum: 'DLQD' + Mock.Random.natural(20180522001, 20180522009),
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: Mock.Random.natural(0, 2),
-            channelLevel: Mock.Random.natural(0, 3),
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-          },
-          {
-            channelNum: 'DFQD' + Mock.Random.natural(20180522001, 20180522009),
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: Mock.Random.natural(0, 6),
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: Mock.Random.natural(0, 2),
-            channelLevel: Mock.Random.natural(0, 3),
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss')
-          },
-        ],
+        channelTableData: [],
         channelCodeFilters: [
-          { text: 'DLQD', value: 0 },
-          { text: 'DFQD', value: 1 },
-          { text: 'FXQD', value: 2 }
+          { text: 'DLQD', value: 1 },
+          { text: 'DFQD', value: 2 },
+          { text: 'FXQD', value: 3 }
         ],
         channelCodeMap: {
-          0: { text: 'DLQD', value: 0 },
-          1: { text: 'DFQD', value: 1 },
-          2: { text: 'FXQD', value: 2 }
+          1: { text: 'DLQD', value: 1 },
+          2: { text: 'DFQD', value: 2 },
+          3: { text: 'FXQD', value: 3 }
         },
         channelStatusFilters: [
-          { text: '待签合同', value: 0 },
-          { text: '待激活账号', value: 1 },
-          { text: '待付保证金', value: 2 },
-          { text: '待接系统', value: 3 },
-          { text: '停止签合同', value: 4 },
-          { text: '停止激活账户', value: 5 },
-          { text: '停止付保证金', value: 6 },
+          { text: '停止合作', value: -1000 },
+          { text: '停止签合同', value: -100 },
+          { text: '停止激活账号', value: -200 },
+          { text: '停止付保证金', value: -300 },
+          { text: '不返还保证金', value: -350 },
+          { text: '停止技术对接', value: -400 },
+          { text: '停止审核', value: -50 },
+          { text: '审核不通过', value: -40 },
+          { text: '待返还保证金', value: -950 },
+          { text: '已返还保证金', value: -900 },
+          { text: '待提交审核', value: 40 },
+          { text: '待审核', value: 50 },
+          { text: '待签合同', value: 100 },
+          { text: '待激活账号', value: 200 },
+          { text: '待付保证金', value: 300 },
+          { text: '待接系统', value: 400 },
+          { text: '已开通', value: 1000 },
         ],
         channelStatusMap: {
-          0: { text: '待签合同', value: 0 },
-          1: { text: '待激活账号', value: 1 },
-          2: { text: '待付保证金', value: 2 },
-          3: { text: '待接系统', value: 3 },
-          4: { text: '停止签合同', value: 4 },
-          5: { text: '停止激活账户', value: 5 },
-          6: { text: '停止付保证金', value: 6 }
+          '-1000': { text: '停止合作', value: -1000 },
+          '-100': { text: '停止签合同', value: -100 },
+          '-200': { text: '停止激活账号', value: -200 },
+          '-300': { text: '停止付保证金', value: -300 },
+          '-350': { text: '不返还保证金', value: -350 },
+          '-400': { text: '停止技术对接', value: -400 },
+          '-50': { text: '停止审核', value: -50 },
+          '-40': { text: '审核不通过', value: -40 },
+          '-950': { text: '待返还保证金', value: -950 },
+          '-900': { text: '已返还保证金', value: -900 },
+          '40': { text: '待提交审核', value: 40 },
+          '50': { text: '待审核', value: 50 },
+          100: { text: '待签合同', value: 100 },
+          200: { text: '待激活账号', value: 200 },
+          300: { text: '待付保证金', value: 300 },
+          400: { text: '待接系统', value: 400 },
+          1000: { text: '已开通', value: 1000 },
         },
         cooperationTypeFilters: [
-          { text: '渠道入驻', value: 0 },
-          { text: '渠道变更', value: 1 }
+          { text: '渠道入驻', value: 1 },
+          { text: '渠道变更', value: 2 }
         ],
         cooperationTypeMap: {
-          0: { text: '渠道入驻', value: 0 },
-          1: { text: '渠道变更', value: 1 }
+          1: { text: '渠道入驻', value: 1 },
+          2: { text: '渠道变更', value: 2 }
         },
         channelTypeFilters: [
-          { text: '淘宝C店', value: 0 },
-          { text: '淘宝企业店', value: 1 },
-          { text: '天猫店', value: 2 },
-          { text: 'B2C平台', value: 3 },
+          { text: '淘宝C店', value: 1 },
+          { text: '淘宝企业店', value: 2 },
+          { text: '天猫店', value: 3 },
+          { text: 'B2C平台', value: 4 },
         ],
         channelTypeMap: {
-          0: { text: '淘宝C店', value: 0 },
-          1: { text: '淘宝企业店', value: 1 },
-          2: { text: '天猫店', value: 2 },
-          3: { text: 'B2C平台', value: 3 },
+          1: { text: '淘宝C店', value: 1 },
+          2: { text: '淘宝企业店', value: 2 },
+          3: { text: '天猫店', value: 3 },
+          4: { text: 'B2C平台', value: 4 },
         },
         channelPropFilters: [
-          { text: '独立渠道(DLQD)', value: 0 },
-          { text: '代发渠道(DFQD)', value: 1 },
-          { text: '分销渠道(FXQD)', value: 2 }
+          { text: '独立渠道(DLQD)', value: 1 },
+          { text: '代发渠道(DFQD)', value: 2 },
+          { text: '分销渠道(FXQD)', value: 3 }
         ],
         channelPropMap: {
-          0: { text: '独立渠道(DLQD)', value: 0 },
-          1: { text: '代发渠道(DFQD)', value: 1 },
-          2: { text: '分销渠道(FXQD)', value: 2 },
+          1: { text: '独立渠道(DLQD)', value: 1 },
+          2: { text: '代发渠道(DFQD)', value: 2 },
+          3: { text: '分销渠道(FXQD)', value: 3 },
         },
         channelLevelFilters: [
           { text: 'A级渠道', value: 0 },
@@ -261,52 +254,58 @@
           3: { text: 'C级渠道', value: 3 },
         },
         isAddShow: false,
-        isConfirmShow:
-          false,
-        isCheckShow:
-          false,
-        isDeleteShow:
-          false
+        isConfirmShow: false,
+        isCheckShow: false,
+        isDeleteShow: false,
+        currentRow: null
       }
     },
     methods: {
-      channelBlurSearch() {
-        channel_BlurSearch(this.filterForm.value1)
-          .then((res) => {
-            this.channelTableData = res.data
-            this.filterForm.total = res.data.length
-          })
-          .catch(() => {
-//            this.$message.error('表格加载失败')
-            this.filterForm.total = this.channelTableData.length
-          })
+      channelSearch() {
+        request({
+          url: '/channel/newChannelList.do',
+          method: 'post',
+          data: {
+            page: this.filterForm.currentPage,
+            limit: this.filterForm.pageSize,
+            searchText: this.filterForm.searchText
+          }
+        }).then((res) => {
+          this.channelTableData = res.data.items
+          this.filterForm.total = res.data.total
+          console.log(res.data.items)
+        }).catch(() => {
+          this.$message.error('数据请求失败');
+        })
       },
       showAdd() {
         this.isAddShow = true
       },
-      showConfirm() {
+      showConfirm(row) {
+        this.currentRow = row
         this.isConfirmShow = true
       },
-      showCheck() {
+      showCheck(row) {
+        this.currentRow = row
         this.isCheckShow = true
       },
       showDelete() {
         this.isDeleteShow = true
       },
       handleSizeChange(val) {
-        channel_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => {
-            this.channelTableData = res.data;
-            this.filterForm.total = res.data.length
-          })
-        this.filterForm.page_size = val
+//        channel_BlurSearch(this.filterForm.searchText, 1, val)
+//          .then((res) => {
+//            this.channelTableData = res.data;
+//            this.filterForm.total = res.data.length
+//          })
+        this.filterForm.pageSize = val
       },
       handleCurrentChange(val) {
-        channel_BlurSearch(this.filterForm.value1, val)
-          .then((res) => {
-            this.channelTableData = res.data;
-            this.filterForm.total = res.data.length
-          })
+//        channel_BlurSearch(this.filterForm.searchText, val)
+//          .then((res) => {
+//            this.channelTableData = res.data;
+//            this.filterForm.total = res.data.length
+//          })
         this.filterForm.currentPage = val
       },
       filterHandler(value, row, column) {
@@ -319,7 +318,14 @@
           message: '新增成功！',
           type: 'success'
         });
-      }
+      },
+      confirmSuccess() {
+        this.isConfirmShow = false
+        this.$message({
+          message: '确认成功！',
+          type: 'success'
+        });
+      },
     },
     components: {
       toAdd,
@@ -328,7 +334,7 @@
       toDelete
     },
     mounted() {
-      this.channelBlurSearch()
+      this.channelSearch()
     }
   }
 </script>

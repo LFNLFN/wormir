@@ -40,3 +40,70 @@ export function numberFormatter(num, digits) {
 export function toThousandslsFilter(num) {
   return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
+
+// 经营主体
+export function businessEntity(value) {
+  const statusMap = {
+    1: '个人',
+    2: '企业',
+  }
+  return statusMap[value]
+}
+// 渠道属性
+export function channelProp(value) {
+  const statusMap = {
+    1: 'DLQD(独立渠道)',
+    2: 'DFQD(代发渠道)',
+    3: 'FXQD(分销渠道)',
+  }
+  return statusMap[value]
+}
+// 渠道属性
+export function cooperationType(value) {
+  const statusMap = {
+    1: '渠道入驻',
+    2: '渠道变更',
+  }
+  return statusMap[value]
+}
+// 渠道类别
+export function channelType(value) {
+  const statusMap = {
+    1: '淘宝C店',
+    2: '淘宝企业店',
+    3: '天猫店',
+    4: 'B2C平台',
+  }
+  return statusMap[value]
+}
+// 渠道级别
+export function channelLevel(value) {
+  const statusMap = {
+    1: 'A级渠道',
+    2: 'B级渠道',
+    3: 'C级渠道',
+    4: 'D级渠道',
+  }
+  return statusMap[value]
+}
+
+// 合同状态
+export function contractStatus(value) {
+  const statusMap = {
+    100: '生效',
+    '-100': '到期终止',
+    '-200': '提前终止',
+    '-300': '违规终止',
+    '-400': '强制注销',
+  }
+  return statusMap[value]
+}
+
+// 保证金状态
+export function securityAmountStatus(value) {
+  const statusMap = {
+    0: '未缴纳',
+    1: '已缴纳',
+  }
+  return statusMap[value]
+}
