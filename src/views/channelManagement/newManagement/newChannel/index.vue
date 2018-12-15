@@ -91,7 +91,7 @@
         label="创建时间"
         align="center"
         width="120"
-      show-overflow-tooltip>
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         label="操作"
@@ -111,7 +111,8 @@
           <el-button
             size="mini"
             type="danger"
-            @click="showDelete">强制注销
+            v-if="scope.row.channelStatus==100"
+            @click="showDelete(scope.row)">强制注销
           </el-button>
         </template>
       </el-table-column>
@@ -138,7 +139,7 @@
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
-      <to-delete></to-delete>
+      <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
   </div>
 </template>
@@ -289,7 +290,8 @@
         this.currentRow = row
         this.isCheckShow = true
       },
-      showDelete() {
+      showDelete(row) {
+        this.currentRow = row
         this.isDeleteShow = true
       },
       handleSizeChange(val) {
@@ -323,6 +325,13 @@
         this.isConfirmShow = false
         this.$message({
           message: '确认成功！',
+          type: 'success'
+        });
+      },
+      deleteSuccess() {
+        this.isDeleteShow = false
+        this.$message({
+          message: '删除成功！',
           type: 'success'
         });
       },
