@@ -537,7 +537,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌折扣" required>
+      <el-form-item label="品牌折扣" prop="discountInput">
         <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
@@ -553,7 +553,7 @@
             <template slot-scope="scope">
               <el-col :span="11">
                 <el-input
-                  v-model.trim.number="form.brandDiscount_msg.discountInput[scope.$index].orderMin"
+                  v-model.trim.number="form.discountInput[scope.$index].orderMin"
                   placeholder="区间起订量"
                 ></el-input>
               </el-col>
@@ -562,7 +562,7 @@
               </el-col>
               <el-col :span="11">
                 <el-input
-                  v-model.trim.number="form.brandDiscount_msg.discountInput[scope.$index].orderMax"
+                  v-model.trim.number="form.discountInput[scope.$index].orderMax"
                   placeholder="区间结束量"
                 ></el-input>
               </el-col>
@@ -571,7 +571,7 @@
           <el-table-column align="center" width="200" label="降幅折扣 -%">
             <template slot-scope="scope">
               <el-input
-                v-model.trim.number="form.brandDiscount_msg.discountInput[scope.$index].decreasingDiscount"
+                v-model.trim.number="form.discountInput[scope.$index].decreasingDiscount"
               ></el-input>
             </template>
           </el-table-column>
@@ -587,8 +587,8 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <div class="border1">
-        <el-form-item label="合作管理" required class="form-row add-brand-row">
+      <div class="border1 form-error-inline">
+        <el-form-item label="合作管理" prop="timeRange" class="form-row add-brand-row">
           <el-row style>
             <el-col :span="13">
               <el-date-picker
@@ -606,8 +606,8 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="品牌状态" required class="form-row last-form-row add-brand-row">
-          <el-select v-model.trim="form.brandStatus" placeholder="请选择" style="margin-top: 4px">
+        <el-form-item label="品牌状态" prop="brandStatus" class="form-row last-form-row add-brand-row">
+          <el-select v-model="form.brandStatus" placeholder="请选择" style="margin-top: 4px">
             <el-option
               v-for="item in brandStatusOptions"
               :key="item.value"
@@ -789,6 +789,32 @@ export default {
       }
     };
 
+    var validateDiscountInput = (rule, value, callback) => {
+      let valiNull = value.some((item, index, arr) => {
+        for ( var key in item ) {
+          if ( typeof item[key] !== 'number' ) return true
+          let valiOrderRange = (item.orderMin>=0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
+          if (!valiOrderRange) return true
+        }
+      });
+
+      if (valiNull) {
+        callback(new Error("品牌折扣表格必须正确填写！"));
+      } else {
+        callback();
+      }
+    };
+
+    var validateTimeRange = (rule, value, callback) => {
+      let valiNull = value.timeValue
+
+      if (!valiNull) {
+        callback(new Error("不能为空"));
+      } else {
+        callback();
+      }
+    };
+
     return {
       form: {
         brandNo: "",
@@ -805,11 +831,11 @@ export default {
           bankName: null,
           bankAddress: null
         },
-        forexTime: null,
         transactionCurrencyInland: [],
         transactionCurrencyOutland: [],
         qualityName: [],
         packingWay: [],
+
         brandSeries_msg: {
           hasBrandSeries: 1,
           brandSeries: "",
@@ -822,7 +848,8 @@ export default {
           ],
           brandSeriesArr: [{ seriesName: " " }],
           mainCategoriesItem_width: 750
-        },
+        }, // 结尾带 _msg 的选项都不用传的
+
         hasBrandSeries: 1,
         inputSeries: [""],
         brandSeriesMainCategoriesArr: [
@@ -843,6 +870,7 @@ export default {
           ],
           mainCategoriesItem_width: 600
         },
+
         brandTypeMainCategoriesArr: [
           {
             value: "",
@@ -870,6 +898,7 @@ export default {
             }
           ]
         },
+
         specificationInput: [
           {
             goodSpecificationChinese: '',
@@ -895,6 +924,7 @@ export default {
             }
           ]
         },
+
         boxInput: [
           {
             boxNo: "",
@@ -917,6 +947,15 @@ export default {
             }
           ]
         },
+
+        discountInput: [
+          {
+            orderMin: "",
+            orderMax: "",
+            decreasingDiscount: 0
+          }
+        ],
+
         timeRange: {
           timeValue: "",
           pickerOptions: {
@@ -949,18 +988,27 @@ export default {
                 }
               }
             ]
-          },
+          }, // 这个在前端用的，不用传到后台
           autoRenew: false
         },
-        brandStatus: ""
+        brandStatus: null
       },
+
+
+
+
+
+
+
+
+      
       brandStatusOptions: [
         {
-          value: "1",
+          value: 1,
           label: "正常供货"
         },
         {
-          value: "2",
+          value: 0,
           label: "停止供货"
         }
       ],
@@ -1057,7 +1105,16 @@ export default {
         ],
         boxInput: [
           { validator: validateBoxInput, required: true, trigger: "blur" }
-        ]
+        ],
+        discountInput: [
+          { validator: validateDiscountInput, required: true, trigger: "blur" }
+        ],
+        timeRange: [
+          { validator: validateTimeRange, required: true, trigger: "blur" }
+        ],
+        brandStatus: [
+          { required: true, message: "不能为空", trigger: "change" }
+        ],
       }
     };
   },
@@ -1244,7 +1301,7 @@ export default {
       this.form.brandDiscount_msg.discountArr.push(
         this.form.brandDiscount_msg.discountArr[0]
       );
-      this.form.brandDiscount_msg.discountInput.push({
+      this.form.discountInput.push({
         orderMin: "",
         orderMax: "",
         decreasingDiscount: 0
@@ -1253,7 +1310,7 @@ export default {
     brandDiscount_deleteDiscount(index, row) {
       if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
       this.form.brandDiscount_msg.discountArr.splice(index, 1);
-      this.form.brandDiscount_msg.discountInput.splice(index, 1);
+      this.form.discountInput.splice(index, 1);
     }
   }
 };
