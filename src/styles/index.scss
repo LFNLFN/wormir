@@ -559,3 +559,13 @@ td.units-wrap:after {
   padding-left: 0!important;
   border: none!important;
 }
+
+// 新增品牌中的表单验证
+.form-error-inline .el-form-item__error {
+  top: 30%;
+  left: 90%;
+}
+.form-error-inline .few-input-item .el-form-item__error {
+  top: 106%;
+  left: 80%;
+}
