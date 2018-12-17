@@ -342,11 +342,11 @@
               <div class="mainCategories-wrap">
                 <div
                   class="mainCategories-item"
-                  v-for="(mainCategoriesItems,mainCateIndex) in form.brandType_msg.mainCategoriesArr"
+                  v-for="(mainCategoriesItems,mainCateIndex) in form.brandTypeMainCategoriesArr"
                 >
-                  <el-form-item label="主品类">
+                  <el-form-item label="主品类" prop="brandTypeMainCategoriesArr">
                     <el-input
-                      v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].value"
+                      v-model="form.brandTypeMainCategoriesArr[mainCateIndex].value"
                       placeholder="请输入主品类"
                     ></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px">
@@ -367,11 +367,11 @@
                   <div class="subCategories-wrap">
                     <div
                       class="subCategories-item"
-                      v-for="(subCategoriesItems,subCateIndex) in form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr"
+                      v-for="(subCategoriesItems,subCateIndex) in form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr"
                     >
                       <el-form-item label="子品类">
                         <el-input
-                          v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          v-model="form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
                           placeholder="请输入子品类"
                         >
                           <el-button
@@ -752,7 +752,7 @@ export default {
       }
     };
 
-    var validateBrandSeriesMainCategoriesArr = (rule, value, callback) => {
+    var validateBrandTypeMainCategoriesArr = (rule, value, callback) => {
       let valiNull = value.some((item, index, arr) => {
         return item.value == false;
       });
@@ -834,6 +834,14 @@ export default {
           ],
           mainCategoriesItem_width: 600
         },
+        brandTypeMainCategoriesArr: [
+          {
+            value: "",
+            subCategoriesArr: [""]
+          }
+        ],
+
+
         brandSpecification_msg: {
           SpecificationArr: [{ specificationName: " " }],
           specificationInput: [
@@ -1007,9 +1015,9 @@ export default {
         inputSeries: [
           { validator: validateInputSeries, required: true, trigger: "blur" }
         ],
-//        brandSeriesMainCategoriesArr: [
-//          { validator: validateBrandSeriesMainCategoriesArr, required: true, trigger: "blur" }
-//        ],
+        brandTypeMainCategoriesArr: [
+          { validator: validateBrandTypeMainCategoriesArr, required: true, trigger: "blur" }
+        ],
       }
     };
   },
@@ -1023,7 +1031,7 @@ export default {
     brandType_mainCategoriesWrap_width() {
       return (
         this.form.brandType_msg.mainCategoriesItem_width *
-        this.form.brandType_msg.mainCategoriesArr.length
+        this.form.brandTypeMainCategoriesArr.length
       );
     }
   },
@@ -1133,27 +1141,27 @@ export default {
 
 
     brandType_addBrandType(index, row) {
-      this.form.brandType_msg.mainCategoriesArr.push({
+      this.form.brandTypeMainCategoriesArr.push({
         value: "",
         subCategoriesArr: [""]
       });
     },
     brandType_deleteMainCategoties(index) {
-      if (this.form.brandType_msg.mainCategoriesArr.length === 1) return false;
-      this.form.brandType_msg.mainCategoriesArr.splice(index, 1);
+      if (this.form.brandTypeMainCategoriesArr.length === 1) return false;
+      this.form.brandTypeMainCategoriesArr.splice(index, 1);
     },
     brandType_addSubCategoties(index) {
-      this.form.brandType_msg.mainCategoriesArr[index].subCategoriesArr.push(
+      this.form.brandTypeMainCategoriesArr[index].subCategoriesArr.push(
         ""
       );
     },
     brandType_delSubCategories(mainIndex, subIndex) {
       if (
-        this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr
+        this.form.brandTypeMainCategoriesArr[mainIndex].subCategoriesArr
           .length === 1
       )
         return false;
-      this.form.brandType_msg.mainCategoriesArr[
+      this.form.brandTypeMainCategoriesArr[
         mainIndex
       ].subCategoriesArr.splice(subIndex, 1);
     },
