@@ -55,6 +55,7 @@ export function channelProp(value) {
     1: 'DLQD(独立渠道)',
     2: 'DFQD(代发渠道)',
     3: 'FXQD(分销渠道)',
+    4: 'FXZQD(分销子渠道)',
   }
   return statusMap[value]
 }

@@ -19,13 +19,13 @@
       border
       :data="channelTableData"
       style="width: 100%"
-    class="border2">
+      class="border2">
       <el-table-column
         prop="channelNum"
         label="渠道号"
         min-width="190"
         align="center"
-      show-overflow-tooltip>
+        show-overflow-tooltip>
         <template slot-scope="scope">
           <span class="link-type" @click="showCheck(scope.row)">{{ scope.row.channelNum }}</span>
         </template>
@@ -86,9 +86,9 @@
         align="center"
         min-width="110">
         <template slot-scope="scope">
-          <div>{{ '2019-01-01' }}</div>
+          <div>{{ scope.row.contractStartTime }}</div>
           <div>{{ '至' }}</div>
-          <div>{{ '2020-01-01' }}</div>
+          <div>{{ scope.row.contractEndTime }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -98,7 +98,7 @@
         min-width="110">
       </el-table-column>
       <el-table-column
-        prop="openingTime"
+        prop="openedDate"
         label="开通时间"
         align="center"
         min-width="110">
@@ -108,18 +108,14 @@
         align="center"
         min-width="140">
         <template slot-scope="scope">
-          <!--<el-button-->
-          <!--size="mini"-->
-          <!--@click="showConfirm">去确认-->
-          <!--</el-button>-->
           <el-button
-          size="mini"
-          @click="showManagement(scope.row)">去管理
+            size="mini"
+            @click="showManagement(scope.row)">去管理
           </el-button>
           <el-button
-          size="mini"
-          type="danger"
-          @click="showDelete(scope.row)">强制注销
+            size="mini"
+            type="danger"
+            @click="showDelete(scope.row)">强制注销
           </el-button>
         </template>
       </el-table-column>
@@ -139,10 +135,11 @@
       <to-check-detail :currentRow="currentRow" v-if="isCheckShow"></to-check-detail>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="85%" @close="isDeleteShow = false" title="注销终止渠道">
-      <to-delete v-if="isDeleteShow" :currentRow="currentRow"  @closeOutDialog="isDeleteShow = false"></to-delete>
+      <to-delete v-if="isDeleteShow" :currentRow="currentRow" @closeOutDialog="isDeleteShow = false"></to-delete>
     </el-dialog>
     <el-dialog :visible.sync="isManagementShow" width="75%" @close="isManagementShow = false" title="管理渠道档案">
-      <to-management :currentRow="currentRow" v-if="isManagementShow" @closeDialog="isManagementShow=false"></to-management>
+      <to-management :currentRow="currentRow" v-if="isManagementShow"
+                     @closeDialog="isManagementShow=false" @submitSuccess="editSuccess"></to-management>
     </el-dialog>
   </div>
 </template>
@@ -174,25 +171,7 @@
           page_size: 10,
           total: 0
         },
-        channelTableData: [
-          // 分销子渠道FXZQD
-          {
-            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
-            channelName: 'zxc总店',
-            channelCode: Mock.Random.natural(0, 2),
-            channelStatus: 0,
-            cooperationType: Mock.Random.natural(0, 1),
-            channelType: Mock.Random.natural(0, 3),
-            channelProp: 0,
-            channelLevel: Mock.Random.natural(0, 3),
-            FXQDbelongCode: 'FXQD' + 20180522001,
-            FXQDbelongName: 'FXQD',
-            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
-            openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
-            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
-            businessEntity: 1
-          }
-        ],
+        channelTableData: [],
         channelCodeFilters: [
           { text: 'DLQD', value: 0 },
           { text: 'DFQD', value: 1 },
@@ -261,18 +240,12 @@
           0: { text: 'A级渠道', value: 0 },
           1: { text: 'B级渠道', value: 1 },
           2: { text: 'C级渠道', value: 2 },
-          3: { text: 'C级渠道', value: 3 },
+          3: { text: 'D级渠道', value: 3 },
         },
       }
     },
     methods: {
       channelBlurSearch() {
-//         channel_BlurSearch_withTime(this.filterForm.channelMsg1, this.filterForm.channelMsg2)
-//           .then((res) => {
-// //            this.channelTableData = res.data
-//             this.filterForm.total = res.data.length
-//           })
-//         // .catch(() => { this.$message.error('表格加载失败') })
         request({
           url: '/channel/cooperateChannelList.do',
           method: 'post',
@@ -282,8 +255,15 @@
             searchText: '',
             openedDate: null
           }
+        }).then((res) => {
+          this.channelTableData = res.data.items
+          this.filterForm.total = res.data.total
+          console.log(this.channelTableData)
+        }).catch(() => {
+          this.$message.error('表格加载失败')
         })
       },
+
       handleSizeChange(val) {
         channel_BlurSearch_withTime(this.filterForm.value1, null, 1, val)
           .then((res) => {
@@ -315,7 +295,15 @@
       showManagement(row) {
         this.currentRow = row
         this.isManagementShow = true
-      }
+      },
+      // 提交相关
+      editSuccess() {
+        this.isManagementShow = false
+        this.$message({
+          message: '操作成功！',
+          type: 'success'
+        });
+      },
     },
     mounted() {
       this.channelBlurSearch()

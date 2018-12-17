@@ -618,7 +618,7 @@
         </el-form-item>
       </div>
       <div class="dialogBottomButton-wrap">
-        <el-button type="primary" @click="onSubmit">保存并提交</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">保存并提交</el-button>
       </div>
     </el-form>
   </div>
@@ -1115,8 +1115,9 @@ export default {
         brandStatus: [
           { required: true, message: "不能为空", trigger: "change" }
         ],
-      }
-    };
+      },
+      isSubmitting: false
+    }
   },
   computed: {
     brandSeries_mainCategoriesWrap_width() {
@@ -1134,10 +1135,12 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.isSubmitting = true;
       console.log(this.form)
       this.$refs["form"].validate(valid => {
         if (valid) {
           console.log("前端验证ok");
+          this.isSubmitting = false;
           return false;
           request({
             url: "/channel/createChannel.do",
