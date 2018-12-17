@@ -153,6 +153,7 @@
   import toCheckDetail from './toCheckDetail.vue'
   import toDelete from './toDelete.vue'
   import toManagement from './toManagement.vue'
+  import request from '@/utils/request'
 
   export default {
     components: {
@@ -268,12 +269,20 @@
     },
     methods: {
       channelBlurSearch() {
-        channel_BlurSearch_withTime(this.filterForm.channelMsg1, this.filterForm.channelMsg2)
-          .then((res) => {
-//            this.channelTableData = res.data
-            this.filterForm.total = res.data.length
-          })
-        // .catch(() => { this.$message.error('表格加载失败') })
+//         channel_BlurSearch_withTime(this.filterForm.channelMsg1, this.filterForm.channelMsg2)
+//           .then((res) => {
+// //            this.channelTableData = res.data
+//             this.filterForm.total = res.data.length
+//           })
+//         // .catch(() => { this.$message.error('表格加载失败') })
+        request({
+          url: '/channel/cooperateChannelList.do',
+          method: 'post',
+          data: {
+            page: 1,
+            limit: 10
+          }
+        })
       },
       handleSizeChange(val) {
         channel_BlurSearch_withTime(this.filterForm.value1, null, 1, val)
