@@ -2,13 +2,13 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.channelMsg1" :placeholder="filterForm.placeholder1"></el-input>
+        <el-input v-model="filterForm.searchText" placeholder="渠道号/渠道名称"></el-input>
       </el-form-item>
       <el-form-item label="">
         <el-date-picker
-          v-model="filterForm.channelMsg2"
+          v-model="filterForm.openedDate"
           type="month"
-          :placeholder="filterForm.placeholder2">
+          placeholder="开通时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -168,10 +168,8 @@
         isDeleteShow: false,
         isManagementShow: false,
         filterForm: {
-          placeholder1: '渠道号/渠道名称',
-          channelMsg1: '',
-          placeholder2: '开通时间',
-          channelMsg2: '',
+          searchText: '',
+          openDate: '',
           currentPage: 1,
           page_size: 10,
           total: 0
@@ -280,7 +278,9 @@
           method: 'post',
           data: {
             page: 1,
-            limit: 10
+            limit: 10,
+            searchText: '',
+            openedDate: null
           }
         })
       },

@@ -1001,7 +1001,7 @@ export default {
 
 
 
-      
+
       brandStatusOptions: [
         {
           value: 1,
@@ -1134,6 +1134,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      console.log(this.form)
       this.$refs["form"].validate(valid => {
         if (valid) {
           console.log("前端验证ok");
