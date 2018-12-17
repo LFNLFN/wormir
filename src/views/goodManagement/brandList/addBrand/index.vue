@@ -268,11 +268,11 @@
               <div class="mainCategories-wrap">
                 <div
                   class="mainCategories-item"
-                  v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr"
+                  v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index]"
                 >
-                  <el-form-item label="主品类" prop="brandSeriesMainCategoriesArr">{{ form.brandSeriesMainCategoriesArr.length }}
+                  <el-form-item label="主品类">
                     <el-input
-                      v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].value"
+                      v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].value"
                       placeholder="请输入主品类"
                     ></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px;">
@@ -281,7 +281,7 @@
                         size="mini"
                         type="danger"
                         icon="el-icon-delete"
-                        @click="brandSeries_deleteMainCategoties(mainCateIndex)"
+                        @click="brandSeries_deleteMainCategoties(scope.$index, mainCateIndex)"
                       >删除主品类</el-button>
                       </div>
                      <div style="margin-top: 5px;">
@@ -289,7 +289,7 @@
                         type="success"
                         icon="el-icon-plus"
                         size="mini"
-                        @click="brandSeries_addSubCategoties(mainCateIndex)"
+                        @click="brandSeries_addSubCategoties(scope.$index, mainCateIndex)"
                       >添加子品类</el-button>
                      </div>
                     </div>
@@ -297,18 +297,18 @@
                   <div class="subCategories-wrap">
                     <div
                       class="subCategories-item"
-                      v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr"
+                      v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr"
                     >
                       <el-form-item label="子品类">
                         <el-input
-                          v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr[subCateIndex]"
                           placeholder="请输入子品类"
                         >
                           <el-button
                             slot="append"
                             type="danger"
                             icon="el-icon-delete"
-                            @click="brandSeries_delSubCategories(mainCateIndex,subCateIndex)"
+                            @click="brandSeries_delSubCategories(scope.$index, mainCateIndex, subCateIndex)"
                           ></el-button>
                         </el-input>
                       </el-form-item>
@@ -817,10 +817,10 @@ export default {
         hasBrandSeries: 1,
         inputSeries: [""],
         brandSeriesMainCategoriesArr: [
-          {
+          [{
             value: "",
             subCategoriesArr: [""]
-          }
+          }]
         ],
         brandSeriesArr: [{ seriesName: " " }],
 
@@ -1007,9 +1007,9 @@ export default {
         inputSeries: [
           { validator: validateInputSeries, required: true, trigger: "blur" }
         ],
-        brandSeriesMainCategoriesArr: [
-          { validator: validateBrandSeriesMainCategoriesArr, required: true, trigger: "blur" }
-        ],
+//        brandSeriesMainCategoriesArr: [
+//          { validator: validateBrandSeriesMainCategoriesArr, required: true, trigger: "blur" }
+//        ],
       }
     };
   },
@@ -1093,36 +1093,40 @@ export default {
         this.form.brandSeriesArr[0]
       );
       this.form.inputSeries.push("");
+      this.form.brandSeriesMainCategoriesArr.push([{
+        value: "",
+        subCategoriesArr: [""]
+      }])
     },
     brandSeries_deleteSeries(index, row) {
       if (this.form.brandSeriesArr.length === 1) return false;
       this.form.brandSeriesArr.splice(index, 1);
+      this.form.brandSeriesMainCategoriesArr.splice(index, 1);
       this.form.inputSeries.splice(index, 1);
     },
     brandSeries_addMainCategoties(index, row) {
-      this.form.brandSeriesMainCategoriesArr.push({
+      this.form.brandSeriesMainCategoriesArr[index].push({
         value: "",
         subCategoriesArr: [""]
       });
-      console.log(this.form.brandSeriesMainCategoriesArr)
     },
-    brandSeries_deleteMainCategoties(index) {
-      if (this.form.brandSeriesMainCategoriesArr.length === 1)
+    brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
+      if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
         return false;
-      this.form.brandSeriesMainCategoriesArr.splice(index, 1);
+      this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
     },
-    brandSeries_addSubCategoties(index) {
-      this.form.brandSeriesMainCategoriesArr[index].subCategoriesArr.push(
+    brandSeries_addSubCategoties(rowIndex, mainIndex) {
+      this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
         ""
       );
     },
-    brandSeries_delSubCategories(mainIndex, subIndex) {
+    brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
       if (
-        this.form.brandSeriesMainCategoriesArr[mainIndex].subCategoriesArr
+        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
           .length === 1
       )
         return false;
-      this.form.brandSeriesMainCategoriesArr[
+      this.form.brandSeriesMainCategoriesArr[rowIndex][
         mainIndex
       ].subCategoriesArr.splice(subIndex, 1);
     },
