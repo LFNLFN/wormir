@@ -90,12 +90,12 @@
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].symbol || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].id] && currencyInformation[form.transactionCurrencyInland[scope.$index].id].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].unit || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].id] && currencyInformation[form.transactionCurrencyInland[scope.$index].id].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" min-width="100">
@@ -149,12 +149,12 @@
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].symbol || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].id] && currencyInformation[form.transactionCurrencyOutland[scope.$index].id].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].unit || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].id] && currencyInformation[form.transactionCurrencyOutland[scope.$index].id].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" min-width="100">
