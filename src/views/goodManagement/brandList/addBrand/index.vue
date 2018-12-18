@@ -485,7 +485,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌箱子" required prop="boxInput">
+      <el-form-item label="品牌箱子" prop="boxInput">
         <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox">添加品牌箱子</el-button>
@@ -495,8 +495,7 @@
           border
           :data="form.brandBox_msg.boxArr"
           class="border2"
-          style="width: 100%; border-bottom: 1px solid #D5D5D5"
-        >
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column align="center" width="150" label="箱型编号">
             <template slot-scope="scope">
               <el-input
@@ -1225,16 +1224,19 @@
 
         this.$refs["form"].validate(valid => {
           if (valid) {
-            console.log("前端验证ok");
-            this.isSubmitting = false;
-            return false;
             request({
-              url: "/channel/createChannel.do",
+              url:'/brand/createBrand.do',
               method: "post",
               data: this.form
             })
-              .then(() => {
-                this.$emit("submitSuccess");
+              .then((res) => {
+                if (res.errorCode == 0) {
+                  this.$emit("submitSuccess");
+                }
+                else {
+                  this.$message.error("新增失败");
+                  this.isSubmitting = false;
+                }
               })
               .catch(() => {
                 this.$message.error("新增失败");

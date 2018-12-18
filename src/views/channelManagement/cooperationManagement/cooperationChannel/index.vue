@@ -135,7 +135,9 @@
       <to-check-detail :currentRow="currentRow" v-if="isCheckShow"></to-check-detail>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="85%" @close="isDeleteShow = false" title="注销终止渠道">
-      <to-delete v-if="isDeleteShow" :currentRow="currentRow" @closeOutDialog="isDeleteShow = false"></to-delete>
+      <to-delete v-if="isDeleteShow" :currentRow="currentRow"
+                 @closeOutDialog="isDeleteShow = false"
+                 @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
     <el-dialog :visible.sync="isManagementShow" width="75%" @close="isManagementShow = false" title="管理渠道档案">
       <to-management :currentRow="currentRow" v-if="isManagementShow"
@@ -299,6 +301,13 @@
       // 提交相关
       editSuccess() {
         this.isManagementShow = false
+        this.$message({
+          message: '操作成功！',
+          type: 'success'
+        });
+      },
+      deleteSuccess() {
+        this.isDeleteShow = false
         this.$message({
           message: '操作成功！',
           type: 'success'

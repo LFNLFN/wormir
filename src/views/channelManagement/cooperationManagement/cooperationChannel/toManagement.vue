@@ -340,7 +340,7 @@
             <div class="grid-content bg-purple ">{{'申请时间'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light ">{{ currentRow.applicationTime || '无' }}</div>
+            <div class="grid-content bg-purple-light ">{{ currentRow.openedDate }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -348,7 +348,7 @@
             <div class="grid-content bg-purple ">{{'审核结果'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light ">{{ currentRow.reviewResult || '无' }}</div>
+            <div class="grid-content bg-purple-light ">{{ '已通过' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -356,7 +356,7 @@
             <div class="grid-content bg-purple ">{{'通过时间'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light ">{{ currentRow.passTime || '无' }}</div>
+            <div class="grid-content bg-purple-light ">{{ currentRow.openedDate }}</div>
           </el-col>
         </el-row>
       </div>
@@ -367,7 +367,7 @@
         style="width: 100%"
         class="border-top2 border-left2 border-right2">
         <el-table-column
-          prop="contractID"
+          prop="contractNo"
           label="合同编号"
           align="center"
           min-width="100">
@@ -727,13 +727,13 @@
         }]
 
       this.contractData = [{
-        contractID: 201805000002,
-        contractProp: '首次签订',
+        contractNo: this.currentRow.contractNo,
+        contractProp: this.currentRow.contractProp,
         contractStartTime: this.currentRow.contractStartTime,
         contractEndTime: this.currentRow.contractEndTime,
         channelStatus: this.currentRow.channelStatus,
       }]
-
+console.log(this.currentRow)
     }
   }
 </script>

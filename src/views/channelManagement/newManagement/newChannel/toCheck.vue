@@ -33,7 +33,8 @@
           <div class="grid-content bg-purple">{{'渠道级别'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{ currentRow.channelLevel | channelLevel }}</div>
+          <div class="grid-content bg-purple-light" v-if="currentRow.channelLevel">{{ currentRow.channelLevel | channelLevel }}</div>
+          <div class="grid-content bg-purple-light" v-else>{{ '暂无数据' }}</div>
         </el-col>
       </el-row>
     </div>
@@ -56,16 +57,16 @@
           <div class="grid-content bg-purple ">{{'身份证号码'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companyName || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.idcardNo || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5" style="min-height: 56px"><span>身份证正面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证正面"
+        <el-col :span="7"><span @click="viewImage(currentRow.idcardFront)"><img :src="currentRow.idcardFront" alt="身份证正面"
                                                                   height="47px" width="47px"
                                                                   class="link-type"></span></el-col>
         <el-col :span="5" style="min-height: 56px"><span>身份证反面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证反面"
+        <el-col :span="7"><span @click="viewImage(currentRow.idcardBack)"><img :src="currentRow.idcardBack" alt="身份证反面"
                                                                   height="47px" width="47px"
                                                                   class="link-type"></span></el-col>
       </el-row>
@@ -89,7 +90,7 @@
       </el-row>
       <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5" style="min-height: 56px"><span>营业执照: </span></el-col>
-        <el-col :span="19"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="营业执照"
+        <el-col :span="19" style="min-height: 56px"><span @click="viewImage(currentRow.businessLicense)"><img :src="currentRow.businessLicense" alt="营业执照"
                                                                    height="47px" width="47px"
                                                                    class="link-type"></span></el-col>
       </el-row>
@@ -106,7 +107,7 @@
           <div class="grid-content bg-purple ">{{'公司地址'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companyAddress || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.businessAddress || '暂无数据' }}</div>
         </el-col>
       </el-row>
 
@@ -118,7 +119,7 @@
           <div class="grid-content bg-purple ">{{'店铺/平台名称'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.PCLink}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.channelName}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -126,7 +127,7 @@
           <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.PCLink}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.PCLink  || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -134,7 +135,7 @@
           <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.appLink}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.appLink  || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -142,7 +143,7 @@
           <div class="grid-content bg-purple ">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessRange}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessRange  || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -150,7 +151,7 @@
           <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods  || '暂无数据'}}</div>
         </el-col>
       </el-row>
     </div>
@@ -164,28 +165,50 @@
       <el-table-column
         prop="job"
         label="职务"
-        width="180">
+        align="center"
+        min-width="90">
+        <template slot-scope="scope">
+          <span v-if="scope.row.job">{{ scope.row.job | job  }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="userName"
         label="姓名"
-        width="180">
+        align="center"
+        min-width="80">
       </el-table-column>
       <el-table-column
         prop="mobile"
-        label="电话">
+        label="电话"
+        align="center"
+        min-width="90">
       </el-table-column>
       <el-table-column
         prop="email"
-        label="邮箱">
+        label="邮箱"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="address"
-        label="地址">
+        label="地址"
+        align="center"
+        min-width="140">
+        <template slot-scope="scope">
+          <span v-if="scope.row.address">{{ scope.row.address }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="remark"
-        label="备注">
+        label="备注"
+        align="center"
+        min-width="100">
+        <template slot-scope="scope">
+          <span v-if="scope.row.remark">{{ scope.row.remark }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
     </el-table>
     <!--合同信息below-->
@@ -196,28 +219,39 @@
       style="width: 100%"
       class="border-top2 border-left2 border-right2">
       <el-table-column
-        prop="contractID"
+        prop="contractNo"
         label="合同编号"
-        width="180">
+        align="center"
+        min-width="100">
       </el-table-column>
       <el-table-column
         prop="contractProp"
         label="合同属性"
-        width="180">
+        align="center"
+        min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.contractProp | contractProp }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="startTime"
-        label="开始时间">
+        label="开始时间"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
         prop="endTime"
-        label="结束时间">
+        label="结束时间"
+        align="center"
+        min-width="110">
       </el-table-column>
       <el-table-column
-        prop="contractStatus"
-        label="合同状态">
+        prop="status"
+        label="合同状态"
+        align="center"
+        min-width="140">
         <template slot-scope="scope">
-          <span>{{ scope.row.contractStatus | contractStatus }}</span>
+          <span>{{ scope.row.status | contractStatus }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -242,7 +276,7 @@
 
 <script>
   import request from "@/utils/request";
-  import { channelProp, channelType, channelLevel, cooperationType, contractStatus, securityAmountStatus,  } from "@/filters/index.js";
+  import { channelProp, channelType, channelLevel, cooperationType, contractStatus, securityAmountStatus, job } from "@/filters/index.js";
 
   export default {
     props: {
@@ -275,6 +309,7 @@
       }).then((res) => {
         this.contactData = res.data.contactData
         this.contractData = res.data.contract
+        console.log(this.contractData)
       }).catch(() => {
         this.$message.error('渠道详情请求失败');
       })

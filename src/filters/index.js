@@ -108,3 +108,27 @@ export function securityAmountStatus(value) {
   }
   return statusMap[value]
 }
+
+// 合同属性
+export function contractProp(value) {
+  const statusMap = {
+    1: '首次签订',
+    10: '自动续约',
+    20: '再次签订',
+  }
+  return statusMap[value]
+}
+
+// 职务
+export function job(value) {
+  const statusMap = {
+    1: '渠道联系人',
+    2: '技术对接人',
+    3: '采购',
+    4: '收货人',
+    5: '业务',
+    6: '财务',
+    7: '其他',
+  }
+  return statusMap[value]
+}

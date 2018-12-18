@@ -30,13 +30,15 @@
       </el-form-item>
     </el-form>
     <div class="dialogBottomButton-wrap">
-      <el-button type="primary" @click="onSubmit">提交确认</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="isSubmitting">提交确认</el-button>
     </div>
   </div>
 </template>
 
 <script>
   import Mock from 'mockjs'
+  import request from "@/utils/request"
+
   export default {
     props: {
       currentRow: {
@@ -73,20 +75,37 @@
           depositHandleWay: [
             { required: true, message: '不能为空', trigger: 'change' },
           ],
-        }
+        },
+        isSubmitting: false
       }
     },
     methods: {
       onSubmit() {
-        const vm = this
-        this.$alert('提交成功', '', {
-          confirmButtonText: this.$t('table.confirm'),
-          showClose: false,
-          center: true,
-          callback() {
-            vm.$emit('closeOutDialog')
+        this.isSubmitting = true
+        console.log(this.form)
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            console.log("前端验证ok");
+            this.isSubmitting = false
+            return false;
+            request({
+              url: "/channel/createChannel.do",
+              method: "post",
+              data: this.form
+            })
+              .then(() => {
+                this.$emit("submitSuccess");
+              })
+              .catch(() => {
+                this.$message.error("操作失败");
+                this.isSubmitting = false;
+              });
+          } else {
+            this.isSubmitting = false;
+            this.$message.error("请准确填写全部信息");
+            return false;
           }
-        })
+        });
       }
     },
   }

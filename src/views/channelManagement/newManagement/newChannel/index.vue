@@ -326,14 +326,14 @@
         this.$message({
           message: '确认成功！',
           type: 'success'
-        });
+        })
       },
       deleteSuccess() {
         this.isDeleteShow = false
         this.$message({
           message: '删除成功！',
           type: 'success'
-        });
+        })
       },
     },
     components: {
