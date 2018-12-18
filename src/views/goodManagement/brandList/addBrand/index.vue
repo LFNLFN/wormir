@@ -329,78 +329,78 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌类型" required>
-        <el-row>
-          <div class="add-btn-wrap">
-            <el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>
-          </div>
-        </el-row>
-        <el-table
-          border
-          :data="form.brandType_msg.brandTypeArr"
-          class="border2"
-          :style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px', borderBottom: '1px solid #D5D5D5' }"
-        >
-          <el-table-column
-            prop="typeName"
-            align="center"
-            label="品类"
-            :width="brandType_mainCategoriesWrap_width"
-          >
-            <template slot-scope="scope">
-              <div class="mainCategories-wrap">
-                <div
-                  class="mainCategories-item"
-                  v-for="(mainCategoriesItems,mainCateIndex) in form.brandTypeMainCategoriesArr"
-                >
-                  <el-form-item label="主品类" prop="brandTypeMainCategoriesArr">
-                    <el-input
-                      v-model.trim="form.brandTypeMainCategoriesArr[mainCateIndex].value"
-                      placeholder="请输入主品类"
-                    ></el-input>
-                    <div class="add-btn-wrap" style="margin-top: 5px">
-                      <el-button
-                        size="mini"
-                        type="danger"
-                        icon="el-icon-delete"
-                        @click="brandType_deleteMainCategoties(mainCateIndex)"
-                      >删除主品类
-                      </el-button>
-                      <el-button
-                        type="success"
-                        icon="el-icon-plus"
-                        size="mini"
-                        @click="brandType_addSubCategoties(mainCateIndex)"
-                      >添加子品类
-                      </el-button>
-                    </div>
-                  </el-form-item>
-                  <div class="subCategories-wrap">
-                    <div
-                      class="subCategories-item"
-                      v-for="(subCategoriesItems,subCateIndex) in form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr"
-                    >
-                      <el-form-item label="子品类">
-                        <el-input
-                          v-model.trim="form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
-                          placeholder="请输入子品类"
-                        >
-                          <el-button
-                            slot="append"
-                            type="danger"
-                            icon="el-icon-delete"
-                            @click="brandType_delSubCategories(mainCateIndex,subCateIndex)"
-                          ></el-button>
-                        </el-input>
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-form-item>
+      <!--<el-form-item label="品牌类型" required>-->
+        <!--<el-row>-->
+          <!--<div class="add-btn-wrap">-->
+            <!--<el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>-->
+          <!--</div>-->
+        <!--</el-row>-->
+        <!--<el-table-->
+          <!--border-->
+          <!--:data="form.brandType_msg.brandTypeArr"-->
+          <!--class="border2"-->
+          <!--:style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px', borderBottom: '1px solid #D5D5D5' }"-->
+        <!--&gt;-->
+          <!--<el-table-column-->
+            <!--prop="typeName"-->
+            <!--align="center"-->
+            <!--label="品类"-->
+            <!--:width="brandType_mainCategoriesWrap_width"-->
+          <!--&gt;-->
+            <!--<template slot-scope="scope">-->
+              <!--<div class="mainCategories-wrap">-->
+                <!--<div-->
+                  <!--class="mainCategories-item"-->
+                  <!--v-for="(mainCategoriesItems,mainCateIndex) in form.brandTypeMainCategoriesArr"-->
+                <!--&gt;-->
+                  <!--<el-form-item label="主品类" prop="brandTypeMainCategoriesArr">-->
+                    <!--<el-input-->
+                      <!--v-model.trim="form.brandTypeMainCategoriesArr[mainCateIndex].value"-->
+                      <!--placeholder="请输入主品类"-->
+                    <!--&gt;</el-input>-->
+                    <!--<div class="add-btn-wrap" style="margin-top: 5px">-->
+                      <!--<el-button-->
+                        <!--size="mini"-->
+                        <!--type="danger"-->
+                        <!--icon="el-icon-delete"-->
+                        <!--@click="brandType_deleteMainCategoties(mainCateIndex)"-->
+                      <!--&gt;删除主品类-->
+                      <!--</el-button>-->
+                      <!--<el-button-->
+                        <!--type="success"-->
+                        <!--icon="el-icon-plus"-->
+                        <!--size="mini"-->
+                        <!--@click="brandType_addSubCategoties(mainCateIndex)"-->
+                      <!--&gt;添加子品类-->
+                      <!--</el-button>-->
+                    <!--</div>-->
+                  <!--</el-form-item>-->
+                  <!--<div class="subCategories-wrap">-->
+                    <!--<div-->
+                      <!--class="subCategories-item"-->
+                      <!--v-for="(subCategoriesItems,subCateIndex) in form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr"-->
+                    <!--&gt;-->
+                      <!--<el-form-item label="子品类">-->
+                        <!--<el-input-->
+                          <!--v-model.trim="form.brandTypeMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"-->
+                          <!--placeholder="请输入子品类"-->
+                        <!--&gt;-->
+                          <!--<el-button-->
+                            <!--slot="append"-->
+                            <!--type="danger"-->
+                            <!--icon="el-icon-delete"-->
+                            <!--@click="brandType_delSubCategories(mainCateIndex,subCateIndex)"-->
+                          <!--&gt;</el-button>-->
+                        <!--</el-input>-->
+                      <!--</el-form-item>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</template>-->
+          <!--</el-table-column>-->
+        <!--</el-table>-->
+      <!--</el-form-item>-->
       <el-form-item label="品牌商品规格" prop="specificationInput">
         <el-row>
           <div class="add-btn-wrap">
