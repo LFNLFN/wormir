@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="80px" style="border: 1px solid #D5D5D5;border-bottom-width: 1px">
+    <el-form ref="form" :model="form" label-width="80px" :rules="formRules" style="border: 1px solid #D5D5D5;border-bottom-width: 1px" class="textareaError">
       <el-form-item label="系统状态" class="form-row">
         <span class="text-muted" style="font-size: 12px">待后期有系统数据后对接 注意：终止日期设定为系统自动读取，读取系统状态皆完成的当天后的第3天为终止日期，然后该日期零点一到自动进入终止处理中的流程-暂未实现</span>
       </el-form-item>
-      <el-form-item label="终止理由" class="form-row">
+      <el-form-item label="终止理由" class="form-row" prop="reason">
         <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
                   placeholder="请输入终止理由"></el-input>
       </el-form-item>
@@ -59,7 +59,12 @@
           endTime: '2018-05-29',
           channelStatus: '待接系统'
         }],
-        tableHeight: 0
+        tableHeight: 0,
+        formRules: {
+          reason: [
+            { required: true, message: '不能为空', trigger: 'blur' },
+          ],
+        }
       }
     },
     methods: {

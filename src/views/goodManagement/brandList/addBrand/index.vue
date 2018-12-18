@@ -73,17 +73,17 @@
           </el-table-column>
           <el-table-column align="center" label="币种名称" prop="currencyName" width="200">
             <template slot-scope="scope">
-              <el-form-item label-width="0" prop="transactionCurrencyInland" style="margin: 0">
+              <el-form-item label-width="0" prop="" style="margin: 0">
                 <el-select
-                  v-model.trim="form.transactionCurrencyInland[scope.$index]"
-                  placeholder="请选择币种"
-                >
-                  <el-option label="人民币" value="RMB"></el-option>
-                  <el-option label="港币" value="HKD"></el-option>
-                  <el-option label="澳元" value="AUD"></el-option>
-                  <el-option label="英镑" value="GBP"></el-option>
-                  <el-option label="美元" value="USD"></el-option>
-                  <el-option label="欧元" value="EUR"></el-option>
+                  v-model="inlandCurrencyTitle[scope.$index]"
+                  @change="inlandCurrency"
+                  placeholder="请选择币种">
+                  <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                  <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                  <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                  <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                  <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                  <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
                 </el-select>
               </el-form-item>
             </template>
@@ -104,7 +104,8 @@
                 size="mini"
                 type="danger"
                 @click="deleteInlandCurrencyType(scope.$index)"
-              >删除</el-button>
+              >删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -113,7 +114,8 @@
             type="success"
             icon="el-icon-plus"
             @click="addOutlandCurrencyType()"
-          >添加香港/国外交易币种</el-button>
+          >添加香港/国外交易币种
+          </el-button>
         </div>
         <el-table
           :data="outlandCurrencyArr"
@@ -131,15 +133,16 @@
             <template slot-scope="scope">
               <el-form-item label-width="0" prop="transactionCurrencyOutland" style="margin: 0">
                 <el-select
-                  v-model.trim="form.transactionCurrencyOutland[scope.$index]"
+                  v-model="outlandCurrencyTitle[scope.$index]"
+                  @change="outlandCurrency"
                   placeholder="请选择币种"
                 >
-                  <el-option label="人民币" value="RMB"></el-option>
-                  <el-option label="港币" value="HKD"></el-option>
-                  <el-option label="澳元" value="AUD"></el-option>
-                  <el-option label="英镑" value="GBP"></el-option>
-                  <el-option label="美元" value="USD"></el-option>
-                  <el-option label="欧元" value="EUR"></el-option>
+                  <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                  <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                  <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                  <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                  <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                  <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
                 </el-select>
               </el-form-item>
             </template>
@@ -160,7 +163,8 @@
                 size="mini"
                 type="danger"
                 @click="deleteOutlandCurrencyType(scope.$index)"
-              >删除</el-button>
+              >删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -227,7 +231,8 @@
               icon="el-icon-plus"
               v-if="form.hasBrandSeries"
               @click="brandSeries_addBrandSeries"
-            >添加品牌系列</el-button>
+            >添加品牌系列
+            </el-button>
           </div>
         </el-row>
         <el-table
@@ -251,7 +256,8 @@
                   type="danger"
                   icon="el-icon-delete"
                   @click="brandSeries_deleteSeries(scope.$index, scope.row)"
-                >删除系列</el-button>
+                >删除系列
+                </el-button>
               </div>
               <div class="add-btn-wrap">
                 <el-button
@@ -259,7 +265,8 @@
                   icon="el-icon-plus"
                   size="mini"
                   @click="brandSeries_addMainCategoties(scope.$index, scope.row)"
-                >添加主品类</el-button>
+                >添加主品类
+                </el-button>
               </div>
             </template>
           </el-table-column>
@@ -277,21 +284,23 @@
                     ></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px;">
                       <div>
-                           <el-button
-                        size="mini"
-                        type="danger"
-                        icon="el-icon-delete"
-                        @click="brandSeries_deleteMainCategoties(scope.$index, mainCateIndex)"
-                      >删除主品类</el-button>
-                      </div>
-                     <div style="margin-top: 5px;">
                         <el-button
-                        type="success"
-                        icon="el-icon-plus"
-                        size="mini"
-                        @click="brandSeries_addSubCategoties(scope.$index, mainCateIndex)"
-                      >添加子品类</el-button>
-                     </div>
+                          size="mini"
+                          type="danger"
+                          icon="el-icon-delete"
+                          @click="brandSeries_deleteMainCategoties(scope.$index, mainCateIndex)"
+                        >删除主品类
+                        </el-button>
+                      </div>
+                      <div style="margin-top: 5px;">
+                        <el-button
+                          type="success"
+                          icon="el-icon-plus"
+                          size="mini"
+                          @click="brandSeries_addSubCategoties(scope.$index, mainCateIndex)"
+                        >添加子品类
+                        </el-button>
+                      </div>
                     </div>
                   </el-form-item>
                   <div class="subCategories-wrap">
@@ -350,18 +359,20 @@
                       placeholder="请输入主品类"
                     ></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px">
-                        <el-button
-                          size="mini"
-                          type="danger"
-                          icon="el-icon-delete"
-                          @click="brandType_deleteMainCategoties(mainCateIndex)"
-                        >删除主品类</el-button>
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        icon="el-icon-delete"
+                        @click="brandType_deleteMainCategoties(mainCateIndex)"
+                      >删除主品类
+                      </el-button>
                       <el-button
                         type="success"
                         icon="el-icon-plus"
                         size="mini"
                         @click="brandType_addSubCategoties(mainCateIndex)"
-                      >添加子品类</el-button>
+                      >添加子品类
+                      </el-button>
                     </div>
                   </el-form-item>
                   <div class="subCategories-wrap">
@@ -397,7 +408,8 @@
               type="success"
               icon="el-icon-plus"
               @click="brandSpecification_addSpecification"
-            >添加品牌商品规格</el-button>
+            >添加品牌商品规格
+            </el-button>
           </div>
         </el-row>
         <el-table
@@ -625,295 +637,311 @@
 </template>
 
 <script>
-import request from "@/utils/request";
+  import request from "@/utils/request";
 
-export default {
-  data() {
-    var validateTradeAccount = (rule, value, callback) => {
-      let vali = true;
-      for (var key in value) {
-        if (!value[key]) {
-          vali = false;
-          break;
+  export default {
+    data() {
+      var validateTradeAccount = (rule, value, callback) => {
+        let vali = true;
+        for (var key in value) {
+          if (!value[key]) {
+            vali = false;
+            break;
+          }
         }
-      }
-      if (vali) {
-        callback();
-      } else {
-        callback(new Error("请完整填写交易账号信息！"));
-      }
-    };
-
-    var validateInlandCurrencyType = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
+        if (vali) {
+          callback();
         } else {
-          return arr[index] == arr[index + 1];
+          callback(new Error("请完整填写交易账号信息！"));
         }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("国内交易币种必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
+      };
 
-    var validateOutlandCurrencyType = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
-        } else {
-          return arr[index] == arr[index + 1];
-        }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("国外交易币种必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validateQualityName = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
-        } else {
-          return arr[index] == arr[index + 1];
-        }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("品质名称必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validatePackingWay = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
-        } else {
-          return arr[index] == arr[index + 1];
-        }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("包装方式必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
-
-
-    var validateInputSeries = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
-        } else {
-          return arr[index] == arr[index + 1];
-        }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("品牌系列必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validateBrandTypeMainCategoriesArr = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item.value == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
-        } else {
-          return arr[index].value == arr[index + 1].value;
-        }
-      });
-      let valiSubArrNull = value.some((item, index, arr) => {
-        return item.subCategoriesArr.some((item, index, arr) => {
-          if (arr[index]) {
+      var validateInlandCurrencyType = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
             return false;
           } else {
-            return true;
+            return arr[index] == arr[index + 1];
           }
-       });
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("主品类必须填写且不能重复！"));
-      } else {
-        if (valiSubArrNull) { callback(new Error("子品类必须填写！")); }
-        else { callback(); }
-      }
-    };
-
-    var validateSpecificationInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-         for ( var key in item ) {
-           if ( !item[key] ) return true
-         }
-      });
-      if (valiNull) {
-        callback(new Error("商品规格表格必须全部填写！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validateBoxInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        for ( var key in item ) {
-          if ( !item[key] ) return true
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("国内交易币种必须填写且不能重复！"));
+        } else {
+          callback();
         }
-      });
-      if (valiNull) {
-        callback(new Error("品牌箱子表格必须全部填写！"));
-      } else {
-        callback();
-      }
-    };
+      };
 
-    var validateDiscountInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        for ( var key in item ) {
-          if ( typeof item[key] !== 'number' ) return true
-          let valiOrderRange = (item.orderMin>=0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
-          if (!valiOrderRange) return true
+      var validateOutlandCurrencyType = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("国外交易币种必须填写且不能重复！"));
+        } else {
+          callback();
         }
-      });
+      };
 
-      if (valiNull) {
-        callback(new Error("品牌折扣表格必须正确填写！"));
-      } else {
-        callback();
-      }
-    };
+      var validateQualityName = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品质名称必须填写且不能重复！"));
+        } else {
+          callback();
+        }
+      };
 
-    var validateTimeRange = (rule, value, callback) => {
-      let valiNull = value.timeValue
+      var validatePackingWay = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("包装方式必须填写且不能重复！"));
+        } else {
+          callback();
+        }
+      };
 
-      if (!valiNull) {
-        callback(new Error("不能为空"));
-      } else {
-        callback();
-      }
-    };
 
-    return {
-      form: {
-        brandNo: "",
-        chineseName: "",
-        englishName: "",
-        brandCompanyName: "",
-        brandCompanyAddress: "",
-        brandIntroduction: "",
-        producerName: "",
-        producerAddress: "",
-        orderNumBySea: null,
-        tradeAccount: {
-          swfitCode: null,
-          bankName: null,
-          bankAddress: null
-        },
-        transactionCurrencyInland: [],
-        transactionCurrencyOutland: [],
-        qualityName: [],
-        packingWay: [],
+      var validateInputSeries = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品牌系列必须填写且不能重复！"));
+        } else {
+          callback();
+        }
+      };
 
-        brandSeries_msg: {
+      var validateBrandTypeMainCategoriesArr = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item.value == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index].value == arr[index + 1].value;
+          }
+        });
+        let valiSubArrNull = value.some((item, index, arr) => {
+          return item.subCategoriesArr.some((item, index, arr) => {
+            if (arr[index]) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("主品类必须填写且不能重复！"));
+        } else {
+          if (valiSubArrNull) {
+            callback(new Error("子品类必须填写！"));
+          }
+          else {
+            callback();
+          }
+        }
+      };
+
+      var validateSpecificationInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("商品规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateBoxInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("品牌箱子表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateDiscountInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (typeof item[key] !== 'number') return true
+            let valiOrderRange = (item.orderMin >= 0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
+            if (!valiOrderRange) return true
+          }
+        });
+
+        if (valiNull) {
+          callback(new Error("品牌折扣表格必须正确填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateTimeRange = (rule, value, callback) => {
+        let valiNull = value.timeValue
+
+        if (!valiNull) {
+          callback(new Error("不能为空"));
+        } else {
+          callback();
+        }
+      };
+
+      return {
+        inlandCurrencyTitle: [''],
+        outlandCurrencyTitle: [''],
+        form: {
+          brandNo: "",
+          chineseName: "",
+          englishName: "",
+          brandCompanyName: "",
+          brandCompanyAddress: "",
+          brandIntroduction: "",
+          producerName: "",
+          producerAddress: "",
+          orderNumBySea: null,
+          tradeAccount: {
+            swfitCode: null,
+            bankName: null,
+            bankAddress: null
+          },
+          transactionCurrencyInland: [''],
+          transactionCurrencyOutland: [''],
+          qualityName: [],
+          packingWay: [],
+
+          brandSeries_msg: {
+            hasBrandSeries: 1,
+            brandSeries: "",
+            inputSeries: [""],
+            mainCategoriesArr: [
+              {
+                value: "",
+                subCategoriesArr: [""]
+              }
+            ],
+            brandSeriesArr: [{ seriesName: " " }],
+            mainCategoriesItem_width: 750
+          }, // 结尾带 _msg 的选项都不用传的
+
           hasBrandSeries: 1,
-          brandSeries: "",
           inputSeries: [""],
-          mainCategoriesArr: [
-            {
+          brandSeriesMainCategoriesArr: [
+            [{
               value: "",
               subCategoriesArr: [""]
-            }
+            }]
           ],
           brandSeriesArr: [{ seriesName: " " }],
-          mainCategoriesItem_width: 750
-        }, // 结尾带 _msg 的选项都不用传的
 
-        hasBrandSeries: 1,
-        inputSeries: [""],
-        brandSeriesMainCategoriesArr: [
-          [{
-            value: "",
-            subCategoriesArr: [""]
-          }]
-        ],
-        brandSeriesArr: [{ seriesName: " " }],
+          brandType_msg: {
+            brandTypeArr: [{ typeName: " " }],
+            mainCategoriesArr: [
+              {
+                value: "",
+                subCategoriesArr: [""]
+              }
+            ],
+            mainCategoriesItem_width: 600
+          },
 
-        brandType_msg: {
-          brandTypeArr: [{ typeName: " " }],
-          mainCategoriesArr: [
+          brandTypeMainCategoriesArr: [
             {
               value: "",
               subCategoriesArr: [""]
             }
           ],
-          mainCategoriesItem_width: 600
-        },
-
-        brandTypeMainCategoriesArr: [
-          {
-            value: "",
-            subCategoriesArr: [""]
-          }
-        ],
 
 
-        brandSpecification_msg: {
-          SpecificationArr: [{ specificationName: " " }],
+          brandSpecification_msg: {
+            SpecificationArr: [{ specificationName: " " }],
+            specificationInput: [
+              {
+                goodSpecification: {
+                  chinese: "",
+                  english: ""
+                },
+                capacity: {
+                  chinese: "",
+                  english: ""
+                },
+                packingUnit: {
+                  chinese: "",
+                  english: ""
+                }
+              }
+            ]
+          },
+
           specificationInput: [
             {
-              goodSpecification: {
-                chinese: "",
-                english: ""
-              },
-              capacity: {
-                chinese: "",
-                english: ""
-              },
-              packingUnit: {
-                chinese: "",
-                english: ""
-              }
+              goodSpecificationChinese: '',
+              goodSpecificationEnglish: '',
+              capacityChinese: '',
+              capacityEnglish: '',
+              packingUnitChinese: '',
+              packingUnitEnglish: '',
             }
-          ]
-        },
-
-        specificationInput: [
-          {
-            goodSpecificationChinese: '',
-            goodSpecificationEnglish: '',
-            capacityChinese: '',
-            capacityEnglish: '',
-            packingUnitChinese: '',
-            packingUnitEnglish: '',
-          }
-        ],
+          ],
 
 
+          brandBox_msg: {
+            boxArr: [{ boxName: " " }],
+            boxInput: [
+              {
+                boxNo: "",
+                boxLength: "",
+                boxWidth: "",
+                boxHeight: "",
+                boxWeight: ""
+              }
+            ]
+          },
 
-        brandBox_msg: {
-          boxArr: [{ boxName: " " }],
           boxInput: [
             {
               boxNo: "",
@@ -922,428 +950,489 @@ export default {
               boxHeight: "",
               boxWeight: ""
             }
-          ]
-        },
-
-        boxInput: [
-          {
-            boxNo: "",
-            boxLength: "",
-            boxWidth: "",
-            boxHeight: "",
-            boxWeight: ""
-          }
-        ],
+          ],
 
 
+          brandDiscount_msg: {
+            discountArr: [{ discountName: " " }],
+            discountInput: [
+              {
+                orderMin: "",
+                orderMax: "",
+                decreasingDiscount: 0
+              }
+            ]
+          },
 
-        brandDiscount_msg: {
-          discountArr: [{ discountName: " " }],
           discountInput: [
             {
               orderMin: "",
               orderMax: "",
               decreasingDiscount: 0
             }
-          ]
+          ],
+
+          timeRange: {
+            timeValue: "",
+            pickerOptions: {
+              shortcuts: [
+                {
+                  text: "最近一周",
+                  onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit("pick", [start, end]);
+                  }
+                },
+                {
+                  text: "最近一个月",
+                  onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    picker.$emit("pick", [start, end]);
+                  }
+                },
+                {
+                  text: "最近三个月",
+                  onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                    picker.$emit("pick", [start, end]);
+                  }
+                }
+              ]
+            }, // 这个在前端用的，不用传到后台
+            autoRenew: false
+          },
+          brandStatus: null
         },
 
-        discountInput: [
+
+        transactionCurrencyArr: [
           {
-            orderMin: "",
-            orderMax: "",
-            decreasingDiscount: 0
+            name: '港币',
+            id: 1,
+            symbol: '$',
+            unit: '港元'
+          },
+          {
+            name: '人民币',
+            id: 2,
+            symbol: '￥',
+            unit: '元'
+          },
+          {
+            name: '澳元',
+            id: 3,
+            symbol: 'A$',
+            unit: '澳元'
+          },
+          {
+            name: '英镑',
+            id: 4,
+            symbol: '£',
+            unit: '英镑'
+          },
+          {
+            name: '欧元',
+            id: 5,
+            symbol: '€',
+            unit: '欧元'
+          },
+          {
+            name: '美元',
+            id: 6,
+            symbol: '$',
+            unit: '美元'
+          },
+        ],
+        brandStatusOptions: [
+          {
+            value: 1,
+            label: "正常供货"
+          },
+          {
+            value: 0,
+            label: "停止供货"
           }
         ],
-
-        timeRange: {
-          timeValue: "",
-          pickerOptions: {
-            shortcuts: [
-              {
-                text: "最近一周",
-                onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                  picker.$emit("pick", [start, end]);
-                }
-              },
-              {
-                text: "最近一个月",
-                onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                  picker.$emit("pick", [start, end]);
-                }
-              },
-              {
-                text: "最近三个月",
-                onClick(picker) {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                  picker.$emit("pick", [start, end]);
-                }
-              }
-            ]
-          }, // 这个在前端用的，不用传到后台
-          autoRenew: false
+        currencyInformation: {
+          1: { symbol: "HK$", unit: "港元" },
+          2: { symbol: "￥", unit: "元" },
+          3: { symbol: "A$", unit: "澳元" },
+          4: { symbol: "£", unit: "英磅" },
+          5: { symbol: "€", unit: "欧元" },
+          6: { symbol: "$", unit: "美元" },
         },
-        brandStatus: null
-      },
-
-
-
-
-
-
-
-
-
-      brandStatusOptions: [
-        {
-          value: 1,
-          label: "正常供货"
+        emptyArr: [
+          {
+            type: { inland: "国内", outland: "香港/国外" },
+            quality: "Top",
+            packingWay: "Auto"
+          }
+        ],
+        inlandCurrencyArr: [
+          {
+            type: "国内"
+          }
+        ],
+        outlandCurrencyArr: [
+          {
+            type: "香港/国外"
+          }
+        ],
+        goodsQualityArr: [
+          {
+            quality: "Top"
+          }
+        ],
+        packingWayArr: [
+          {
+            packingWay: "Auto"
+          }
+        ],
+        // 表单验证规则
+        formRules: {
+          brandNo: [{ required: true, message: "不能为空", trigger: "blur" }],
+          chineseName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          englishName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          origin: [{ required: true, message: "不能为空", trigger: "blur" }],
+          brandCompanyName: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          brandCompanyAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          brandIntroduction: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerName: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          orderNumBySea: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          tradeAccount: [
+            { validator: validateTradeAccount, required: true, trigger: "blur" }
+          ],
+          transactionCurrencyInland: [
+            {
+              validator: validateInlandCurrencyType,
+              required: true,
+              trigger: "change"
+            }
+          ],
+          transactionCurrencyOutland: [
+            {
+              validator: validateOutlandCurrencyType,
+              required: true,
+              trigger: "change"
+            }
+          ],
+          qualityName: [
+            { validator: validateQualityName, required: true, trigger: "change" }
+          ],
+          packingWay: [
+            { validator: validatePackingWay, required: true, trigger: "change" }
+          ],
+          inputSeries: [
+            { validator: validateInputSeries, required: true, trigger: "blur" }
+          ],
+          brandTypeMainCategoriesArr: [
+            { validator: validateBrandTypeMainCategoriesArr, required: true, trigger: "blur" }
+          ],
+          specificationInput: [
+            { validator: validateSpecificationInput, required: true, trigger: "blur" }
+          ],
+          boxInput: [
+            { validator: validateBoxInput, required: true, trigger: "blur" }
+          ],
+          discountInput: [
+            { validator: validateDiscountInput, required: true, trigger: "blur" }
+          ],
+          timeRange: [
+            { validator: validateTimeRange, required: true, trigger: "blur" }
+          ],
+          brandStatus: [
+            { required: true, message: "不能为空", trigger: "change" }
+          ],
         },
-        {
-          value: 0,
-          label: "停止供货"
-        }
-      ],
-      currencyInformation: {
-        RMB: { symbol: "￥", unit: "元" },
-        HKD: { symbol: "HK$", unit: "港元" },
-        AUD: { symbol: "A$", unit: "澳元" },
-        GBP: { symbol: "£", unit: "英磅" },
-        USD: { symbol: "$", unit: "美元" },
-        EUR: { symbol: "€", unit: "欧元" }
-      },
-      emptyArr: [
-        {
-          type: { inland: "国内", outland: "香港/国外" },
-          quality: "Top",
-          packingWay: "Auto"
-        }
-      ],
-      inlandCurrencyArr: [
-        {
-          type: "国内"
-        }
-      ],
-      outlandCurrencyArr: [
-        {
-          type: "香港/国外"
-        }
-      ],
-      goodsQualityArr: [
-        {
-          quality: "Top"
-        }
-      ],
-      packingWayArr: [
-        {
-          packingWay: "Auto"
-        }
-      ],
-      // 表单验证规则
-      formRules: {
-        brandNo: [{ required: true, message: "不能为空", trigger: "blur" }],
-        chineseName: [{ required: true, message: "不能为空", trigger: "blur" }],
-        englishName: [{ required: true, message: "不能为空", trigger: "blur" }],
-        origin: [{ required: true, message: "不能为空", trigger: "blur" }],
-        brandCompanyName: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        brandCompanyAddress: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        brandIntroduction: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        producerName: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        producerAddress: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        orderNumBySea: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        tradeAccount: [
-          { validator: validateTradeAccount, required: true, trigger: "blur" }
-        ],
-        transactionCurrencyInland: [
-          {
-            validator: validateInlandCurrencyType,
-            required: true,
-            trigger: "change"
-          }
-        ],
-        transactionCurrencyOutland: [
-          {
-            validator: validateOutlandCurrencyType,
-            required: true,
-            trigger: "change"
-          }
-        ],
-        qualityName: [
-          { validator: validateQualityName, required: true, trigger: "change" }
-        ],
-        packingWay: [
-          { validator: validatePackingWay, required: true, trigger: "change" }
-        ],
-        inputSeries: [
-          { validator: validateInputSeries, required: true, trigger: "blur" }
-        ],
-        brandTypeMainCategoriesArr: [
-          { validator: validateBrandTypeMainCategoriesArr, required: true, trigger: "blur" }
-        ],
-        specificationInput: [
-          { validator: validateSpecificationInput, required: true, trigger: "blur" }
-        ],
-        boxInput: [
-          { validator: validateBoxInput, required: true, trigger: "blur" }
-        ],
-        discountInput: [
-          { validator: validateDiscountInput, required: true, trigger: "blur" }
-        ],
-        timeRange: [
-          { validator: validateTimeRange, required: true, trigger: "blur" }
-        ],
-        brandStatus: [
-          { required: true, message: "不能为空", trigger: "change" }
-        ],
-      },
-      isSubmitting: false
-    }
-  },
-  computed: {
-    brandSeries_mainCategoriesWrap_width() {
-      return (
-        this.form.brandSeries_msg.mainCategoriesItem_width *
-        this.form.brandSeries_msg.mainCategoriesArr.length
-      );
+        isSubmitting: false
+      }
     },
-    brandType_mainCategoriesWrap_width() {
-      return (
-        this.form.brandType_msg.mainCategoriesItem_width *
-        this.form.brandTypeMainCategoriesArr.length
-      );
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.isSubmitting = true;
-      console.log(this.form)
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          console.log("前端验证ok");
-          this.isSubmitting = false;
-          return false;
-          request({
-            url: "/channel/createChannel.do",
-            method: "post",
-            data: this.form
-          })
-            .then(() => {
-              this.$emit("submitSuccess");
+    computed: {
+      brandSeries_mainCategoriesWrap_width() {
+        return (
+          this.form.brandSeries_msg.mainCategoriesItem_width *
+          this.form.brandSeries_msg.mainCategoriesArr.length
+        );
+      },
+      brandType_mainCategoriesWrap_width() {
+        return (
+          this.form.brandType_msg.mainCategoriesItem_width *
+          this.form.brandTypeMainCategoriesArr.length
+        );
+      }
+    },
+    methods: {
+      inlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyInland[a] = this.transactionCurrencyArr[b]
+      },
+      outlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyOutland[a] = this.transactionCurrencyArr[b]
+      },
+      onSubmit() {
+        this.isSubmitting = true;
+        console.log(this.form)
+
+        // 验证国内币种
+        let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index] == arr[index + 1];
+          }
+        })
+        if (valiInland) {
+          this.$message.error('国内交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
+        }
+
+        // 验证国外币种
+        let valiOutland = this.form.transactionCurrencyOutland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index] == arr[index + 1];
+          }
+        })
+        if (valiOutland) {
+          this.$message.error('国外交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
+        }
+
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            console.log("前端验证ok");
+            this.isSubmitting = false;
+            return false;
+            request({
+              url: "/channel/createChannel.do",
+              method: "post",
+              data: this.form
             })
-            .catch(() => {
-              this.$message.error("新增失败");
-              this.isSubmitting = false;
-            });
-        } else {
-          this.isSubmitting = false;
-          this.$message.error("请填写全部信息");
+              .then(() => {
+                this.$emit("submitSuccess");
+              })
+              .catch(() => {
+                this.$message.error("新增失败");
+                this.isSubmitting = false;
+              });
+          } else {
+            this.isSubmitting = false;
+            this.$message.error("请填写全部信息");
+            return false;
+          }
+        });
+      },
+      addInlandCurrencyType() {
+        this.inlandCurrencyArr.push({
+          type: "国内"
+        });
+        this.form.transactionCurrencyInland.push('')
+      },
+      deleteInlandCurrencyType(index) {
+        this.inlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyInland.splice(index, 1);
+      },
+      addOutlandCurrencyType() {
+        this.outlandCurrencyArr.push({
+          type: "香港/国外"
+        });
+        this.form.transactionCurrencyOutland.push('')
+
+      },
+      deleteOutlandCurrencyType(index) {
+        this.outlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyOutland.splice(index, 1);
+      },
+      addGoodsQuality() {
+        this.goodsQualityArr.push({
+          quality: "Top"
+        });
+      },
+      deleteGoodsQuality(index) {
+        this.goodsQualityArr.splice(index, 1);
+        this.form.qualityName.splice(index, 1);
+      },
+      addPackingWay() {
+        this.packingWayArr.push({
+          packingWay: "Auto"
+        });
+      },
+      deletePackingWay(index) {
+        this.packingWayArr.splice(index, 1);
+        this.form.packingWay.splice(index, 1);
+      },
+      brandSeries_addBrandSeries() {
+        this.form.brandSeriesArr.push(
+          this.form.brandSeriesArr[0]
+        );
+        this.form.inputSeries.push("");
+        this.form.brandSeriesMainCategoriesArr.push([{
+          value: "",
+          subCategoriesArr: [""]
+        }])
+      },
+      brandSeries_deleteSeries(index, row) {
+        if (this.form.brandSeriesArr.length === 1) return false;
+        this.form.brandSeriesArr.splice(index, 1);
+        this.form.brandSeriesMainCategoriesArr.splice(index, 1);
+        this.form.inputSeries.splice(index, 1);
+      },
+      brandSeries_addMainCategoties(index, row) {
+        this.form.brandSeriesMainCategoriesArr[index].push({
+          value: "",
+          subCategoriesArr: [""]
+        });
+      },
+      brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
+        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
           return false;
-        }
-      });
-    },
-    addInlandCurrencyType() {
-      this.inlandCurrencyArr.push({
-        type: "国内"
-      });
-    },
-    deleteInlandCurrencyType(index) {
-      this.inlandCurrencyArr.splice(index, 1);
-      this.form.transactionCurrencyInland.splice(index, 1);
-    },
-    addOutlandCurrencyType() {
-      this.outlandCurrencyArr.push({
-        type: "香港/国外"
-      });
-    },
-    deleteOutlandCurrencyType(index) {
-      this.outlandCurrencyArr.splice(index, 1);
-      this.form.transactionCurrencyOutland.splice(index, 1);
-    },
-    addGoodsQuality() {
-      this.goodsQualityArr.push({
-        quality: "Top"
-      });
-    },
-    deleteGoodsQuality(index) {
-      this.goodsQualityArr.splice(index, 1);
-      this.form.qualityName.splice(index, 1);
-    },
-    addPackingWay() {
-      this.packingWayArr.push({
-        packingWay: "Auto"
-      });
-    },
-    deletePackingWay(index) {
-      this.packingWayArr.splice(index, 1);
-      this.form.packingWay.splice(index, 1);
-    },
-    brandSeries_addBrandSeries() {
-      this.form.brandSeriesArr.push(
-        this.form.brandSeriesArr[0]
-      );
-      this.form.inputSeries.push("");
-      this.form.brandSeriesMainCategoriesArr.push([{
-        value: "",
-        subCategoriesArr: [""]
-      }])
-    },
-    brandSeries_deleteSeries(index, row) {
-      if (this.form.brandSeriesArr.length === 1) return false;
-      this.form.brandSeriesArr.splice(index, 1);
-      this.form.brandSeriesMainCategoriesArr.splice(index, 1);
-      this.form.inputSeries.splice(index, 1);
-    },
-    brandSeries_addMainCategoties(index, row) {
-      this.form.brandSeriesMainCategoriesArr[index].push({
-        value: "",
-        subCategoriesArr: [""]
-      });
-    },
-    brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
-      if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
-        return false;
-      this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
-    },
-    brandSeries_addSubCategoties(rowIndex, mainIndex) {
-      this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
-        ""
-      );
-    },
-    brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
-      if (
-        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
-          .length === 1
-      )
-        return false;
-      this.form.brandSeriesMainCategoriesArr[rowIndex][
-        mainIndex
-      ].subCategoriesArr.splice(subIndex, 1);
-    },
+        this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
+      },
+      brandSeries_addSubCategoties(rowIndex, mainIndex) {
+        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
+          ""
+        );
+      },
+      brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
+        if (
+          this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
+            .length === 1
+        )
+          return false;
+        this.form.brandSeriesMainCategoriesArr[rowIndex][
+          mainIndex
+          ].subCategoriesArr.splice(subIndex, 1);
+      },
 
 
-    brandType_addBrandType(index, row) {
-      this.form.brandTypeMainCategoriesArr.push({
-        value: "",
-        subCategoriesArr: [""]
-      });
-    },
-    brandType_deleteMainCategoties(index) {
-      if (this.form.brandTypeMainCategoriesArr.length === 1) return false;
-      this.form.brandTypeMainCategoriesArr.splice(index, 1);
-    },
-    brandType_addSubCategoties(index) {
-      this.form.brandTypeMainCategoriesArr[index].subCategoriesArr.push(
-        ""
-      );
-    },
-    brandType_delSubCategories(mainIndex, subIndex) {
-      if (
-        this.form.brandTypeMainCategoriesArr[mainIndex].subCategoriesArr
-          .length === 1
-      )
-        return false;
-      this.form.brandTypeMainCategoriesArr[
-        mainIndex
-      ].subCategoriesArr.splice(subIndex, 1);
-    },
-    brandSpecification_addSpecification() {
-      this.form.brandSpecification_msg.SpecificationArr.push(
-        this.form.brandSpecification_msg.SpecificationArr[0]
-      );
-      this.form.specificationInput.push({
-        goodSpecificationChinese: '',
-        goodSpecificationEnglish: '',
-        capacityChinese: '',
-        capacityEnglish: '',
-        packingUnitChinese: '',
-        packingUnitEnglish: '',
-      });
-    },
-    brandSpecification_deleteSpecification(index, row) {
-      if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
-        return false;
-      this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
-      this.form.specificationInput.splice(index, 1);
-    },
-    brandBox_addBox() {
-      this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
-      this.form.boxInput.push({
-        boxNo: "",
-        boxLength: "",
-        boxWidth: "",
-        boxHeight: "",
-        boxWeight: ""
-      });
-    },
-    brandBox_deleteBox(index, row) {
-      if (this.form.brandBox_msg.boxArr.length === 1) return false;
-      this.form.brandBox_msg.boxArr.splice(index, 1);
-      this.form.boxInput.splice(index, 1);
-    },
+      brandType_addBrandType(index, row) {
+        this.form.brandTypeMainCategoriesArr.push({
+          value: "",
+          subCategoriesArr: [""]
+        });
+      },
+      brandType_deleteMainCategoties(index) {
+        if (this.form.brandTypeMainCategoriesArr.length === 1) return false;
+        this.form.brandTypeMainCategoriesArr.splice(index, 1);
+      },
+      brandType_addSubCategoties(index) {
+        this.form.brandTypeMainCategoriesArr[index].subCategoriesArr.push(
+          ""
+        );
+      },
+      brandType_delSubCategories(mainIndex, subIndex) {
+        if (
+          this.form.brandTypeMainCategoriesArr[mainIndex].subCategoriesArr
+            .length === 1
+        )
+          return false;
+        this.form.brandTypeMainCategoriesArr[
+          mainIndex
+          ].subCategoriesArr.splice(subIndex, 1);
+      },
+      brandSpecification_addSpecification() {
+        this.form.brandSpecification_msg.SpecificationArr.push(
+          this.form.brandSpecification_msg.SpecificationArr[0]
+        );
+        this.form.specificationInput.push({
+          goodSpecificationChinese: '',
+          goodSpecificationEnglish: '',
+          capacityChinese: '',
+          capacityEnglish: '',
+          packingUnitChinese: '',
+          packingUnitEnglish: '',
+        });
+      },
+      brandSpecification_deleteSpecification(index, row) {
+        if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
+          return false;
+        this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
+        this.form.specificationInput.splice(index, 1);
+      },
+      brandBox_addBox() {
+        this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
+        this.form.boxInput.push({
+          boxNo: "",
+          boxLength: "",
+          boxWidth: "",
+          boxHeight: "",
+          boxWeight: ""
+        });
+      },
+      brandBox_deleteBox(index, row) {
+        if (this.form.brandBox_msg.boxArr.length === 1) return false;
+        this.form.brandBox_msg.boxArr.splice(index, 1);
+        this.form.boxInput.splice(index, 1);
+      },
 
-    brandDiscount_addDiscount() {
-      this.form.brandDiscount_msg.discountArr.push(
-        this.form.brandDiscount_msg.discountArr[0]
-      );
-      this.form.discountInput.push({
-        orderMin: "",
-        orderMax: "",
-        decreasingDiscount: 0
-      });
-    },
-    brandDiscount_deleteDiscount(index, row) {
-      if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
-      this.form.brandDiscount_msg.discountArr.splice(index, 1);
-      this.form.discountInput.splice(index, 1);
+      brandDiscount_addDiscount() {
+        this.form.brandDiscount_msg.discountArr.push(
+          this.form.brandDiscount_msg.discountArr[0]
+        );
+        this.form.discountInput.push({
+          orderMin: "",
+          orderMax: "",
+          decreasingDiscount: 0
+        });
+      },
+      brandDiscount_deleteDiscount(index, row) {
+        if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
+        this.form.brandDiscount_msg.discountArr.splice(index, 1);
+        this.form.discountInput.splice(index, 1);
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-.mainCategories-wrap {
-  display: flex;
-  justify-content: flex-start;
-}
+  .mainCategories-wrap {
+    display: flex;
+    justify-content: flex-start;
+  }
 
-.mainCategories-item {
-  width: 450px;
-}
+  .mainCategories-item {
+    width: 450px;
+  }
 
-.form-row {
-  margin: 0;
-}
+  .form-row {
+    margin: 0;
+  }
 
-.form-row .el-input {
-  margin: 3px;
-  width: 98%;
-}
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
 
-.form-row .el-form-item__label {
-  height: 35px;
-}
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
 
-.add-btn-wrap {
-  margin: 0 0 5px;
-}
+  .add-btn-wrap {
+    margin: 0 0 5px;
+  }
 </style>

@@ -6,18 +6,18 @@
     <div class="border1">
       <el-row class="border-top">
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
+          <div class="grid-content bg-purple">{{ 'FXQD号' }}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{ currentRow.FXQDbelongCode }}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.channelNum }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{'所属FXQD名称'}}</div>
+          <div class="grid-content bg-purple">{{'FXQD名称'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{currentRow.FXQDbelongName}}</div>
+          <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
         </el-col>
       </el-row>
       <el-row>

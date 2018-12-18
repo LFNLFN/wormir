@@ -269,7 +269,7 @@
 <script>
 
   const qiniu = require('qiniu-js')
-  import request from "@/utils/request";
+  import request from "@/utils/request"
 
   export default {
     data() {

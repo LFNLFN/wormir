@@ -429,7 +429,8 @@
 <script>
   import Mock from 'mockjs'
   import { channelProp, channelStatus } from '@/filters/index.js'
-  import request from "@/utils/request";
+  import request from "@/utils/request"
+  const qiniu = require('qiniu-js')
 
   export default {
     props: {
