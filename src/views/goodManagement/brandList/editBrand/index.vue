@@ -12,10 +12,10 @@
           <el-input v-model="form.englishName"></el-input>
         </el-form-item>
         <el-form-item label="原产国/产地" required class="form-row add-brand-row">
-          <el-input v-model="form.brandOrigin"></el-input>
+          <el-input v-model="form.origin"></el-input>
         </el-form-item>
         <el-form-item label="品牌公司名称" required class="form-row add-brand-row">
-          <el-input v-model="form.brandCompany"></el-input>
+          <el-input v-model="form.brandCompanyName"></el-input>
         </el-form-item>
         <el-form-item label="品牌公司地址" required class="form-row add-brand-row">
           <el-input v-model="form.brandCompanyAddress"></el-input>
@@ -25,18 +25,19 @@
                     style="margin: 3px;width: 98%"></el-input>
         </el-form-item>
         <el-form-item label="生产企业名称" required class="form-row add-brand-row">
-          <el-input v-model="form.producer"></el-input>
+          <el-input v-model="form.producerName"></el-input>
         </el-form-item>
         <el-form-item label="生产企业地址" required class="form-row add-brand-row">
           <el-input v-model="form.producerAddress"></el-input>
         </el-form-item>
         <el-form-item label="海运订货量" required class="form-row add-brand-row">
-          <el-input v-model.number="form.orderBySea"></el-input>
+          <el-input v-model.number="form.orderNumBySea"></el-input>
         </el-form-item>
         <el-form-item label="外汇到账时间" required class="form-row last-form-row add-brand-row">
           <el-col :span="11">
-            <el-time-picker type="fixed-time" placeholder="请输入外汇到账时间" v-model="form.forexTime"
-                            style="width: 100%;"></el-time-picker>
+            <el-input v-model.trim.number="form.receiptTime" placeholder="请输入外汇到账时间">
+              <template slot="append">小时</template>
+            </el-input>
           </el-col>
         </el-form-item>
       </div>
@@ -50,60 +51,50 @@
         <el-table
           :data="inlandCurrencyArr"
           border
-          class="border2"
-          style="width: 100%; border-bottom: 1px solid #D5D5D5">
-          <el-table-column
-            align="center"
-            label="类别"
-            width="120"
-            prop="type">
+          class="border2 vali-table"
+          :cell-style="{height: '80px'}"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5"
+          v-if="viewInlandTable"
+        >
+          <el-table-column align="center" label="类别" width="120" prop="type">
             <template slot-scope="scope">
               <span>{{ scope.row.type }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="币种名称"
-            prop="currencyName"
-            width="190">
+          <el-table-column align="center" label="币种名称" prop="currencyName" width="200">
             <template slot-scope="scope">
-              <el-form-item label-width="0" style="margin: 0">
-                <el-select v-model="form.transactionCurrencyInland[scope.$index]" placeholder="请选择币种">
-                  <el-option label="人民币" value="RMB"></el-option>
-                  <el-option label="港币" value="HKD"></el-option>
-                  <el-option label="澳元" value="AUD"></el-option>
-                  <el-option label="英镑" value="GBP"></el-option>
-                  <el-option label="美元" value="USD"></el-option>
-                  <el-option label="欧元" value="EUR"></el-option>
+              <el-form-item label-width="0" prop="" style="margin: 0">
+                <el-select
+                  v-model="inlandCurrencyTitle[scope.$index]"
+                  @change="inlandCurrency"
+                  placeholder="请选择币种">
+                  <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                  <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                  <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                  <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                  <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                  <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
                 </el-select>
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            min-width="100"
-            label="币种符号">
+          <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].symbol || '默认读取' }}</span>
+              <span>{{  inlandCurrencyTitle[scope.$index] && currencyInformation[(inlandCurrencyTitle[scope.$index].split('-')[1])/1+1].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            min-width="100"
-            label="币种单位">
+          <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index]] && currencyInformation[form.transactionCurrencyInland[scope.$index]].unit || '默认读取' }}</span>
+              <span>{{  inlandCurrencyTitle[scope.$index] && currencyInformation[(inlandCurrencyTitle[scope.$index].split('-')[1])/1+1].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="操作"
-            min-width="100">
+          <el-table-column align="center" label="操作" min-width="100">
             <template slot-scope="scope">
               <el-button
                 size="mini"
                 type="danger"
-                @click="deleteInlandCurrencyType(scope.$index)">删除
+                @click="deleteInlandCurrencyType(scope.$index)"
+              >删除
               </el-button>
             </template>
           </el-table-column>
@@ -114,8 +105,10 @@
         <el-table
           :data="outlandCurrencyArr"
           border
-          class="border2"
-          style="width: 100%; border-bottom: 1px solid #D5D5D5">
+          class="border2 vali-table"
+          :cell-style="{height: '80px'}"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5"
+          v-if="viewOutlandTable">
           <el-table-column
             align="center"
             label="类别"
@@ -125,38 +118,31 @@
               <span>{{ scope.row.type }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="币种名称"
-            prop="currencyName"
-            width="190">
+          <el-table-column align="center" label="币种名称" prop="currencyName" width="200">
             <template slot-scope="scope">
-              <el-form-item label-width="0" style="margin: 0">
-                <el-select v-model="form.transactionCurrencyOutland[scope.$index]" placeholder="请选择币种">
-                  <el-option label="人民币" value="RMB"></el-option>
-                  <el-option label="港币" value="HKD"></el-option>
-                  <el-option label="澳元" value="AUD"></el-option>
-                  <el-option label="英镑" value="GBP"></el-option>
-                  <el-option label="美元" value="USD"></el-option>
-                  <el-option label="欧元" value="EUR"></el-option>
+              <el-form-item label-width="0" prop="" style="margin: 0">
+                <el-select
+                  v-model="outlandCurrencyTitle[scope.$index]"
+                  @change="outlandCurrency"
+                  placeholder="请选择币种">
+                  <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                  <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                  <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                  <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                  <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                  <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
                 </el-select>
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            min-width="100"
-            label="币种符号">
+          <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].symbol || '默认读取' }}</span>
+              <span>{{  outlandCurrencyTitle[scope.$index] && currencyInformation[(outlandCurrencyTitle[scope.$index].split('-')[1])/1+1].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            min-width="100"
-            label="币种单位">
+          <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index]] && currencyInformation[form.transactionCurrencyOutland[scope.$index]].unit || '默认读取' }}</span>
+              <span>{{  outlandCurrencyTitle[scope.$index] && currencyInformation[(outlandCurrencyTitle[scope.$index].split('-')[1])/1+1].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作"
@@ -227,20 +213,20 @@
         </el-table>
       </el-form-item>
       <el-form-item label="品牌系列" required>
-        <el-radio-group v-model="form.brandSeries_msg.hasBrandSeries">
-          <el-radio :label="true">有品牌系列</el-radio>
-          <el-radio :label="false">无品牌系列</el-radio>
+        <el-radio-group v-model="form.hasBrandSeries">
+          <el-radio :label="1">有品牌系列</el-radio>
+          <el-radio :label="0">无品牌系列</el-radio>
         </el-radio-group>
         <el-row>
           <div class="add-btn-wrap">
-            <el-button type="success" icon="el-icon-plus" v-if="form.brandSeries_msg.hasBrandSeries"
+            <el-button type="success" icon="el-icon-plus" v-if="form.hasBrandSeries"
                        @click="brandSeries_addBrandSeries">添加品牌系列
             </el-button>
           </div>
         </el-row>
         <el-table
-          :data="form.brandSeries_msg.brandSeriesArr" border
-          v-if="form.brandSeries_msg.hasBrandSeries"
+          :data="form.brandSeriesArr" border
+          v-if="form.hasBrandSeries"
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
@@ -657,6 +643,7 @@
 </template>
 
 <script>
+  import request from "@/utils/request"
   export default {
     props: {
       brandObj: {
@@ -666,20 +653,24 @@
     },
     data() {
       return {
+        inlandCurrencyTitle: [''],
+        outlandCurrencyTitle: [''],
         form: {
           brandNo: '',
           chineseName: '',
           englishName: '',
-          brandOrigin: '',
-          brandCompany: '',
+          origin: '',
+          hasBrandSeries: '',
+
+          brandCompanyName: '',
           brandCompanyAddress: '',
           brandIntroduction: '',
-          producer: '',
+          producerName: '',
           producerAddress: '',
-          orderBySea: null,
-          forexTime: null,
-          transactionCurrencyInland: [],
-          transactionCurrencyOutland: [],
+          orderNumBySea: null,
+          receiptTime: null,
+          transactionCurrencyInland: [''],
+          transactionCurrencyOutland: [''],
           qualityName: [],
           packingWay: [],
           brandSeries_msg: {
@@ -765,12 +756,12 @@
           label: '停止供货'
         }],
         currencyInformation: {
-          RMB: { symbol: '￥', unit: '元' },
-          HKD: { symbol: 'HK$', unit: '港元' },
-          AUD: { symbol: 'A$', unit: '澳元' },
-          GBP: { symbol: '£', unit: '英磅' },
-          USD: { symbol: '$', unit: '美元' },
-          EUR: { symbol: '€', unit: '欧元' },
+          1: { symbol: "HK$", unit: "港元" },
+          2: { symbol: "￥", unit: "元" },
+          3: { symbol: "A$", unit: "澳元" },
+          4: { symbol: "£", unit: "英磅" },
+          5: { symbol: "€", unit: "欧元" },
+          6: { symbol: "$", unit: "美元" },
         },
         emptyArr: [
           {
@@ -806,7 +797,47 @@
           applyTime: null,
           brandStatus: ''
         },
-        stopContract_rules: {}
+        stopContract_rules: {},
+        transactionCurrencyArr: [
+          {
+            name: '港币',
+            id: 1,
+            symbol: '$',
+            unit: '港元'
+          },
+          {
+            name: '人民币',
+            id: 2,
+            symbol: '￥',
+            unit: '元'
+          },
+          {
+            name: '澳元',
+            id: 3,
+            symbol: 'A$',
+            unit: '澳元'
+          },
+          {
+            name: '英镑',
+            id: 4,
+            symbol: '£',
+            unit: '英镑'
+          },
+          {
+            name: '欧元',
+            id: 5,
+            symbol: '€',
+            unit: '欧元'
+          },
+          {
+            name: '美元',
+            id: 6,
+            symbol: '$',
+            unit: '美元'
+          },
+        ],
+        viewInlandTable: false,
+        viewOutlandTable: false
       }
     },
     computed: {
@@ -818,6 +849,16 @@
       }
     },
     methods: {
+      inlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyInland[a] = this.transactionCurrencyArr[b]
+      },
+      outlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyOutland[a] = this.transactionCurrencyArr[b]
+      },
       addInlandCurrencyType() {
         this.inlandCurrencyArr.push(
           {
@@ -826,8 +867,21 @@
         )
       },
       deleteInlandCurrencyType(index) {
-        this.inlandCurrencyArr.splice(index, 1)
-        this.form.transactionCurrencyInland.splice(index, 1)
+
+        if (index===this.inlandCurrencyTitle.length-1) {
+          this.inlandCurrencyArr.splice(index, 1)
+          this.inlandCurrencyTitle.splice(index, 1)
+          this.form.transactionCurrencyInland.splice(index, 1)
+        }
+        else {
+          let coverValue = this.inlandCurrencyTitle[index+1]
+          coverValue = index + '-' + coverValue.split('-')[1]
+          this.inlandCurrencyArr.splice(index, 1)
+          this.inlandCurrencyTitle.splice(index, 1)
+          this.form.transactionCurrencyInland.splice(index, 1)
+          this.inlandCurrencyTitle[index] = coverValue
+          this.inlandCurrency(coverValue)
+        }
       },
       addOutlandCurrencyType() {
         this.outlandCurrencyArr.push(
@@ -837,8 +891,20 @@
         )
       },
       deleteOutlandCurrencyType(index) {
-        this.outlandCurrencyArr.splice(index, 1)
-        this.form.transactionCurrencyOutland.splice(index, 1)
+        if (index===this.outlandCurrencyTitle.length-1) {
+          this.outlandCurrencyArr.splice(index, 1)
+          this.outlandCurrencyTitle.splice(index, 1)
+          this.form.transactionCurrencyOutland.splice(index, 1)
+        }
+        else {
+          let coverValue = this.outlandCurrencyTitle[index+1]
+          coverValue = index + '-' + coverValue.split('-')[1]
+          this.outlandCurrencyArr.splice(index, 1)
+          this.outlandCurrencyTitle.splice(index, 1)
+          this.form.transactionCurrencyOutland.splice(index, 1)
+          this.outlandCurrencyTitle[index] = coverValue
+          this.outlandCurrency(coverValue)
+        }
       },
       addGoodsQuality() {
         this.goodsQualityArr.push(
@@ -970,6 +1036,7 @@
         })
       },
       submitEdit() {
+        console.log(this.form)
         const vm = this
         this.$alert('编辑成功。', '', {
           confirmButtonText: this.$t('table.confirm'),
@@ -982,8 +1049,53 @@
       }
     },
     mounted() {
-      this.form = this.brandObj
-      console.log(this.brandObj)
+//      console.log(this.brandObj)
+      request({
+        url: '/brand/brandDetail.do',
+        method: 'post',
+        data: { brandNo: this.brandObj.brandNo }
+      }).then((res) => {
+//        this.$emit('submitSuccess')
+        if (res.errorCode == 0) {
+//          console.log(res.data)
+          const brandResData = res.data
+          this.form.brandNo = brandResData.brandDetail.brandNo
+          this.form.chineseName = brandResData.brandDetail.chineseName
+          this.form.englishName = brandResData.brandDetail.englishName
+          this.form.origin = brandResData.brandDetail.origin
+          this.form.brandCompanyName = brandResData.brandDetail.brandCompanyName
+          this.form.brandCompanyAddress = brandResData.brandDetail.brandCompanyAddress
+          this.form.brandIntroduction = brandResData.brandDetail.brandIntroduction
+          this.form.producerName = brandResData.brandDetail.producerName
+          this.form.producerAddress = brandResData.brandDetail.producerAddress
+          this.form.orderNumBySea = brandResData.brandDetail.orderNumBySea
+          this.form.receiptTime = brandResData.brandDetail.receiptTime
+
+          // 处理国内币种
+          this.form.transactionCurrencyInland = brandResData.transactionCurrencyInland
+          let tempArr1 = []
+          this.form.transactionCurrencyInland.forEach((item, index) =>{
+            tempArr1.push(`${index}-${item.currencyId-1}`)
+          })
+          this.inlandCurrencyTitle = tempArr1
+          this.viewInlandTable = true
+          // 处理国外币种
+          this.form.transactionCurrencyOutland = brandResData.transactionCurrencyOutland
+          let tempArr2 = []
+          this.form.transactionCurrencyOutland.forEach((item, index) =>{
+            tempArr2.push(`${index}-${item.currencyId-1}`)
+          })
+          this.outlandCurrencyTitle = tempArr2
+          this.viewOutlandTable = true
+
+          this.form.hasBrandSeries = brandResData.brandDetail.hasBrandSeries
+console.log(this.form)
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$message.error('操作失败');
+//        this.isSubmitting = false
+      })
     }
   }
 </script>

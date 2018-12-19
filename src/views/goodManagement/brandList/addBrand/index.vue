@@ -42,6 +42,11 @@
         <el-form-item label="海运订货量" prop="orderNumBySea" class="form-row add-brand-row">
           <el-input v-model.trim.number="form.orderNumBySea" placeholder="请输入海运订货量"></el-input>
         </el-form-item>
+        <el-form-item label="外汇到账时间" prop="receiptTime" class="form-row add-brand-row">
+          <el-input v-model.trim.number="form.receiptTime" placeholder="请输入外汇到账时间">
+            <template slot="append">小时</template>
+          </el-input>
+        </el-form-item>
         <el-form-item
           label="交易账号"
           prop="tradeAccount"
@@ -843,6 +848,7 @@
           producerName: "",
           producerAddress: "",
           orderNumBySea: null,
+          receiptTime: null,
           tradeAccount: {
             swfitCode: null,
             bankName: null,
@@ -1116,6 +1122,9 @@
           ],
           orderNumBySea: [
             { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          receiptTime: [
+            { required: true, min: 0, message: "不能为空", trigger: "blur" }
           ],
           tradeAccount: [
             { validator: validateTradeAccount, required: true, trigger: "blur" }

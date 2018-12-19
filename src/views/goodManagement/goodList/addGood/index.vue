@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="150px">
-      <div class="border1" style="border-bottom-width: 2px">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+      <div class="border1 form-error-inline" style="border-bottom-width: 2px">
         <el-form-item label="品牌" required class="form-row add-brand-row">
           <el-col :span="4" class="select-form-margin">
             <span v-if="chosenBrand"
@@ -19,31 +19,30 @@
             <span style="color: #999">&nbsp;企业商品自编号</span>
           </el-col>
         </el-form-item>
-        <el-form-item label="商品组成" required class="form-row add-brand-row">
-          <el-radio-group v-model="form.isSuite"
-                          style="margin:5px 3px 0;">
-            <el-radio :label="false">单品</el-radio>
-            <el-radio :label="true">套组</el-radio>
+        <el-form-item label="商品组成" prop="isSuite" class="form-row add-brand-row">
+          <el-radio-group v-model="form.isSuite" style="margin:5px 3px 0;">
+            <el-radio :label="0">单品</el-radio>
+            <el-radio :label="1">套组</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="商品编号" required class="form-row add-brand-row">
+        <el-form-item label="商品编号" prop="goodNo" class="form-row add-brand-row">
           <el-input v-model="form.goodNo" placeholder="请输入商品编号"></el-input>
         </el-form-item>
-        <el-row>
+        <el-row class="form-error-inside">
           <el-col :span="12">
-            <el-form-item label="商品名称（中文）" required class="form-row add-brand-row">
+            <el-form-item label="商品名称（中文）" prop="goodName_ZH" class="form-row add-brand-row" style="border-right: none">
               <el-input v-model="form.goodName_ZH" type="textarea" autosize
                         class="select-form-margin select-form-width" placeholder="请输入商品名称（中文）"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="商品名称（英文）" required class="form-row add-brand-row">
+            <el-form-item label="商品名称（英文）" prop="goodName_EN" class="form-row add-brand-row">
               <el-input v-model="form.goodName_EN" type="textarea" class="select-form-margin select-form-width"
                         autosize placeholder="请输入商品名称（英文）"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="原产国/产地" required class="form-row add-brand-row">
+        <el-form-item label="原产国/产地" prop="goodOrigin" class="form-row add-brand-row">
           <el-input v-model="form.goodOrigin" placeholder="请输入原产国/产地"></el-input>
         </el-form-item>
         <el-form-item label="商品属性" required class="form-row add-brand-row">
@@ -467,7 +466,7 @@
                 </el-col>
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.replenishment.withUnit"  placeholder="请输入"></el-input>
+                  <el-input v-model="scope.row.replenishment.withUnit" placeholder="请输入"></el-input>
                 </el-col>
               </el-row>
             </template>
@@ -532,7 +531,7 @@
       </div>
       <div class="dialogBottomButton-wrap">
         <!--<el-button type="primary" @click="">保存</el-button>-->
-        <el-button type="primary" @click="toSubmit">提交审核</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">提交审核</el-button>
       </div>
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌"
@@ -692,7 +691,25 @@
           label: 'carton'
         }],
         isChooseBrandShow: false,
-        chosenBrand: null
+        chosenBrand: null,
+        isSubmitting: false,
+        formRules: {
+          isSuite: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodNo: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodName_ZH: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodName_EN: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodOrigin: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+        }
       }
     },
     methods: {
@@ -734,14 +751,33 @@
       chooseBrand() {
         this.isChooseBrandShow = true
       },
-      toSubmit() {
-        const vm = this
-        this.$alert('提交成功。', '', {
-          confirmButtonText: this.$t('table.confirm'),
-          showClose: false,
-          center: true,
-          callback() {
-            vm.$emit('closeDialog')
+      onSubmit() {
+        this.isSubmitting = true
+
+//        if (!this.chosenBrand) {
+//          this.$message.error('请选择品牌!');
+//          this.isSubmitting = false
+//          return false
+//        }
+
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.isSubmitting = false
+            return false
+            request({
+              url: '/channel/createChannel.do',
+              method: 'post',
+              data: this.form
+            }).then(() => {
+              this.$emit('submitSuccess')
+            }).catch(() => {
+              this.$message.error('新增失败');
+              this.isSubmitting = false
+            })
+          } else {
+            this.isSubmitting = false
+            this.$message.error('请正确填写表格信息')
+            return false
           }
         })
       }
