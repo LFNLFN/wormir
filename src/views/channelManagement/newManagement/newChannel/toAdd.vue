@@ -318,8 +318,8 @@
           companyAddress: '',
 
           contactData: [{
-            job: '',
-            name: '',
+            position: '',
+            userName: '',
             mobile: '',
             email: '',
             address: '',
@@ -328,7 +328,7 @@
         },
         isSubmitting: false,
         contactData: [{
-          job: '技术对接人',
+          position: '技术对接人',
           name: '王小虎',
           mobile: 15268172199,
           email: '315889743@qq.com',
@@ -411,7 +411,7 @@
           depositValue: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          job: [
+          position: [
             { required: true, message: '不能为空', trigger: 'change' },
           ],
           name: [
@@ -492,10 +492,10 @@
 
         // 验证渠道联系人和技术对接人
         let channelContactPerson = this.form.contactData.some((item, index, arr) => {
-          return item.job == 1
+          return item.position == 1
         })
         let technologyConnectPerson = this.form.contactData.some((item, index, arr) => {
-          return item.job == 2
+          return item.position == 2
         })
         if (!(channelContactPerson && technologyConnectPerson)) {
           this.$message.error('渠道联系人及技术对接人必填!');
@@ -564,7 +564,7 @@
 
       addContact() {
         this.form.contactData.push({
-          job: '',
+          position: '',
           name: '',
           mobile: '',
           email: '',

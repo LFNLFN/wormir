@@ -691,7 +691,7 @@
       },
       addContact() {
         this.form.contactData.push({
-          job: '',
+          position: '',
           name: '',
           mobile: '',
           email: '',
