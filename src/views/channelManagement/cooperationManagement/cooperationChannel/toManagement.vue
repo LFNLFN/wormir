@@ -77,7 +77,7 @@
       <div class="border1 form-error-beyond">
         <el-row class="border-top">
           <el-col :span="5">
-            <div class="grid-content bg-purple ">{{'经营主体'}}</div>
+            <div class="grid-content bg-purple">{{'经营主体'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
@@ -88,7 +88,7 @@
         </el-row>
         <el-row>
           <el-col :span="5" style="height: 38px">
-            <div class="grid-content bg-purple ">
+            <div class="grid-content bg-purple">
               <span v-if="currentRow.businessEntity==1">{{'身份证号'}}</span>
               <span v-if="currentRow.businessEntity==2">{{'公司名称(渠道名称)'}}</span>
             </div>
@@ -96,8 +96,8 @@
           <el-col :span="19" style="height: 38px">
             <div class="marginToLeft">
             <span v-if="currentRow.businessEntity==1">
-              <el-form-item label="" prop="personID">
-              <el-input style="height: 27px;width: 250px" v-model.lazy="form.personID"
+              <el-form-item label="" prop="idcardNo">
+              <el-input style="height: 27px;width: 250px" v-model.lazy="form.idcardNo"
                         placeholder="请输入身份证号码"></el-input>
               </el-form-item>
             </span>
@@ -183,7 +183,7 @@
           <el-col :span="19" style="height: 38px">
             <div class="marginToLeft">
             <span>
-               <el-input style="height: 27px;" v-model="form.companyAddress"
+               <el-input style="height: 27px;" v-model="form.businessAddress"
                          placeholder="请输入公司地址"></el-input>
             </span>
             </div>
@@ -199,8 +199,8 @@
           <el-col :span="19" style="height: 38px">
             <div class="marginToLeft">
             <span>
-               <el-form-item label="" prop="storeName">
-               <el-input style="height: 27px;width: 250px" v-model.lazy="form.storeName"
+               <el-form-item label="" prop="channelName">
+               <el-input style="height: 27px;width: 250px" v-model.lazy="form.channelName"
                          placeholder="请输入店铺/平台名称"></el-input>
                </el-form-item>
             </span>
@@ -243,16 +243,16 @@
             </div>
           </el-col>
           <el-col :span="19" style="padding-top: 10px">
-            <el-form-item label="" prop="similarGoods">
-              <el-input :rows="1" type="textarea" style="width: 550px;height: 38px;" v-model="form.similarGoods"
+            <el-form-item label="" prop="businessGoods">
+              <el-input :rows="1" type="textarea" style="width: 550px;height: 38px;" v-model="form.businessGoods"
                         placeholder="请输入经营过的类似商品"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </div>
 
-      <h3 class="form-part-title">联系方式</h3>
-      <el-form-item prop="contactData">
+      <h3 class="form-part-title" v-if="form.contactData">联系方式</h3>
+      <el-form-item prop="contactData" v-if="form.contactData">
         <el-table
           border
           :data="form.contactData"
@@ -260,11 +260,11 @@
           style="width: 100%">
           <el-table-column
             align="center"
-            prop="job"
+            prop="position"
             label="职务"
             width="150">
             <template slot-scope="scope">
-              <el-select v-model="form.contactData[scope.$index].job" placeholder="请选择">
+              <el-select v-model="form.contactData[scope.$index].position" placeholder="请选择">
                 <el-option
                   v-for="item in jobType"
                   :key="item.value"
@@ -276,11 +276,11 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="name"
+            prop="userName"
             label="姓名"
             width="150">
             <template slot-scope="scope">
-              <el-input v-model="form.contactData[scope.$index].name" placeholder="请输入"></el-input>
+              <el-input v-model="form.contactData[scope.$index].userName" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -377,26 +377,29 @@
           label="合同属性"
           align="center"
           min-width="90">
+          <template slot-scope="scope">
+            <span>{{ scope.row.contractProp | contractProp }}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="contractStartTime"
+          prop="startTime"
           label="开始时间"
           align="center"
           min-width="110">
         </el-table-column>
         <el-table-column
-          prop="contractEndTime"
+          prop="endTime"
           label="结束时间"
           align="center"
           min-width="110">
         </el-table-column>
         <el-table-column
-          prop="channelStatus"
-          label="渠道状态"
+          prop="status"
+          label="合同状态"
           align="center"
           min-width="140">
           <template slot-scope="scope">
-            <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
+            <span>{{ scope.row.status | contractStatus }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -428,8 +431,9 @@
 
 <script>
   import Mock from 'mockjs'
-  import { channelProp, channelStatus } from '@/filters/index.js'
+  import { channelProp, channelStatus, contractStatus, contractProp, job } from '@/filters/index.js'
   import request from "@/utils/request"
+
   const qiniu = require('qiniu-js')
 
   export default {
@@ -442,10 +446,13 @@
     data() {
 
       var validateContact = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('联系人表格不能留空。'))
+        }
         let vali = false;
         let valiNull = value.some((item, index, arr) => {
           for (var key in item) {
-            if (!item[key]) {
+            if ((!item[key])&&(key!=='remark')) {
               vali = true;
               break;
             }
@@ -454,16 +461,16 @@
         });
         // 渠道联系人
         let valiRequired1 = value.some((item, index, arr) => {
-            return item.job == 1;
+          return item.position == 1;
         });
         // 技术对接人
         let valiRequired2 = value.some((item, index, arr) => {
-          return item.job == 2;
+          return item.position == 2;
         });
         if (valiNull) {
-          callback(new Error("联系方式表格不能留空！"));
+          callback(new Error("联系方式表格除“备注”外不能留空！"));
         }
-        else if (!(valiRequired1&&valiRequired2)) {
+        else if (!(valiRequired1 && valiRequired2)) {
           callback(new Error("渠道联系人和技术对接人必须填写！"));
         } else {
           callback();
@@ -507,19 +514,19 @@
         isViewImageShow: false,
         imageViewed: null,
         form: {
-          personID: '449926837749882793（缺少数据）',
+          idcardNo: '449926837749882793（缺少数据）',
           idcardFront: '',
           idcardBack: '',
 
           businessLicense: '',
           companyName: '',
-          storeName: '',
+          channelName: '',
           PCLink: '',
           appLink: '',
-          similarGoods: '',
+          businessGoods: '',
           businessRange: '',
           companySummary: '',
-          companyAddress: '',
+          businessAddress: '',
 
           contactData: [],
 
@@ -556,17 +563,17 @@
         },
 
         formRules: {
-          personID: [
-            { required: true, message: '不能为空', trigger: 'blur' },
+          idcardNo: [
+            { required: true, message: '不能为空', trigger: 'change' },
           ],
-          storeName: [
-            { required: true, message: '不能为空', trigger: 'blur' },
+          channelName: [
+            { required: true, message: '不能为空', trigger: 'change' },
           ],
           businessRange: [
-            { required: true, message: '不能为空', trigger: 'blur' },
+            { required: true, message: '不能为空', trigger: 'change' },
           ],
-          similarGoods: [
-            { required: true, message: '不能为空', trigger: 'blur' },
+          businessGoods: [
+            { required: true, message: '不能为空', trigger: 'change' },
           ],
           contactData: [
             { validator: validateContact, required: true, trigger: "change" }
@@ -578,30 +585,33 @@
     methods: {
       onSubmit() {
         this.isSubmitting = true
-        console.log(this.form)
-        this.$refs["form"].validate(valid => {
+         console.log(this.form)
+//        return false
+        this.$refs['form'].validate((valid) => {
           if (valid) {
-            console.log("前端验证ok");
-            this.isSubmitting = false
-            return false;
             request({
-              url: "/channel/createChannel.do",
+              url: "/channel/updateChannel.do",
               method: "post",
               data: this.form
             })
-              .then(() => {
-                this.$emit("submitSuccess");
+              .then((res) => {
+                if (res.errorCode == 0) {
+                  this.$emit("submitSuccess")
+                } else {
+                  this.$message.error("操作失败")
+                  this.isSubmitting = false
+                }
               })
               .catch(() => {
-                this.$message.error("操作失败");
-                this.isSubmitting = false;
-              });
+                this.$message.error("操作失败")
+                this.isSubmitting = false
+              })
           } else {
-            this.isSubmitting = false;
-            this.$message.error("请填写全部信息");
-            return false;
+            this.isSubmitting = false
+            this.$message.error("请填写全部信息")
+            return false
           }
-        });
+        })
       },
       // 图片相关^
       viewImage(src) {
@@ -690,50 +700,40 @@
         })
       },
       deleteContact(index) {
+        if (this.form.contactData.length<=1) {
+          this.$message.error('不能清空联系方式');
+          return false
+        }
         this.form.contactData.splice(index, 1)
       }
     },
     mounted() {
-
-      this.form.personID = this.currentRow.personID || '449926837749882793（缺少数据）'
+      this.form.channelNo = this.currentRow.channelNo
+      request({
+        url: '/channel/channelDetail.do',
+        method: 'post',
+        data: {
+          channelNo: this.currentRow.channelNo,
+        }
+      }).then((res) => {
+        this.form.contactData = res.data.contactData
+        this.contractData = res.data.contract
+      }).catch(() => {
+        this.$message.error('渠道详情请求失败');
+      })
+      this.form.idcardNo = this.currentRow.idcardNo || ''
       this.form.idcardFront = this.currentRow.idcardFront || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
       this.form.idcardBack = this.currentRow.idcardBack || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
 
-      this.form.companyName = this.currentRow.companyName || '无'
-      this.form.companySummary = this.currentRow.companySummary || '无'
-      this.form.companyAddress = this.currentRow.companyAddress || '无'
+      this.form.companyName = this.currentRow.companyName || ''
+      this.form.companySummary = this.currentRow.companySummary || ''
+      this.form.businessAddress = this.currentRow.businessAddress || ''
       this.form.businessLicense = this.currentRow.businessLicense || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
 
-      this.form.storeName = this.currentRow.storeName || '无'
-      this.form.businessRange = this.currentRow.businessRange || '无'
-      this.form.similarGoods = this.currentRow.similarGoods || '无'
+      this.form.channelName = this.currentRow.channelName || ''
+      this.form.businessRange = this.currentRow.businessRange || ''
+      this.form.businessGoods = this.currentRow.businessGoods || ''
 
-      this.form.contactData = this.currentRow.contactData || [
-        {
-          job: 1,
-          name: '王小虎',
-          mobile: 13658172188,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        },
-        {
-          job: 2,
-          name: '王大虎',
-          mobile: 18778172188,
-          email: '345245658@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }]
-
-      this.contractData = [{
-        contractNo: this.currentRow.contractNo,
-        contractProp: this.currentRow.contractProp,
-        contractStartTime: this.currentRow.contractStartTime,
-        contractEndTime: this.currentRow.contractEndTime,
-        channelStatus: this.currentRow.channelStatus,
-      }]
-console.log(this.currentRow)
     }
   }
 </script>

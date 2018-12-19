@@ -93,8 +93,13 @@
               method: "post",
               data: this.form
             })
-              .then(() => {
-                this.$emit("submitSuccess");
+              .then((res) => {
+                if (res.errorCode == 0) {
+                  this.$emit("submitSuccess");
+                } else {
+                  this.$message.error("操作失败");
+                  this.isSubmitting = false;
+                }
               })
               .catch(() => {
                 this.$message.error("操作失败");

@@ -157,12 +157,12 @@
       style="width: 100%"
       class="border-top2 border-left2 border-right2">
       <el-table-column
-        prop="job"
+        prop="position"
         label="职务"
         align="center"
         min-width="90">
         <template slot-scope="scope">
-          <span v-if="scope.row.job">{{ scope.row.job | job  }}</span>
+          <span v-if="scope.row.position">{{ scope.row.position | job  }}</span>
           <span v-else>{{ '暂无数据' }}</span>
         </template>
       </el-table-column>
@@ -345,9 +345,13 @@
           channelNo: this.currentRow.channelNo,
         }
       }).then((res) => {
-        this.contactData = res.data.contactData
-        this.contractData = res.data.contract
-        console.log(this.contractData)
+        if (res.errorCode == 0) {
+          this.contactData = res.data.contactData
+          this.contractData = res.data.contract
+          console.log(this.contractData)
+        } else {
+          this.$message.error('渠道详情请求失败');
+        }
       }).catch(() => {
         this.$message.error('渠道详情请求失败');
       })

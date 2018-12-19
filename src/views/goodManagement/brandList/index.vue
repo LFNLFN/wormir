@@ -2,7 +2,7 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.brandMsg1" placeholder="请输入 品牌编号/品牌名称/产地" style="width: 300px"></el-input>
+        <el-input v-model="filterForm.searchText" placeholder="请输入 品牌编号/品牌名称/产地" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
@@ -39,9 +39,12 @@
         prop="brandStatus"
         label="品牌状态"
         min-width="120"
-        :filters="[{ text: '正常供货', value: '正常供货' }, { text: '停止供货', value: '停止供货' }]"
+        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 0 }]"
         :filter-method="filterHandler_brandStatus"
         align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.brandStatus? '正常供货' : '停止供货' }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="brandOrigin"
@@ -161,14 +164,14 @@
   import addBrand from './addBrand/index.vue'
   import editBrand from './editBrand/index.vue'
   import goodManagement from './goodManagement/index.vue'
+  import request from "@/utils/request";
 
   export default {
     data() {
       return {
         brandTableData: [],
         filterForm: {
-          placeholder1: '品牌号/品牌名称',
-          brandMsg1: '',
+          searchText: '',
           currentPage: 1,
           page_size: 10,
           total: 0
@@ -198,19 +201,21 @@
     },
     methods: {
       brandBlurSearch() {
-        brand_BlurSearch(this.filterForm.brandMsg1)
-          .then((res) => {
-            // 这里添加的是补充数据，补充品牌需要但是接口没有给出的信息
-            res.data.items.forEach((item, index, arr) => {
-              item.transactionCurrencyInland = ['RMB']
-              item.transactionCurrencyOutland = ['EUR']
-              item.qualityName = ['顶级品质']
-              item.packingWay = ['自动包装']
-            })
-            this.brandTableData = res.data.items
-            this.filterForm.total = res.data.items.length
-          })
-        // .catch(() => { this.$message.error('表格加载失败') })
+        request({
+          url: '/brand/brandList.do',
+          method: 'post',
+          data: {
+            page: this.filterForm.currentPage,
+            limit: this.filterForm.page_size,
+            searchText: this.filterForm.searchText
+          }
+        }).then((res) => {
+          this.brandTableData = res.data.items
+          this.filterForm.total = res.data.total
+          console.log(res.data.items)
+        }).catch(() => {
+          this.$message.error('数据请求失败');
+        })
       },
       handleSizeChange(val) {
         brand_BlurSearch(this.filterForm.value1, 1, val)

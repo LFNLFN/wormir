@@ -168,11 +168,11 @@
             style="width: 100%;border-right-width: 0">
             <el-table-column
               align="center"
-              prop="job"
+              prop="position"
               label="职务"
               width="150">
               <template slot-scope="scope">
-                <el-select v-model="form.contactData[scope.$index].job" placeholder="请选择">
+                <el-select v-model="form.contactData[scope.$index].position" placeholder="请选择">
                   <el-option
                     v-for="item in jobType"
                     :key="item.value"

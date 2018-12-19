@@ -153,6 +153,7 @@
 
 <script>
   import request from "@/utils/request";
+  import { parseTime } from "@/utils/index.js";
 
   export default {
     props: {
@@ -195,8 +196,8 @@
           method: 'post',
           data: {
             channelNo: this.currentRow.channelNo,
-            startTime: this.form.date1,
-            endTime: this.form.date2
+            startTime: this.form.dateRange[0],
+            endTime: this.form.dateRange[1]
           }
         }).then(() => {
           this.$emit('submitSuccess')

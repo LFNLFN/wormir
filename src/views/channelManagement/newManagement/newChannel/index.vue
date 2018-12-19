@@ -272,9 +272,13 @@
             searchText: this.filterForm.searchText
           }
         }).then((res) => {
-          this.channelTableData = res.data.items
-          this.filterForm.total = res.data.total
-          console.log(res.data.items)
+          if (res.errorCode == 0) {
+            this.channelTableData = res.data.items
+            this.filterForm.total = res.data.total
+            console.log(res.data.items)
+          } else {
+            this.$message.error('数据请求失败');
+          }
         }).catch(() => {
           this.$message.error('数据请求失败');
         })

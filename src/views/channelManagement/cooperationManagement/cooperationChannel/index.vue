@@ -305,13 +305,15 @@
           message: '操作成功！',
           type: 'success'
         });
+        this.channelBlurSearch()
       },
       deleteSuccess() {
         this.isDeleteShow = false
         this.$message({
           message: '操作成功！',
           type: 'success'
-        });
+        })
+        this.channelBlurSearch()
       },
     },
     mounted() {
