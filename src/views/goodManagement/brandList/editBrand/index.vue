@@ -3,35 +3,35 @@
     <el-form ref="form" :model="form" label-width="150px" :rules="formRules">
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
-          <el-input v-model="form.brandNo"></el-input>
+          <el-input v-model.trim="form.brandNo"></el-input>
         </el-form-item>
         <el-form-item label="品牌名称（中文）" prop="chineseName" class="form-row add-brand-row">
-          <el-input v-model="form.chineseName"></el-input>
+          <el-input v-model.trim="form.chineseName"></el-input>
         </el-form-item>
         <el-form-item label="品牌名称（英文）" prop="englishName" class="form-row add-brand-row">
-          <el-input v-model="form.englishName"></el-input>
+          <el-input v-model.trim="form.englishName"></el-input>
         </el-form-item>
         <el-form-item label="原产国/产地" prop="origin" class="form-row add-brand-row">
-          <el-input v-model="form.origin"></el-input>
+          <el-input v-model.trim="form.origin"></el-input>
         </el-form-item>
         <el-form-item label="品牌公司名称" prop="brandCompanyName" class="form-row add-brand-row">
-          <el-input v-model="form.brandCompanyName"></el-input>
+          <el-input v-model.trim="form.brandCompanyName"></el-input>
         </el-form-item>
         <el-form-item label="品牌公司地址" prop="brandCompanyAddress" class="form-row add-brand-row">
-          <el-input v-model="form.brandCompanyAddress"></el-input>
+          <el-input v-model.trim="form.brandCompanyAddress"></el-input>
         </el-form-item>
         <el-form-item label="品牌介绍" prop="brandIntroduction" class="form-row add-brand-row textareaTitle">
           <el-input type="textarea" :rows="2" v-model="form.brandIntroduction"
                     style="margin: 3px;width: 98%"></el-input>
         </el-form-item>
         <el-form-item label="生产企业名称" prop="producerName" class="form-row add-brand-row">
-          <el-input v-model="form.producerName"></el-input>
+          <el-input v-model.trim="form.producerName"></el-input>
         </el-form-item>
         <el-form-item label="生产企业地址" prop="producerAddress" class="form-row add-brand-row">
-          <el-input v-model="form.producerAddress"></el-input>
+          <el-input v-model.trim="form.producerAddress"></el-input>
         </el-form-item>
         <el-form-item label="海运订货量" prop="orderNumBySea" class="form-row add-brand-row">
-          <el-input v-model.number="form.orderNumBySea"></el-input>
+          <el-input v-model.number.trim="form.orderNumBySea"></el-input>
         </el-form-item>
         <el-form-item label="外汇到账时间" prop="receiptTime" class="form-row last-form-row add-brand-row">
           <el-col :span="11">
@@ -170,7 +170,7 @@
             label="品质名称"
             prop="quality">
             <template slot-scope="scope">
-              <el-input placeholder="请填写品质名称" v-model="form.qualityName[scope.$index]"></el-input>
+              <el-input placeholder="请填写品质名称" v-model.trim="form.qualityName[scope.$index]"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
@@ -198,7 +198,7 @@
             label="包装方式"
             prop="packingWay">
             <template slot-scope="scope">
-              <el-input placeholder="请填写包装方式" v-model="form.packingWay[scope.$index]"></el-input>
+              <el-input placeholder="请填写包装方式" v-model.trim="form.packingWay[scope.$index]"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
@@ -213,7 +213,7 @@
         </el-table>
       </el-form-item>
       <el-form-item label="品牌系列" required>
-        <el-radio-group v-model="form.hasBrandSeries">
+        <el-radio-group v-model.trim="form.hasBrandSeries">
           <el-radio :label="1">有品牌系列</el-radio>
           <el-radio :label="0">无品牌系列</el-radio>
         </el-radio-group>
@@ -264,7 +264,7 @@
                 <div class="mainCategories-item"
                      v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index]">
                   <el-form-item label="主品类">
-                    <el-input v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].value"
+                    <el-input v-model.trim="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].value"
                               placeholder="请输入主品类"></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px">
                       <el-button
@@ -284,7 +284,7 @@
                          v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr">
                       <el-form-item label="子品类">
                         <el-input
-                          v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr[subCateIndex]"
+                          v-model.trim="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr[subCateIndex]"
                           placeholder="请输入子品类">
                           <el-button slot="append" type="danger" icon="el-icon-delete"
                                      @click="brandSeries_delSubCategories(scope.$index,mainCateIndex,subCateIndex)"></el-button>
@@ -632,7 +632,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="终止原因" prop="applyReason" class="form-row add-brand-row textareaTitle">
-            <el-input type="textarea" placeholder="请输入终止合作原因" :rows="2" v-model="stopContract_ruleForm.applyReason"
+            <el-input type="textarea" placeholder="请输入终止合作原因" :rows="2" v-model.trim="stopContract_ruleForm.applyReason"
                       style="margin: 3px;width: 98%"></el-input>
           </el-form-item>
           <el-form-item label="品牌状态" class="form-row add-brand-row last-form-row">
@@ -930,37 +930,37 @@
         transactionCurrencyArr: [
           {
             name: '港币',
-            id: 1,
+            currencyId: 1,
             symbol: '$',
             unit: '港元'
           },
           {
             name: '人民币',
-            id: 2,
+            currencyId: 2,
             symbol: '￥',
             unit: '元'
           },
           {
             name: '澳元',
-            id: 3,
+            currencyId: 3,
             symbol: 'A$',
             unit: '澳元'
           },
           {
             name: '英镑',
-            id: 4,
+            currencyId: 4,
             symbol: '£',
             unit: '英镑'
           },
           {
             name: '欧元',
-            id: 5,
+            currencyId: 5,
             symbol: '€',
             unit: '欧元'
           },
           {
             name: '美元',
-            id: 6,
+            currencyId: 6,
             symbol: '$',
             unit: '美元'
           },
