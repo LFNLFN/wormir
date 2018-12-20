@@ -157,7 +157,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品品质" required>
+      <el-form-item label="商品品质" prop="qualityName">
         <div class="add-btn-wrap">
           <el-button type="success" icon="el-icon-plus" @click="addGoodsQuality()">添加商品品质</el-button>
         </div>
@@ -184,7 +184,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="包装设置" required>
+      <el-form-item label="包装设置" prop="packingWay">
         <div class="add-btn-wrap">
           <el-button type="success" icon="el-icon-plus" @click="addPackingWay()">添加包装方式</el-button>
         </div>
@@ -242,7 +242,7 @@
                   placeholder="请输入品牌系列"
                 ></el-input>
               </el-form-item>
-              <div class="add-btn-wrap" style="margin-top: 10px">
+              <div class="add-btn-wrap" style="margin-top: 20px">
                 <el-button
                   size="mini"
                   type="danger" icon="el-icon-delete"
@@ -432,7 +432,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌箱子" required>
+      <el-form-item label="品牌箱子" prop="boxInput">
         <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox()">添加品牌箱子</el-button>
@@ -495,7 +495,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌折扣" required>
+      <el-form-item label="品牌折扣" prop="discountInput">
         <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
@@ -664,6 +664,85 @@
       }
     },
     data() {
+
+      var validateQualityName = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品质名称必须填写且不能重复！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateInputSeries = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品牌系列必须填写且不能重复！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateSpecificationInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("商品规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateBoxInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("品牌箱子表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateDiscountInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (typeof item[key] !== 'number') return true
+            let valiOrderRange = (item.orderMin >= 0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
+            if (!valiOrderRange) return true
+          }
+        });
+
+        if (valiNull) {
+          callback(new Error("品牌折扣表格必须正确填写！"));
+        } else {
+          callback();
+        }
+      };
+
       return {
         inlandCurrencyTitle: [''],
         outlandCurrencyTitle: [''],
@@ -915,7 +994,24 @@
           receiptTime: [
             { required: true, type:'number', min: 0, message: "不能为空", trigger: "blur" }
           ],
-          
+          qualityName: [
+            { validator: validateQualityName, required: true, trigger: "blur" }
+          ],
+          packingWay: [
+            { validator: validateQualityName, required: true, trigger: "blur" }
+          ],
+          inputSeries: [
+            { validator: validateInputSeries, required: true, trigger: "blur" }
+          ],
+          specificationInput: [
+            { validator: validateSpecificationInput, required: true, trigger: "blur" }
+          ],
+          boxInput: [
+            { validator: validateBoxInput, required: true, trigger: "blur" }
+          ],
+          discountInput: [
+            { validator: validateDiscountInput, required: true, trigger: "blur" }
+          ],
         }
       }
     },
@@ -944,23 +1040,11 @@
             type: '国内'
           }
         )
+        this.form.transactionCurrencyInland.push('')
       },
       deleteInlandCurrencyType(index) {
-
-        if (index===this.inlandCurrencyTitle.length-1) {
-          this.inlandCurrencyArr.splice(index, 1)
-          this.inlandCurrencyTitle.splice(index, 1)
-          this.form.transactionCurrencyInland.splice(index, 1)
-        }
-        else {
-          let coverValue = this.inlandCurrencyTitle[index+1]
-          coverValue = index + '-' + coverValue.split('-')[1]
-          this.inlandCurrencyArr.splice(index, 1)
-          this.inlandCurrencyTitle.splice(index, 1)
-          this.form.transactionCurrencyInland.splice(index, 1)
-          this.inlandCurrencyTitle[index] = coverValue
-          this.inlandCurrency(coverValue)
-        }
+        this.inlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyInland.splice(index, 1);
       },
       addOutlandCurrencyType() {
         this.outlandCurrencyArr.push(
@@ -991,6 +1075,7 @@
             quality: 'Top'
           }
         )
+        this.form.qualityName.push('')
       },
       deleteGoodsQuality(index) {
         this.goodsQualityArr.splice(index, 1)
@@ -1002,6 +1087,7 @@
             packingWay: 'Auto'
           }
         )
+        this.form.packingWay.push('')
       },
       deletePackingWay(index) {
         this.packingWayArr.splice(index, 1)
@@ -1097,7 +1183,7 @@
         });
       },
       brandBox_deleteBox(index, row) {
-        if (this.form.brandBox_msg.boxArr.length === 1) return false;
+        if (this.form.brandBox_msg.boxArr.length == 1) return false;
         this.form.brandBox_msg.boxArr.splice(index, 1);
         this.form.boxInput.splice(index, 1);
       },
@@ -1134,19 +1220,37 @@
       },
       submitEdit() {
         console.log(this.form)
-        const vm = this
-        this.$alert('编辑成功。', '', {
-          confirmButtonText: this.$t('table.confirm'),
-          showClose: false,
-          center: true,
-          callback() {
-            vm.$emit('closeDialog')
+        // 验证国内币种
+        let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index].name == arr[index + 1].name;
           }
         })
+        if (valiInland) {
+          this.$message.error('国内交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
+        }
+
+        // 验证国外币种
+        let valiOutland = this.form.transactionCurrencyOutland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index].name == arr[index + 1].name;
+          }
+        })
+        if (valiOutland) {
+          this.$message.error('国外交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
+        }
+
       }
     },
     mounted() {
-//      console.log(this.brandObj)
       request({
         url: '/brand/brandDetail.do',
         method: 'post',
@@ -1154,7 +1258,6 @@
       }).then((res) => {
 //        this.$emit('submitSuccess')
         if (res.errorCode == 0) {
-//          console.log(res.data)
           const brandResData = res.data
           this.form.brandNo = brandResData.brandDetail.brandNo
           this.form.chineseName = brandResData.brandDetail.chineseName
@@ -1220,7 +1323,6 @@
           this.form.boxInput = brandResData.boxInput
           this.form.discountInput = brandResData.discountInput
           this.form.contract = brandResData.contract
-          console.log(this.form)
         }
       }).catch((err) => {
         console.log(err)
