@@ -99,62 +99,60 @@
 
       <el-form-item label="商品规格" required>
         <el-table
-          :data="form.goodSpecificationArr"
+          :data="form.goodSpecification_msg.SpecificationArr"
           class="noBorder last-tr2"
           style="width: 100%;border-left: 2px solid #D5D5D5">
-          <el-table-column
-            align="center"
-            label="商品规格">
-            <el-table-column
-              align="center"
-              label="中文">
+          <el-table-column align="center" label="商品规格" prop="specificationName">
+            <el-table-column align="center" label="中文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.goodSpecification.chinese" placeholder="例：30毫升/支"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationChinese"
+                  placeholder="例：30ml/支"
+                ></el-input>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文">
+            <el-table-column align="center" label="英文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.goodSpecification.english" placeholder="例：30ml/pc"></el-input>
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="容量">
-            <el-table-column
-              align="center"
-              label="中文">
-              <template slot-scope="scope">
-                <el-input v-model="scope.row.capacity.chinese" placeholder="例：30毫升"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文">
-              <template slot-scope="scope">
-                <el-input v-model="scope.row.capacity.english" placeholder="例：30ml"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationEnglish"
+                  placeholder="例：30ml/pc"
+                ></el-input>
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="包装单位"
-            class-name="last-col">
-            <el-table-column
-              align="center"
-              label="中文">
+          <el-table-column align="center" label="容量">
+            <el-table-column align="center" label="中文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.packingUnit.chinese" placeholder="例：支"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].capacityChinese"
+                  placeholder="例：30毫升"
+                ></el-input>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文"
-              class-name="last-col">
+            <el-table-column align="center" label="英文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.packingUnit.english" placeholder="例：pc"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].capacityEnglish"
+                  placeholder="例：30ml"
+                ></el-input>
+              </template>
+            </el-table-column>
+          </el-table-column>
+          <el-table-column align="center" label="包装单位">
+            <el-table-column align="center" label="中文">
+              <template slot-scope="scope">
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].packingUnitChinese"
+                  placeholder="例：支"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="英文">
+              <template slot-scope="scope">
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].packingUnitEnglish"
+                  placeholder="例：pc"
+                ></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -204,7 +202,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="起始折扣" required class="form-row add-brand-row last-form-row">
-              <el-input v-model="form.minDiscount" style="width: 200px" placeholder="请输入起始折扣">
+              <el-input v-model="form.startDiscount" style="width: 200px" placeholder="请输入起始折扣">
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
@@ -246,7 +244,7 @@
               width="180"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.cartonSpecification.chinese" placeholder="例：10支/箱"></el-input>
+                <el-input v-model="scope.row.cartonSpecificationChinese" placeholder="例：10支/箱"></el-input>
               </template>
             </el-table-column>
             <el-table-column
@@ -254,7 +252,7 @@
               width="180"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.cartonSpecification.english" placeholder="例：10PCS/CTN"></el-input>
+                <el-input v-model="scope.row.cartonSpecificationEnglish" placeholder="例：10PCS/CTN"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -274,7 +272,7 @@
               width="130"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.goodUnit.chinese" placeholder="例：支"></el-input>
+                <el-input v-model="scope.row.goodUnitChinese" placeholder="例：支"></el-input>
               </template>
             </el-table-column>
             <el-table-column
@@ -282,7 +280,7 @@
               width="130"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.goodUnit.english" placeholder="例：PCS"></el-input>
+                <el-input v-model="scope.row.goodUnitEnglish" placeholder="例：PCS"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -294,7 +292,7 @@
               align="center"
               label="中文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.cartonUnit.chinese" placeholder="例：箱"></el-input>
+                <el-input v-model="scope.row.cartonUnitChinese" placeholder="例：箱"></el-input>
               </template>
             </el-table-column>
             <el-table-column
@@ -302,7 +300,7 @@
               width="130"
               label="英文">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.cartonUnit.english" placeholder="例：CTN"></el-input>
+                <el-input v-model="scope.row.cartonUnitEnglish" placeholder="例：CTN"></el-input>
               </template>
             </el-table-column>
           </el-table-column>
@@ -358,13 +356,15 @@
             width="120"
             label="交易币种">
             <template slot-scope="scope">
-              <el-select v-model="form.transactionCurrency" placeholder="请选择">
-                <el-option label="人民币" value="RMB"></el-option>
-                <el-option label="港币" value="HKD"></el-option>
-                <el-option label="澳元" value="AUD"></el-option>
-                <el-option label="英镑" value="GBP"></el-option>
-                <el-option label="美元" value="USD"></el-option>
-                <el-option label="欧元" value="EUR"></el-option>
+              <el-select
+                v-model="goodPriceCurrencyTitle"
+                placeholder="请选择" @change="goodPriceCurrencyChange">
+                <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
               </el-select>
             </template>
           </el-table-column>
@@ -373,7 +373,7 @@
             width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrency] && currencyInformation[form.transactionCurrency].symbol || '默认读取' }}</span>
+              <span>{{ currencyInformation[form.goodPriceArr[scope.$index].goodPriceCurrency.currencyId] && currencyInformation[form.goodPriceArr[scope.$index].goodPriceCurrency.currencyId].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -381,7 +381,7 @@
             width="100"
             label="单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrency] && currencyInformation[form.transactionCurrency].unit || '默认读取' }}</span>
+              <span>{{ currencyInformation[form.goodPriceArr[scope.$index].goodPriceCurrency.currencyId] && currencyInformation[form.goodPriceArr[scope.$index].goodPriceCurrency.currencyId].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -392,21 +392,25 @@
               <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
+          <!-- 商品价格我也不知为何有两个，但是根据旧页面显示，这两个值是一样的 -->
           <el-table-column
             align="center"
             width="200"
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
-              <el-row>
-                <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withSymbol" placeholder="请输入"></el-input>
-                </el-col>
-                <el-col :span="2">&nbsp;</el-col>
-                <el-col :span="11">
-                  <el-input v-model="scope.row.thePrice.withUnit" placeholder="请输入"></el-input>
-                </el-col>
-              </el-row>
+              <!--<el-row>-->
+                <!--<el-col :span="11">-->
+                  <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
+                <!--</el-col>-->
+                <!--<el-col :span="2">&nbsp;</el-col>-->
+                <!--<el-col :span="11">-->
+                  <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
+                <!--</el-col>-->
+              <!--</el-row>-->
+              <div>
+                <el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -421,13 +425,15 @@
             align="center"
             label="交易币种">
             <template slot-scope="scope">
-              <el-select v-model="form.replenishmentCurrency" placeholder="请选择">
-                <el-option label="人民币" value="RMB"></el-option>
-                <el-option label="港币" value="HKD"></el-option>
-                <el-option label="澳元" value="AUD"></el-option>
-                <el-option label="英镑" value="GBP"></el-option>
-                <el-option label="美元" value="USD"></el-option>
-                <el-option label="欧元" value="EUR"></el-option>
+              <el-select v-model="replenishmentCurrencyTitle"
+                         placeholder="请选择"
+                         @change="replenishmentCurrencyChange">
+                <el-option label="港币" :value="scope.$index+'-'+0"></el-option>
+                <el-option label="人民币" :value="scope.$index+'-'+1"></el-option>
+                <el-option label="澳元" :value="scope.$index+'-'+2"></el-option>
+                <el-option label="英镑" :value="scope.$index+'-'+3"></el-option>
+                <el-option label="欧元" :value="scope.$index+'-'+4"></el-option>
+                <el-option label="美元" :value="scope.$index+'-'+5"></el-option>
               </el-select>
             </template>
           </el-table-column>
@@ -436,7 +442,7 @@
             width="100"
             label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.replenishmentCurrency] && currencyInformation[form.replenishmentCurrency].symbol || '默认读取' }}</span>
+              <span>{{ currencyInformation[form.replenishmentArr[scope.$index].replenishmentCurrency.currencyId] && currencyInformation[form.replenishmentArr[scope.$index].replenishmentCurrency.currencyId].symbol || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -444,7 +450,7 @@
             width="100"
             label="单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.replenishmentCurrency] && currencyInformation[form.replenishmentCurrency].unit || '默认读取' }}</span>
+              <span>{{ currencyInformation[form.replenishmentArr[scope.$index].replenishmentCurrency.currencyId] && currencyInformation[form.replenishmentArr[scope.$index].replenishmentCurrency.currencyId].unit || '默认读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -460,15 +466,18 @@
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
-              <el-row>
-                <el-col :span="11">
-                  <el-input v-model="scope.row.replenishment.withSymbol" placeholder="请输入"></el-input>
-                </el-col>
-                <el-col :span="2">&nbsp;</el-col>
-                <el-col :span="11">
-                  <el-input v-model="scope.row.replenishment.withUnit" placeholder="请输入"></el-input>
-                </el-col>
-              </el-row>
+              <!--<el-row>-->
+                <!--<el-col :span="11">-->
+                  <!--<el-input v-model="scope.row.replenishment.withSymbol" placeholder="请输入"></el-input>-->
+                <!--</el-col>-->
+                <!--<el-col :span="2">&nbsp;</el-col>-->
+                <!--<el-col :span="11">-->
+                  <!--<el-input v-model="scope.row.replenishment.withUnit" placeholder="请输入"></el-input>-->
+                <!--</el-col>-->
+              <!--</el-row>-->
+              <div>
+                <el-input v-model="scope.row.replenishment" placeholder="请输入"></el-input>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -548,12 +557,12 @@
     data() {
       return {
         currencyInformation: {
-          RMB: { symbol: '￥', unit: '元' },
-          HKD: { symbol: 'HK$', unit: '港元' },
-          AUD: { symbol: 'A$', unit: '澳元' },
-          GBP: { symbol: '£', unit: '英磅' },
-          USD: { symbol: '$', unit: '美元' },
-          EUR: { symbol: '€', unit: '欧元' },
+          1: { symbol: "HK$", unit: "港元" },
+          2: { symbol: "￥", unit: "元" },
+          3: { symbol: "A$", unit: "澳元" },
+          4: { symbol: "£", unit: "英磅" },
+          5: { symbol: "€", unit: "欧元" },
+          6: { symbol: "$", unit: "美元" },
         },
         transactionCurrency: '',
         replenishmentCurrency: '',
@@ -573,27 +582,42 @@
           goodName_EN: '',
           goodStatus: '',
           goodPrice: '',
-          minDiscount: '',
+          startDiscount: '',
           checkInTime: '',
-          // 以上是商品管理的表格而下面是编辑商品所需要的补充信息
+
           isSuite: '',
           goodOrigin: '',
-          goodSpecificationArr: [
-            {
-              goodSpecification: {
-                chinese: '',
-                english: ''
-              },
-              capacity: {
-                chinese: '',
-                english: ''
-              },
-              packingUnit: {
-                chinese: '',
-                english: ''
+
+          goodSpecification_msg: {
+            SpecificationArr: [{ specificationName: " " }],
+            specificationInput: [
+              {
+                goodSpecification: {
+                  chinese: "",
+                  english: ""
+                },
+                capacity: {
+                  chinese: "",
+                  english: ""
+                },
+                packingUnit: {
+                  chinese: "",
+                  english: ""
+                }
               }
+            ]
+          },
+          specificationInput: [
+            {
+              goodSpecificationChinese: '',
+              goodSpecificationEnglish: '',
+              capacityChinese: '',
+              capacityEnglish: '',
+              packingUnitChinese: '',
+              packingUnitEnglish: '',
             }
           ],
+
           goodNetWeight: '',
           goodGrossWeight: '',
           goodQuality: '',
@@ -601,42 +625,28 @@
           slogan: '',
           cartonSpecificationArr: [{
             cartonNo: '',
-            cartonSpecification: {
-              chinese: '',
-              english: ''
-            },
+            cartonSpecificationChinese: '',
+            cartonSpecificationEnglish: '',
             goodQuantity: '',
-            goodUnit: {
-              chinese: '',
-              english: ''
-            },
-            cartonUnit: {
-              chinese: '',
-              english: ''
-            },
+            goodUnitChinese: '',
+            goodUnitEnglish: '',
+            cartonUnitChinese: '',
+            cartonUnitEnglish: '',
             cartonSize: '',
             cartonWeight: ''
           }],
+
           goodPriceArr: [{
             salesArea: '',
-            transactionCurrency: '',
-            currencySymbol: '',
-            currencyUnit: '',
+            goodPriceCurrency: '',
             amount: '',
-            thePrice: {
-              withSymbol: '',
-              withUnit: ''
-            }
+            thePrice: ''
           }],
+
           replenishmentArr: [{
-            transactionCurrency: '',
-            currencySymbol: '',
-            currencyUnit: '',
+            replenishmentCurrency: '',
             amount: '',
-            replenishment: {
-              withSymbol: '',
-              withUnit: ''
-            }
+            replenishment: ''
           }],
           goodNote: {
             ingredients: '',
@@ -649,13 +659,13 @@
           oneFileList: []
         },
         goodPropOptions: [{
-          value: '常规',
+          value: 1,
           label: '常规'
         }, {
-          value: '促销',
+          value: 2,
           label: '促销'
         }, {
-          value: '新品',
+          value: 3,
           label: '新品'
         }],
         goodSeriesOptions: [{
@@ -674,25 +684,65 @@
           label: '保湿'
         }],
         goodQualityOptions: [{
-          value: '特等品',
+          value: 4,
           label: '特等品'
         }, {
-          value: '一等品',
+          value: 1,
           label: '一等品'
         }, {
-          value: '二等品',
+          value: 2,
           label: '二等品'
         }, {
-          value: '三等品',
+          value: 3,
           label: '三等品'
         }],
         packingWayOptions: [{
           value: 'carton',
           label: 'carton'
         }],
+        transactionCurrencyArr: [
+          {
+            name: '港币',
+            currencyId: 1,
+            symbol: '$',
+            unit: '港元'
+          },
+          {
+            name: '人民币',
+            currencyId: 2,
+            symbol: '￥',
+            unit: '元'
+          },
+          {
+            name: '澳元',
+            currencyId: 3,
+            symbol: 'A$',
+            unit: '澳元'
+          },
+          {
+            name: '英镑',
+            currencyId: 4,
+            symbol: '£',
+            unit: '英镑'
+          },
+          {
+            name: '欧元',
+            currencyId: 5,
+            symbol: '€',
+            unit: '欧元'
+          },
+          {
+            name: '美元',
+            currencyId: 6,
+            symbol: '$',
+            unit: '美元'
+          },
+        ],
         isChooseBrandShow: false,
         chosenBrand: null,
         isSubmitting: false,
+        goodPriceCurrencyTitle: '',
+        replenishmentCurrencyTitle: '',
         formRules: {
           isSuite: [
             { required: true, message: '不能为空', trigger: 'change' },
@@ -713,25 +763,31 @@
       }
     },
     methods: {
+      goodPriceCurrencyChange(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.goodPriceArr[a].goodPriceCurrency = this.transactionCurrencyArr[b]
+      },
+      replenishmentCurrencyChange(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.replenishmentArr[a].replenishmentCurrency = this.transactionCurrencyArr[b]
+      },
       addPackingSpecification() {
-        this.form.cartonSpecificationArr.push({
-          cartonNo: '',
-          cartonSpecification: {
-            chinese: '',
-            english: ''
-          },
-          goodQuantity: '',
-          goodUnit: {
-            chinese: '',
-            english: ''
-          },
-          cartonUnit: {
-            chinese: '',
-            english: ''
-          },
-          cartonSize: '',
-          cartonWeight: ''
-        })
+        this.form.cartonSpecificationArr.push(
+          {
+            cartonNo: '',
+            cartonSpecificationChinese: '',
+            cartonSpecificationEnglish: '',
+            goodQuantity: '',
+            goodUnitChinese: '',
+            goodUnitEnglish: '',
+            cartonUnitChinese: '',
+            cartonUnitEnglish: '',
+            cartonSize: '',
+            cartonWeight: ''
+          }
+        )
       },
       deletePackingSpecification(index) {
         if (this.form.cartonSpecificationArr.length === 1) return false
@@ -752,6 +808,7 @@
         this.isChooseBrandShow = true
       },
       onSubmit() {
+        console.log(this.form)
         this.isSubmitting = true
 
 //        if (!this.chosenBrand) {
