@@ -92,7 +92,7 @@
       </el-pagination>
     </div>
     <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
-      <addBrand @closeDialog="isAddBrandShow=false" v-if="isAddBrandShow"></addBrand>
+      <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
     <el-dialog
       :visible.sync="isEditBrandShow"
@@ -102,7 +102,7 @@
       <editBrand
         :brandObj="currentBrand"
         v-if="isEditBrandShow"
-        @closeDialog="isEditBrandShow=false">
+        @submitSuccess="submitSuccess">
       </editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
@@ -262,6 +262,13 @@
             vm.isStopCooperationShow = false
           }
         })
+      },
+      submitSuccess() {
+        this.isAddBrandShow = false
+        this.$message({
+          message: '新增成功！',
+          type: 'success'
+        });
       },
     },
     mounted() {

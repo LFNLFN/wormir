@@ -5,35 +5,35 @@
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
           <el-input v-model="form.brandNo"></el-input>
         </el-form-item>
-        <el-form-item label="品牌名称（中文）" required class="form-row add-brand-row">
+        <el-form-item label="品牌名称（中文）" prop="chineseName" class="form-row add-brand-row">
           <el-input v-model="form.chineseName"></el-input>
         </el-form-item>
-        <el-form-item label="品牌名称（英文）" required class="form-row add-brand-row">
+        <el-form-item label="品牌名称（英文）" prop="englishName" class="form-row add-brand-row">
           <el-input v-model="form.englishName"></el-input>
         </el-form-item>
-        <el-form-item label="原产国/产地" required class="form-row add-brand-row">
+        <el-form-item label="原产国/产地" prop="origin" class="form-row add-brand-row">
           <el-input v-model="form.origin"></el-input>
         </el-form-item>
-        <el-form-item label="品牌公司名称" required class="form-row add-brand-row">
+        <el-form-item label="品牌公司名称" prop="brandCompanyName" class="form-row add-brand-row">
           <el-input v-model="form.brandCompanyName"></el-input>
         </el-form-item>
-        <el-form-item label="品牌公司地址" required class="form-row add-brand-row">
+        <el-form-item label="品牌公司地址" prop="brandCompanyAddress" class="form-row add-brand-row">
           <el-input v-model="form.brandCompanyAddress"></el-input>
         </el-form-item>
-        <el-form-item label="品牌介绍" required class="form-row add-brand-row textareaTitle">
+        <el-form-item label="品牌介绍" prop="brandIntroduction" class="form-row add-brand-row textareaTitle">
           <el-input type="textarea" :rows="2" v-model="form.brandIntroduction"
                     style="margin: 3px;width: 98%"></el-input>
         </el-form-item>
-        <el-form-item label="生产企业名称" required class="form-row add-brand-row">
+        <el-form-item label="生产企业名称" prop="producerName" class="form-row add-brand-row">
           <el-input v-model="form.producerName"></el-input>
         </el-form-item>
-        <el-form-item label="生产企业地址" required class="form-row add-brand-row">
+        <el-form-item label="生产企业地址" prop="producerAddress" class="form-row add-brand-row">
           <el-input v-model="form.producerAddress"></el-input>
         </el-form-item>
-        <el-form-item label="海运订货量" required class="form-row add-brand-row">
+        <el-form-item label="海运订货量" prop="orderNumBySea" class="form-row add-brand-row">
           <el-input v-model.number="form.orderNumBySea"></el-input>
         </el-form-item>
-        <el-form-item label="外汇到账时间" required class="form-row last-form-row add-brand-row">
+        <el-form-item label="外汇到账时间" prop="receiptTime" class="form-row last-form-row add-brand-row">
           <el-col :span="11">
             <el-input v-model.trim.number="form.receiptTime" placeholder="请输入外汇到账时间">
               <template slot="append">小时</template>
@@ -890,9 +890,32 @@
         viewOutlandTable: false,
         handleSeriesData: false,
         formRules: {
-          brandNo: [
-            { required: true, message: '不能为空', trigger: 'blur' },
+          brandNo: [{ required: true, message: "不能为空", trigger: "blur" }],
+          chineseName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          englishName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          origin: [{ required: true, message: "不能为空", trigger: "blur" }],
+          brandCompanyName: [
+            { required: true, message: "不能为空", trigger: "blur" }
           ],
+          brandCompanyAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          brandIntroduction: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerName: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          orderNumBySea: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          receiptTime: [
+            { required: true, type:'number', min: 0, message: "不能为空", trigger: "blur" }
+          ],
+          
         }
       }
     },
