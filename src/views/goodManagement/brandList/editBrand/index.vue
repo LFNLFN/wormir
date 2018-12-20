@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="150px" :rules="formRules">
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
-          <el-input v-model="form.brandNo"></el-input>
+          <el-input v-model="form.brandNo" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="品牌名称（中文）" prop="chineseName" class="form-row add-brand-row">
           <el-input v-model="form.chineseName"></el-input>
