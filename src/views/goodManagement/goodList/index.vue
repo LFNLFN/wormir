@@ -2,7 +2,7 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
           <el-form-item label="">
-            <el-input v-model="filterForm.goodSearchingMsg1" :placeholder="filterForm.placeholder1" style="width:250px"></el-input>
+            <el-input v-model.trim="filterForm.searchText" placeholder="商品编号/商品名称/商品系列" style="width:250px"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
@@ -147,12 +147,14 @@
   import { getGoodList } from '@/api/goods'
   import goodDetail from './goodDetail/index.vue'
   import addGood from './addGood/index.vue'
+  import request from "@/utils/request";
+
   export default {
     data() {
       return {
         goodTableData: [],
         filterForm: {
-          goodSearchingMsg1: '',
+          searchText: '',
           placeholder1: '商品编号/商品名称/商品系列'
         },
         currentGoodThumbnail: '',
@@ -164,12 +166,26 @@
     },
     methods: {
       goodBlurSearch() {
-        getGoodList(this.filterForm.brandMsg1)
-          .then((res) => {
-            this.goodTableData = res.data.items
-            this.filterForm.total = this.goodTableData.length
-          })
-        // .catch(() => { this.$message.error('表格加载失败') })
+        return false
+        request({
+          url: '/order/managerOrderList.do',
+          method: 'post',
+          data: {
+            page: 1,
+            limit: 10,
+            searchText: this.filterForm.searchText
+          }
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.channelTableData = res.data.items
+            this.filterForm.total = res.data.total
+            console.log(res.data.items)
+          } else {
+            this.$message.error('数据请求失败');
+          }
+        }).catch(() => {
+          this.$message.error('数据请求失败');
+        })
       },
       addGood() {
         this.isAddGoodShow = true
