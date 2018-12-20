@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="150px">
-      <div class="border1">
-        <el-form-item label="品牌序列号" required class="form-row add-brand-row">
+    <el-form ref="form" :model="form" label-width="150px" :rules="formRules">
+      <div class="border1 form-error-inline">
+        <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
           <el-input v-model="form.brandNo"></el-input>
         </el-form-item>
         <el-form-item label="品牌名称（中文）" required class="form-row add-brand-row">
@@ -225,7 +225,8 @@
           </div>
         </el-row>
         <el-table
-          :data="form.brandSeriesArr" border
+          :data="form.brandSeriesArr"
+          border
           v-if="form.hasBrandSeries"
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5">
@@ -235,7 +236,12 @@
             label="系列名称 "
             prop="seriesName">
             <template slot-scope="scope">
-              <el-input v-model="form.brandSeries_msg.inputSeries[scope.$index]" placeholder="请输入品牌系列"></el-input>
+              <el-form-item label-width=0 prop="inputSeries" style="margin: 0">
+                <el-input
+                  v-model.trim="form.inputSeries[scope.$index].name"
+                  placeholder="请输入品牌系列"
+                ></el-input>
+              </el-form-item>
               <div class="add-btn-wrap" style="margin-top: 10px">
                 <el-button
                   size="mini"
@@ -256,9 +262,9 @@
             <template slot-scope="scope">
               <div class="mainCategories-wrap">
                 <div class="mainCategories-item"
-                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeries_msg.mainCategoriesArr">
+                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr">
                   <el-form-item label="主品类">
-                    <el-input v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].value"
+                    <el-input v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].value"
                               placeholder="请输入主品类"></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px">
                       <el-button
@@ -275,10 +281,10 @@
                   </el-form-item>
                   <div class="subCategories-wrap">
                     <div class="subCategories-item"
-                         v-for="(subCategoriesItems,subCateIndex) in form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
+                         v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr">
                       <el-form-item label="子品类">
                         <el-input
-                          v-model="form.brandSeries_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
                           placeholder="请输入子品类">
                           <el-button slot="append" type="danger" icon="el-icon-delete"
                                      @click="brandSeries_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
@@ -292,56 +298,56 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="品牌类型" required>
-        <el-row>
-          <div class="add-btn-wrap">
-            <el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>
-          </div>
-        </el-row>
-        <el-table border
-                  :data="form.brandType_msg.brandTypeArr"
-                  class="border2"
-                  :style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px', borderBottom: '1px solid #D5D5D5' }">
-          <el-table-column prop="typeName" align="center" label="品类" :width="brandType_mainCategoriesWrap_width">
-            <template slot-scope="scope">
-              <div class="mainCategories-wrap">
-                <div class="mainCategories-item"
-                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandType_msg.mainCategoriesArr">
-                  <el-form-item label="主品类">
-                    <el-input v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].value"
-                              placeholder="请输入主品类"></el-input>
-                    <div class="add-btn-wrap" style="margin-top: 5px">
-                      <el-button
-                        size="mini"
-                        type="danger" icon="el-icon-delete"
-                        @click="brandType_deleteMainCategoties(mainCateIndex)">删除主品类
-                      </el-button>
-                      <el-button
-                        type="success" icon="el-icon-plus"
-                        size="mini"
-                        @click="brandType_addSubCategoties(mainCateIndex)">添加子品类
-                      </el-button>
-                    </div>
-                  </el-form-item>
-                  <div class="subCategories-wrap">
-                    <div class="subCategories-item"
-                         v-for="(subCategoriesItems,subCateIndex) in form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">
-                      <el-form-item label="子品类">
-                        <el-input
-                          v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
-                          placeholder="请输入子品类">
-                          <el-button slot="append" type="danger" icon="el-icon-delete"
-                                     @click="brandType_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
-                        </el-input>
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-form-item>
+      <!--<el-form-item label="品牌类型" required>-->
+        <!--<el-row>-->
+          <!--<div class="add-btn-wrap">-->
+            <!--<el-button type="success" icon="el-icon-plus" @click="brandType_addBrandType">添加品牌类型</el-button>-->
+          <!--</div>-->
+        <!--</el-row>-->
+        <!--<el-table border-->
+                  <!--:data="form.brandType_msg.brandTypeArr"-->
+                  <!--class="border2"-->
+                  <!--:style="{ width: brandType_mainCategoriesWrap_width + 2 + 'px', borderBottom: '1px solid #D5D5D5' }">-->
+          <!--<el-table-column prop="typeName" align="center" label="品类" :width="brandType_mainCategoriesWrap_width">-->
+            <!--<template slot-scope="scope">-->
+              <!--<div class="mainCategories-wrap">-->
+                <!--<div class="mainCategories-item"-->
+                     <!--v-for="(mainCategoriesItems,mainCateIndex) in form.brandType_msg.mainCategoriesArr">-->
+                  <!--<el-form-item label="主品类">-->
+                    <!--<el-input v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].value"-->
+                              <!--placeholder="请输入主品类"></el-input>-->
+                    <!--<div class="add-btn-wrap" style="margin-top: 5px">-->
+                      <!--<el-button-->
+                        <!--size="mini"-->
+                        <!--type="danger" icon="el-icon-delete"-->
+                        <!--@click="brandType_deleteMainCategoties(mainCateIndex)">删除主品类-->
+                      <!--</el-button>-->
+                      <!--<el-button-->
+                        <!--type="success" icon="el-icon-plus"-->
+                        <!--size="mini"-->
+                        <!--@click="brandType_addSubCategoties(mainCateIndex)">添加子品类-->
+                      <!--</el-button>-->
+                    <!--</div>-->
+                  <!--</el-form-item>-->
+                  <!--<div class="subCategories-wrap">-->
+                    <!--<div class="subCategories-item"-->
+                         <!--v-for="(subCategoriesItems,subCateIndex) in form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr">-->
+                      <!--<el-form-item label="子品类">-->
+                        <!--<el-input-->
+                          <!--v-model="form.brandType_msg.mainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"-->
+                          <!--placeholder="请输入子品类">-->
+                          <!--<el-button slot="append" type="danger" icon="el-icon-delete"-->
+                                     <!--@click="brandType_delSubCategories(mainCateIndex,subCateIndex)"></el-button>-->
+                        <!--</el-input>-->
+                      <!--</el-form-item>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</template>-->
+          <!--</el-table-column>-->
+        <!--</el-table>-->
+      <!--</el-form-item>-->
       <el-form-item label="品牌商品规格" required>
         <el-row>
           <div class="add-btn-wrap">
@@ -661,6 +667,17 @@
           englishName: '',
           origin: '',
           hasBrandSeries: '',
+          inputSeries: [""],
+          brandSeriesArr: [
+            { seriesName: ' ' }
+          ],
+          brandSeriesMainCategoriesArr: [
+            [{
+              value: "",
+              subCategoriesArr: [""]
+            }]
+          ],
+
 
           brandCompanyName: '',
           brandCompanyAddress: '',
@@ -671,7 +688,7 @@
           receiptTime: null,
           transactionCurrencyInland: [''],
           transactionCurrencyOutland: [''],
-          qualityName: [],
+          qualityName: [''],
           packingWay: [],
           brandSeries_msg: {
             hasBrandSeries: true,
@@ -837,7 +854,12 @@
           },
         ],
         viewInlandTable: false,
-        viewOutlandTable: false
+        viewOutlandTable: false,
+        formRules: {
+          brandNo: [
+            { required: true, message: '不能为空', trigger: 'blur' },
+          ],
+        }
       }
     },
     computed: {
@@ -1088,8 +1110,18 @@
           this.outlandCurrencyTitle = tempArr2
           this.viewOutlandTable = true
 
+          this.form.qualityName = brandResData.brandDetail.qualityName
+          this.form.packingWay = brandResData.brandDetail.packingWay
+
+          this.form.inputSeries = brandResData.brandSeries
+
+          // 品牌系列数据处理
+          brandResData.brandSeries.forEach( (item, index, arr) => {
+//             brandResData.mainVariety[item.id] // 某个系列下的主品类对象的数组集合
+          } )
+
           this.form.hasBrandSeries = brandResData.brandDetail.hasBrandSeries
-console.log(this.form)
+          console.log(this.form)
         }
       }).catch((err) => {
         console.log(err)
