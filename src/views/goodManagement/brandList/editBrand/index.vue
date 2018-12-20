@@ -1045,6 +1045,7 @@
       deleteInlandCurrencyType(index) {
         this.inlandCurrencyArr.splice(index, 1);
         this.form.transactionCurrencyInland.splice(index, 1);
+        this.inlandCurrencyTitle.splice(index, 1);
       },
       addOutlandCurrencyType() {
         this.outlandCurrencyArr.push(
@@ -1054,20 +1055,9 @@
         )
       },
       deleteOutlandCurrencyType(index) {
-        if (index===this.outlandCurrencyTitle.length-1) {
-          this.outlandCurrencyArr.splice(index, 1)
-          this.outlandCurrencyTitle.splice(index, 1)
-          this.form.transactionCurrencyOutland.splice(index, 1)
-        }
-        else {
-          let coverValue = this.outlandCurrencyTitle[index+1]
-          coverValue = index + '-' + coverValue.split('-')[1]
-          this.outlandCurrencyArr.splice(index, 1)
-          this.outlandCurrencyTitle.splice(index, 1)
-          this.form.transactionCurrencyOutland.splice(index, 1)
-          this.outlandCurrencyTitle[index] = coverValue
-          this.outlandCurrency(coverValue)
-        }
+        this.outlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyOutland.splice(index, 1);
+        this.outlandCurrencyTitle.splice(index, 1);
       },
       addGoodsQuality() {
         this.goodsQualityArr.push(
