@@ -95,12 +95,12 @@
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].id] && currencyInformation[form.transactionCurrencyInland[scope.$index].id].symbol || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].currencyId] && currencyInformation[form.transactionCurrencyInland[scope.$index].currencyId].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].id] && currencyInformation[form.transactionCurrencyInland[scope.$index].id].unit || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyInland[scope.$index].currencyId] && currencyInformation[form.transactionCurrencyInland[scope.$index].currencyId].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" min-width="100">
@@ -154,12 +154,12 @@
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种符号">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].id] && currencyInformation[form.transactionCurrencyOutland[scope.$index].id].symbol || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].currencyId] && currencyInformation[form.transactionCurrencyOutland[scope.$index].currencyId].symbol || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" min-width="100" label="币种单位">
             <template slot-scope="scope">
-              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].id] && currencyInformation[form.transactionCurrencyOutland[scope.$index].id].unit || '自动读取' }}</span>
+              <span>{{ currencyInformation[form.transactionCurrencyOutland[scope.$index].currencyId] && currencyInformation[form.transactionCurrencyOutland[scope.$index].currencyId].unit || '自动读取' }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" min-width="100">
@@ -1019,37 +1019,37 @@
         transactionCurrencyArr: [
           {
             name: '港币',
-            id: 1,
+            currencyId: 1,
             symbol: '$',
             unit: '港元'
           },
           {
             name: '人民币',
-            id: 2,
+            currencyId: 2,
             symbol: '￥',
             unit: '元'
           },
           {
             name: '澳元',
-            id: 3,
+            currencyId: 3,
             symbol: 'A$',
             unit: '澳元'
           },
           {
             name: '英镑',
-            id: 4,
+            currencyId: 4,
             symbol: '£',
             unit: '英镑'
           },
           {
             name: '欧元',
-            id: 5,
+            currencyId: 5,
             symbol: '€',
             unit: '欧元'
           },
           {
             name: '美元',
-            id: 6,
+            currencyId: 6,
             symbol: '$',
             unit: '美元'
           },
