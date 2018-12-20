@@ -227,7 +227,7 @@
         <el-table
           :data="form.brandSeriesArr"
           border
-          v-if="form.hasBrandSeries"
+          v-if="form.hasBrandSeries&&handleSeriesData"
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column
@@ -262,32 +262,32 @@
             <template slot-scope="scope">
               <div class="mainCategories-wrap">
                 <div class="mainCategories-item"
-                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr">
+                     v-for="(mainCategoriesItems,mainCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index]">
                   <el-form-item label="主品类">
-                    <el-input v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].value"
+                    <el-input v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].value"
                               placeholder="请输入主品类"></el-input>
                     <div class="add-btn-wrap" style="margin-top: 5px">
                       <el-button
                         size="mini"
                         type="danger" icon="el-icon-delete"
-                        @click="brandSeries_deleteMainCategoties(mainCateIndex)">删除主品类
+                        @click="brandSeries_deleteMainCategoties(scope.$index,mainCateIndex)">删除主品类
                       </el-button>
                       <el-button
                         type="success" icon="el-icon-plus"
                         size="mini"
-                        @click="brandSeries_addSubCategoties(mainCateIndex)">添加子品类
+                        @click="brandSeries_addSubCategoties(scope.$index,mainCateIndex)">添加子品类
                       </el-button>
                     </div>
                   </el-form-item>
                   <div class="subCategories-wrap">
                     <div class="subCategories-item"
-                         v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr">
+                         v-for="(subCategoriesItems,subCateIndex) in form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr">
                       <el-form-item label="子品类">
                         <el-input
-                          v-model="form.brandSeriesMainCategoriesArr[mainCateIndex].subCategoriesArr[subCateIndex]"
+                          v-model="form.brandSeriesMainCategoriesArr[scope.$index][mainCateIndex].subCategoriesArr[subCateIndex]"
                           placeholder="请输入子品类">
                           <el-button slot="append" type="danger" icon="el-icon-delete"
-                                     @click="brandSeries_delSubCategories(mainCateIndex,subCateIndex)"></el-button>
+                                     @click="brandSeries_delSubCategories(scope.$index,mainCateIndex,subCateIndex)"></el-button>
                         </el-input>
                       </el-form-item>
                     </div>
@@ -348,87 +348,86 @@
           <!--</el-table-column>-->
         <!--</el-table>-->
       <!--</el-form-item>-->
-      <el-form-item label="品牌商品规格" required>
+      <el-form-item label="品牌商品规格" prop="specificationInput">
         <el-row>
           <div class="add-btn-wrap">
-            <el-button type="success" icon="el-icon-plus" @click="brandSpecification_addSpecification">添加品牌商品规格
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              @click="brandSpecification_addSpecification"
+            >添加品牌商品规格
             </el-button>
           </div>
         </el-row>
-        <el-table border
-                  :data="form.brandSpecification_msg.SpecificationArr"
-                  class="border2"
-                  :header-cell-style="{padding: 0}"
-                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
-          <el-table-column
-            align="center"
-            label="商品规格"
-            prop="specificationName">
-            <el-table-column
-              align="center"
-              label="中文">
+        <el-table
+          border
+          :data="form.brandSpecification_msg.SpecificationArr"
+          class="border2"
+          :header-cell-style="{padding: 0}"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5"
+        >
+          <el-table-column align="center" label="商品规格" prop="specificationName">
+            <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.chinese"
-                  placeholder="例：30ml/支"></el-input>
+                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationChinese"
+                  placeholder="例：30ml/支"
+                ></el-input>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文">
+            <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model="form.brandSpecification_msg.specificationInput[scope.$index].goodSpecification.english"
-                  placeholder="例：30ml/pc"></el-input>
+                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationEnglish"
+                  placeholder="例：30ml/pc"
+                ></el-input>
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="容量">
-            <el-table-column
-              align="center"
-              label="中文">
+          <el-table-column align="center" label="容量">
+            <el-table-column align="center" label="中文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.chinese"
-                          placeholder="例：30毫升"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].capacityChinese"
+                  placeholder="例：30毫升"
+                ></el-input>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文">
+            <el-table-column align="center" label="英文">
               <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].capacity.english"
-                          placeholder="例：30ml"></el-input>
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="包装单位">
-            <el-table-column
-              align="center"
-              label="中文">
-              <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.chinese"
-                          placeholder="例：支"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="center"
-              label="英文">
-              <template slot-scope="scope">
-                <el-input v-model="form.brandSpecification_msg.specificationInput[scope.$index].packingUnit.english"
-                          placeholder="例：pc"></el-input>
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].capacityEnglish"
+                  placeholder="例：30ml"
+                ></el-input>
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="操作">
+          <el-table-column align="center" label="包装单位">
+            <el-table-column align="center" label="中文">
+              <template slot-scope="scope">
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].packingUnitChinese"
+                  placeholder="例：支"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="英文">
+              <template slot-scope="scope">
+                <el-input
+                  v-model.trim="form.specificationInput[scope.$index].packingUnitEnglish"
+                  placeholder="例：pc"
+                ></el-input>
+              </template>
+            </el-table-column>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini"
-                         @click="brandSpecification_deleteSpecification(scope.$index, '')"></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="brandSpecification_deleteSpecification(scope.$index, '')"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -439,57 +438,59 @@
             <el-button type="success" icon="el-icon-plus" @click="brandBox_addBox()">添加品牌箱子</el-button>
           </div>
         </el-row>
-        <el-table border
-                  :data="form.brandBox_msg.boxArr"
-                  class="border2"
-                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
-          <el-table-column
-            align="center"
-            width="150"
-            label="箱型编号">
+        <el-table
+          border
+          :data="form.brandBox_msg.boxArr"
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5">
+          <el-table-column align="center" width="150" label="箱型编号">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxNo" placeholder="请输入箱型编号"></el-input>
+              <el-input
+                v-model.trim="form.boxInput[scope.$index].boxNo"
+                placeholder="请输入箱型编号"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="150"
-            label="长(cm)">
+          <el-table-column align="center" width="150" label="长(cm)">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxLength" placeholder="请输入长(cm)"></el-input>
+              <el-input
+                v-model.trim="form.boxInput[scope.$index].boxLength"
+                placeholder="请输入长(cm)"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="150"
-            label="宽(cm)">
+          <el-table-column align="center" width="150" label="宽(cm)">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxWidth" placeholder="请输入宽(cm)"></el-input>
+              <el-input
+                v-model.trim="form.boxInput[scope.$index].boxWidth"
+                placeholder="请输入宽(cm)"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="150"
-            label="高(cm)">
+          <el-table-column align="center" width="150" label="高(cm)">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxHeight" placeholder="请输入高(cm)"></el-input>
+              <el-input
+                v-model.trim="form.boxInput[scope.$index].boxHeight"
+                placeholder="请输入高(cm)"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="200"
-            label="箱子重量(kgs)">
+          <el-table-column align="center" width="200" label="箱子重量(kgs)">
             <template slot-scope="scope">
-              <el-input v-model="form.brandBox_msg.boxInput[scope.$index].boxHeight"
-                        placeholder="请输入箱子重量(kgs)"></el-input>
+              <el-input
+                v-model.trim="form.boxInput[scope.$index].boxWeight"
+                placeholder="请输入箱子重量(kgs)"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="操作">
+          <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini"
-                         @click="brandBox_deleteBox(scope.$index, '')"></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="brandBox_deleteBox(scope.$index, '')"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -500,46 +501,51 @@
             <el-button type="success" icon="el-icon-plus" @click="brandDiscount_addDiscount">添加品牌折扣</el-button>
           </div>
         </el-row>
-        <el-table border
-                  :data="form.brandDiscount_msg.discountArr"
-                  class="border2"
-                  style="width: 100%; border-bottom: 1px solid #D5D5D5">
-          <el-table-column
-            align="center"
-            width="250"
-            label="订货区间">
+        <el-table
+          border
+          :data="form.brandDiscount_msg.discountArr"
+          class="border2"
+          style="width: 100%; border-bottom: 1px solid #D5D5D5"
+        >
+          <el-table-column align="center" width="250" label="订货区间">
             <template slot-scope="scope">
               <el-col :span="11">
-                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMin"
-                          placeholder="区间起订量"></el-input>
+                <el-input
+                  v-model.trim.number="form.discountInput[scope.$index].orderMin"
+                  placeholder="区间起订量"
+                ></el-input>
               </el-col>
-              <el-col :span="2"><span> - </span></el-col>
+              <el-col :span="2">
+                <span>-</span>
+              </el-col>
               <el-col :span="11">
-                <el-input v-model.number="form.brandDiscount_msg.discountInput[scope.$index].orderMax"
-                          placeholder="区间结束量"></el-input>
+                <el-input
+                  v-model.trim.number="form.discountInput[scope.$index].orderMax"
+                  placeholder="区间结束量"
+                ></el-input>
               </el-col>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            width="200"
-            label="降幅折扣 -%">
+          <el-table-column align="center" width="200" label="降幅折扣 -%">
             <template slot-scope="scope">
               <el-input
-                v-model.number="form.brandDiscount_msg.discountInput[scope.$index].decreasingDiscount"></el-input>
+                v-model.trim.number="form.discountInput[scope.$index].decreasingDiscount"
+              ></el-input>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            label="操作">
+          <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini"
-                         @click="brandDiscount_deleteDiscount(scope.$index, '')"></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="brandDiscount_deleteDiscount(scope.$index, '')"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="合作管理" required>
+      <el-form-item label="合作管理" required v-if="this.form.contract">
         <el-table border
                   :data="form.cooperationManagement_Arr"
                   class="border2"
@@ -677,6 +683,33 @@
               subCategoriesArr: [""]
             }]
           ],
+          specificationInput: [
+            {
+              goodSpecificationChinese: '',
+              goodSpecificationEnglish: '',
+              capacityChinese: '',
+              capacityEnglish: '',
+              packingUnitChinese: '',
+              packingUnitEnglish: '',
+            }
+          ],
+          boxInput: [
+            {
+              boxNo: "",
+              boxLength: "",
+              boxWidth: "",
+              boxHeight: "",
+              boxWeight: ""
+            }
+          ],
+          discountInput: [
+            {
+              orderMin: "",
+              orderMax: "",
+              decreasingDiscount: 0
+            }
+          ],
+          contract: '',
 
 
           brandCompanyName: '',
@@ -855,6 +888,7 @@
         ],
         viewInlandTable: false,
         viewOutlandTable: false,
+        handleSeriesData: false,
         formRules: {
           brandNo: [
             { required: true, message: '不能为空', trigger: 'blur' },
@@ -951,30 +985,46 @@
         this.form.packingWay.splice(index, 1)
       },
       brandSeries_addBrandSeries() {
-        this.form.brandSeries_msg.brandSeriesArr.push(this.form.brandSeries_msg.brandSeriesArr[0])
-        this.form.brandSeries_msg.inputSeries.push('')
+        this.form.brandSeriesArr.push(
+          this.form.brandSeriesArr[0]
+        );
+        this.form.inputSeries.push("");
+        this.form.brandSeriesMainCategoriesArr.push([{
+          value: "",
+          subCategoriesArr: [""]
+        }])
       },
       brandSeries_deleteSeries(index, row) {
-        if (this.form.brandSeries_msg.brandSeriesArr.length === 1) return false
-        this.form.brandSeries_msg.brandSeriesArr.splice(index, 1)
-        this.form.brandSeries_msg.inputSeries.splice(index, 1)
+        if (this.form.brandSeriesArr.length === 1) return false;
+        this.form.brandSeriesArr.splice(index, 1);
+        this.form.brandSeriesMainCategoriesArr.splice(index, 1);
+        this.form.inputSeries.splice(index, 1);
       },
       brandSeries_addMainCategoties(index, row) {
-        this.form.brandSeries_msg.mainCategoriesArr.push({
-          value: '',
-          subCategoriesArr: ['']
-        })
+        this.form.brandSeriesMainCategoriesArr[index].push({
+          value: "",
+          subCategoriesArr: [""]
+        });
       },
-      brandSeries_deleteMainCategoties(index) {
-        if (this.form.brandSeries_msg.mainCategoriesArr.length === 1) return false
-        this.form.brandSeries_msg.mainCategoriesArr.splice(index, 1)
+      brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
+        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
+          return false;
+        this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
       },
-      brandSeries_addSubCategoties(index) {
-        this.form.brandSeries_msg.mainCategoriesArr[index].subCategoriesArr.push('')
+      brandSeries_addSubCategoties(rowIndex, mainIndex) {
+        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
+          ""
+        );
       },
-      brandSeries_delSubCategories(mainIndex, subIndex) {
-        if (this.form.brandSeries_msg.mainCategoriesArr[mainIndex].subCategoriesArr.length === 1) return false
-        this.form.brandSeries_msg.mainCategoriesArr[mainIndex].subCategoriesArr.splice(subIndex, 1)
+      brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
+        if (
+          this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
+            .length === 1
+        )
+          return false;
+        this.form.brandSeriesMainCategoriesArr[rowIndex][
+          mainIndex
+          ].subCategoriesArr.splice(subIndex, 1);
       },
       brandType_addBrandType(index, row) {
         this.form.brandType_msg.mainCategoriesArr.push({
@@ -994,55 +1044,57 @@
         this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.splice(subIndex, 1)
       },
       brandSpecification_addSpecification() {
-        this.form.brandSpecification_msg.SpecificationArr.push(this.form.brandSpecification_msg.SpecificationArr[0])
-        this.form.brandSpecification_msg.specificationInput.push({
-          goodSpecification: {
-            chinese: '',
-            english: ''
-          },
-          capacity: {
-            chinese: '',
-            english: ''
-          },
-          packingUnit: {
-            chinese: '',
-            english: ''
-          }
-        })
+        this.form.brandSpecification_msg.SpecificationArr.push(
+          this.form.brandSpecification_msg.SpecificationArr[0]
+        );
+        this.form.specificationInput.push({
+          goodSpecificationChinese: '',
+          goodSpecificationEnglish: '',
+          capacityChinese: '',
+          capacityEnglish: '',
+          packingUnitChinese: '',
+          packingUnitEnglish: '',
+        });
       },
       brandSpecification_deleteSpecification(index, row) {
-        if (this.form.brandSpecification_msg.SpecificationArr.length === 1) return false
-        this.form.brandSpecification_msg.SpecificationArr.splice(index, 1)
-        this.form.brandSpecification_msg.specificationInput.splice(index, 1)
+        if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
+          return false;
+        this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
+        this.form.specificationInput.splice(index, 1);
       },
+
       brandBox_addBox() {
-        this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0])
-        this.form.brandBox_msg.boxInput.push({
-          boxNo: null,
-          boxLength: '',
-          boxWidth: '',
-          boxHeight: '',
-          boxWeight: ''
-        })
+        this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
+        this.form.boxInput.push({
+          boxNo: "",
+          boxLength: "",
+          boxWidth: "",
+          boxHeight: "",
+          boxWeight: ""
+        });
       },
       brandBox_deleteBox(index, row) {
-        if (this.form.brandBox_msg.boxArr.length === 1) return false
-        this.form.brandBox_msg.boxArr.splice(index, 1)
-        this.form.brandBox_msg.boxInput.splice(index, 1)
+        if (this.form.brandBox_msg.boxArr.length === 1) return false;
+        this.form.brandBox_msg.boxArr.splice(index, 1);
+        this.form.boxInput.splice(index, 1);
       },
+
       brandDiscount_addDiscount() {
-        this.form.brandDiscount_msg.discountArr.push(this.form.brandDiscount_msg.discountArr[0])
-        this.form.brandDiscount_msg.discountInput.push({
-          orderMin: '',
-          orderMax: '',
+        this.form.brandDiscount_msg.discountArr.push(
+          this.form.brandDiscount_msg.discountArr[0]
+        );
+        this.form.discountInput.push({
+          orderMin: "",
+          orderMax: "",
           decreasingDiscount: 0
-        })
+        });
       },
       brandDiscount_deleteDiscount(index, row) {
-        if (this.form.brandDiscount_msg.discountArr.length === 1) return false
-        this.form.brandDiscount_msg.discountArr.splice(index, 1)
-        this.form.brandDiscount_msg.discountInput.splice(index, 1)
+        if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
+        this.form.brandDiscount_msg.discountArr.splice(index, 1);
+        this.form.discountInput.splice(index, 1);
       },
+
       showStopContract() {
         this.isStopContractShow = true
       },
@@ -1116,11 +1168,35 @@
           this.form.inputSeries = brandResData.brandSeries
 
           // 品牌系列数据处理
+          let temp = []
           brandResData.brandSeries.forEach( (item, index, arr) => {
-//             brandResData.mainVariety[item.id] // 某个系列下的主品类对象的数组集合
+//             brandResData.mainVariety[item.id] // 某个系列下的主品类对象的数组集合arr
+            let temp2 = []
+             brandResData.mainVariety[item.id].forEach( (sub_item, sub_index, sub_arr) => {
+               let obj = {
+                 value: sub_item.name,
+                 subCategoriesArr:[]
+               }
+//               this.form.brandSeriesMainCategoriesArr[index].value = sub_item.name
+
+//               this.form.brandSeriesMainCategoriesArr[index].subCategoriesArr = brandResData.childVariety[sub_item.id] // 主品类ID
+//             } )
+               brandResData.childVariety[sub_item.id].forEach(childItem => {
+                obj.subCategoriesArr.push(childItem.name)
+               })
+               temp2.push(obj)
+             })
+            temp.push(temp2)
           } )
+          this.form.brandSeriesMainCategoriesArr = temp
+          this.handleSeriesData = true
 
           this.form.hasBrandSeries = brandResData.brandDetail.hasBrandSeries
+
+          this.form.specificationInput = brandResData.specificationInput
+          this.form.boxInput = brandResData.boxInput
+          this.form.discountInput = brandResData.discountInput
+          this.form.contract = brandResData.contract
           console.log(this.form)
         }
       }).catch((err) => {
