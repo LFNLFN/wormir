@@ -486,35 +486,36 @@
       <div class="border1" style="border-bottom-width:2px">
         <el-form-item label="商品成份" required class="form-row add-brand-row textareaTitle">
           <el-input
-            v-model="form.goodNote.ingredients"
+            v-model="form.ingredients"
             type="textarea" placeholder="请输入商品成份"
             :rows="2"
             class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="商品功效" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.goodNote.efficacy" type="textarea" :rows="2" placeholder="请输入商品功效"
+          <el-input v-model="form.efficacy" type="textarea" :rows="2" placeholder="请输入商品功效"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="商品卖点" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.goodNote.sellingPoint" type="textarea" :rows="2" placeholder="请输入商品卖点"
+          <el-input v-model="form.sellingPoint" type="textarea" :rows="2" placeholder="请输入商品卖点"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="使用感受" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.goodNote.userfeeling" type="textarea" :rows="2" placeholder="请输入使用感受"
+          <el-input v-model="form.userfeeling" type="textarea" :rows="2" placeholder="请输入使用感受"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="适用人群" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.goodNote.targetUser" type="textarea" :rows="2" placeholder="请输入适用人群"
+          <el-input v-model="form.targetUser" type="textarea" :rows="2" placeholder="请输入适用人群"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="商品方形图(最多五张)" required class="form-row imgUploadTitle">
           <el-row style="padding-top: 17px">
             <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action=""
+              :http-request="uploadBusinessLicenseAction"
               list-type="picture-card"
               multiple
               :limit="5"
-              :file-list="form.fiveFilesList"
+              :file-list="form.goodSquareFilesList"
               :on-exceed="handleExceed"
               :on-preview="handlePictureCardPreview">
               <i class="el-icon-plus"></i>
@@ -527,10 +528,11 @@
         <el-form-item label="商品详情图(最多一张)" required class="form-row imgUploadTitle">
           <el-row style="padding-top: 17px">
             <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action=""
+              :http-request="uploadBusinessLicenseAction"
               list-type="picture-card"
               :limit="1"
-              :file-list="form.oneFileList"
+              :file-list="form.goodDetailFileList"
               :on-exceed="handleExceed"
               :on-preview="handlePictureCardPreview">
               <i class="el-icon-plus"></i>
@@ -648,15 +650,15 @@
             amount: '',
             replenishment: ''
           }],
-          goodNote: {
-            ingredients: '',
-            efficacy: '',
-            sellingPoint: '',
-            userfeeling: '',
-            targetUser: ''
-          },
-          fiveFilesList: [],
-          oneFileList: []
+
+          ingredients: '',
+          efficacy: '',
+          sellingPoint: '',
+          userfeeling: '',
+          targetUser: '',
+
+          goodSquareFilesList: [],
+          goodDetailFileList: []
         },
         goodPropOptions: [{
           value: 1,
@@ -807,15 +809,40 @@
       chooseBrand() {
         this.isChooseBrandShow = true
       },
+      uploadBusinessLicenseAction(options) {
+        this.uploadAction(options.file, key => {
+          this.form.businessLicense = `http://asset.wormir.com/${key}`
+        })
+      },
+      uploadAction(file, callback) {
+        request({
+          url: '/getToken',
+          method: 'get'
+        }).then(res => {
+          let observable = qiniu.upload(file, null, res.data, null, null)
+          observable.subscribe({
+            next(res) {
+              // console.log(res);
+            },
+            error(err) {
+              console.log(err)
+            },
+            complete(res) {
+              // console.log(res);
+              callback(res.key)
+            }
+          })
+        })
+      },
       onSubmit() {
         console.log(this.form)
         this.isSubmitting = true
 
-//        if (!this.chosenBrand) {
-//          this.$message.error('请选择品牌!');
-//          this.isSubmitting = false
-//          return false
-//        }
+        if (!this.chosenBrand) {
+          this.$message.error('请选择品牌!');
+          this.isSubmitting = false
+          return false
+        }
 
         this.$refs['form'].validate((valid) => {
           if (valid) {
