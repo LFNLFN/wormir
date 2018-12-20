@@ -102,7 +102,7 @@
       <editBrand
         :brandObj="currentBrand"
         v-if="isEditBrandShow"
-        @submitSuccess="submitSuccess">
+        @submitSuccess="editSuccess">
       </editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
@@ -267,6 +267,13 @@
         this.isAddBrandShow = false
         this.$message({
           message: '新增成功！',
+          type: 'success'
+        });
+      },
+      editSuccess() {
+        this.isEditBrandShow = false
+        this.$message({
+          message: '编辑成功！',
           type: 'success'
         });
       },
