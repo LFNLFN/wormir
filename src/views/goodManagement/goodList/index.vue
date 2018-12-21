@@ -41,12 +41,14 @@
       <el-table-column prop="goodsSerialNo" label="商品序列号" min-width="150" align="center"></el-table-column>
       <el-table-column prop="brandChineseName" label="商品品牌" min-width="120" align="center"></el-table-column>
       <el-table-column
-        prop="goodsCategory"
         label="商品属性"
         width="100"
-        :filters="[{ text: '常规', value: 10 }, { text: '促销', value: 20 }, { text: '新品', value: 30 }]"
         align="center"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span>{{goodsCategoryList[scope.row.goodsCategory]}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
@@ -164,7 +166,12 @@ export default {
       isEnlargeGoodThumbnailShow: false,
       isGoodDetailShow: false,
       theGoodDetail: {},
-      isAddGoodShow: false
+      isAddGoodShow: false,
+      goodsCategoryList: {
+        10: '常规',
+        20: '促销',
+        30: '新品'
+      }
     }
   },
   methods: {
