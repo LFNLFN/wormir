@@ -212,11 +212,11 @@
 
       <p style="margin: 20px"></p>
       <el-form-item label="装箱规格" required>
-        <el-row>
+        <!-- <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="addPackingSpecification">添加装箱规格</el-button>
           </div>
-        </el-row>
+        </el-row> -->
         <el-table
           :data="form.cartonSpecificationArr"
           class="border2"
@@ -329,14 +329,14 @@
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             align="center"
             label="操作">
             <template slot-scope="scope">
               <el-button type="danger" size="mini" icon="el-icon-delete"
                          @click="deletePackingSpecification(scope.$index)"></el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </el-form-item>
       <el-form-item label="商品售价" required>
@@ -851,7 +851,10 @@
             goodUnitChinese: '',
             cartonUnitEnglish: '',
             cartonSize: `${item.boxLength}cm*${item.boxWidth}cm*${item.boxHeight}cm`,
-            cartonWeight: item.boxWeight
+            cartonWeight: item.boxWeight,
+            length: item.boxLength,
+            width: item.boxWidth,
+            height: item.boxHeight
           }
           cartonArr.push(obj)
         })
@@ -866,16 +869,16 @@
           this.isSubmitting = false
           return false
         }
-        request({
-              url: '/goods/createGood.do',
-              method: 'post',
-              data: this.form
-            }).then(() => {
-              this.$emit('submitSuccess')
-            }).catch(() => {
-              this.$message.error('新增失败');
-              this.isSubmitting = false
-            })
+        // request({
+        //       url: '/goods/createGood.do',
+        //       method: 'post',
+        //       data: this.form
+        //     }).then(() => {
+        //       this.$emit('submitSuccess')
+        //     }).catch(() => {
+        //       this.$message.error('新增失败');
+        //       this.isSubmitting = false
+        //     })
         // this.$refs['form'].validate((valid) => {
         //   if (valid) {
         //     this.isSubmitting = false
