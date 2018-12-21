@@ -543,7 +543,7 @@
       </div>
       <div class="dialogBottomButton-wrap">
         <!--<el-button type="primary" @click="">保存</el-button>-->
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">提交审核</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">创建商品</el-button>
       </div>
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌"
@@ -659,13 +659,13 @@
           goodDetailFileList: []
         },
         goodPropOptions: [{
-          value: 1,
+          value: 10,
           label: '常规'
         }, {
-          value: 2,
+          value: 20,
           label: '促销'
         }, {
-          value: 3,
+          value: 30,
           label: '新品'
         }],
         goodSeriesOptions: [],
@@ -782,7 +782,7 @@
       },
       uploadGoodImageAction(options) {
         this.uploadAction(options.file, key => {
-          this.form.businessLicense = `http://asset.wormir.com/${key}`
+          this.form.goodImage = `http://asset.wormir.com/${key}`
         })
       },
       uploadGoodDetailImageAction(options) {
@@ -834,6 +834,10 @@
         this.form.goodOrigin = val.brandDetail.origin
         this.form.specificationInput = val.specificationInput
         this.form.brandNo = val.brandDetail.brandNo
+        this.form.companyName = val.brandDetail.brandCompanyName
+        this.form.companyAddress = val.brandDetail.brandCompanyAddress
+        this.form.producerName = val.brandDetail.producerName
+        this.form.producerAddress = val.brandDetail.producerAddress
         this.goodSeriesOptions = val.brandSeries
         this.goodQualityOptions = val.brandDetail.qualityName
         this.packingWayOptions = val.brandDetail.packingWay
@@ -862,13 +866,8 @@
           this.isSubmitting = false
           return false
         }
-
-        this.$refs['form'].validate((valid) => {
-          if (valid) {
-            this.isSubmitting = false
-            return false
-            request({
-              url: '/channel/createChannel.do',
+        request({
+              url: '/goods/createGood.do',
               method: 'post',
               data: this.form
             }).then(() => {
@@ -877,12 +876,26 @@
               this.$message.error('新增失败');
               this.isSubmitting = false
             })
-          } else {
-            this.isSubmitting = false
-            this.$message.error('请正确填写表格信息')
-            return false
-          }
-        })
+        // this.$refs['form'].validate((valid) => {
+        //   if (valid) {
+        //     this.isSubmitting = false
+        //     return false
+        //     request({
+        //       url: '/goods/createGood.do',
+        //       method: 'post',
+        //       data: this.form
+        //     }).then(() => {
+        //       this.$emit('submitSuccess')
+        //     }).catch(() => {
+        //       this.$message.error('新增失败');
+        //       this.isSubmitting = false
+        //     })
+        //   } else {
+        //     this.isSubmitting = false
+        //     this.$message.error('请正确填写表格信息')
+        //     return false
+        //   }
+        // })
       }
     },
     mounted() {
