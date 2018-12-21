@@ -184,12 +184,12 @@
             </el-table-column>
             <el-table-column
               align="center"
-              prop="name"
+              prop="userName"
               label="姓名"
               width="120px"
             >
               <template slot-scope="scope">
-                <el-input v-model="form.contactData[scope.$index].name" placeholder=""></el-input>
+                <el-input v-model="form.contactData[scope.$index].userName" placeholder=""></el-input>
               </template>
             </el-table-column>
             <el-table-column
@@ -489,7 +489,7 @@
 
       submitAction() {
         this.isSubmitting = true
-
+console.log(this.form)
         // 验证渠道联系人和技术对接人
         let channelContactPerson = this.form.contactData.some((item, index, arr) => {
           return item.position == 1
@@ -507,18 +507,20 @@
         let contactTableValidate = this.form.contactData.some((item, index, arr) => {
           let wrongValue = false
           for (var a in item) {
-            if(!item[a]) {
+            if( (!item[a]) && a!= 'remark' ) {
+              console.log(a)
+              console.log(item[a])
               wrongValue = true
               break
             }
           }
           return wrongValue
         })
-//        if (contactTableValidate) {
-//          this.$message.error('请完整填写联系人表格内容!');
-//          this.isSubmitting = false
-//          return false
-//        }
+        if (contactTableValidate) {
+          this.$message.error('请完整填写联系人表格内容!');
+          this.isSubmitting = false
+          return false
+        }
 
         // 验证联系表格邮箱和电话
         let contactEmail = this.form.contactData.some((item, index, arr) => {
@@ -540,9 +542,10 @@
           this.isSubmitting = false
           return false
         }
-
         this.$refs['form'].validate((valid) => {
           if (valid) {
+            console.log('ok')
+            return false
             request({
               url: '/channel/createChannel.do',
               method: 'post',

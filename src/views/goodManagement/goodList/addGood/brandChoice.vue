@@ -2,10 +2,10 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.filterMsg1" placeholder="品牌编号/品牌名称/原产国/产地" style="width:250px"></el-input>
+        <el-input v-model="filterForm.searchText" placeholder="品牌编号/品牌名称/原产国/产地" style="width:250px"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -28,12 +28,12 @@
       </el-table-column>
       <el-table-column
         align="center"
-        property="brandName_ZH"
+        property="chineseName"
         label="品牌名称（中文）">
       </el-table-column>
       <el-table-column
         align="center"
-        property="brandName_EN"
+        property="englishName"
         label="品牌名称（英文）">
       </el-table-column>
       <el-table-column
@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        property="origin"
+        property="brandOrigin"
         label="原产国/产地">
       </el-table-column>
     </el-table>
@@ -51,29 +51,39 @@
 </template>
 
 <script>
+  import request from "@/utils/request";
+
   export default {
     data() {
       return {
         filterForm: {
-          filterMsg1: ''
+          searchText: ''
         },
-        singleTableData: [{
-          brandNo: 10001,
-          brandName_ZH: '兰蔻',
-          brandName_EN: 'LANCOME',
-          brandStatus: '正常供货',
-          origin: '法国'
-        }, {
-          brandNo: 10002,
-          brandName_ZH: '香奈尔',
-          brandName_EN: 'Chanel',
-          brandStatus: '正常供货',
-          origin: '法国'
-        }],
+        singleTableData: [],
         currentRow: null
       }
     },
+    mounted() {
+      this.brandBlurSearch()
+    },
     methods: {
+      brandBlurSearch() {
+        request({
+          url: '/brand/brandList.do',
+          method: 'post',
+          data: {
+            page: 1,
+            limit: 10,
+            searchText: this.filterForm.searchText
+          }
+        }).then((res) => {
+          this.singleTableData = res.data.items
+//          this.filterForm.total = res.data.total
+          console.log(res.data.items)
+        }).catch(() => {
+          this.$message.error('数据请求失败');
+        })
+      },
       handleCurrentChange(val) {
         this.currentRow = val
         this.$emit('choice-close', val)

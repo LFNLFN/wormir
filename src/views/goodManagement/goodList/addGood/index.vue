@@ -4,8 +4,8 @@
       <div class="border1 form-error-inline" style="border-bottom-width: 2px">
         <el-form-item label="品牌" required class="form-row add-brand-row">
           <el-col :span="4" class="select-form-margin">
-            <span v-if="chosenBrand"
-                  style="color: #999">{{ chosenBrand.brandName_ZH }}({{ chosenBrand.brandNo }})</span>
+            <span v-if="this.form.goodBrand"
+                  style="color: #999">{{ this.form.goodBrand.chineseName }}({{ this.form.goodBrand.brandNo }})</span>
           </el-col>
           <el-col :span="8" class="select-form-margin">
             <el-button type="primary" size="mini" @click="chooseBrand">选择品牌</el-button>
@@ -547,7 +547,7 @@
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌"
                append-to-body>
-      <brandChoice @choice-close="isChooseBrandShow = false; chosenBrand = $event"></brandChoice>
+      <brandChoice @choice-close="isChooseBrandShow = false; form.goodBrand = $event"></brandChoice>
     </el-dialog>
   </div>
 </template>
