@@ -13,8 +13,9 @@
       :data="singleTableData"
       highlight-current-row
       @row-click='cellClick'
-      class="border-top2 border-left2"
-      style="width: 100%">
+      :header-cell-style="{ borderTop: '1px solid #D5D5D5' }"
+      class="noBorder sumBorder"
+      style="width: 100%; border-right: none; border-left:solid #D5D5D5 2px">
       <el-table-column
         align="center"
         type="index"
@@ -50,7 +51,8 @@
       <el-table-column
         align="center"
         property="brandOrigin"
-        label="原产国/产地">
+        label="原产国/产地"
+        class-name="last-col">
       </el-table-column>
     </el-table>
     <div style="margin-top: 1em;text-align: right">
@@ -97,7 +99,7 @@
         request({
           url: '/brand/brandDetail.do',
           method: 'post',
-          data: {brandNo: row.brandNo}
+          data: { brandNo: row.brandNo }
         }).then(res => {
           this.$emit('choice-close', res.data)
         })

@@ -544,8 +544,6 @@ console.log(this.form)
         }
         this.$refs['form'].validate((valid) => {
           if (valid) {
-            console.log('ok')
-            return false
             request({
               url: '/channel/createChannel.do',
               method: 'post',
@@ -568,7 +566,7 @@ console.log(this.form)
       addContact() {
         this.form.contactData.push({
           position: '',
-          name: '',
+          userName: '',
           mobile: '',
           email: '',
           address: '',

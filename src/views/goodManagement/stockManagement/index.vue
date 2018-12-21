@@ -30,7 +30,8 @@
       <el-table-column min-width="100" align="center" label="箱型编号" prop="cartonSizeId"/>
       <el-table-column align="center" label="虚拟库存">
         <el-table-column align="center" label="商品数量">
-          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'" prop="virtualInStockCount">
+          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"
+                           prop="virtualInStockCount">
             <template slot-scope="scope">
               <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
             </template>
@@ -40,7 +41,8 @@
           <el-table-column min-width="100" align="center" label="(units)" prop="virtualDevanningInStockCount"/>
         </el-table-column>
         <el-table-column align="center" label="散货">
-          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'" prop="virtualIndividualInStockCount"/>
+          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"
+                           prop="virtualIndividualInStockCount"/>
         </el-table-column>
       </el-table-column>
       <el-table-column align="center" label="实际库存">
@@ -55,7 +57,8 @@
           <el-table-column min-width="100" align="center" label="(units)" prop="devanningOutStockCount"/>
         </el-table-column>
         <el-table-column align="center" label="散货" prop="individualOutStockCount">
-          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'" prop="individualOutStockCount"/>
+          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"
+                           prop="individualOutStockCount"/>
         </el-table-column>
       </el-table-column>
       <el-table-column fixed="right" width="200" align="center" :label="$t('order.operation')"
@@ -64,9 +67,15 @@
           <div class="table-btn-wrap">
             <el-button type="primary" size="mini" @click="inventoryDetails(scope.row)">入库明细</el-button>
           </div>
-          <div class="table-btn-wrap"><el-button type="primary" size="mini" @click="holdInventory(scope.row)">虚拟库存明细</el-button></div>
-          <div class="table-btn-wrap"><el-button type="primary" size="mini" @click="outboundInventory(scope.row)">实际库存明细</el-button></div>
-          <div class="table-btn-wrap"><el-button type="primary" size="mini" @click="packingDetail(scope.row)">装箱明细</el-button></div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" @click="holdInventory(scope.row)">虚拟库存明细</el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" @click="outboundInventory(scope.row)">实际库存明细</el-button>
+          </div>
+          <div class="table-btn-wrap">
+            <el-button type="primary" size="mini" @click="packingDetail(scope.row)">装箱明细</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -122,28 +131,30 @@
           page: 1,
           rows: 20
         },
-        list: [{
-          brandNo: Mock.Random.natural(123456, 199999),
-          brandEnglishName: 'LANCOM',
-          brandChineseName: '兰蔻',
-          goodsNo: Mock.Random.natural(123, 199),
-          goodsEnglishName: 'Lipstick',
-          goodsChineseName: '口红',
-          goodsSpecificationEnglish: '4g',
-          cartonSpecification: 10,
-          cartonSizeId: Mock.Random.natural(1, 9),
-          cartonSize: '10cm*10cm*10cm',
-          virtualDevanningInStockCount: Mock.Random.natural(1, 9),
-          devanningOutStockCount: Mock.Random.natural(1, 9),
-          virtualIndividualInStockCount: Mock.Random.natural(1, 9),
-          individualOutStockCount: Mock.Random.natural(1, 9),
-          boxCode: Mock.Random.natural(100, 999),
-          sourceCode: Mock.Random.natural(123, 199),
-          warehouseEntryTime: Mock.Random.now(),
-          cartonCount: Mock.Random.natural(1, 9),
-          goodsNum: Mock.Random.natural(1, 9),
-          createUserId: Mock.Random.natural(1, 9)
-        }],
+        list: [
+//          {
+//            brandNo: Mock.Random.natural(123456, 199999),
+//            brandEnglishName: 'LANCOM',
+//            brandChineseName: '兰蔻',
+//            goodsNo: Mock.Random.natural(123, 199),
+//            goodsEnglishName: 'Lipstick',
+//            goodsChineseName: '口红',
+//            goodsSpecificationEnglish: '4g',
+//            cartonSpecification: 10,
+//            cartonSizeId: Mock.Random.natural(1, 9),
+//            cartonSize: '10cm*10cm*10cm',
+//            virtualDevanningInStockCount: Mock.Random.natural(1, 9),
+//            devanningOutStockCount: Mock.Random.natural(1, 9),
+//            virtualIndividualInStockCount: Mock.Random.natural(1, 9),
+//            individualOutStockCount: Mock.Random.natural(1, 9),
+//            boxCode: Mock.Random.natural(100, 999),
+//            sourceCode: Mock.Random.natural(123, 199),
+//            warehouseEntryTime: Mock.Random.now(),
+//            cartonCount: Mock.Random.natural(1, 9),
+//            goodsNum: Mock.Random.natural(1, 9),
+//            createUserId: Mock.Random.natural(1, 9)
+//          }
+        ],
         isInventoryDetailsShow: false,
         isHoldInventoryShow: false,
         isOutboundInventoryShow: false,

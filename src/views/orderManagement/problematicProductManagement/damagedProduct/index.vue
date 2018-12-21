@@ -429,20 +429,20 @@ export default {
         { text: 'No Replenishment ', value: '3' }
       ],
       list: [
-        {
-          orderNo: Mock.Random.natural(20180522001, 20180522100),
-          dealWay: Mock.Random.natural(0, 1),
-          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-          retailerCategories: Mock.Random.natural(0, 2),
-          retailerNo: Mock.Random.natural(2018001, 2018100),
-          retailerName: 'QWE总店',
-          compensationType: Mock.Random.natural(0, 3),
-          compensationStatus: Mock.Random.natural(0, 4),
-          compensationMoney: Mock.Random.natural(10, 40),
-          goodsNo: Mock.Random.natural(10000, 30000),
-          goodsName: '补水面膜',
-          inlandPrice: Mock.Random.natural(100, 200),
-        }
+//        {
+//          orderNo: Mock.Random.natural(20180522001, 20180522100),
+//          dealWay: Mock.Random.natural(0, 1),
+//          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+//          retailerCategories: Mock.Random.natural(0, 2),
+//          retailerNo: Mock.Random.natural(2018001, 2018100),
+//          retailerName: 'QWE总店',
+//          compensationType: Mock.Random.natural(0, 3),
+//          compensationStatus: Mock.Random.natural(0, 4),
+//          compensationMoney: Mock.Random.natural(10, 40),
+//          goodsNo: Mock.Random.natural(10000, 30000),
+//          goodsName: '补水面膜',
+//          inlandPrice: Mock.Random.natural(100, 200),
+//        }
       ],
       brandNameFilters: [
         { text: 'LANCOM', value: 'LANCOM' },

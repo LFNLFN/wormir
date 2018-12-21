@@ -127,7 +127,8 @@
       <check-detail v-if="isDetailShow" :currentRow="currentRow"></check-detail>
     </el-dialog>
     <el-dialog :visible.sync="isLinkingShow" width="75%" @close="isLinkingShow = false" title="停止系统对接">
-      <stop-linking-system v-if="isLinkingShow" :currentRow="currentRow" @closeDialog="isLinkingShow=false"></stop-linking-system>
+      <stop-linking-system v-if="isLinkingShow" :currentRow="currentRow"
+                           @closeDialog="isLinkingShow=false"></stop-linking-system>
     </el-dialog>
   </div>
 </template>
@@ -137,6 +138,7 @@
   import { channel_BlurSearch } from '@/api/channel'
   import checkDetail from './checkDetail.vue'
   import stopLinkingSystem from './stopLinkingSystem.vue'
+
   export default {
     data() {
       return {
@@ -148,24 +150,26 @@
           page_size: 10,
           total: 0
         },
-        channelTableData: [{
-          channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
-          channelName: 'zxc总店',
-          channelCode: Mock.Random.natural(0, 2),
-          channelStatus: 0,
-          cooperationType: Mock.Random.natural(0, 1),
-          channelType: Mock.Random.natural(0, 3),
-          channelProp: 0,
-          channelLevel: Mock.Random.natural(0, 3),
-          FXQDbelongCode: 'FXQD' + 20180522001,
-          FXQDbelongName: 'FXQD',
-          createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
-          openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
-          proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
-          businessEntity: 0,
-          endingTime: Mock.Random.now('yyyy-MM-dd'),
-          cancellationTime: Mock.Random.now('yyyy-MM-dd')
-        }],
+        channelTableData: [
+//          {
+//            channelNum: 'FXQD' + 20180522001 + '-' + Mock.Random.natural(1001, 1009),
+//            channelName: 'zxc总店',
+//            channelCode: Mock.Random.natural(0, 2),
+//            channelStatus: 0,
+//            cooperationType: Mock.Random.natural(0, 1),
+//            channelType: Mock.Random.natural(0, 3),
+//            channelProp: 0,
+//            channelLevel: Mock.Random.natural(0, 3),
+//            FXQDbelongCode: 'FXQD' + 20180522001,
+//            FXQDbelongName: 'FXQD',
+//            createTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+//            openingTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+//            proofImage: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+//            businessEntity: 0,
+//            endingTime: Mock.Random.now('yyyy-MM-dd'),
+//            cancellationTime: Mock.Random.now('yyyy-MM-dd')
+//          }
+        ],
         isDetailShow: false,
         isLinkingShow: false,
         channelCodeFilters: [
@@ -244,16 +248,22 @@
       channelBlurSearch() {
         channel_BlurSearch(this.filterForm.channelMsg1)
 //          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
-          // .catch(() => { this.$message.error('表格加载失败') })
+        // .catch(() => { this.$message.error('表格加载失败') })
       },
       handleSizeChange(val) {
         channel_BlurSearch(this.filterForm.value1, 1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.page_size = val
       },
       handleCurrentChange(val) {
         channel_BlurSearch(this.filterForm.value1, val)
-          .then((res) => { this.channelTableData = res.data; this.filterForm.total = res.data.length })
+          .then((res) => {
+            this.channelTableData = res.data;
+            this.filterForm.total = res.data.length
+          })
         this.filterForm.currentPage = val
       },
       detailShow(row) {
@@ -284,8 +294,11 @@
     width: 9em;
     margin-left: 1px;
     margin-bottom: 10px;
-      &:last-of-type {
-       margin-bottom: 0
-      }
+
+  &
+  :last-of-type {
+    margin-bottom: 0
+  }
+
   }
 </style>

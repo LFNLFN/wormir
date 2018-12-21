@@ -164,11 +164,11 @@
       return {
         tableKey: 0,
         list: [
-          {
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            applicationType: Mock.Random.natural(0, 1),
-          }
+//          {
+//            channelNo: Mock.Random.natural(20180522001, 20180522100),
+//            channelName: 'ASD总店',
+//            applicationType: Mock.Random.natural(0, 1),
+//          }
         ],
         applicationTypeFilters: [
           { text: '首次申请', value: 0 },

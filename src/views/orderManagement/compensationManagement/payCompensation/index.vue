@@ -233,19 +233,19 @@ export default {
     return {
       tableKey: 0,
       list: [
-        {
-          orderNo: Mock.Random.natural(20180522001, 20180522100),
-          dealWay: Mock.Random.natural(0, 1),
-          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-          retailerCategories: Mock.Random.natural(0, 2),
-          retailerNo: Mock.Random.natural(2018001, 2018100),
-          retailerName: 'QWE总店',
-          compensationType: Mock.Random.natural(0, 3),
-          compensationMoney: Mock.Random.natural(1000, 2000),
-          goodsNo: Mock.Random.natural(10000, 30000),
-          goodsName: '补水面膜',
-          inlandPrice: Mock.Random.natural(100, 200),
-        }
+//        {
+//          orderNo: Mock.Random.natural(20180522001, 20180522100),
+//          dealWay: Mock.Random.natural(0, 1),
+//          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+//          retailerCategories: Mock.Random.natural(0, 2),
+//          retailerNo: Mock.Random.natural(2018001, 2018100),
+//          retailerName: 'QWE总店',
+//          compensationType: Mock.Random.natural(0, 3),
+//          compensationMoney: Mock.Random.natural(1000, 2000),
+//          goodsNo: Mock.Random.natural(10000, 30000),
+//          goodsName: '补水面膜',
+//          inlandPrice: Mock.Random.natural(100, 200),
+//        }
       ],
       dealWayFilters: [
         { text: '国内交易', value: 0 },
