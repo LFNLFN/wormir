@@ -19,7 +19,8 @@
               style="width: 100%;border-right-width: 1px">
       <el-table-column type="selection" align="center" width="100"></el-table-column>
 
-      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="100" prop="orderNo" fixed="left">
+      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="100" prop="orderNo"
+                       fixed="left">
         <template slot-scope="scope">
           <span class="link-type" @click="viewOrderDetail(scope.row)">{{ scope.row.orderNo }}</span>
         </template>
@@ -134,19 +135,19 @@
     <!-- 待付30%订金详情 -->
     <el-dialog :visible.sync="waitPayDepositVisible" title="待付订金" fullscreen style="padding: 20px">
       <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
-                             @cancel="waitPayDepositVisible = false"/>
+                      @cancel="waitPayDepositVisible = false"/>
     </el-dialog>
 
     <!-- 待付70%详情 -->
     <el-dialog :visible.sync="waitPayResidualVisible" title="待付余款" fullscreen style="padding: 20px">
       <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible"
-                      @cancel="waitPayResidualVisible = false"/>
+                       @cancel="waitPayResidualVisible = false"/>
     </el-dialog>
 
     <!-- 提交并单详情 -->
     <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
       <mergeOrderDetail v-if="mergeOrderDetailVisible"
-                       @cancel="mergeOrderDetailVisible = false"/>
+                        @cancel="mergeOrderDetailVisible = false"/>
     </el-dialog>
 
   </div>
@@ -172,8 +173,10 @@
 
   export default {
     name: 'merge-refund-orders',
-    components: { BillDetail, TransportationChange, BillDetailMergeOrders,
-      waitPayDeposit, waitPayResidual, mergeOrderDetail },
+    components: {
+      BillDetail, TransportationChange, BillDetailMergeOrders,
+      waitPayDeposit, waitPayResidual, mergeOrderDetail
+    },
     directives: {
       waves
     },
@@ -181,43 +184,43 @@
       return {
         tableKey: 0,
         list: [
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            brandName: 'AESOP',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 30,
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: 'LANCOM',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 70,
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: 'LANCOM',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 30,
-          },
+//          {
+//            orderNo: Mock.Random.natural(123456, 999999),
+//            channelProp: Mock.Random.natural(0, 2),
+//            channelNo: Mock.Random.natural(20180522001, 20180522100),
+//            channelName: 'ASD总店',
+////            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+//            brandName: 'AESOP',
+//            transportation: Mock.Random.natural(0, 1),
+//            paymentReceive: Mock.Random.natural(1000, 2000),
+//            purchasePrice: Mock.Random.natural(23, 99),
+//            paymentToPay: Mock.Random.natural(500, 999),
+//            thirtyOrseventy: 30,
+//          },
+//          {
+//            orderNo: Mock.Random.natural(123456, 999999),
+//            channelProp: Mock.Random.natural(0, 2),
+//            channelNo: Mock.Random.natural(20180522001, 20180522100),
+//            channelName: 'ASD总店',
+//            brandName: 'LANCOM',
+//            transportation: Mock.Random.natural(0, 1),
+//            paymentReceive: Mock.Random.natural(1000, 2000),
+//            purchasePrice: Mock.Random.natural(23, 99),
+//            paymentToPay: Mock.Random.natural(500, 999),
+//            thirtyOrseventy: 70,
+//          },
+//          {
+//            orderNo: Mock.Random.natural(123456, 999999),
+//            channelProp: Mock.Random.natural(0, 2),
+//            channelNo: Mock.Random.natural(20180522001, 20180522100),
+//            channelName: 'ASD总店',
+//            brandName: 'LANCOM',
+//            transportation: Mock.Random.natural(0, 1),
+//            paymentReceive: Mock.Random.natural(1000, 2000),
+//            purchasePrice: Mock.Random.natural(23, 99),
+//            paymentToPay: Mock.Random.natural(500, 999),
+//            thirtyOrseventy: 30,
+//          },
         ],
         total: null,
         waitPayDepositVisible: false,
@@ -542,17 +545,19 @@
       },
     },
     mounted() {
-      this.list.push({
-        orderNo: Mock.Random.natural(123456, 999999),
-        channelProp: Mock.Random.natural(0, 2),
-        channelNo: Mock.Random.natural(20180522001, 20180522100),
-        channelName: 'ASD总店',
-        brandName: 'LANCOM',
-        transportation: Mock.Random.natural(0, 1),
-        paymentReceive: Mock.Random.natural(1000, 2000),
-        purchasePrice: Mock.Random.natural(23, 99),
-        paymentToPay: Mock.Random.natural(500, 999),
-      },)
+      this.list.push(
+//        {
+//          orderNo: Mock.Random.natural(123456, 999999),
+//          channelProp: Mock.Random.natural(0, 2),
+//          channelNo: Mock.Random.natural(20180522001, 20180522100),
+//          channelName: 'ASD总店',
+//          brandName: 'LANCOM',
+//          transportation: Mock.Random.natural(0, 1),
+//          paymentReceive: Mock.Random.natural(1000, 2000),
+//          purchasePrice: Mock.Random.natural(23, 99),
+//          paymentToPay: Mock.Random.natural(500, 999),
+//        },
+      )
       window.setTimeout(() => {
 
         this.$refs['sumTable'].$el.children[2].children[0].children[1].children[this.list.length - 1].cells[0].style.textAlign = 'right'

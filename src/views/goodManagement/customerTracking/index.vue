@@ -72,14 +72,14 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      this.list.push({
-        customerNo: Mock.Random.natural(1000000000, 9999999999),
-        name: '兰蔻',
-        phone: '18588888888',
-        gender: '女',
-        age: '20',
-        birthday: '1997-10-01'
-      })
+//      this.list.push({
+//        customerNo: Mock.Random.natural(1000000000, 9999999999),
+//        name: '兰蔻',
+//        phone: '18588888888',
+//        gender: '女',
+//        age: '20',
+//        birthday: '1997-10-01'
+//      })
       this.listLoading = false
     },
     handleCurrentChange() {

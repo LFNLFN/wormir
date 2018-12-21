@@ -261,17 +261,17 @@
           { text: 'Mending Replenishment', value: '1' }
         ],
         list: [
-          {
-            orderNo: 123456,
-            brandName: 'LANCOM',
-            tradeWay: 0,
-            lessCargoType: 1,
-            lessReplenishmentStatus: 0,
-            lessCargoStatus: 0,
-            retailerCategories: 0,
-            channelNo: 123123,
-            channelName: 'QWE总店'
-          }
+//          {
+//            orderNo: 123456,
+//            brandName: 'LANCOM',
+//            tradeWay: 0,
+//            lessCargoType: 1,
+//            lessReplenishmentStatus: 0,
+//            lessCargoStatus: 0,
+//            retailerCategories: 0,
+//            channelNo: 123123,
+//            channelName: 'QWE总店'
+//          }
         ],
         total: null,
         listLoading: false,
