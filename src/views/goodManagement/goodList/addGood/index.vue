@@ -400,18 +400,18 @@
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
-              <!--<el-row>-->
-                <!--<el-col :span="11">-->
-                  <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
-                <!--</el-col>-->
-                <!--<el-col :span="2">&nbsp;</el-col>-->
-                <!--<el-col :span="11">-->
-                  <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
-                <!--</el-col>-->
-              <!--</el-row>-->
-              <div>
-                <el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>
-              </div>
+              <el-row>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.theMinPrice" placeholder="请输入"></el-input>
+                </el-col>
+                <el-col :span="2">-</el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.theMaxPrice" placeholder="请输入"></el-input>
+                </el-col>
+              </el-row>
+              <!--<div>-->
+                <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
+              <!--</div>-->
             </template>
           </el-table-column>
         </el-table>
@@ -467,18 +467,15 @@
             label="商品售价"
             class-name="last-col">
             <template slot-scope="scope">
-              <!--<el-row>-->
-                <!--<el-col :span="11">-->
-                  <!--<el-input v-model="scope.row.replenishment.withSymbol" placeholder="请输入"></el-input>-->
-                <!--</el-col>-->
-                <!--<el-col :span="2">&nbsp;</el-col>-->
-                <!--<el-col :span="11">-->
-                  <!--<el-input v-model="scope.row.replenishment.withUnit" placeholder="请输入"></el-input>-->
-                <!--</el-col>-->
-              <!--</el-row>-->
-              <div>
-                <el-input v-model="scope.row.replenishment" placeholder="请输入"></el-input>
-              </div>
+              <el-row>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.minReplenishment" placeholder="请输入"></el-input>
+                </el-col>
+                <el-col :span="2">-</el-col>
+                <el-col :span="11">
+                  <el-input v-model="scope.row.maxReplenishment" placeholder="请输入"></el-input>
+                </el-col>
+              </el-row>
             </template>
           </el-table-column>
         </el-table>
@@ -643,12 +640,14 @@
             salesArea: '',
             goodPriceCurrency: '',
             amount: '',
-            thePrice: ''
+            theMinPrice: '',
+            theMaxPrice: '',
           }],
           replenishmentArr: [{
             replenishmentCurrency: '',
             amount: '',
-            replenishment: ''
+            minReplenishment: '',
+            maxReplenishment: '',
           }],
           ingredients: '',
           efficacy: '',
@@ -829,7 +828,7 @@
         }
       },
       brandDidSelect(val) {
-        this.isChooseBrandShow = false; 
+        this.isChooseBrandShow = false;
         this.chosenBrand = val
         this.form.goodOrigin = val.brandDetail.origin
         this.form.specificationInput = val.specificationInput
