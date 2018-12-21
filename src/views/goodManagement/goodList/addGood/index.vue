@@ -4,8 +4,8 @@
       <div class="border1 form-error-inline" style="border-bottom-width: 2px">
         <el-form-item label="品牌" required class="form-row add-brand-row">
           <el-col :span="4" class="select-form-margin">
-            <span v-if="this.form.goodBrand"
-                  style="color: #999">{{ this.form.goodBrand.chineseName }}({{ this.form.goodBrand.brandNo }})</span>
+            <span v-if="chosenBrand"
+                  style="color: #999">{{ chosenBrand.brandDetail.chineseName }}({{ chosenBrand.brandDetail.brandNo }})</span>
           </el-col>
           <el-col :span="8" class="select-form-margin">
             <el-button type="primary" size="mini" @click="chooseBrand">选择品牌</el-button>
@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="商品序列号" required class="form-row add-brand-row">
           <el-col :span="9">
-            <el-input v-model="form.goodID" disabled></el-input>
+            <el-input v-model="form.goodID"></el-input>
           </el-col>
           <el-col :span="9" style="padding-top: 2px">
             <span style="color: #999">&nbsp;企业商品自编号</span>
@@ -21,8 +21,8 @@
         </el-form-item>
         <el-form-item label="商品组成" prop="isSuite" class="form-row add-brand-row">
           <el-radio-group v-model="form.isSuite" style="margin:5px 3px 0;">
-            <el-radio :label="0">单品</el-radio>
-            <el-radio :label="1">套组</el-radio>
+            <el-radio :label="10">单品</el-radio>
+            <el-radio :label="20">套组</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商品编号" prop="goodNo" class="form-row add-brand-row">
@@ -58,24 +58,24 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="商品系列" required class="form-row add-brand-row clear-border-right">
-              <el-select v-model="form.goodSeries" class="select-form-margin" placeholder="请选择">
+              <el-select v-model="form.goodSeries" class="select-form-margin" placeholder="请选择" @change="seriesSelect">
                 <el-option
                   v-for="item in goodSeriesOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="商品主品类" required class="form-row add-brand-row clear-border-right">
-              <el-select v-model="form.mainCategory" class="select-form-margin" placeholder="请选择">
+              <el-select v-model="form.mainCategory" class="select-form-margin" placeholder="请选择" @change="mainVarietySelect">
                 <el-option
                   v-for="item in mainCategoryOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -85,9 +85,9 @@
               <el-select v-model="form.subCategory" placeholder="请选择" class="select-form-margin">
                 <el-option
                   v-for="item in subCategoryOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -99,14 +99,14 @@
 
       <el-form-item label="商品规格" required>
         <el-table
-          :data="form.goodSpecification_msg.SpecificationArr"
+          :data="form.specificationInput"
           class="noBorder last-tr2"
           style="width: 100%;border-left: 2px solid #D5D5D5">
           <el-table-column align="center" label="商品规格" prop="specificationName">
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationChinese"
+                  v-model.trim="scope.row.goodSpecificationChinese"
                   placeholder="例：30ml/支"
                 ></el-input>
               </template>
@@ -114,7 +114,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationEnglish"
+                  v-model.trim="scope.row.goodSpecificationEnglish"
                   placeholder="例：30ml/pc"
                 ></el-input>
               </template>
@@ -124,7 +124,7 @@
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].capacityChinese"
+                  v-model.trim="scope.row.capacityChinese"
                   placeholder="例：30毫升"
                 ></el-input>
               </template>
@@ -132,7 +132,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].capacityEnglish"
+                  v-model.trim="scope.row.capacityEnglish"
                   placeholder="例：30ml"
                 ></el-input>
               </template>
@@ -142,7 +142,7 @@
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].packingUnitChinese"
+                  v-model.trim="scope.row.packingUnitChinese"
                   placeholder="例：支"
                 ></el-input>
               </template>
@@ -150,7 +150,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].packingUnitEnglish"
+                  v-model.trim="scope.row.packingUnitEnglish"
                   placeholder="例：pc"
                 ></el-input>
               </template>
@@ -179,20 +179,20 @@
         <el-form-item label="商品品质" required class="form-row add-brand-row">
           <el-select v-model="form.goodQuality" placeholder="请选择" class="select-form-margin">
             <el-option
-              v-for="item in goodQualityOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="(item,index) in goodQualityOptions"
+              :key="index"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="包装方式" required class="form-row add-brand-row">
           <el-select v-model="form.packingWay" placeholder="请选择" class="select-form-margin">
             <el-option
-              v-for="item in packingWayOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="(item,index) in packingWayOptions"
+              :key="index"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
         </el-form-item>
@@ -226,14 +226,15 @@
             width="140"
             label="箱型编号">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.cartonNo" placeholder="请选择">
+              <!-- <el-select v-model="scope.row.cartonNo" placeholder="请选择">
                 <el-option
                   v-for="item in [{value: '02',label: '02'},{value: '03',label: '03'}]"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
-              </el-select>
+              </el-select> -->
+              <el-input v-model.trim="scope.row.boxNo" placeholder="请输入箱型编号"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -507,14 +508,14 @@
           <el-input v-model="form.targetUser" type="textarea" :rows="2" placeholder="请输入适用人群"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-        <el-form-item label="商品方形图(最多五张)" required class="form-row imgUploadTitle">
+        <el-form-item label="商品方形图" required class="form-row imgUploadTitle">
           <el-row style="padding-top: 17px">
             <el-upload
               action=""
-              :http-request="uploadBusinessLicenseAction"
+              :http-request="uploadGoodImageAction"
               list-type="picture-card"
               multiple
-              :limit="5"
+              :limit="1"
               :file-list="form.goodSquareFilesList"
               :on-exceed="handleExceed"
               :on-preview="handlePictureCardPreview">
@@ -525,11 +526,11 @@
             </el-dialog>
           </el-row>
         </el-form-item>
-        <el-form-item label="商品详情图(最多一张)" required class="form-row imgUploadTitle">
+        <el-form-item label="商品详情图" required class="form-row imgUploadTitle">
           <el-row style="padding-top: 17px">
             <el-upload
               action=""
-              :http-request="uploadBusinessLicenseAction"
+              :http-request="uploadGoodDetailImageAction"
               list-type="picture-card"
               :limit="1"
               :file-list="form.goodDetailFileList"
@@ -542,19 +543,20 @@
       </div>
       <div class="dialogBottomButton-wrap">
         <!--<el-button type="primary" @click="">保存</el-button>-->
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">提交审核</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">创建商品</el-button>
       </div>
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌"
                append-to-body>
-      <brandChoice @choice-close="isChooseBrandShow = false; form.goodBrand = $event"></brandChoice>
+      <brandChoice @choice-close="brandDidSelect"></brandChoice>
     </el-dialog>
   </div>
 </template>
 
 <script>
   import brandChoice from './brandChoice'
-
+  import request from "@/utils/request"
+  const qiniu = require('qiniu-js')
   export default {
     data() {
       return {
@@ -573,8 +575,9 @@
         uploadPicVisible: false,
         // 上传组件数据
         form: {
-          goodID: 100032018101010001,
+          goodID: '',
           goodBrand: '',
+          brandNo: '',
           goodProp: '',
           mainCategory: '',
           subCategory: '',
@@ -586,10 +589,10 @@
           goodPrice: '',
           startDiscount: '',
           checkInTime: '',
-
           isSuite: '',
           goodOrigin: '',
-
+          goodImage: '',
+          goodDetailImage: '',
           goodSpecification_msg: {
             SpecificationArr: [{ specificationName: " " }],
             specificationInput: [
@@ -619,7 +622,6 @@
               packingUnitEnglish: '',
             }
           ],
-
           goodNetWeight: '',
           goodGrossWeight: '',
           goodQuality: '',
@@ -637,71 +639,40 @@
             cartonSize: '',
             cartonWeight: ''
           }],
-
           goodPriceArr: [{
             salesArea: '',
             goodPriceCurrency: '',
             amount: '',
             thePrice: ''
           }],
-
           replenishmentArr: [{
             replenishmentCurrency: '',
             amount: '',
             replenishment: ''
           }],
-
           ingredients: '',
           efficacy: '',
           sellingPoint: '',
           userfeeling: '',
           targetUser: '',
-
           goodSquareFilesList: [],
           goodDetailFileList: []
         },
         goodPropOptions: [{
-          value: 1,
+          value: 10,
           label: '常规'
         }, {
-          value: 2,
+          value: 20,
           label: '促销'
         }, {
-          value: 3,
+          value: 30,
           label: '新品'
         }],
-        goodSeriesOptions: [{
-          value: '薰衣草',
-          label: '薰衣草'
-        }, {
-          value: '非系列',
-          label: '非系列'
-        }],
-        mainCategoryOptions: [{
-          value: '面部',
-          label: '面部'
-        }],
-        subCategoryOptions: [{
-          value: '保湿',
-          label: '保湿'
-        }],
-        goodQualityOptions: [{
-          value: 4,
-          label: '特等品'
-        }, {
-          value: 1,
-          label: '一等品'
-        }, {
-          value: 2,
-          label: '二等品'
-        }, {
-          value: 3,
-          label: '三等品'
-        }],
-        packingWayOptions: [{
-          value: 'carton',
-          label: 'carton'
-        }],
+        goodSeriesOptions: [],
+        mainCategoryOptions: [],
+        subCategoryOptions: [],
+        goodQualityOptions: [],
+        packingWayOptions: [],
         transactionCurrencyArr: [
           {
             name: '港币',
@@ -809,9 +780,14 @@
       chooseBrand() {
         this.isChooseBrandShow = true
       },
-      uploadBusinessLicenseAction(options) {
+      uploadGoodImageAction(options) {
         this.uploadAction(options.file, key => {
-          this.form.businessLicense = `http://asset.wormir.com/${key}`
+          this.form.goodImage = `http://asset.wormir.com/${key}`
+        })
+      },
+      uploadGoodDetailImageAction(options) {
+        this.uploadAction(options.file, key => {
+          this.form.goodDetailImage = `http://asset.wormir.com/${key}`
         })
       },
       uploadAction(file, callback) {
@@ -834,6 +810,53 @@
           })
         })
       },
+      seriesSelect(val) {
+        for (let i = 0; i < this.goodSeriesOptions.length; i++) {
+          const item = this.goodSeriesOptions[i];
+          if (item.name == val) {
+            this.mainCategoryOptions = this.chosenBrand.mainVariety[item.id]
+            return
+          }
+        }
+      },
+      mainVarietySelect(val) {
+        for (let i = 0; i < this.mainCategoryOptions.length; i++) {
+          const item = this.mainCategoryOptions[i];
+          if (item.name == val) {
+            this.subCategoryOptions = this.chosenBrand.childVariety[item.id]
+            return
+          }
+        }
+      },
+      brandDidSelect(val) {
+        this.isChooseBrandShow = false; 
+        this.chosenBrand = val
+        this.form.goodOrigin = val.brandDetail.origin
+        this.form.specificationInput = val.specificationInput
+        this.form.brandNo = val.brandDetail.brandNo
+        this.form.companyName = val.brandDetail.brandCompanyName
+        this.form.companyAddress = val.brandDetail.brandCompanyAddress
+        this.form.producerName = val.brandDetail.producerName
+        this.form.producerAddress = val.brandDetail.producerAddress
+        this.goodSeriesOptions = val.brandSeries
+        this.goodQualityOptions = val.brandDetail.qualityName
+        this.packingWayOptions = val.brandDetail.packingWay
+        let cartonArr = []
+        val.boxInput.forEach(item => {
+          let obj = {
+            boxNo: item.boxNo,
+            cartonSpecificationChinese: '',
+            cartonSpecificationEnglish: '',
+            goodQuantity: '',
+            goodUnitChinese: '',
+            cartonUnitEnglish: '',
+            cartonSize: `${item.boxLength}cm*${item.boxWidth}cm*${item.boxHeight}cm`,
+            cartonWeight: item.boxWeight
+          }
+          cartonArr.push(obj)
+        })
+        this.form.cartonSpecificationArr = cartonArr
+      },
       onSubmit() {
         console.log(this.form)
         this.isSubmitting = true
@@ -843,13 +866,8 @@
           this.isSubmitting = false
           return false
         }
-
-        this.$refs['form'].validate((valid) => {
-          if (valid) {
-            this.isSubmitting = false
-            return false
-            request({
-              url: '/channel/createChannel.do',
+        request({
+              url: '/goods/createGood.do',
               method: 'post',
               data: this.form
             }).then(() => {
@@ -858,12 +876,26 @@
               this.$message.error('新增失败');
               this.isSubmitting = false
             })
-          } else {
-            this.isSubmitting = false
-            this.$message.error('请正确填写表格信息')
-            return false
-          }
-        })
+        // this.$refs['form'].validate((valid) => {
+        //   if (valid) {
+        //     this.isSubmitting = false
+        //     return false
+        //     request({
+        //       url: '/goods/createGood.do',
+        //       method: 'post',
+        //       data: this.form
+        //     }).then(() => {
+        //       this.$emit('submitSuccess')
+        //     }).catch(() => {
+        //       this.$message.error('新增失败');
+        //       this.isSubmitting = false
+        //     })
+        //   } else {
+        //     this.isSubmitting = false
+        //     this.$message.error('请正确填写表格信息')
+        //     return false
+        //   }
+        // })
       }
     },
     mounted() {

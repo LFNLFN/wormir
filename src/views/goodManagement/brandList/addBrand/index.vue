@@ -52,7 +52,7 @@
           prop="tradeAccount"
           class="form-row add-brand-row last-form-row few-input-item"
         >
-          <el-input v-model.trim.lazy="form.tradeAccount.swfitCode" placeholder="请输入SWFIT Code"></el-input>
+          <el-input v-model.trim.lazy="form.tradeAccount.swiftCode" placeholder="请输入SWFIT Code"></el-input>
           <el-input v-model.trim.lazy="form.tradeAccount.bankName" placeholder="请输入银行名称"></el-input>
           <el-input v-model.trim.lazy="form.tradeAccount.bankAddress" placeholder="请输入银行地址"></el-input>
         </el-form-item>
@@ -850,7 +850,7 @@
           orderNumBySea: null,
           receiptTime: null,
           tradeAccount: {
-            swfitCode: null,
+            swiftCode: null,
             bankName: null,
             bankAddress: null
           },
