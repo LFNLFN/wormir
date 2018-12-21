@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="货单号/渠道号/渠道名称/品牌名称/货单状态" v-model="listQuery.title">
+                placeholder="货单号/渠道号/渠道名称/品牌名称/货单状态" v-model.trim="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -14,109 +14,115 @@
       border fit size="mini" highlight-current-row
       class="border2"
       style="width: 100%;border-right-width: 1px">
-      <el-table-column align="center" label="货单号" prop="orderNo" min-width="120">
+
+      <el-table-column align="center" label="货单号" prop="order_no" min-width="120" />
+
+      <!--<el-table-column-->
+        <!--min-width="120px" align="center"-->
+        <!--label="渠道属性"-->
+        <!--:filters="channelPropFilters"-->
+        <!--:filter-method="filterHandler"-->
+        <!--prop="channelProp">-->
+        <!--<template slot-scope="scope">-->
+          <!--<span>{{ scope.row.channelProp }}</span>-->
+          <!--&lt;!&ndash;<span>{{ channelPropMap[scope.row.channelProp].text }}</span>&ndash;&gt;-->
+        <!--</template>-->
+      <!--</el-table-column>-->
+
+      <el-table-column min-width="150px" align="center" label="渠道号" prop="channel_no">
+      </el-table-column>
+
+      <el-table-column min-width="120px" label="渠道名称" align="center" prop="channel_name">
       </el-table-column>
 
       <el-table-column
         min-width="120px" align="center"
-        label="渠道属性"
-        :filters="channelPropFilters"
-        :filter-method="filterHandler"
-        prop="channelProp">
-        <template slot-scope="scope">
-          <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="150px" align="center" label="渠道号" prop="channelNo">
-      </el-table-column>
-
-      <el-table-column min-width="120px" label="渠道名称" align="center" prop="channelName">
-      </el-table-column>
-
-      <el-table-column
-        min-width="120px" align="center"
-        label="品牌名称" prop="brandName"
+        label="品牌名称" prop="brand_name"
         :filters="brandNameFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ scope.row.brandName }}</span>
+          <span>{{ scope.row.brand_name }}</span>
         </template>
       </el-table-column>
+
       <el-table-column
         min-width="120px" align="center"
-        label="订货金额">
+        label="订货金额" prop="total_channel_amount">
         <template slot-scope="scope">
-          <span>￥ {{ scope.row.orderAmount.toFixed(2) }}</span>
+          <span>￥ {{ scope.row.total_channel_amount }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="120px" align="center" label="30%订金">
+
+      <el-table-column min-width="120px" align="center" label="30%订金" prop="total_earnest_amount">
         <template slot-scope="scope">
-          <span>￥ {{ (scope.row.orderAmount*0.3).toFixed(2) }}</span>
+          <span>￥ {{ scope.row.total_earnest_amount }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="120px" align="center" label="70%余款">
+      <el-table-column min-width="120px" align="center" label="70%余款" prop="total_surplus_amount">
         <template slot-scope="scope">
-          <span>￥ {{ (scope.row.orderAmount*0.7).toFixed(2) }}</span>
+          <span>￥ {{ scope.row.total_surplus_amount }}</span>
         </template>
       </el-table-column>
+
       <el-table-column
         class-name="status-col" label="货单状态"
         min-width="120"
+        prop="order_status"
         :filters="orderStatusFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ orderStatusMap[scope.row.orderStatus].text }}</span>
+          <!--<span>{{ orderStatusMap[scope.row.orderStatus].text }}</span>-->
+          <span>{{ scope.row.order_status | orderStatus }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" class-name="small-padding" min-width="100" fixed="right">
         <template slot-scope="scope">
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button size="mini" type="primary" v-if="scope.row.orderStatus===4"-->
+                       <!--@click="viewHandleReceive(scope.row)">-->
+              <!--处理收货-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===4"-->
+                       <!--@click="viewWaitReceiveOrder(scope.row)">查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
           <div class="table-btn-wrap">
-            <el-button size="mini" type="primary" v-if="scope.row.orderStatus===4"
-                       @click="viewHandleReceive(scope.row)">
-              处理收货
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===4"
-                       @click="viewWaitReceiveOrder(scope.row)">查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===0" @click="viewWaitStock(scope.row)">
+            <el-button type="primary" size="mini" v-if="scope.row.order_status==10" @click="viewWaitStock(scope.row)">
               查看货单
             </el-button>
           </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===1"
-                       @click="viewShortageWaiting(scope.row)">查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===2"
-                       @click="viewWaitReceiveResidual(scope.row)">查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===3" @click="viewWaitShipment(scope.row)">
-              查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===5" @click="viewAlreadyReceive(scope.row)">
-              查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===6" @click="viewStopOrdering(scope.row)">
-              查看货单
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" v-if="scope.row.orderStatus===7" @click="viewInterruptOrdering(scope.row)">
-              查看货单
-            </el-button>
-          </div>
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===1"-->
+                       <!--@click="viewShortageWaiting(scope.row)">查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===2"-->
+                       <!--@click="viewWaitReceiveResidual(scope.row)">查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===3" @click="viewWaitShipment(scope.row)">-->
+              <!--查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===5" @click="viewAlreadyReceive(scope.row)">-->
+              <!--查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===6" @click="viewStopOrdering(scope.row)">-->
+              <!--查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
+          <!--<div class="table-btn-wrap">-->
+            <!--<el-button type="primary" size="mini" v-if="scope.row.orderStatus===7" @click="viewInterruptOrdering(scope.row)">-->
+              <!--查看货单-->
+            <!--</el-button>-->
+          <!--</div>-->
         </template>
       </el-table-column>
     </el-table>
@@ -192,6 +198,8 @@
   import { parseTime } from '@/utils'
   import BillDetail from '../../BillDetail'
   import Mock from 'mockjs'
+  import request from "@/utils/request";
+  import { orderStatus } from "@/filters/index.js";
 
   import handleReceive from './handleReceive/index.vue'
   import waitReceive from './waitReceive/index.vue'
@@ -233,103 +241,14 @@
         isAlreadyReceiveShow: false,
         isStopOrderingShow: false,
         isInterruptOrderingShow: false,
-        list: [
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 4,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 0,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 1,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 2,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 3,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 5,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 6,
-            channelClassify: Mock.Random.natural(1, 99),
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            orderAmount: Mock.Random.natural(1000, 3000),
-//            orderStatus: Mock.Random.natural(0, 7),
-            orderStatus: 7,
-            channelClassify: Mock.Random.natural(1, 99),
-          }
-        ],
+        list: [],
         total: null,
         listLoading: false,
         listQuery: {
           page: 1,
-          limit: 20,
+          limit: 10,
           importance: undefined,
-          title: undefined,
+          searchText: undefined,
           type: undefined,
           sort: '+id'
         },
@@ -385,7 +304,7 @@
       }
     },
     created() {
-//      this.getList()
+      this.getList()
     },
     methods: {
       // 查看货单
@@ -395,12 +314,25 @@
       },
 
       getList() {
-//      this.listLoading = true
-//      fetchList(this.listQuery).then(response => {
-//        this.list = response.items
-//        this.total = response.total
-//        this.listLoading = false
-//      })
+        request({
+          url: '/order/managerOrderList.do',
+          method: 'post',
+          data: {
+            page: 1,
+            limit: 10,
+            searchText: this.listQuery.searchText
+          }
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.list = res.data.items
+            this.total = res.data.total
+          } else {
+            this.$message.error('数据请求失败');
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$message.error('数据请求失败');
+        })
       },
       handleFilter() {
         this.listQuery.page = 1

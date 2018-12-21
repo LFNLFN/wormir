@@ -324,6 +324,7 @@
           message: '新增成功！',
           type: 'success'
         });
+        this.channelSearch()
       },
       confirmSuccess() {
         this.isConfirmShow = false
@@ -331,6 +332,7 @@
           message: '确认成功！',
           type: 'success'
         })
+        this.channelSearch()
       },
       deleteSuccess() {
         this.isDeleteShow = false

@@ -7,7 +7,7 @@
             <div class="grid-content bg-purple">货单号:</div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple">{{ currentRow.orderNo }}</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.orderNo }}</div>
           </el-col>
         </el-row>
 
@@ -16,13 +16,13 @@
             <div class="grid-content bg-purple">渠道号:</div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple">{{ currentRow.channelClassify }}</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.channelNo }}</div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">渠道名称</div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple">{{ channelClassifyMap[currentRow.channelClassify] }}</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.channelName }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -30,13 +30,13 @@
             <div class="grid-content bg-purple">Address:</div>
           </el-col>
           <el-col :span="15">
-            <div class="grid-content bg-purple">Guangzhou Panyu</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.address }}</div>
           </el-col>
           <el-col :span="2" align="center">
             <div class="grid-content bg-purple">City:</div>
           </el-col>
           <el-col :span="2">
-            <div class="grid-content bg-purple">广州</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.city }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -44,19 +44,19 @@
             <div class="grid-content bg-purple">Consignee's Name:</div>
           </el-col>
           <el-col :span="9">
-            <div class="grid-content bg-purple">Tony Ma</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.name }}</div>
           </el-col>
           <el-col :span="2" align="center">
             <div class="grid-content bg-purple">Contact:</div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple">0757-34345424</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.contact }}</div>
           </el-col>
           <el-col :span="2" align="center">
             <div class="grid-content bg-purple">Tel:</div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple">13734234234</div>
+            <div class="grid-content bg-purple">{{ orderDetailData.tel || 13167485749 }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -106,12 +106,12 @@
           <div class="col-head border-bottom" style="border-left: 2px solid #d5d5d5">商品品牌</div>
           <div class="col-content"
                :style="{height: tableHeight-37+'px', borderLeft: '2px solid #d5d5d5', borderBottom: '2px solid #d5d5d5'}">
-            <span>AESOP</span></div>
+            <span>{{ orderDetailData.goodList && orderDetailData.goodList[0].brandName }}</span></div>
         </div>
         <div class="twoTable-wrap" style="padding-right: 20px">
           <!--订货表格-->
           <div class="filter-container" style="padding-bottom: 0">
-            <el-table key='productList' :data="order.orderSubs || []"
+            <el-table key='productList' :data="orderDetailData.goodList"
                       border fit size="mini"
                       style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
                       class="orderTable" ref="orderTable"
@@ -121,25 +121,25 @@
                   <span>{{scope.row.goodsNo}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsChineseName"
+              <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsName"
                                show-overflow-tooltip>
                 <template slot-scope="scope">
-                  <span>{{scope.row.goodsChineseName}}</span>
+                  <span>{{scope.row.goodsName}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('product.productSpecification')"
-                               prop="specificationChinese" show-overflow-tooltip>
+                               prop="capacity" show-overflow-tooltip>
                 <template slot-scope="scope">
-                  <span>{{scope.row.specificationChinese}}</span>
+                  <span>{{scope.row.capacity}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="220" class-name="units-wrap"
-                               :label="$t('order.packageSpecification')" prop="packingSpecification"
+                               :label="$t('order.packageSpecification')" prop="packingGoodsCount"
                                show-overflow-tooltip>
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification || 0}}</span>
+                      <span>{{scope.row.packingGoodsCount || 0}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>支/箱</span>
@@ -149,14 +149,14 @@
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.supplyCurrencySymbol}}{{scope.row.supplyPrice.toFixed(2)}}</span>
+                  <span>￥ {{scope.row.unitPrice}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="120" class-name="units-wrap" :label="$t('order.orderQuantity')">
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.orderQuantity}}</span>
+                      <span>{{scope.row.orderBoxNum}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -165,30 +165,30 @@
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
+              <el-table-column align="center" width="140" label="起始折扣" prop="initialDiscount">
                 <template slot-scope="scope">
-                  <span>{{scope.row.startDiscount}}%</span>
+                  <span>{{scope.row.initialDiscount}}%</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('price.orderDiscount')">
+              <el-table-column align="center" width="140" label="订货折扣" prop="finalDiscount">
                 <template slot-scope="scope">
-                  <span>{{scope.row.orderDiscount}}%</span>
+                  <span>{{scope.row.finalDiscount}}%</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" :label="$t('price.orderUnitPrice')">
+              <el-table-column align="center" width="140" :label="$t('price.orderUnitPrice')" prop="orderPrice">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.unitPrice}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="140" :label="$t('order.orderAmount')">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.orderPrice}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" :label="$t('order.thirtyPercentDeposit')" width="130">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.earnestAmount}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -200,7 +200,7 @@
                       style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
                       class="orderTable" ref="replenishmentTable"
                       :span-method="arraySpanMethod_replenishment"
-                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
+                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0, display: 'none'}">
               <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
@@ -272,7 +272,7 @@
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('order.thirtyPercentDeposit')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ depositAmount.toFixed(2) }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
@@ -306,6 +306,7 @@
   /* eslint-disable */
 
   // import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import request from "@/utils/request";
 
   export default {
     components: {},
@@ -329,9 +330,17 @@
         const deposit30_amount = itemOrder_amount + itemReplenish_amount
         return deposit30_amount
       },
+      depositAmount() {
+        let depositAmount = 0
+        this.orderDetailData.goodList && this.orderDetailData.goodList.forEach((item, index, arr) => {
+          depositAmount += item.earnestAmount/1
+        })
+        return depositAmount
+      }
     },
     data() {
       return {
+        orderDetailData: {},
         list: [],
         replenishmentList: [],
         listLoading: false,
@@ -458,39 +467,7 @@
               cartonNo: '048922'
             }
           ],
-          replenishmentList: [
-            {
-              startDiscount: 70,
-              orderDiscount: 68,
-              goodsNo: 7534645,
-              goodsChineseName: '美白保湿',
-              specificationChinese: '200 ml',
-              packingUnit: 12,
-              supplyCurrencySymbol: '￥ ',
-              supplyPrice: 40,
-              unitsReplenishment: 10,
-              individualReplenishment: 0,
-              iProdQuantity_inventory: 15,
-              // unitsQuantities: [24, 28, 36, 40, 48],
-              unitsQuantities: [
-                [ // 一个数组为一行，一行最多放三个数据
-                  { unit: 24, inventory: 200 },
-                  { unit: 28, inventory: 210 },
-                  { unit: 36, inventory: 220 }
-                ],
-                [ // 一个数组为一行，一行最多放三个数据
-                  { unit: 40, inventory: 230 },
-                  { unit: 48, inventory: 240 }
-                ]
-              ],
-              isAddedRow: false,
-              replenishmentQuantity: 36,
-              replenishmentQuantity_input: 0,
-              shipmentQuantity: 1,
-              cartonNo: '043524',
-              packingSpecification: 24
-            }
-          ],
+          replenishmentList: [],
           shipmentStatus: 50,
           refundType: 100,
           refundAmount: 274,
@@ -529,9 +506,24 @@
         let param = {}
       },
       getList() {
-        // requestShopCart().then(res => {
-        //   this.list = res.data
-        // })
+        console.log()
+        request({
+          url: '/order/orderDetail.do',
+          method: 'post',
+          data: {
+            orderNo: this.currentRow.order_no
+          }
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            console.log(res.data)
+            this.orderDetailData = res.data
+          } else {
+            this.$message.error('数据请求失败');
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$message.error('数据请求失败');
+        })
       },
       removeAction(cartId, index) {
         // cartRemove(cartId).then(res => {
@@ -621,9 +613,9 @@
 
         this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
         this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[1].style.textAlign = 'right'
-//        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
+        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
 
-      }, 100)
+      }, 700)
     }
   }
 </script>

@@ -50,7 +50,7 @@
       <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
-      <el-table-column prop="goodNo" label="商品编号" width="100" align="center"></el-table-column>
+      <el-table-column prop="goodsNo" label="商品编号" width="100" align="center"></el-table-column>
       <el-table-column
         prop="goodsChineseName"
         label="商品名称-中文"
