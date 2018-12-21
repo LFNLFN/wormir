@@ -38,7 +38,7 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop="goodsNo" label="商品序列号" min-width="150" align="center"></el-table-column>
+      <el-table-column prop="goodsSerialNo" label="商品序列号" min-width="150" align="center"></el-table-column>
       <el-table-column prop="brandChineseName" label="商品品牌" min-width="120" align="center"></el-table-column>
       <el-table-column
         prop="goodsCategory"
