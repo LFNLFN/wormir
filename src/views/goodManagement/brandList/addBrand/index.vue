@@ -43,7 +43,7 @@
           <el-input v-model.trim.number="form.orderNumBySea" placeholder="请输入海运订货量"></el-input>
         </el-form-item>
         <el-form-item label="外汇到账时间" prop="receiptTime" class="form-row add-brand-row">
-          <el-input v-model.trim.number="form.receiptTime" placeholder="请输入外汇到账时间">
+          <el-input v-model.trim.number="form.receiptTime" style="width: 300px" placeholder="请输入外汇到账时间">
             <template slot="append">小时</template>
           </el-input>
         </el-form-item>
@@ -1124,7 +1124,7 @@
             { required: true, message: "不能为空", trigger: "blur" }
           ],
           receiptTime: [
-            { required: true, min: 0, message: "不能为空", trigger: "blur" }
+            { required: true, type: 'number', min: 0, message: "不能为空", trigger: "blur" }
           ],
           tradeAccount: [
             { validator: validateTradeAccount, required: true, trigger: "blur" }
