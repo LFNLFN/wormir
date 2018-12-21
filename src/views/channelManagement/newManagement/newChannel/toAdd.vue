@@ -514,11 +514,11 @@
           }
           return wrongValue
         })
-        if (contactTableValidate) {
-          this.$message.error('请完整填写联系人表格内容!');
-          this.isSubmitting = false
-          return false
-        }
+//        if (contactTableValidate) {
+//          this.$message.error('请完整填写联系人表格内容!');
+//          this.isSubmitting = false
+//          return false
+//        }
 
         // 验证联系表格邮箱和电话
         let contactEmail = this.form.contactData.some((item, index, arr) => {
