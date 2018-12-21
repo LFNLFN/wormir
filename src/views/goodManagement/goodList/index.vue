@@ -119,7 +119,9 @@
       title="商品图片"
       append-to-body
     >
-      <img :src="currentGoodThumbnail" alt>
+      <div style="margin: 0 auto">
+        <img :src="currentGoodThumbnail" alt style="width: 100%;height: 100%">
+      </div>
     </el-dialog>
     <el-dialog
       :visible.sync="isGoodDetailShow"
