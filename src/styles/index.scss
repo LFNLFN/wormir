@@ -588,3 +588,8 @@ td.units-wrap:after {
   top: 30%;
   left: 80%;
 }
+
+// 新增商品
+.hide-error .el-form-item__error {
+  visibility: hidden;
+}

@@ -11,7 +11,7 @@
             <el-button type="primary" size="mini" @click="chooseBrand">选择品牌</el-button>
           </el-col>
         </el-form-item>
-        <el-form-item label="商品序列号" required class="form-row add-brand-row">
+        <el-form-item label="商品序列号" prop="goodID" class="form-row add-brand-row">
           <el-col :span="9">
             <el-input v-model="form.goodID"></el-input>
           </el-col>
@@ -45,7 +45,7 @@
         <el-form-item label="原产国/产地" prop="goodOrigin" class="form-row add-brand-row">
           <el-input v-model="form.goodOrigin" placeholder="请输入原产国/产地"></el-input>
         </el-form-item>
-        <el-form-item label="商品属性" required class="form-row add-brand-row">
+        <el-form-item label="商品属性" prop="goodProp" class="form-row add-brand-row">
           <el-select v-model="form.goodProp" class="select-form-margin" placeholder="请选择">
             <el-option
               v-for="item in goodPropOptions"
@@ -55,9 +55,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-row>
+        <el-row class="hide-error">
           <el-col :span="8">
-            <el-form-item label="商品系列" required class="form-row add-brand-row clear-border-right">
+            <el-form-item label="商品系列" prop="goodSeries" class="form-row add-brand-row clear-border-right">
               <el-select v-model="form.goodSeries" class="select-form-margin" placeholder="请选择" @change="seriesSelect">
                 <el-option
                   v-for="item in goodSeriesOptions"
@@ -69,8 +69,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="商品主品类" required class="form-row add-brand-row clear-border-right">
-              <el-select v-model="form.mainCategory" class="select-form-margin" placeholder="请选择" @change="mainVarietySelect">
+            <el-form-item label="商品主品类" prop="mainCategory" class="form-row add-brand-row clear-border-right">
+              <el-select v-model="form.mainCategory" class="select-form-margin" placeholder="请选择"
+                         @change="mainVarietySelect">
                 <el-option
                   v-for="item in mainCategoryOptions"
                   :key="item.id"
@@ -81,7 +82,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="商品子品类" required class="form-row add-brand-row">
+            <el-form-item label="商品子品类" prop="subCategory" class="form-row add-brand-row">
               <el-select v-model="form.subCategory" placeholder="请选择" class="select-form-margin">
                 <el-option
                   v-for="item in subCategoryOptions"
@@ -393,7 +394,6 @@
               <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
-          <!-- 商品价格我也不知为何有两个，但是根据旧页面显示，这两个值是一样的 -->
           <el-table-column
             align="center"
             width="200"
@@ -410,7 +410,7 @@
                 </el-col>
               </el-row>
               <!--<div>-->
-                <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
+              <!--<el-input v-model="scope.row.thePrice" placeholder="请输入"></el-input>-->
               <!--</div>-->
             </template>
           </el-table-column>
@@ -545,7 +545,7 @@
     </el-form>
     <el-dialog :visible.sync="isChooseBrandShow" width="70%" @close="isChooseBrandShow = false" title="选择品牌"
                append-to-body>
-      <brandChoice @choice-close="brandDidSelect"></brandChoice>
+      <brandChoice @choice-close="brandDidSelect($event)"></brandChoice>
     </el-dialog>
   </div>
 </template>
@@ -553,6 +553,7 @@
 <script>
   import brandChoice from './brandChoice'
   import request from "@/utils/request"
+
   const qiniu = require('qiniu-js')
   export default {
     data() {
@@ -716,6 +717,9 @@
         goodPriceCurrencyTitle: '',
         replenishmentCurrencyTitle: '',
         formRules: {
+          goodID: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
           isSuite: [
             { required: true, message: '不能为空', trigger: 'change' },
           ],
@@ -729,6 +733,18 @@
             { required: true, message: '不能为空', trigger: 'change' },
           ],
           goodOrigin: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodProp: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          goodSeries: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          mainCategory: [
+            { required: true, message: '不能为空', trigger: 'change' },
+          ],
+          subCategory: [
             { required: true, message: '不能为空', trigger: 'change' },
           ],
         }
@@ -828,6 +844,7 @@
         }
       },
       brandDidSelect(val) {
+        console.log(val)
         this.isChooseBrandShow = false;
         this.chosenBrand = val
         this.form.goodOrigin = val.brandDetail.origin
@@ -857,15 +874,22 @@
         this.form.cartonSpecificationArr = cartonArr
       },
       onSubmit() {
+
         console.log(this.form)
+
         this.isSubmitting = true
 
-        if (!this.chosenBrand) {
-          this.$message.error('请选择品牌!');
-          this.isSubmitting = false
-          return false
-        }
-        request({
+//        if (!this.chosenBrand) {
+//          this.$message.error('请选择品牌!');
+//          this.isSubmitting = false
+//          return false
+//        }
+
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.isSubmitting = false
+            return false
+            request({
               url: '/goods/createGood.do',
               method: 'post',
               data: this.form
@@ -875,26 +899,12 @@
               this.$message.error('新增失败');
               this.isSubmitting = false
             })
-        // this.$refs['form'].validate((valid) => {
-        //   if (valid) {
-        //     this.isSubmitting = false
-        //     return false
-        //     request({
-        //       url: '/goods/createGood.do',
-        //       method: 'post',
-        //       data: this.form
-        //     }).then(() => {
-        //       this.$emit('submitSuccess')
-        //     }).catch(() => {
-        //       this.$message.error('新增失败');
-        //       this.isSubmitting = false
-        //     })
-        //   } else {
-        //     this.isSubmitting = false
-        //     this.$message.error('请正确填写表格信息')
-        //     return false
-        //   }
-        // })
+          } else {
+            this.isSubmitting = false
+            this.$message.error('请正确填写表格信息')
+            return false
+          }
+        })
       }
     },
     mounted() {
