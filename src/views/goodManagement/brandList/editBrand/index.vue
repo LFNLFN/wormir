@@ -116,7 +116,8 @@
                 size="mini"
                 type="danger"
                 @click="deleteInlandCurrencyType(scope.$index)"
-              >删除</el-button>
+              >删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -125,7 +126,8 @@
             type="success"
             icon="el-icon-plus"
             @click="addOutlandCurrencyType()"
-          >添加香港/国外交易币种</el-button>
+          >添加香港/国外交易币种
+          </el-button>
         </div>
         <el-table
           :data="outlandCurrencyArr"
@@ -174,7 +176,8 @@
                 size="mini"
                 type="danger"
                 @click="deleteOutlandCurrencyType(scope.$index)"
-              >删除</el-button>
+              >删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -235,7 +238,8 @@
               icon="el-icon-plus"
               v-if="form.hasBrandSeries"
               @click="brandSeries_addBrandSeries"
-            >添加品牌系列</el-button>
+            >添加品牌系列
+            </el-button>
           </div>
         </el-row>
         <el-table
@@ -245,7 +249,7 @@
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5"
         >
-          <el-table-column width="200" align="center" label="系列名称 " prop="seriesName">
+          <el-table-column min-width="200" align="center" label="系列名称 " prop="seriesName">
             <template slot-scope="scope">
               <el-form-item label-width="0" prop="inputSeries" style="margin: 0">
                 <el-input v-model.trim="form.inputSeries[scope.$index].name" placeholder="请输入品牌系列"></el-input>
@@ -256,7 +260,8 @@
                   type="danger"
                   icon="el-icon-delete"
                   @click="brandSeries_deleteSeries(scope.$index, scope.row)"
-                >删除系列</el-button>
+                >删除系列
+                </el-button>
               </div>
               <div class="add-btn-wrap">
                 <el-button
@@ -264,7 +269,8 @@
                   icon="el-icon-plus"
                   size="mini"
                   @click="brandSeries_addMainCategoties(scope.$index, scope.row)"
-                >添加主品类</el-button>
+                >添加主品类
+                </el-button>
               </div>
             </template>
           </el-table-column>
@@ -286,13 +292,17 @@
                         type="danger"
                         icon="el-icon-delete"
                         @click="brandSeries_deleteMainCategoties(scope.$index,mainCateIndex)"
-                      >删除主品类</el-button>
+                      >删除主品类
+                      </el-button>
+                    </div>
+                    <div class="add-btn-wrap" style="margin-top: 5px">
                       <el-button
                         type="success"
                         icon="el-icon-plus"
                         size="mini"
                         @click="brandSeries_addSubCategoties(scope.$index,mainCateIndex)"
-                      >添加子品类</el-button>
+                      >添加子品类
+                      </el-button>
                     </div>
                   </el-form-item>
                   <div class="subCategories-wrap">
@@ -378,7 +388,8 @@
               type="success"
               icon="el-icon-plus"
               @click="brandSpecification_addSpecification"
-            >添加品牌商品规格</el-button>
+            >添加品牌商品规格
+            </el-button>
           </div>
         </el-row>
         <el-table
@@ -646,720 +657,729 @@
 </template>
 
 <script>
-import request from "@/utils/request"
-export default {
-  props: {
-    brandObj: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
+  import request from "@/utils/request"
 
-    var validateQualityName = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
+  export default {
+    props: {
+      brandObj: {
+        type: Object,
+        required: true
+      }
+    },
+    data() {
+
+      var validateQualityName = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品质名称必须填写且不能重复！"));
         } else {
-          return arr[index] == arr[index + 1];
+          callback();
         }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("品质名称必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
+      };
 
-    var validateInputSeries = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        return item == false;
-      });
-      let valiRepeat = value.some((item, index, arr) => {
-        if (index >= arr.length - 1) {
-          return false;
+      var validateInputSeries = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          return item == false;
+        });
+        let valiRepeat = value.some((item, index, arr) => {
+          if (index >= arr.length - 1) {
+            return false;
+          } else {
+            return arr[index] == arr[index + 1];
+          }
+        });
+        if (valiNull || valiRepeat) {
+          callback(new Error("品牌系列必须填写且不能重复！"));
         } else {
-          return arr[index] == arr[index + 1];
+          callback();
         }
-      });
-      if (valiNull || valiRepeat) {
-        callback(new Error("品牌系列必须填写且不能重复！"));
-      } else {
-        callback();
-      }
-    };
+      };
 
-    var validateSpecificationInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        for (var key in item) {
-          if (!item[key]) return true
-        }
-      });
-      if (valiNull) {
-        callback(new Error("商品规格表格必须全部填写！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validateBoxInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        for (var key in item) {
-          if (!item[key]) return true
-        }
-      });
-      if (valiNull) {
-        callback(new Error("品牌箱子表格必须全部填写！"));
-      } else {
-        callback();
-      }
-    };
-
-    var validateDiscountInput = (rule, value, callback) => {
-      let valiNull = value.some((item, index, arr) => {
-        for (var key in item) {
-          if (typeof item[key] !== 'number') return true
-          let valiOrderRange = (item.orderMin >= 0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
-          if (!valiOrderRange) return true
-        }
-      });
-
-      if (valiNull) {
-        callback(new Error("品牌折扣表格必须正确填写！"));
-      } else {
-        callback();
-      }
-    };
-
-    return {
-      inlandCurrencyTitle: [''],
-      outlandCurrencyTitle: [''],
-      form: {
-        brandNo: '',
-        chineseName: '',
-        englishName: '',
-        origin: '',
-        hasBrandSeries: '',
-        inputSeries: [""],
-        brandSeriesArr: [
-          { seriesName: ' ' }
-        ],
-        brandSeriesMainCategoriesArr: [
-          [{
-            value: "",
-            subCategoriesArr: [""]
-          }]
-        ],
-        specificationInput: [
-          {
-            goodSpecificationChinese: '',
-            goodSpecificationEnglish: '',
-            capacityChinese: '',
-            capacityEnglish: '',
-            packingUnitChinese: '',
-            packingUnitEnglish: '',
+      var validateSpecificationInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
           }
-        ],
-        boxInput: [
-          {
-            boxNo: "",
-            boxLength: "",
-            boxWidth: "",
-            boxHeight: "",
-            boxWeight: ""
+        });
+        if (valiNull) {
+          callback(new Error("商品规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateBoxInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
           }
-        ],
-        discountInput: [
-          {
-            orderMin: "",
-            orderMax: "",
-            decreasingDiscount: 0
+        });
+        if (valiNull) {
+          callback(new Error("品牌箱子表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateDiscountInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (typeof item[key] !== 'number') return true
+            let valiOrderRange = (item.orderMin >= 0) && (item.orderMin < item.orderMax) && (item.decreasingDiscount >= 0)
+            if (!valiOrderRange) return true
           }
-        ],
-        contract: '',
+        });
+
+        if (valiNull) {
+          callback(new Error("品牌折扣表格必须正确填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      return {
+        inlandCurrencyTitle: [''],
+        outlandCurrencyTitle: [''],
+        form: {
+          brandNo: '',
+          chineseName: '',
+          englishName: '',
+          origin: '',
+          hasBrandSeries: '',
+          inputSeries: [""],
+          brandSeriesArr: [
+            { seriesName: ' ' }
+          ],
+          brandSeriesMainCategoriesArr: [
+            [{
+              value: "",
+              subCategoriesArr: [""]
+            }]
+          ],
+          specificationInput: [
+            {
+              goodSpecificationChinese: '',
+              goodSpecificationEnglish: '',
+              capacityChinese: '',
+              capacityEnglish: '',
+              packingUnitChinese: '',
+              packingUnitEnglish: '',
+            }
+          ],
+          boxInput: [
+            {
+              boxNo: "",
+              boxLength: "",
+              boxWidth: "",
+              boxHeight: "",
+              boxWeight: ""
+            }
+          ],
+          discountInput: [
+            {
+              orderMin: "",
+              orderMax: "",
+              decreasingDiscount: 0
+            }
+          ],
+          contract: '',
 
 
-        brandCompanyName: '',
-        brandCompanyAddress: '',
-        brandIntroduction: '',
-        producerName: '',
-        producerAddress: '',
-        orderNumBySea: null,
-        receiptTime: null,
-        tradeAccount: {
+          brandCompanyName: '',
+          brandCompanyAddress: '',
+          brandIntroduction: '',
+          producerName: '',
+          producerAddress: '',
+          orderNumBySea: null,
+          receiptTime: null,
+          tradeAccount: {
             swiftCode: null,
             bankName: null,
             bankAddress: null
           },
-        transactionCurrencyInland: [''],
-        transactionCurrencyOutland: [''],
-        qualityName: [''],
-        packingWay: [],
-        brandSeries_msg: {
-          hasBrandSeries: true,
-          inputSeries: [''],
-          mainCategoriesArr: [
-            {
-              value: '',
-              subCategoriesArr: ['']
-            }
-          ],
-          brandSeriesArr: [
-            { seriesName: ' ' }
-          ],
-          mainCategoriesItem_width: 750
+          transactionCurrencyInland: [''],
+          transactionCurrencyOutland: [''],
+          qualityName: [''],
+          packingWay: [],
+          brandSeries_msg: {
+            hasBrandSeries: true,
+            inputSeries: [''],
+            mainCategoriesArr: [
+              {
+                value: '',
+                subCategoriesArr: ['']
+              }
+            ],
+            brandSeriesArr: [
+              { seriesName: ' ' }
+            ],
+            mainCategoriesItem_width: 360
+          },
+          brandType_msg: {
+            brandTypeArr: [
+              { typeName: ' ' }
+            ],
+            mainCategoriesArr: [
+              {
+                value: '',
+                subCategoriesArr: ['']
+              }
+            ],
+            mainCategoriesItem_width: 360
+          },
+          brandSpecification_msg: {
+            SpecificationArr: [
+              { specificationName: ' ' }
+            ],
+            specificationInput: [
+              {
+                goodSpecification: {
+                  chinese: '',
+                  english: ''
+                },
+                capacity: {
+                  chinese: '',
+                  english: ''
+                },
+                packingUnit: {
+                  chinese: '',
+                  english: ''
+                }
+              }
+            ]
+          },
+          brandBox_msg: {
+            boxArr: [
+              { boxName: ' ' }
+            ],
+            boxInput: [
+              {
+                boxNo: '',
+                boxLength: '',
+                boxWidth: '',
+                boxHeight: '',
+                boxWeight: ''
+              }
+            ]
+          },
+          brandDiscount_msg: {
+            discountArr: [
+              { discountName: ' ' }
+            ],
+            discountInput: [
+              {
+                orderMin: '',
+                orderMax: '',
+                decreasingDiscount: 0
+              }
+            ]
+          },
+          brandStatus: ''
         },
-        brandType_msg: {
-          brandTypeArr: [
-            { typeName: ' ' }
-          ],
-          mainCategoriesArr: [
-            {
-              value: '',
-              subCategoriesArr: ['']
-            }
-          ],
-          mainCategoriesItem_width: 600
+        brandStatusOptions: [{
+          value: '1',
+          label: '正常供货'
+        }, {
+          value: '2',
+          label: '停止供货'
+        }],
+        currencyInformation: {
+          1: { symbol: "HK$", unit: "港元" },
+          2: { symbol: "￥", unit: "元" },
+          3: { symbol: "A$", unit: "澳元" },
+          4: { symbol: "£", unit: "英磅" },
+          5: { symbol: "€", unit: "欧元" },
+          6: { symbol: "$", unit: "美元" },
         },
-        brandSpecification_msg: {
-          SpecificationArr: [
-            { specificationName: ' ' }
+        emptyArr: [
+          {
+            type: { inland: '国内', outland: '香港/国外' },
+            quality: 'Top',
+            packingWay: 'Auto'
+          }
+        ],
+        inlandCurrencyArr: [
+          {
+            type: '国内'
+          }
+        ],
+        outlandCurrencyArr: [
+          {
+            type: '香港/国外'
+          }
+        ],
+        goodsQualityArr: [
+          {
+            quality: 'Top',
+          }
+        ],
+        packingWayArr: [
+          {
+            packingWay: 'Auto'
+          }
+        ],
+        isStopContractShow: false,
+        stopContract_ruleForm: {
+          applyReason: null,
+          operateType: null,
+          applyTime: null,
+          brandStatus: ''
+        },
+        stopContract_rules: {},
+        transactionCurrencyArr: [
+          {
+            name: '港币',
+            id: 1,
+            symbol: '$',
+            unit: '港元'
+          },
+          {
+            name: '人民币',
+            id: 2,
+            symbol: '￥',
+            unit: '元'
+          },
+          {
+            name: '澳元',
+            id: 3,
+            symbol: 'A$',
+            unit: '澳元'
+          },
+          {
+            name: '英镑',
+            id: 4,
+            symbol: '£',
+            unit: '英镑'
+          },
+          {
+            name: '欧元',
+            id: 5,
+            symbol: '€',
+            unit: '欧元'
+          },
+          {
+            name: '美元',
+            id: 6,
+            symbol: '$',
+            unit: '美元'
+          },
+        ],
+        viewInlandTable: false,
+        viewOutlandTable: false,
+        handleSeriesData: false,
+        formRules: {
+          brandNo: [{ required: true, message: "不能为空", trigger: "blur" }],
+          chineseName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          englishName: [{ required: true, message: "不能为空", trigger: "blur" }],
+          origin: [{ required: true, message: "不能为空", trigger: "blur" }],
+          brandCompanyName: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          brandCompanyAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          brandIntroduction: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerName: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          producerAddress: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          orderNumBySea: [
+            { required: true, message: "不能为空", trigger: "blur" }
+          ],
+          receiptTime: [
+            { required: true, type: 'number', min: 0, message: "不能为空", trigger: "blur" }
+          ],
+          qualityName: [
+            { validator: validateQualityName, required: true, trigger: "blur" }
+          ],
+          packingWay: [
+            { validator: validateQualityName, required: true, trigger: "blur" }
+          ],
+          inputSeries: [
+            { validator: validateInputSeries, required: true, trigger: "blur" }
           ],
           specificationInput: [
-            {
-              goodSpecification: {
-                chinese: '',
-                english: ''
-              },
-              capacity: {
-                chinese: '',
-                english: ''
-              },
-              packingUnit: {
-                chinese: '',
-                english: ''
-              }
-            }
-          ]
-        },
-        brandBox_msg: {
-          boxArr: [
-            { boxName: ' ' }
+            { validator: validateSpecificationInput, required: true, trigger: "blur" }
           ],
           boxInput: [
-            {
-              boxNo: '',
-              boxLength: '',
-              boxWidth: '',
-              boxHeight: '',
-              boxWeight: ''
-            }
-          ]
-        },
-        brandDiscount_msg: {
-          discountArr: [
-            { discountName: ' ' }
+            { validator: validateBoxInput, required: true, trigger: "blur" }
           ],
           discountInput: [
-            {
-              orderMin: '',
-              orderMax: '',
-              decreasingDiscount: 0
-            }
-          ]
-        },
-        brandStatus: ''
-      },
-      brandStatusOptions: [{
-        value: '1',
-        label: '正常供货'
-      }, {
-        value: '2',
-        label: '停止供货'
-      }],
-      currencyInformation: {
-        1: { symbol: "HK$", unit: "港元" },
-        2: { symbol: "￥", unit: "元" },
-        3: { symbol: "A$", unit: "澳元" },
-        4: { symbol: "£", unit: "英磅" },
-        5: { symbol: "€", unit: "欧元" },
-        6: { symbol: "$", unit: "美元" },
-      },
-      emptyArr: [
-        {
-          type: { inland: '国内', outland: '香港/国外' },
-          quality: 'Top',
-          packingWay: 'Auto'
+            { validator: validateDiscountInput, required: true, trigger: "blur" }
+          ],
         }
-      ],
-      inlandCurrencyArr: [
-        {
-          type: '国内'
-        }
-      ],
-      outlandCurrencyArr: [
-        {
-          type: '香港/国外'
-        }
-      ],
-      goodsQualityArr: [
-        {
-          quality: 'Top',
-        }
-      ],
-      packingWayArr: [
-        {
-          packingWay: 'Auto'
-        }
-      ],
-      isStopContractShow: false,
-      stopContract_ruleForm: {
-        applyReason: null,
-        operateType: null,
-        applyTime: null,
-        brandStatus: ''
-      },
-      stopContract_rules: {},
-      transactionCurrencyArr: [
-        {
-          name: '港币',
-          id: 1,
-          symbol: '$',
-          unit: '港元'
-        },
-        {
-          name: '人民币',
-          id: 2,
-          symbol: '￥',
-          unit: '元'
-        },
-        {
-          name: '澳元',
-          id: 3,
-          symbol: 'A$',
-          unit: '澳元'
-        },
-        {
-          name: '英镑',
-          id: 4,
-          symbol: '£',
-          unit: '英镑'
-        },
-        {
-          name: '欧元',
-          id: 5,
-          symbol: '€',
-          unit: '欧元'
-        },
-        {
-          name: '美元',
-          id: 6,
-          symbol: '$',
-          unit: '美元'
-        },
-      ],
-      viewInlandTable: false,
-      viewOutlandTable: false,
-      handleSeriesData: false,
-      formRules: {
-        brandNo: [{ required: true, message: "不能为空", trigger: "blur" }],
-        chineseName: [{ required: true, message: "不能为空", trigger: "blur" }],
-        englishName: [{ required: true, message: "不能为空", trigger: "blur" }],
-        origin: [{ required: true, message: "不能为空", trigger: "blur" }],
-        brandCompanyName: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        brandCompanyAddress: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        brandIntroduction: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        producerName: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        producerAddress: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        orderNumBySea: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
-        receiptTime: [
-          { required: true, type: 'number', min: 0, message: "不能为空", trigger: "blur" }
-        ],
-        qualityName: [
-          { validator: validateQualityName, required: true, trigger: "blur" }
-        ],
-        packingWay: [
-          { validator: validateQualityName, required: true, trigger: "blur" }
-        ],
-        inputSeries: [
-          { validator: validateInputSeries, required: true, trigger: "blur" }
-        ],
-        specificationInput: [
-          { validator: validateSpecificationInput, required: true, trigger: "blur" }
-        ],
-        boxInput: [
-          { validator: validateBoxInput, required: true, trigger: "blur" }
-        ],
-        discountInput: [
-          { validator: validateDiscountInput, required: true, trigger: "blur" }
-        ],
       }
-    }
-  },
-  computed: {
-    brandSeries_mainCategoriesWrap_width() {
-      return this.form.brandSeries_msg.mainCategoriesItem_width * this.form.brandSeries_msg.mainCategoriesArr.length
     },
-    brandType_mainCategoriesWrap_width() {
-      return this.form.brandType_msg.mainCategoriesItem_width * this.form.brandType_msg.mainCategoriesArr.length
-    }
-  },
-  methods: {
-    inlandCurrency(value) {
-      let a = value.split('-')[0]
-      let b = value.split('-')[1]
-      this.form.transactionCurrencyInland[a] = this.transactionCurrencyArr[b]
-    },
-    outlandCurrency(value) {
-      let a = value.split('-')[0]
-      let b = value.split('-')[1]
-      this.form.transactionCurrencyOutland[a] = this.transactionCurrencyArr[b]
-    },
-    addInlandCurrencyType() {
-      this.inlandCurrencyArr.push(
-        {
-          type: '国内'
-        }
-      )
-      this.form.transactionCurrencyInland.push('')
-    },
-    deleteInlandCurrencyType(index) {
-      this.inlandCurrencyArr.splice(index, 1);
-      this.form.transactionCurrencyInland.splice(index, 1);
-      this.inlandCurrencyTitle.splice(index, 1);
-    },
-    addOutlandCurrencyType() {
-      this.outlandCurrencyArr.push(
-        {
-          type: '香港/国外'
-        }
-      )
-    },
-    deleteOutlandCurrencyType(index) {
-      this.outlandCurrencyArr.splice(index, 1);
-      this.form.transactionCurrencyOutland.splice(index, 1);
-      this.outlandCurrencyTitle.splice(index, 1);
-    },
-    addGoodsQuality() {
-      this.goodsQualityArr.push(
-        {
-          quality: 'Top'
-        }
-      )
-      this.form.qualityName.push('')
-    },
-    deleteGoodsQuality(index) {
-      this.goodsQualityArr.splice(index, 1)
-      this.form.qualityName.splice(index, 1)
-    },
-    addPackingWay() {
-      this.packingWayArr.push(
-        {
-          packingWay: 'Auto'
-        }
-      )
-      this.form.packingWay.push('')
-    },
-    deletePackingWay(index) {
-      this.packingWayArr.splice(index, 1)
-      this.form.packingWay.splice(index, 1)
-    },
-    brandSeries_addBrandSeries() {
-      this.form.brandSeriesArr.push(
-        this.form.brandSeriesArr[0]
-      );
-      this.form.inputSeries.push("");
-      this.form.brandSeriesMainCategoriesArr.push([{
-        value: "",
-        subCategoriesArr: [""]
-      }])
-    },
-    brandSeries_deleteSeries(index, row) {
-      if (this.form.brandSeriesArr.length === 1) return false;
-      this.form.brandSeriesArr.splice(index, 1);
-      this.form.brandSeriesMainCategoriesArr.splice(index, 1);
-      this.form.inputSeries.splice(index, 1);
-    },
-    brandSeries_addMainCategoties(index, row) {
-      this.form.brandSeriesMainCategoriesArr[index].push({
-        value: "",
-        subCategoriesArr: [""]
-      });
-    },
-    brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
-      if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
-        return false;
-      this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
-    },
-    brandSeries_addSubCategoties(rowIndex, mainIndex) {
-      this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
-        ""
-      );
-    },
-    brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
-      if (
-        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
-          .length === 1
-      )
-        return false;
-      this.form.brandSeriesMainCategoriesArr[rowIndex][
-        mainIndex
-      ].subCategoriesArr.splice(subIndex, 1);
-    },
-    brandType_addBrandType(index, row) {
-      this.form.brandType_msg.mainCategoriesArr.push({
-        value: '',
-        subCategoriesArr: ['']
-      })
-    },
-    brandType_deleteMainCategoties(index) {
-      if (this.form.brandType_msg.mainCategoriesArr.length === 1) return false
-      this.form.brandType_msg.mainCategoriesArr.splice(index, 1)
-    },
-    brandType_addSubCategoties(index) {
-      this.form.brandType_msg.mainCategoriesArr[index].subCategoriesArr.push('')
-    },
-    brandType_delSubCategories(mainIndex, subIndex) {
-      if (this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.length === 1) return false
-      this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.splice(subIndex, 1)
-    },
-    brandSpecification_addSpecification() {
-      this.form.brandSpecification_msg.SpecificationArr.push(
-        this.form.brandSpecification_msg.SpecificationArr[0]
-      );
-      this.form.specificationInput.push({
-        goodSpecificationChinese: '',
-        goodSpecificationEnglish: '',
-        capacityChinese: '',
-        capacityEnglish: '',
-        packingUnitChinese: '',
-        packingUnitEnglish: '',
-      });
-    },
-    brandSpecification_deleteSpecification(index, row) {
-      if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
-        return false;
-      this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
-      this.form.specificationInput.splice(index, 1);
-    },
-
-    brandBox_addBox() {
-      this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
-      this.form.boxInput.push({
-        boxNo: "",
-        boxLength: "",
-        boxWidth: "",
-        boxHeight: "",
-        boxWeight: ""
-      });
-    },
-    brandBox_deleteBox(index, row) {
-      if (this.form.brandBox_msg.boxArr.length == 1) return false;
-      this.form.brandBox_msg.boxArr.splice(index, 1);
-      this.form.boxInput.splice(index, 1);
-    },
-
-    brandDiscount_addDiscount() {
-      this.form.brandDiscount_msg.discountArr.push(
-        this.form.brandDiscount_msg.discountArr[0]
-      );
-      this.form.discountInput.push({
-        orderMin: "",
-        orderMax: "",
-        decreasingDiscount: 0
-      });
-    },
-    brandDiscount_deleteDiscount(index, row) {
-      if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
-      this.form.brandDiscount_msg.discountArr.splice(index, 1);
-      this.form.discountInput.splice(index, 1);
-    },
-
-    showStopContract() {
-      this.isStopContractShow = true
-    },
-    sumbitTerminationContract() {
-      const vm = this
-      this.$alert('终止合同成功。', '', {
-        confirmButtonText: this.$t('table.confirm'),
-        showClose: false,
-        center: true,
-        callback() {
-          vm.isStopContractShow = false
-        }
-      })
-    },
-    submitEdit() {
-      // console.log(this.form)
-      // 验证国内币种
-      let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
-        if (!item) return true;
-        if (index >= arr.length - 1) return false
-        else {
-          return arr[index].name == arr[index + 1].name;
-        }
-      })
-      if (valiInland) {
-        this.$message.error('国内交易币种必须填写且不能重复！');
-        this.isSubmitting = false
-        return false
+    computed: {
+      brandSeries_mainCategoriesWrap_width() {
+        let maxLength = 0
+        this.form.brandSeriesMainCategoriesArr.forEach((item, index, arr) => {
+          if (item.length >= maxLength) {
+            maxLength = item.length
+          }
+        })
+        return (
+          this.form.brandSeries_msg.mainCategoriesItem_width * maxLength
+        );
+      },
+      brandType_mainCategoriesWrap_width() {
+        return this.form.brandType_msg.mainCategoriesItem_width * this.form.brandType_msg.mainCategoriesArr.length
       }
+    },
+    methods: {
+      inlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyInland[a] = this.transactionCurrencyArr[b]
+      },
+      outlandCurrency(value) {
+        let a = value.split('-')[0]
+        let b = value.split('-')[1]
+        this.form.transactionCurrencyOutland[a] = this.transactionCurrencyArr[b]
+      },
+      addInlandCurrencyType() {
+        this.inlandCurrencyArr.push(
+          {
+            type: '国内'
+          }
+        )
+        this.form.transactionCurrencyInland.push('')
+      },
+      deleteInlandCurrencyType(index) {
+        this.inlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyInland.splice(index, 1);
+        this.inlandCurrencyTitle.splice(index, 1);
+      },
+      addOutlandCurrencyType() {
+        this.outlandCurrencyArr.push(
+          {
+            type: '香港/国外'
+          }
+        )
+      },
+      deleteOutlandCurrencyType(index) {
+        this.outlandCurrencyArr.splice(index, 1);
+        this.form.transactionCurrencyOutland.splice(index, 1);
+        this.outlandCurrencyTitle.splice(index, 1);
+      },
+      addGoodsQuality() {
+        this.goodsQualityArr.push(
+          {
+            quality: 'Top'
+          }
+        )
+        this.form.qualityName.push('')
+      },
+      deleteGoodsQuality(index) {
+        this.goodsQualityArr.splice(index, 1)
+        this.form.qualityName.splice(index, 1)
+      },
+      addPackingWay() {
+        this.packingWayArr.push(
+          {
+            packingWay: 'Auto'
+          }
+        )
+        this.form.packingWay.push('')
+      },
+      deletePackingWay(index) {
+        this.packingWayArr.splice(index, 1)
+        this.form.packingWay.splice(index, 1)
+      },
+      brandSeries_addBrandSeries() {
+        this.form.brandSeriesArr.push(
+          this.form.brandSeriesArr[0]
+        );
+        this.form.inputSeries.push("");
+        this.form.brandSeriesMainCategoriesArr.push([{
+          value: "",
+          subCategoriesArr: [""]
+        }])
+      },
+      brandSeries_deleteSeries(index, row) {
+        if (this.form.brandSeriesArr.length === 1) return false;
+        this.form.brandSeriesArr.splice(index, 1);
+        this.form.brandSeriesMainCategoriesArr.splice(index, 1);
+        this.form.inputSeries.splice(index, 1);
+      },
+      brandSeries_addMainCategoties(index, row) {
+        this.form.brandSeriesMainCategoriesArr[index].push({
+          value: "",
+          subCategoriesArr: [""]
+        });
+      },
+      brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
+        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
+          return false;
+        this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
+      },
+      brandSeries_addSubCategoties(rowIndex, mainIndex) {
+        this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr.push(
+          ""
+        );
+      },
+      brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
+        if (
+          this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
+            .length === 1
+        )
+          return false;
+        this.form.brandSeriesMainCategoriesArr[rowIndex][
+          mainIndex
+          ].subCategoriesArr.splice(subIndex, 1);
+      },
+      brandType_addBrandType(index, row) {
+        this.form.brandType_msg.mainCategoriesArr.push({
+          value: '',
+          subCategoriesArr: ['']
+        })
+      },
+      brandType_deleteMainCategoties(index) {
+        if (this.form.brandType_msg.mainCategoriesArr.length === 1) return false
+        this.form.brandType_msg.mainCategoriesArr.splice(index, 1)
+      },
+      brandType_addSubCategoties(index) {
+        this.form.brandType_msg.mainCategoriesArr[index].subCategoriesArr.push('')
+      },
+      brandType_delSubCategories(mainIndex, subIndex) {
+        if (this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.length === 1) return false
+        this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.splice(subIndex, 1)
+      },
+      brandSpecification_addSpecification() {
+        this.form.brandSpecification_msg.SpecificationArr.push(
+          this.form.brandSpecification_msg.SpecificationArr[0]
+        );
+        this.form.specificationInput.push({
+          goodSpecificationChinese: '',
+          goodSpecificationEnglish: '',
+          capacityChinese: '',
+          capacityEnglish: '',
+          packingUnitChinese: '',
+          packingUnitEnglish: '',
+        });
+      },
+      brandSpecification_deleteSpecification(index, row) {
+        if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
+          return false;
+        this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
+        this.form.specificationInput.splice(index, 1);
+      },
 
-      // 验证国外币种
-      let valiOutland = this.form.transactionCurrencyOutland.some((item, index, arr) => {
-        if (!item) return true;
-        if (index >= arr.length - 1) return false
-        else {
-          return arr[index].name == arr[index + 1].name;
+      brandBox_addBox() {
+        this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
+        this.form.boxInput.push({
+          boxNo: "",
+          boxLength: "",
+          boxWidth: "",
+          boxHeight: "",
+          boxWeight: ""
+        });
+      },
+      brandBox_deleteBox(index, row) {
+        if (this.form.brandBox_msg.boxArr.length == 1) return false;
+        this.form.brandBox_msg.boxArr.splice(index, 1);
+        this.form.boxInput.splice(index, 1);
+      },
+
+      brandDiscount_addDiscount() {
+        this.form.brandDiscount_msg.discountArr.push(
+          this.form.brandDiscount_msg.discountArr[0]
+        );
+        this.form.discountInput.push({
+          orderMin: "",
+          orderMax: "",
+          decreasingDiscount: 0
+        });
+      },
+      brandDiscount_deleteDiscount(index, row) {
+        if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
+        this.form.brandDiscount_msg.discountArr.splice(index, 1);
+        this.form.discountInput.splice(index, 1);
+      },
+
+      showStopContract() {
+        this.isStopContractShow = true
+      },
+      sumbitTerminationContract() {
+        const vm = this
+        this.$alert('终止合同成功。', '', {
+          confirmButtonText: this.$t('table.confirm'),
+          showClose: false,
+          center: true,
+          callback() {
+            vm.isStopContractShow = false
+          }
+        })
+      },
+      submitEdit() {
+        // console.log(this.form)
+        // 验证国内币种
+        let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index].name == arr[index + 1].name;
+          }
+        })
+        if (valiInland) {
+          this.$message.error('国内交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
         }
-      })
-      if (valiOutland) {
-        this.$message.error('国外交易币种必须填写且不能重复！');
-        this.isSubmitting = false
-        return false
+
+        // 验证国外币种
+        let valiOutland = this.form.transactionCurrencyOutland.some((item, index, arr) => {
+          if (!item) return true;
+          if (index >= arr.length - 1) return false
+          else {
+            return arr[index].name == arr[index + 1].name;
+          }
+        })
+        if (valiOutland) {
+          this.$message.error('国外交易币种必须填写且不能重复！');
+          this.isSubmitting = false
+          return false
+        }
+        request({
+          url: '/brand/brandInfoUpdate.do',
+          method: 'post',
+          data: this.form
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.$emit("submitSuccess");
+          }
+          else {
+            this.$message.error("编辑失败");
+            this.isSubmitting = false;
+          }
+        })
       }
+    },
+    mounted() {
       request({
-        url: '/brand/brandInfoUpdate.do',
+        url: '/brand/brandDetail.do',
         method: 'post',
-        data: this.form
+        data: { brandNo: this.brandObj.brandNo }
       }).then((res) => {
+        //        this.$emit('submitSuccess')
         if (res.errorCode == 0) {
-          this.$emit("submitSuccess");
+          const brandResData = res.data
+          this.form.brandNo = brandResData.brandDetail.brandNo
+          this.form.chineseName = brandResData.brandDetail.chineseName
+          this.form.englishName = brandResData.brandDetail.englishName
+          this.form.origin = brandResData.brandDetail.origin
+          this.form.brandCompanyName = brandResData.brandDetail.brandCompanyName
+          this.form.brandCompanyAddress = brandResData.brandDetail.brandCompanyAddress
+          this.form.brandIntroduction = brandResData.brandDetail.brandIntroduction
+          this.form.producerName = brandResData.brandDetail.producerName
+          this.form.producerAddress = brandResData.brandDetail.producerAddress
+          this.form.orderNumBySea = brandResData.brandDetail.orderNumBySea
+          this.form.receiptTime = brandResData.brandDetail.receiptTime
+          this.form.tradeAccount.swiftCode = brandResData.brandDetail.swiftCode
+          this.form.tradeAccount.bankName = brandResData.brandDetail.bankName
+          this.form.tradeAccount.bankAddress = brandResData.brandDetail.bankAddress
+
+
+          // 处理国内币种
+          this.form.transactionCurrencyInland = brandResData.transactionCurrencyInland
+          let tempArr1 = []
+          let aaa = []
+          this.form.transactionCurrencyInland.forEach((item, index) => {
+            tempArr1.push(`${index}-${item.id - 1}`)
+            aaa.push({ type: '国内' })
+          })
+          this.inlandCurrencyTitle = tempArr1
+          this.inlandCurrencyArr = aaa
+          this.viewInlandTable = true
+          // 处理国外币种
+          this.form.transactionCurrencyOutland = brandResData.transactionCurrencyOutland
+          let tempArr2 = []
+          let bbb = []
+          this.form.transactionCurrencyOutland.forEach((item, index) => {
+            tempArr2.push(`${index}-${item.id - 1}`)
+            bbb.push({ type: '香港/国外' })
+          })
+          this.outlandCurrencyTitle = tempArr2
+          this.outlandCurrencyArr = bbb
+          this.viewOutlandTable = true
+
+          this.form.qualityName = brandResData.brandDetail.qualityName
+          this.form.packingWay = brandResData.brandDetail.packingWay
+
+          this.form.inputSeries = brandResData.brandSeries
+
+          // 品牌系列数据处理
+          let temp = []
+          brandResData.brandSeries.forEach((item, index, arr) => {
+            let temp2 = []
+            brandResData.mainVariety[item.id].forEach((sub_item, sub_index, sub_arr) => {
+              let obj = {
+                value: sub_item.name,
+                subCategoriesArr: []
+              }
+              brandResData.childVariety[sub_item.id].forEach(childItem => {
+                obj.subCategoriesArr.push(childItem.name)
+              })
+              temp2.push(obj)
+            })
+            temp.push(temp2)
+          })
+          this.form.brandSeriesMainCategoriesArr = temp
+          this.handleSeriesData = true
+
+          this.form.hasBrandSeries = brandResData.brandDetail.hasBrandSeries
+
+          this.form.specificationInput = brandResData.specificationInput
+          this.form.boxInput = brandResData.boxInput
+          this.form.discountInput = brandResData.discountInput
+          this.form.contract = brandResData.contract
         }
-        else {
-          this.$message.error("编辑失败");
-          this.isSubmitting = false;
-        }
+      }).catch((err) => {
+        console.log(err)
+        this.$message.error('操作失败');
+        //        this.isSubmitting = false
       })
     }
-  },
-  mounted() {
-    request({
-      url: '/brand/brandDetail.do',
-      method: 'post',
-      data: { brandNo: this.brandObj.brandNo }
-    }).then((res) => {
-      //        this.$emit('submitSuccess')
-      if (res.errorCode == 0) {
-        const brandResData = res.data
-        this.form.brandNo = brandResData.brandDetail.brandNo
-        this.form.chineseName = brandResData.brandDetail.chineseName
-        this.form.englishName = brandResData.brandDetail.englishName
-        this.form.origin = brandResData.brandDetail.origin
-        this.form.brandCompanyName = brandResData.brandDetail.brandCompanyName
-        this.form.brandCompanyAddress = brandResData.brandDetail.brandCompanyAddress
-        this.form.brandIntroduction = brandResData.brandDetail.brandIntroduction
-        this.form.producerName = brandResData.brandDetail.producerName
-        this.form.producerAddress = brandResData.brandDetail.producerAddress
-        this.form.orderNumBySea = brandResData.brandDetail.orderNumBySea
-        this.form.receiptTime = brandResData.brandDetail.receiptTime
-        this.form.tradeAccount.swiftCode = brandResData.brandDetail.swiftCode
-        this.form.tradeAccount.bankName = brandResData.brandDetail.bankName
-        this.form.tradeAccount.bankAddress = brandResData.brandDetail.bankAddress
-
-
-        // 处理国内币种
-        this.form.transactionCurrencyInland = brandResData.transactionCurrencyInland
-        let tempArr1 = []
-        let aaa = []
-        this.form.transactionCurrencyInland.forEach((item, index) => {
-          tempArr1.push(`${index}-${item.id - 1}`)
-          aaa.push({type: '国内'})
-        })
-        this.inlandCurrencyTitle = tempArr1
-        this.inlandCurrencyArr = aaa
-        this.viewInlandTable = true
-        // 处理国外币种
-        this.form.transactionCurrencyOutland = brandResData.transactionCurrencyOutland
-        let tempArr2 = []
-        let bbb = []
-        this.form.transactionCurrencyOutland.forEach((item, index) => {
-          tempArr2.push(`${index}-${item.id - 1}`)
-          bbb.push({type: '香港/国外'})
-        })
-        this.outlandCurrencyTitle = tempArr2
-        this.outlandCurrencyArr = bbb
-        this.viewOutlandTable = true
-
-        this.form.qualityName = brandResData.brandDetail.qualityName
-        this.form.packingWay = brandResData.brandDetail.packingWay
-
-        this.form.inputSeries = brandResData.brandSeries
-
-        // 品牌系列数据处理
-        let temp = []
-        brandResData.brandSeries.forEach((item, index, arr) => {
-          let temp2 = []
-          brandResData.mainVariety[item.id].forEach((sub_item, sub_index, sub_arr) => {
-            let obj = {
-              value: sub_item.name,
-              subCategoriesArr: []
-            }
-            brandResData.childVariety[sub_item.id].forEach(childItem => {
-              obj.subCategoriesArr.push(childItem.name)
-            })
-            temp2.push(obj)
-          })
-          temp.push(temp2)
-        })
-        this.form.brandSeriesMainCategoriesArr = temp
-        this.handleSeriesData = true
-
-        this.form.hasBrandSeries = brandResData.brandDetail.hasBrandSeries
-
-        this.form.specificationInput = brandResData.specificationInput
-        this.form.boxInput = brandResData.boxInput
-        this.form.discountInput = brandResData.discountInput
-        this.form.contract = brandResData.contract
-      }
-    }).catch((err) => {
-      console.log(err)
-      this.$message.error('操作失败');
-      //        this.isSubmitting = false
-    })
   }
-}
 </script>
 
 <style lang="scss" scoped>
-.mainCategories-wrap {
-  display: flex;
-  justify-content: flex-start;
-}
+  .mainCategories-wrap {
+    display: flex;
+    justify-content: flex-start;
+  }
 
-.mainCategories-item {
-  width: 450px;
-}
+  .mainCategories-item .el-form-item {
+    width: 350px;
+  }
 
-.form-row {
-  margin: 0;
-}
+  .form-row {
+    margin: 0;
+  }
 
-.form-row .el-input {
-  margin: 3px;
-  width: 98%;
-}
+  .form-row .el-input {
+    margin: 3px;
+    width: 98%;
+  }
 
-.form-row .el-form-item__label {
-  height: 35px;
-}
+  .form-row .el-form-item__label {
+    height: 35px;
+  }
 
-.add-btn-wrap {
-  margin: 0 0 5px;
-}
+  .add-btn-wrap {
+    margin: 0 0 5px;
+  }
 </style>
