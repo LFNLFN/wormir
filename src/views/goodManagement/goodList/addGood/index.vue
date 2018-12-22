@@ -351,7 +351,7 @@
             align="center"
             label="销售区域">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.salesArea" placeholder="例：广东"></el-input>
+              <el-input v-model.trim="scope.row.salesArea" placeholder="例：广东"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -392,7 +392,7 @@
             width="120"
             label="金额">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
+              <el-input v-model.trim.number="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -403,11 +403,11 @@
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.theMinPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMinPrice" placeholder="请输入"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.theMaxPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMaxPrice" placeholder="请输入"></el-input>
                 </el-col>
               </el-row>
               <!--<div>-->
@@ -417,7 +417,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="补款金额" required>
+      <el-form-item label="补款金额" prop="replenishmentArr">
         <el-table
           border
           :data="form.replenishmentArr"
@@ -460,7 +460,7 @@
             width="120"
             label="金额">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
+              <el-input v-model.trim.number="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -470,11 +470,11 @@
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.minReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.minReplenishment" placeholder="请输入"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.maxReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.maxReplenishment" placeholder="请输入"></el-input>
                 </el-col>
               </el-row>
             </template>
@@ -482,28 +482,28 @@
         </el-table>
       </el-form-item>
 
-      <div class="border1" style="border-bottom-width:2px">
-        <el-form-item label="商品成份" required class="form-row add-brand-row textareaTitle">
+      <div class="border1 " style="border-bottom-width:2px">
+        <el-form-item label="商品成份" prop="ingredients" class="form-row add-brand-row textareaTitle textareaError">
           <el-input
-            v-model="form.ingredients"
+            v-model.trim="form.ingredients"
             type="textarea" placeholder="请输入商品成份"
             :rows="2"
             class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-        <el-form-item label="商品功效" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.efficacy" type="textarea" :rows="2" placeholder="请输入商品功效"
+        <el-form-item label="商品功效" prop="efficacy" class="form-row add-brand-row textareaTitle textareaError">
+          <el-input v-model.trim.lazy="form.efficacy" type="textarea" :rows="2" placeholder="请输入商品功效"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-        <el-form-item label="商品卖点" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.sellingPoint" type="textarea" :rows="2" placeholder="请输入商品卖点"
+        <el-form-item label="商品卖点" prop="sellingPoint" class="form-row add-brand-row textareaTitle textareaError">
+          <el-input v-model.trim.lazy="form.sellingPoint" type="textarea" :rows="2" placeholder="请输入商品卖点"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-        <el-form-item label="使用感受" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.userfeeling" type="textarea" :rows="2" placeholder="请输入使用感受"
+        <el-form-item label="使用感受" prop="userfeeling" class="form-row add-brand-row textareaTitle textareaError">
+          <el-input v-model.trim.lazy="form.userfeeling" type="textarea" :rows="2" placeholder="请输入使用感受"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
-        <el-form-item label="适用人群" required class="form-row add-brand-row textareaTitle">
-          <el-input v-model="form.targetUser" type="textarea" :rows="2" placeholder="请输入适用人群"
+        <el-form-item label="适用人群" prop="targetUser" class="form-row add-brand-row textareaTitle textareaError">
+          <el-input v-model.trim.lazy="form.targetUser" type="textarea" :rows="2" placeholder="请输入适用人群"
                     class="select-form-margin select-form-width"></el-input>
         </el-form-item>
         <el-form-item label="商品方形图" required class="form-row imgUploadTitle">
@@ -572,6 +572,7 @@
         }
       };
 
+
       var validateCartonSpecificationArr = (rule, value, callback) => {
         let valiNull = value.some((item, index, arr) => {
           for (var key in item) {
@@ -582,6 +583,40 @@
         });
         if (valiNull) {
           callback(new Error("装箱规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateGoodPriceArr = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("商品售价表格必须全部填写！"));
+        } else if (!(value[0].amount>0 && value[0].theMinPrice>0 && value[0].theMaxPrice>0)) {
+          callback(new Error("金额和商品售价必须为正数！"));
+        } else if (!(value[0].theMinPrice <= value[0].theMaxPrice)) {
+          callback(new Error("请正确填写商品售价最小值和最大值！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateReplenishmentArr = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("补款金额表格必须全部填写！"));
+        } else if (!(value[0].amount>0 && value[0].minReplenishment>0 && value[0].maxReplenishment>0)) {
+          callback(new Error("金额和商品售价必须为正数！"));
+        } else if (!(value[0].minReplenishment <= value[0].maxReplenishment)) {
+          callback(new Error("请正确填写商品售价最小值和最大值！"));
         } else {
           callback();
         }
@@ -800,6 +835,27 @@
           ],
           cartonSpecificationArr: [
             { validator: validateCartonSpecificationArr, required: true, trigger: "change" }
+          ],
+          goodPriceArr: [
+            { validator: validateGoodPriceArr, required: true, trigger: "change" }
+          ],
+          replenishmentArr: [
+            { validator: validateReplenishmentArr, required: true, trigger: "change" }
+          ],
+          ingredients: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          efficacy: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          sellingPoint: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          userfeeling: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          targetUser: [
+            { required: true, message: '不能为空', trigger: "change" }
           ],
         }
       }
