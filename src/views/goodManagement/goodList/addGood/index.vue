@@ -55,7 +55,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-row class="hide-error">
+        <el-row>
           <el-col :span="8">
             <el-form-item label="商品系列" prop="goodSeries" class="form-row add-brand-row clear-border-right">
               <el-select v-model="form.goodSeries" class="select-form-margin" placeholder="请选择" @change="seriesSelect">
@@ -98,7 +98,7 @@
 
       <p style="margin: 20px"></p>
 
-      <el-form-item label="商品规格" required>
+      <el-form-item label="商品规格" prop="specificationInput">
         <el-table
           :data="form.specificationInput"
           class="noBorder last-tr2"
@@ -160,24 +160,24 @@
         </el-table>
       </el-form-item>
 
-      <div class="border1">
+      <div class="border1 form-error-inline">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="商品净重" required class="form-row add-brand-row clear-border-right">
+          <el-col :span="12" class="form-error-inside">
+            <el-form-item label="商品净重" prop="goodNetWeight" class="form-row add-brand-row clear-border-right">
               <el-input v-model="form.goodNetWeight" placeholder="请输入商品净重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="商品毛重" required class="form-row add-brand-row">
+            <el-form-item label="商品毛重" prop="goodGrossWeight" class="form-row add-brand-row">
               <el-input v-model="form.goodGrossWeight" placeholder="请输入商品毛重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="商品品质" required class="form-row add-brand-row">
+        <el-form-item label="商品品质" prop="goodQuality" class="form-row add-brand-row">
           <el-select v-model="form.goodQuality" placeholder="请选择" class="select-form-margin">
             <el-option
               v-for="(item,index) in goodQualityOptions"
@@ -187,7 +187,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="包装方式" required class="form-row add-brand-row">
+        <el-form-item label="包装方式" prop="packingWay" class="form-row add-brand-row">
           <el-select v-model="form.packingWay" placeholder="请选择" class="select-form-margin">
             <el-option
               v-for="(item,index) in packingWayOptions"
@@ -197,13 +197,13 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="申报要素" required class="form-row add-brand-row">
-          <el-input v-model="form.slogan" placeholder="请输入申报要素"></el-input>
+        <el-form-item label="申报要素" prop="slogan" class="form-row add-brand-row">
+          <el-input v-model.trim="form.slogan" placeholder="请输入申报要素"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="起始折扣" required class="form-row add-brand-row last-form-row">
-              <el-input v-model="form.startDiscount" style="width: 200px" placeholder="请输入起始折扣">
+            <el-form-item label="起始折扣" prop="startDiscount" class="form-row add-brand-row last-form-row">
+              <el-input v-model.trim.number="form.startDiscount" style="width: 200px" placeholder="请输入起始折扣">
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
@@ -212,7 +212,7 @@
       </div>
 
       <p style="margin: 20px"></p>
-      <el-form-item label="装箱规格" required>
+      <el-form-item label="装箱规格" prop="cartonSpecificationArr">
         <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="addPackingSpecification">添加装箱规格</el-button>
@@ -225,7 +225,8 @@
           <el-table-column
             align="center"
             width="140"
-            label="箱型编号">
+            label="箱型编号"
+          prop="cartonNo">
             <template slot-scope="scope">
               <!-- <el-select v-model="scope.row.cartonNo" placeholder="请选择">
                 <el-option
@@ -235,7 +236,7 @@
                   :value="item.value">
                 </el-option>
               </el-select> -->
-              <el-input v-model.trim="scope.row.boxNo" placeholder="请输入箱型编号"></el-input>
+              <el-input v-model.trim="scope.row.cartonNo" placeholder="请输入箱型编号"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -288,10 +289,10 @@
           </el-table-column>
           <el-table-column
             align="center"
-            width="130"
             label="装箱单位">
             <el-table-column
               align="center"
+              width="100"
               label="中文">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.cartonUnitChinese" placeholder="例：箱"></el-input>
@@ -340,7 +341,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="商品售价" required>
+      <el-form-item label="商品售价" prop="goodPriceArr">
         <el-table
           border
           :data="form.goodPriceArr"
@@ -557,6 +558,35 @@
   const qiniu = require('qiniu-js')
   export default {
     data() {
+
+      var validateSpecificationInput = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) return true
+          }
+        });
+        if (valiNull) {
+          callback(new Error("商品规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
+      var validateCartonSpecificationArr = (rule, value, callback) => {
+        let valiNull = value.some((item, index, arr) => {
+          for (var key in item) {
+            if (!item[key]) {
+              return true
+            }
+          }
+        });
+        if (valiNull) {
+          callback(new Error("装箱规格表格必须全部填写！"));
+        } else {
+          callback();
+        }
+      };
+
       return {
         currencyInformation: {
           1: { symbol: "HK$", unit: "港元" },
@@ -739,13 +769,37 @@
             { required: true, message: '不能为空', trigger: 'change' },
           ],
           goodSeries: [
-            { required: true, message: '不能为空', trigger: 'change' },
+            { required: true, message: ' ', trigger: 'change' },
           ],
           mainCategory: [
-            { required: true, message: '不能为空', trigger: 'change' },
+            { required: true, message: ' ', trigger: 'change' },
           ],
           subCategory: [
-            { required: true, message: '不能为空', trigger: 'change' },
+            { required: true, message: ' ', trigger: 'change' },
+          ],
+          specificationInput: [
+            { validator: validateSpecificationInput, required: true, trigger: "change" }
+          ],
+          goodNetWeight: [
+            { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+          ],
+          goodGrossWeight: [
+            { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+          ],
+          goodQuality: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          packingWay: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          slogan: [
+            { required: true, message: '不能为空', trigger: "change" }
+          ],
+          startDiscount: [
+            { type: 'number', min: 0, required: true, message: '不能为空', trigger: "change" }
+          ],
+          cartonSpecificationArr: [
+            { validator: validateCartonSpecificationArr, required: true, trigger: "change" }
           ],
         }
       }

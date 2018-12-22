@@ -1156,7 +1156,7 @@
             { validator: validateBrandTypeMainCategoriesArr, required: true, trigger: "blur" }
           ],
           specificationInput: [
-            { validator: validateSpecificationInput, required: true, trigger: "blur" }
+            { validator: validateSpecificationInput, required: true, trigger: "change" }
           ],
           boxInput: [
             { validator: validateBoxInput, required: true, trigger: "blur" }
