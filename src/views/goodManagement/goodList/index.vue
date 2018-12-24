@@ -139,7 +139,7 @@
       title="添加品牌商品"
       append-to-body
     >
-      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess"></addGood>
+      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess" :goodsNo='selectedGoodsNo'></addGood>
     </el-dialog>
   </div>
 </template>
@@ -169,7 +169,8 @@ export default {
         10: '常规',
         20: '促销',
         30: '新品'
-      }
+      },
+      selectedGoodsNo: undefined
     }
   },
   methods: {
@@ -192,6 +193,7 @@ export default {
       this.goodBlurSearch()
     },
     addGood() {
+      this.selectedGoodsNo = undefined
       this.isAddGoodShow = true
     },
     enlargePic(row) {
@@ -207,8 +209,8 @@ export default {
       return row[property] === value;
     },
     checkGoodDetail(row) {
-      this.isGoodDetailShow = true
-      this.theGoodDetail = row
+      this.selectedGoodsNo = row.goodsNo
+      this.isAddGoodShow = true
     },
     addSuccess() {
       this.isAddGoodShow = false
