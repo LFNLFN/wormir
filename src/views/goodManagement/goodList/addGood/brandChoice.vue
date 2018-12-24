@@ -94,13 +94,14 @@
         this.filterForm.page_size = val
         this.getList()
       },
-      cellClick(row) {
-        // console.log(row);
+      cellClick(row, event, column) {
+         console.log(row);
         request({
           url: '/brand/brandDetail.do',
           method: 'post',
           data: { brandNo: row.brandNo }
         }).then(res => {
+//          console.log(res.data)
           this.$emit('choice-close', res.data)
         })
       },

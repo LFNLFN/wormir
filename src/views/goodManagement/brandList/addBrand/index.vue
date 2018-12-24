@@ -247,7 +247,7 @@
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5"
         >
-          <el-table-column width="200" align="center" label="系列名称 " prop="seriesName">
+          <el-table-column min-width="200" align="center" label="系列名称"  prop="seriesName">
             <template slot-scope="scope">
               <el-form-item label-width=0 prop="inputSeries" style="margin: 0">
                 <el-input
@@ -870,7 +870,7 @@
               }
             ],
             brandSeriesArr: [{ seriesName: " " }],
-            mainCategoriesItem_width: 750
+            mainCategoriesItem_width: 400
           }, // 结尾带 _msg 的选项都不用传的
 
           hasBrandSeries: 1,
@@ -891,7 +891,7 @@
                 subCategoriesArr: [""]
               }
             ],
-            mainCategoriesItem_width: 600
+            mainCategoriesItem_width: 360
           },
 
           brandTypeMainCategoriesArr: [
@@ -1156,7 +1156,7 @@
             { validator: validateBrandTypeMainCategoriesArr, required: true, trigger: "blur" }
           ],
           specificationInput: [
-            { validator: validateSpecificationInput, required: true, trigger: "blur" }
+            { validator: validateSpecificationInput, required: true, trigger: "change" }
           ],
           boxInput: [
             { validator: validateBoxInput, required: true, trigger: "blur" }
@@ -1176,9 +1176,14 @@
     },
     computed: {
       brandSeries_mainCategoriesWrap_width() {
+        let maxLength = 0
+        this.form.brandSeriesMainCategoriesArr.forEach((item, index, arr) => {
+          if (item.length >= maxLength) {
+            maxLength = item.length
+          }
+        })
         return (
-          this.form.brandSeries_msg.mainCategoriesItem_width *
-          this.form.brandSeries_msg.mainCategoriesArr.length
+          this.form.brandSeries_msg.mainCategoriesItem_width * maxLength
         );
       },
       brandType_mainCategoriesWrap_width() {
@@ -1426,8 +1431,8 @@
     justify-content: flex-start;
   }
 
-  .mainCategories-item {
-    width: 450px;
+  .mainCategories-item .el-form-item {
+    width: 350px;
   }
 
   .form-row {

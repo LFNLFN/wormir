@@ -13,7 +13,7 @@
             <el-button type="primary" size="mini" @click="chooseBrand">选择品牌</el-button>
           </el-col>
         </el-form-item>
-        <el-form-item label="商品序列号" required class="form-row add-brand-row">
+        <el-form-item label="商品序列号" prop="goodID" class="form-row add-brand-row">
           <el-col :span="9">
             <el-input v-model="form.goodID"></el-input>
           </el-col>
@@ -62,7 +62,7 @@
         <el-form-item label="原产国/产地" prop="goodOrigin" class="form-row add-brand-row">
           <el-input v-model="form.goodOrigin" placeholder="请输入原产国/产地"></el-input>
         </el-form-item>
-        <el-form-item label="商品属性" required class="form-row add-brand-row">
+        <el-form-item label="商品属性" prop="goodProp" class="form-row add-brand-row">
           <el-select v-model="form.goodProp" class="select-form-margin" placeholder="请选择">
             <el-option
               v-for="item in goodPropOptions"
@@ -108,7 +108,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="商品子品类" required class="form-row add-brand-row">
+            <el-form-item label="商品子品类" prop="subCategory" class="form-row add-brand-row">
               <el-select v-model="form.subCategory" placeholder="请选择" class="select-form-margin">
                 <el-option
                   v-for="item in subCategoryOptions"
@@ -124,7 +124,7 @@
 
       <p style="margin: 20px"></p>
 
-      <el-form-item label="商品规格" required>
+      <el-form-item label="商品规格" prop="specificationInput">
         <el-table
           :data="form.specificationInput"
           class="noBorder last-tr2"
@@ -169,24 +169,28 @@
         </el-table>
       </el-form-item>
 
-      <div class="border1">
+      <div class="border1 form-error-inline">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="商品净重" required class="form-row add-brand-row clear-border-right">
+          <el-col :span="12" class="form-error-inside">
+            <el-form-item
+              label="商品净重"
+              prop="goodNetWeight"
+              class="form-row add-brand-row clear-border-right"
+            >
               <el-input v-model="form.goodNetWeight" placeholder="请输入商品净重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="商品毛重" required class="form-row add-brand-row">
+            <el-form-item label="商品毛重" prop="goodGrossWeight" class="form-row add-brand-row">
               <el-input v-model="form.goodGrossWeight" placeholder="请输入商品毛重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="商品品质" required class="form-row add-brand-row">
+        <el-form-item label="商品品质" prop="goodQuality" class="form-row add-brand-row">
           <el-select v-model="form.goodQuality" placeholder="请选择" class="select-form-margin">
             <el-option
               v-for="(item,index) in goodQualityOptions"
@@ -196,7 +200,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="包装方式" required class="form-row add-brand-row">
+        <el-form-item label="包装方式" prop="packingWay" class="form-row add-brand-row">
           <el-select v-model="form.packingWay" placeholder="请选择" class="select-form-margin">
             <el-option
               v-for="(item,index) in packingWayOptions"
@@ -206,13 +210,21 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="申报要素" required class="form-row add-brand-row">
-          <el-input v-model="form.slogan" placeholder="请输入申报要素"></el-input>
+        <el-form-item label="申报要素" prop="slogan" class="form-row add-brand-row">
+          <el-input v-model.trim="form.slogan" placeholder="请输入申报要素"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="起始折扣" required class="form-row add-brand-row last-form-row">
-              <el-input v-model="form.startDiscount" style="width: 200px" placeholder="请输入起始折扣">
+            <el-form-item
+              label="起始折扣"
+              prop="startDiscount"
+              class="form-row add-brand-row last-form-row"
+            >
+              <el-input
+                v-model.trim.number="form.startDiscount"
+                style="width: 200px"
+                placeholder="请输入起始折扣"
+              >
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
@@ -221,7 +233,7 @@
       </div>
 
       <p style="margin: 20px"></p>
-      <el-form-item label="装箱规格" required>
+      <el-form-item label="装箱规格" prop="cartonSpecificationArr">
         <!-- <el-row>
           <div class="add-btn-wrap">
             <el-button type="success" icon="el-icon-plus" @click="addPackingSpecification">添加装箱规格</el-button>
@@ -311,7 +323,7 @@
           </el-table-column>-->
         </el-table>
       </el-form-item>
-      <el-form-item label="商品售价" required>
+      <el-form-item label="商品售价" prop="goodPriceArr">
         <el-table
           border
           :data="form.goodPriceArr"
@@ -320,7 +332,7 @@
         >
           <el-table-column align="center" label="销售区域">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.salesArea" placeholder="例：广东"></el-input>
+              <el-input v-model.trim="scope.row.salesArea" placeholder="例：广东"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" width="120" label="交易币种">
@@ -351,19 +363,18 @@
           </el-table-column>
           <el-table-column align="center" width="120" label="金额">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
+              <el-input v-model.trim.number="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
-          <!-- 商品价格我也不知为何有两个，但是根据旧页面显示，这两个值是一样的 -->
           <el-table-column align="center" width="200" label="商品售价" class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.theMinPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMinPrice" placeholder="请输入"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.theMaxPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMaxPrice" placeholder="请输入"></el-input>
                 </el-col>
               </el-row>
               <!--<div>-->
@@ -373,7 +384,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item label="补款金额" required>
+      <el-form-item label="补款金额" prop="replenishmentArr">
         <el-table
           border
           :data="form.replenishmentArr"
@@ -408,18 +419,18 @@
           </el-table-column>
           <el-table-column align="center" width="120" label="金额">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.amount" placeholder="请输入"></el-input>
+              <el-input v-model.trim.number="scope.row.amount" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="商品售价" class-name="last-col">
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.minReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.minReplenishment" placeholder="请输入"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model="scope.row.maxReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.maxReplenishment" placeholder="请输入"></el-input>
                 </el-col>
               </el-row>
             </template>
@@ -428,7 +439,11 @@
       </el-form-item>
 
       <div class="border1" style="border-bottom-width:2px">
-        <el-form-item label="商品成份" required class="form-row add-brand-row textareaTitle">
+        <el-form-item
+          label="商品成份"
+          prop="ingredients"
+          class="form-row add-brand-row textareaTitle textareaError"
+        >
           <el-input
             v-model="form.ingredients"
             type="textarea"
@@ -437,36 +452,52 @@
             class="select-form-margin select-form-width"
           ></el-input>
         </el-form-item>
-        <el-form-item label="商品功效" required class="form-row add-brand-row textareaTitle">
+        <el-form-item
+          label="商品功效"
+          prop="efficacy"
+          class="form-row add-brand-row textareaTitle textareaError"
+        >
           <el-input
-            v-model="form.efficacy"
+            v-model.trim.lazy="form.efficacy"
             type="textarea"
             :rows="2"
             placeholder="请输入商品功效"
             class="select-form-margin select-form-width"
           ></el-input>
         </el-form-item>
-        <el-form-item label="商品卖点" required class="form-row add-brand-row textareaTitle">
+        <el-form-item
+          label="商品卖点"
+          prop="sellingPoint"
+          class="form-row add-brand-row textareaTitle textareaError"
+        >
           <el-input
-            v-model="form.sellingPoint"
+            v-model.trim.lazy="form.sellingPoint"
             type="textarea"
             :rows="2"
             placeholder="请输入商品卖点"
             class="select-form-margin select-form-width"
           ></el-input>
         </el-form-item>
-        <el-form-item label="使用感受" required class="form-row add-brand-row textareaTitle">
+        <el-form-item
+          label="使用感受"
+          prop="userfeeling"
+          class="form-row add-brand-row textareaTitle textareaError"
+        >
           <el-input
-            v-model="form.userfeeling"
+            v-model.trim.lazy="form.userfeeling"
             type="textarea"
             :rows="2"
             placeholder="请输入使用感受"
             class="select-form-margin select-form-width"
           ></el-input>
         </el-form-item>
-        <el-form-item label="适用人群" required class="form-row add-brand-row textareaTitle">
+        <el-form-item
+          label="适用人群"
+          prop="targetUser"
+          class="form-row add-brand-row textareaTitle textareaError"
+        >
           <el-input
-            v-model="form.targetUser"
+            v-model.trim.lazy="form.targetUser"
             type="textarea"
             :rows="2"
             placeholder="请输入适用人群"
@@ -513,7 +544,11 @@
       </div>
       <div class="dialogBottomButton-wrap">
         <!--<el-button type="primary" @click="">保存</el-button>-->
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">{{this.checkDetail ? '保存修改' : '创建商品'}}</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          :loading="isSubmitting"
+        >{{this.checkDetail ? '保存修改' : '创建商品'}}</el-button>
       </div>
     </el-form>
     <el-dialog
@@ -531,7 +566,75 @@
 <script>
 import brandChoice from './brandChoice'
 import request from "@/utils/request"
+
 const qiniu = require('qiniu-js')
+
+var validateSpecificationInput = (rule, value, callback) => {
+  let valiNull = value.some((item, index, arr) => {
+    for (var key in item) {
+      if (!item[key]) return true
+    }
+  });
+  
+  if (valiNull) {
+    callback(new Error("商品规格表格必须全部填写！"));
+  } else {
+    callback();
+  }
+};
+
+
+var validateCartonSpecificationArr = (rule, value, callback) => {
+  let valiNull = value.some((item, index, arr) => {
+    for (var key in item) {
+      if (!item[key]) {
+        return true
+      }
+    }
+  });
+  if (valiNull) {
+    callback(new Error("装箱规格表格必须全部填写！"));
+  } else {
+    callback();
+  }
+};
+
+var validateGoodPriceArr = (rule, value, callback) => {
+  let valiNull = value.some((item, index, arr) => {
+    for (var key in item) {
+      if (!item[key]) return true
+    }
+  });
+  
+  if (valiNull) {
+    callback(new Error("商品售价表格必须全部填写！"));
+  } else if (value[0].amount < 0 || value[0].theMinPrice < 0 || value[0].theMaxPrice < 0) {
+    callback(new Error("金额和商品售价必须为正数！"));
+  } else if (parseFloat(value[0].theMinPrice) > parseFloat(value[0].theMaxPrice)) {
+    callback(new Error("请正确填写商品售价最小值和最大值！"));
+  } else {
+    callback();
+  }
+};
+
+var validateReplenishmentArr = (rule, value, callback) => {
+  let valiNull = value.some((item, index, arr) => {
+    for (var key in item) {
+      if (!item[key]) return true
+    }
+  });
+  
+  if (valiNull) {
+    callback(new Error("补款金额表格必须全部填写！"));
+  } else if (!(value[0].amount > 0 && value[0].minReplenishment > 0 && value[0].maxReplenishment > 0)) {
+    callback(new Error("金额和商品售价必须为正数！"));
+  } else if (!(value[0].minReplenishment <= value[0].maxReplenishment)) {
+    callback(new Error("请正确填写商品售价最小值和最大值！"));
+  } else {
+    callback();
+  }
+};
+
 export default {
   props: ['goodsNo'],
   data() {
@@ -636,6 +739,7 @@ export default {
         goodSquareFilesList: [],
         goodDetailFileList: []
       },
+
       goodPropOptions: [{
         value: 10,
         label: '常规'
@@ -695,6 +799,9 @@ export default {
       goodPriceCurrencyTitle: '',
       replenishmentCurrencyTitle: '',
       formRules: {
+        goodID: [
+          { required: true, message: '不能为空', trigger: 'change' },
+        ],
         isSuite: [
           { required: true, message: '不能为空', trigger: 'change' },
         ],
@@ -709,6 +816,63 @@ export default {
         ],
         goodOrigin: [
           { required: true, message: '不能为空', trigger: 'change' },
+        ],
+        goodProp: [
+          { required: true, message: '不能为空', trigger: 'change' },
+        ],
+        goodSeries: [
+          { required: true, message: ' ', trigger: 'change' },
+        ],
+        mainCategory: [
+          { required: true, message: ' ', trigger: 'change' },
+        ],
+        subCategory: [
+          { required: true, message: ' ', trigger: 'change' },
+        ],
+        specificationInput: [
+          { validator: validateSpecificationInput, required: true, trigger: "change" }
+        ],
+        goodNetWeight: [
+          { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+        ],
+        goodGrossWeight: [
+          { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+        ],
+        goodQuality: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        packingWay: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        slogan: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        startDiscount: [
+          { type: 'number', min: 0, required: true, message: '不能为空', trigger: "change" }
+        ],
+        cartonSpecificationArr: [
+          { validator: validateCartonSpecificationArr, required: true, trigger: "change" }
+        ],
+        goodPriceArr: [
+          { validator: validateGoodPriceArr, required: true, trigger: "change" }
+        ],
+        replenishmentArr: [
+          { validator: validateReplenishmentArr, required: true, trigger: "change" }
+        ],
+        ingredients: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        efficacy: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        sellingPoint: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        userfeeling: [
+          { required: true, message: '不能为空', trigger: "change" }
+        ],
+        targetUser: [
+          { required: true, message: '不能为空', trigger: "change" }
         ],
       },
       checkDetail: false
@@ -820,24 +984,6 @@ export default {
       this.goodSeriesOptions = val.brandSeries
       this.goodQualityOptions = val.brandDetail.qualityName
       this.packingWayOptions = val.brandDetail.packingWay
-      // let cartonArr = []
-      // val.boxInput.forEach(item => {
-      //   let obj = {
-      //     boxNo: item.boxNo,
-      //     cartonSpecificationChinese: '',
-      //     cartonSpecificationEnglish: '',
-      //     goodQuantity: '',
-      //     goodUnitChinese: '',
-      //     cartonUnitEnglish: '',
-      //     cartonSize: `${item.boxLength}cm*${item.boxWidth}cm*${item.boxHeight}cm`,
-      //     cartonWeight: item.boxWeight,
-      //     length: item.boxLength,
-      //     width: item.boxWidth,
-      //     height: item.boxHeight
-      //   }
-      //   cartonArr.push(obj)
-      // })
-      // this.form.cartonSpecificationArr = cartonArr
     },
     requestGoodsDetail(goodsNo) {
       request({
@@ -913,51 +1059,39 @@ export default {
       })
     },
     onSubmit() {
-      console.log(this.form)
-      this.isSubmitting = true
-
+      // console.log(this.form)
       if (!this.chosenBrand) {
         this.$message.error('请选择品牌!');
-        this.isSubmitting = false
         return false
       }
-      request({
+
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.isSubmitting = true
+          request({
             url: this.checkDetail ? '/goods/updateGoodsInfo.do' : '/goods/createGood.do',
             method: 'post',
             data: this.form
           }).then(() => {
+            this.isSubmitting = false
             this.$emit('submitSuccess')
           }).catch(() => {
             this.$message.error('请求失败');
             this.isSubmitting = false
           })
-      // this.$refs['form'].validate((valid) => {
-      //   if (valid) {
-      //     this.isSubmitting = false
-      //     return false
-      //     request({
-      //       url: '/goods/createGood.do',
-      //       method: 'post',
-      //       data: this.form
-      //     }).then(() => {
-      //       this.$emit('submitSuccess')
-      //     }).catch(() => {
-      //       this.$message.error('新增失败');
-      //       this.isSubmitting = false
-      //     })
-      //   } else {
-      //     this.isSubmitting = false
-      //     this.$message.error('请正确填写表格信息')
-      //     return false
-      //   }
-      // })
+        } else {
+          this.isSubmitting = false
+          this.$message.error('请正确填写表格信息')
+          return false
+        }
+      })
     }
   },
   created() {
     if (this.goodsNo) {
       this.checkDetail = true
       this.requestGoodsDetail(this.goodsNo)
-    }else {
+    } else {
       this.checkDetail = false
     }
   },
