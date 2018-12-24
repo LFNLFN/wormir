@@ -78,8 +78,7 @@
       <el-table-column
         width="110"
         label="商品状态"
-        align="center"
-      >
+        align="center">
         <template slot-scope="scope">
           <span>正常销售</span>
         </template>
@@ -127,12 +126,11 @@
     </el-dialog>
     <el-dialog
       :visible.sync="isGoodDetailShow"
-      width="70%"
+      width="80%"
       @close="isGoodDetailShow = false"
       title="品牌商品详情"
-      append-to-body
     >
-      <goodDetail :theGoodDetail="theGoodDetail"></goodDetail>
+      <goodDetail v-if="isGoodDetailShow" :theGoodDetail="theGoodDetail"></goodDetail>
     </el-dialog>
     <el-dialog
       :visible.sync="isAddGoodShow"
