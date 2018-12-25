@@ -250,7 +250,7 @@
                   :value="item.value">
                 </el-option>
               </el-select>-->
-              <el-input v-model.trim="scope.row.boxNo" placeholder="请输入箱型编号"></el-input>
+              <el-input v-model.trim="scope.row.cartonNo" placeholder="请输入箱型编号"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="装箱规格">
@@ -575,7 +575,7 @@ var validateSpecificationInput = (rule, value, callback) => {
       if (!item[key]) return true
     }
   });
-  
+
   if (valiNull) {
     callback(new Error("商品规格表格必须全部填写！"));
   } else {
@@ -587,6 +587,7 @@ var validateSpecificationInput = (rule, value, callback) => {
 var validateCartonSpecificationArr = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
+      console.log(key)
       if (!item[key]) {
         return true
       }
@@ -605,7 +606,7 @@ var validateGoodPriceArr = (rule, value, callback) => {
       if (!item[key]) return true
     }
   });
-  
+
   if (valiNull) {
     callback(new Error("商品售价表格必须全部填写！"));
   } else if (value[0].amount < 0 || value[0].theMinPrice < 0 || value[0].theMaxPrice < 0) {
@@ -623,7 +624,7 @@ var validateReplenishmentArr = (rule, value, callback) => {
       if (!item[key]) return true
     }
   });
-  
+
   if (valiNull) {
     callback(new Error("补款金额表格必须全部填写！"));
   } else if (!(value[0].amount > 0 && value[0].minReplenishment > 0 && value[0].maxReplenishment > 0)) {
