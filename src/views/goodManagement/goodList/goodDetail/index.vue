@@ -150,7 +150,7 @@
 
       <p style="margin: 20px"></p>
 
-      <el-form-item label="装箱规格">
+      <el-form-item label="装箱规格" prop="">
         <el-table
           :data="theGoodDetail.box"
           class="border2"

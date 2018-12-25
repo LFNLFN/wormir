@@ -179,7 +179,7 @@
           <el-button type="success" icon="el-icon-plus" @click="addGoodsQuality()">添加商品品质</el-button>
         </div>
         <el-table
-          :data="goodsQualityArr"
+          :data="form.qualityName"
           border
           class="border2 vali-table"
           :cell-style="{height: '80px'}"
@@ -204,7 +204,7 @@
           <el-button type="success" icon="el-icon-plus" @click="addPackingWay()">添加包装方式</el-button>
         </div>
         <el-table
-          :data="packingWayArr"
+          :data="form.packingWay"
           border
           class="border2 vali-table"
           :cell-style="{height: '80px'}"
@@ -419,16 +419,16 @@
         </el-row>
         <el-table
           border
-          :data="form.brandSpecification_msg.SpecificationArr"
+          :data="form.specificationInput"
           class="border2"
           :header-cell-style="{padding: 0}"
           style="width: 100%; border-bottom: 1px solid #D5D5D5"
         >
-          <el-table-column align="center" label="商品规格" prop="specificationName">
+          <el-table-column align="center" label="商品规格">
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationChinese"
+                  v-model.trim="scope.row.goodSpecificationChinese"
                   placeholder="例：30ml/支"
                 ></el-input>
               </template>
@@ -436,7 +436,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].goodSpecificationEnglish"
+                  v-model.trim="scope.row.goodSpecificationEnglish"
                   placeholder="例：30ml/pc"
                 ></el-input>
               </template>
@@ -446,7 +446,7 @@
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].capacityChinese"
+                  v-model.trim="scope.row.capacityChinese"
                   placeholder="例：30毫升"
                 ></el-input>
               </template>
@@ -454,7 +454,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].capacityEnglish"
+                  v-model.trim="scope.row.capacityEnglish"
                   placeholder="例：30ml"
                 ></el-input>
               </template>
@@ -464,7 +464,7 @@
             <el-table-column align="center" label="中文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].packingUnitChinese"
+                  v-model.trim="scope.row.packingUnitChinese"
                   placeholder="例：支"
                 ></el-input>
               </template>
@@ -472,7 +472,7 @@
             <el-table-column align="center" label="英文">
               <template slot-scope="scope">
                 <el-input
-                  v-model.trim="form.specificationInput[scope.$index].packingUnitEnglish"
+                  v-model.trim="scope.row.packingUnitEnglish"
                   placeholder="例：pc"
                 ></el-input>
               </template>
@@ -498,13 +498,13 @@
         </el-row>
         <el-table
           border
-          :data="form.brandBox_msg.boxArr"
+          :data="form.boxInput"
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5">
           <el-table-column align="center" width="150" label="箱型编号">
             <template slot-scope="scope">
               <el-input
-                v-model.trim="form.boxInput[scope.$index].boxNo"
+                v-model.trim="scope.row.boxNo"
                 placeholder="请输入箱型编号"
               ></el-input>
             </template>
@@ -512,7 +512,7 @@
           <el-table-column align="center" width="150" label="长(cm)">
             <template slot-scope="scope">
               <el-input
-                v-model.trim="form.boxInput[scope.$index].boxLength"
+                v-model.trim="scope.row.boxLength"
                 placeholder="请输入长(cm)"
               ></el-input>
             </template>
@@ -520,7 +520,7 @@
           <el-table-column align="center" width="150" label="宽(cm)">
             <template slot-scope="scope">
               <el-input
-                v-model.trim="form.boxInput[scope.$index].boxWidth"
+                v-model.trim="scope.row.boxWidth"
                 placeholder="请输入宽(cm)"
               ></el-input>
             </template>
@@ -528,7 +528,7 @@
           <el-table-column align="center" width="150" label="高(cm)">
             <template slot-scope="scope">
               <el-input
-                v-model.trim="form.boxInput[scope.$index].boxHeight"
+                v-model.trim="scope.row.boxHeight"
                 placeholder="请输入高(cm)"
               ></el-input>
             </template>
@@ -536,7 +536,7 @@
           <el-table-column align="center" width="200" label="箱子重量(kgs)">
             <template slot-scope="scope">
               <el-input
-                v-model.trim="form.boxInput[scope.$index].boxWeight"
+                v-model.trim="scope.row.boxWeight"
                 placeholder="请输入箱子重量(kgs)"
               ></el-input>
             </template>
@@ -561,7 +561,7 @@
         </el-row>
         <el-table
           border
-          :data="form.brandDiscount_msg.discountArr"
+          :data="form.discountInput"
           class="border2"
           style="width: 100%; border-bottom: 1px solid #D5D5D5"
         >
@@ -569,7 +569,7 @@
             <template slot-scope="scope">
               <el-col :span="11">
                 <el-input
-                  v-model.trim.number="form.discountInput[scope.$index].orderMin"
+                  v-model.trim.number="scope.row.orderMin"
                   placeholder="区间起订量"
                 ></el-input>
               </el-col>
@@ -578,7 +578,7 @@
               </el-col>
               <el-col :span="11">
                 <el-input
-                  v-model.trim.number="form.discountInput[scope.$index].orderMax"
+                  v-model.trim.number="scope.row.orderMax"
                   placeholder="区间结束量"
                 ></el-input>
               </el-col>
@@ -587,7 +587,7 @@
           <el-table-column align="center" width="200" label="降幅折扣 -%">
             <template slot-scope="scope">
               <el-input
-                v-model.trim.number="form.discountInput[scope.$index].decreasingDiscount"
+                v-model.trim.number="scope.row.decreasingDiscount"
               ></el-input>
             </template>
           </el-table-column>
@@ -902,25 +902,6 @@
           ],
 
 
-          brandSpecification_msg: {
-            SpecificationArr: [{ specificationName: " " }],
-            specificationInput: [
-              {
-                goodSpecification: {
-                  chinese: "",
-                  english: ""
-                },
-                capacity: {
-                  chinese: "",
-                  english: ""
-                },
-                packingUnit: {
-                  chinese: "",
-                  english: ""
-                }
-              }
-            ]
-          },
 
           specificationInput: [
             {
@@ -934,19 +915,6 @@
           ],
 
 
-          brandBox_msg: {
-            boxArr: [{ boxName: " " }],
-            boxInput: [
-              {
-                boxNo: "",
-                boxLength: "",
-                boxWidth: "",
-                boxHeight: "",
-                boxWeight: ""
-              }
-            ]
-          },
-
           boxInput: [
             {
               boxNo: "",
@@ -957,17 +925,6 @@
             }
           ],
 
-
-          brandDiscount_msg: {
-            discountArr: [{ discountName: " " }],
-            discountInput: [
-              {
-                orderMin: "",
-                orderMax: "",
-                decreasingDiscount: 0
-              }
-            ]
-          },
 
           discountInput: [
             {
@@ -1207,7 +1164,6 @@
       onSubmit() {
         this.isSubmitting = true;
         console.log(this.form)
-
         // 验证国内币种
         let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
           if (!item) return true;
@@ -1285,21 +1241,15 @@
         this.form.transactionCurrencyOutland.splice(index, 1);
       },
       addGoodsQuality() {
-        this.goodsQualityArr.push({
-          quality: "Top"
-        });
+        this.form.qualityName.push('');
       },
       deleteGoodsQuality(index) {
-        this.goodsQualityArr.splice(index, 1);
         this.form.qualityName.splice(index, 1);
       },
       addPackingWay() {
-        this.packingWayArr.push({
-          packingWay: "Auto"
-        });
+        this.form.packingWay.push('');
       },
       deletePackingWay(index) {
-        this.packingWayArr.splice(index, 1);
         this.form.packingWay.splice(index, 1);
       },
       brandSeries_addBrandSeries() {
@@ -1372,9 +1322,6 @@
           ].subCategoriesArr.splice(subIndex, 1);
       },
       brandSpecification_addSpecification() {
-        this.form.brandSpecification_msg.SpecificationArr.push(
-          this.form.brandSpecification_msg.SpecificationArr[0]
-        );
         this.form.specificationInput.push({
           goodSpecificationChinese: '',
           goodSpecificationEnglish: '',
@@ -1385,13 +1332,11 @@
         });
       },
       brandSpecification_deleteSpecification(index, row) {
-        if (this.form.brandSpecification_msg.SpecificationArr.length === 1)
+        if (this.form.specificationInput.length === 1)
           return false;
-        this.form.brandSpecification_msg.SpecificationArr.splice(index, 1);
         this.form.specificationInput.splice(index, 1);
       },
       brandBox_addBox() {
-        this.form.brandBox_msg.boxArr.push(this.form.brandBox_msg.boxArr[0]);
         this.form.boxInput.push({
           boxNo: "",
           boxLength: "",
@@ -1401,15 +1346,11 @@
         });
       },
       brandBox_deleteBox(index, row) {
-        if (this.form.brandBox_msg.boxArr.length === 1) return false;
-        this.form.brandBox_msg.boxArr.splice(index, 1);
+        if (this.form.boxInput.length === 1) return false;
         this.form.boxInput.splice(index, 1);
       },
 
       brandDiscount_addDiscount() {
-        this.form.brandDiscount_msg.discountArr.push(
-          this.form.brandDiscount_msg.discountArr[0]
-        );
         this.form.discountInput.push({
           orderMin: "",
           orderMax: "",
@@ -1417,8 +1358,7 @@
         });
       },
       brandDiscount_deleteDiscount(index, row) {
-        if (this.form.brandDiscount_msg.discountArr.length === 1) return false;
-        this.form.brandDiscount_msg.discountArr.splice(index, 1);
+        if (this.form.discountInput.length === 1) return false;
         this.form.discountInput.splice(index, 1);
       }
     }

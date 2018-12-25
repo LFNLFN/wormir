@@ -588,6 +588,11 @@ td.units-wrap:after {
   top: 30%;
   left: 80%;
 }
+.form-error-inside.form-error-inside-slot .el-form-item__error {
+  top: 30%;
+  left: 60%;
+}
+
 
 // 查看商品详情
 .viewDetail .el-form-item__content {

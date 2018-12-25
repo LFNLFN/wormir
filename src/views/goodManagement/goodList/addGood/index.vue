@@ -171,20 +171,20 @@
 
       <div class="border1 form-error-inline">
         <el-row>
-          <el-col :span="12" class="form-error-inside">
+          <el-col :span="12" class="form-error-inside form-error-inside-slot">
             <el-form-item
               label="商品净重"
               prop="goodNetWeight"
               class="form-row add-brand-row clear-border-right"
             >
-              <el-input v-model="form.goodNetWeight" placeholder="请输入商品净重">
+              <el-input v-model.trim.number="form.goodNetWeight" placeholder="请输入商品净重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" class="form-error-inside form-error-inside-slot">
             <el-form-item label="商品毛重" prop="goodGrossWeight" class="form-row add-brand-row">
-              <el-input v-model="form.goodGrossWeight" placeholder="请输入商品毛重">
+              <el-input v-model.trim.number="form.goodGrossWeight" placeholder="请输入商品毛重">
                 <template slot="append">kgs</template>
               </el-input>
             </el-form-item>
@@ -250,7 +250,7 @@
                   :value="item.value">
                 </el-option>
               </el-select>-->
-              <el-input v-model.trim="scope.row.cartonNo" placeholder="请输入箱型编号"></el-input>
+              <el-input v-model.trim="scope.row.boxNo" placeholder="请输入箱型编号"></el-input>
             </template>
           </el-table-column>
           <el-table-column align="center" label="装箱规格">
@@ -282,8 +282,8 @@
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column align="center" width="130" label="装箱单位">
-            <el-table-column align="center" label="中文">
+          <el-table-column align="center" label="装箱单位">
+            <el-table-column align="center" label="中文" width="100">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.cartonUnitChinese" placeholder="例：箱"></el-input>
               </template>
@@ -370,11 +370,11 @@
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model.trim.number="scope.row.theMinPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMinPrice" placeholder="最小值"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model.trim.number="scope.row.theMaxPrice" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.theMaxPrice" placeholder="最大值"></el-input>
                 </el-col>
               </el-row>
               <!--<div>-->
@@ -426,11 +426,11 @@
             <template slot-scope="scope">
               <el-row>
                 <el-col :span="11">
-                  <el-input v-model.trim.number="scope.row.minReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.minReplenishment" placeholder="最小值"></el-input>
                 </el-col>
                 <el-col :span="2">-</el-col>
                 <el-col :span="11">
-                  <el-input v-model.trim.number="scope.row.maxReplenishment" placeholder="请输入"></el-input>
+                  <el-input v-model.trim.number="scope.row.maxReplenishment" placeholder="最大值"></el-input>
                 </el-col>
               </el-row>
             </template>
@@ -587,7 +587,6 @@ var validateSpecificationInput = (rule, value, callback) => {
 var validateCartonSpecificationArr = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      console.log(key)
       if (!item[key]) {
         return true
       }
@@ -708,7 +707,7 @@ export default {
         packingWay: '',
         slogan: '',
         cartonSpecificationArr: [{
-          cartonNo: '',
+          boxNo: '',
           cartonSpecificationChinese: '',
           cartonSpecificationEnglish: '',
           goodQuantity: '',
@@ -834,10 +833,10 @@ export default {
           { validator: validateSpecificationInput, required: true, trigger: "change" }
         ],
         goodNetWeight: [
-          { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+          { type: 'number', min: 0, message: '请填数字', required: true, trigger: "change" }
         ],
         goodGrossWeight: [
-          { type: 'number', min: 0, message: ' ', required: true, trigger: "change" }
+          { type: 'number', min: 0, message: '请填数字', required: true, trigger: "change" }
         ],
         goodQuality: [
           { required: true, message: '不能为空', trigger: "change" }
@@ -849,7 +848,7 @@ export default {
           { required: true, message: '不能为空', trigger: "change" }
         ],
         startDiscount: [
-          { type: 'number', min: 0, required: true, message: '不能为空', trigger: "change" }
+          { type: 'number', min: 0, required: true, message: '请填数字', trigger: "change" }
         ],
         cartonSpecificationArr: [
           { validator: validateCartonSpecificationArr, required: true, trigger: "change" }
@@ -893,7 +892,7 @@ export default {
     addPackingSpecification() {
       this.form.cartonSpecificationArr.push(
         {
-          cartonNo: '',
+          boxNo: '',
           cartonSpecificationChinese: '',
           cartonSpecificationEnglish: '',
           goodQuantity: '',
@@ -1060,7 +1059,7 @@ export default {
       })
     },
     onSubmit() {
-      // console.log(this.form)
+       console.log(this.form)
       if (!this.chosenBrand) {
         this.$message.error('请选择品牌!');
         return false
