@@ -906,7 +906,7 @@ export default {
       )
     },
     deletePackingSpecification(index) {
-      if (this.form.cartonSpecificationArr.length === 1) return false
+      if (this.form.cartonSpecificationArr.length == 1) return false
       this.form.cartonSpecificationArr.splice(index, 1)
     },
     // 上传组件数据

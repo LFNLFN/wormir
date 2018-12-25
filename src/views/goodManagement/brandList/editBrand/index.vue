@@ -39,7 +39,7 @@
           <el-input v-model="form.producerAddress"></el-input>
         </el-form-item>
         <el-form-item label="海运订货量" prop="orderNumBySea" class="form-row add-brand-row">
-          <el-input v-model.number="form.orderNumBySea"></el-input>
+          <el-input v-model.trim.number="form.orderNumBySea"></el-input>
         </el-form-item>
         <el-form-item
           label="外汇到账时间"
@@ -950,10 +950,10 @@
             { required: true, message: "不能为空", trigger: "blur" }
           ],
           orderNumBySea: [
-            { required: true, message: "不能为空", trigger: "blur" }
+            { required: true, type: 'number', min: 0, message: "请填数字", trigger: "blur" }
           ],
           receiptTime: [
-            { required: true, type: 'number', min: 0, message: "不能为空", trigger: "blur" }
+            { required: true, type: 'number', min: 0, message: "请填数字", trigger: "blur" }
           ],
           qualityName: [
             { validator: validateQualityName, required: true, trigger: "blur" }
@@ -1053,7 +1053,7 @@
         }])
       },
       brandSeries_deleteSeries(index, row) {
-        if (this.form.brandSeriesArr.length === 1) return false;
+        if (this.form.brandSeriesArr.length == 1) return false;
         this.form.brandSeriesArr.splice(index, 1);
         this.form.brandSeriesMainCategoriesArr.splice(index, 1);
         this.form.inputSeries.splice(index, 1);
@@ -1065,7 +1065,7 @@
         });
       },
       brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
-        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
+        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length == 1)
           return false;
         this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
       },
@@ -1077,7 +1077,7 @@
       brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
         if (
           this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
-            .length === 1
+            .length == 1
         )
           return false;
         this.form.brandSeriesMainCategoriesArr[rowIndex][
@@ -1091,14 +1091,14 @@
         })
       },
       brandType_deleteMainCategoties(index) {
-        if (this.form.brandType_msg.mainCategoriesArr.length === 1) return false
+        if (this.form.brandType_msg.mainCategoriesArr.length == 1) return false
         this.form.brandType_msg.mainCategoriesArr.splice(index, 1)
       },
       brandType_addSubCategoties(index) {
         this.form.brandType_msg.mainCategoriesArr[index].subCategoriesArr.push('')
       },
       brandType_delSubCategories(mainIndex, subIndex) {
-        if (this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.length === 1) return false
+        if (this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.length == 1) return false
         this.form.brandType_msg.mainCategoriesArr[mainIndex].subCategoriesArr.splice(subIndex, 1)
       },
       brandSpecification_addSpecification() {
@@ -1112,7 +1112,7 @@
         });
       },
       brandSpecification_deleteSpecification(index, row) {
-        if (this.form.specificationInput.length === 1)
+        if (this.form.specificationInput.length == 1)
           return false;
         this.form.specificationInput.splice(index, 1);
       },
@@ -1139,7 +1139,7 @@
         });
       },
       brandDiscount_deleteDiscount(index, row) {
-        if (this.form.discountInput.length === 1) return false;
+        if (this.form.discountInput.length == 1) return false;
         this.form.discountInput.splice(index, 1);
       },
 
@@ -1159,7 +1159,6 @@
       },
       submitEdit() {
          console.log(this.form)
-        return false
         // 验证国内币种
         let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
           if (!item) return true;
@@ -1235,7 +1234,7 @@
             tempArr1.push(`${index}-${item.currencyId - 1}`)
             aaa.push({ type: '国内' })
           })
-          console.log(tempArr1)
+
           this.inlandCurrencyTitle = tempArr1
           this.inlandCurrencyArr = aaa
           this.viewInlandTable = true
@@ -1244,10 +1243,12 @@
           let tempArr2 = []
           let bbb = []
           this.form.transactionCurrencyOutland.forEach((item, index) => {
+            console.log(item.currencyId)
             tempArr2.push(`${index}-${item.currencyId - 1}`)
             bbb.push({ type: '香港/国外' })
           })
           this.outlandCurrencyTitle = tempArr2
+
           this.outlandCurrencyArr = bbb
           this.viewOutlandTable = true
 

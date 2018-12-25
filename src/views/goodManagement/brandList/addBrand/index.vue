@@ -78,7 +78,7 @@
           </el-table-column>
           <el-table-column align="center" label="币种名称" prop="currencyName" width="200">
             <template slot-scope="scope">
-              <el-form-item label-width="0" prop="" style="margin: 0">
+              <el-form-item label-width="0" prop="transactionCurrencyInland" style="margin: 0">
                 <el-select
                   v-model="inlandCurrencyTitle[scope.$index]"
                   @change="inlandCurrency"
@@ -680,7 +680,8 @@
 
       var validateOutlandCurrencyType = (rule, value, callback) => {
         let valiNull = value.some((item, index, arr) => {
-          return item == false;
+//          return item == false;
+            return false
         });
         let valiRepeat = value.some((item, index, arr) => {
           if (index >= arr.length - 1) {
@@ -856,8 +857,8 @@
           },
           transactionCurrencyInland: [''],
           transactionCurrencyOutland: [''],
-          qualityName: [],
-          packingWay: [],
+          qualityName: [''],
+          packingWay: [''],
 
           brandSeries_msg: {
             hasBrandSeries: 1,
@@ -1078,15 +1079,20 @@
             { required: true, message: "不能为空", trigger: "blur" }
           ],
           orderNumBySea: [
-            { required: true, message: "不能为空", trigger: "blur" }
+            { required: true, type: 'number', min: 0, message: "请填数字", trigger: "blur" }
           ],
           receiptTime: [
-            { required: true, type: 'number', min: 0, message: "不能为空", trigger: "blur" }
+            { required: true, type: 'number', min: 0, message: "请填数字", trigger: "blur" }
           ],
           tradeAccount: [
             { validator: validateTradeAccount, required: true, trigger: "blur" }
           ],
           transactionCurrencyInland: [
+            {
+              validator: validateInlandCurrencyType,
+              required: true,
+              trigger: "change"
+            },
             {
               validator: validateInlandCurrencyType,
               required: true,
@@ -1164,6 +1170,7 @@
       onSubmit() {
         this.isSubmitting = true;
         console.log(this.form)
+        return false
         // 验证国内币种
         let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
           if (!item) return true;
@@ -1263,7 +1270,7 @@
         }])
       },
       brandSeries_deleteSeries(index, row) {
-        if (this.form.brandSeriesArr.length === 1) return false;
+        if (this.form.brandSeriesArr.length == 1) return false;
         this.form.brandSeriesArr.splice(index, 1);
         this.form.brandSeriesMainCategoriesArr.splice(index, 1);
         this.form.inputSeries.splice(index, 1);
@@ -1275,7 +1282,7 @@
         });
       },
       brandSeries_deleteMainCategoties(rowIndex, itemIndex) {
-        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length === 1)
+        if (this.form.brandSeriesMainCategoriesArr[rowIndex].length == 1)
           return false;
         this.form.brandSeriesMainCategoriesArr[rowIndex].splice(itemIndex, 1);
       },
@@ -1287,7 +1294,7 @@
       brandSeries_delSubCategories(rowIndex, mainIndex, subIndex) {
         if (
           this.form.brandSeriesMainCategoriesArr[rowIndex][mainIndex].subCategoriesArr
-            .length === 1
+            .length == 1
         )
           return false;
         this.form.brandSeriesMainCategoriesArr[rowIndex][
@@ -1303,7 +1310,7 @@
         });
       },
       brandType_deleteMainCategoties(index) {
-        if (this.form.brandTypeMainCategoriesArr.length === 1) return false;
+        if (this.form.brandTypeMainCategoriesArr.length == 1) return false;
         this.form.brandTypeMainCategoriesArr.splice(index, 1);
       },
       brandType_addSubCategoties(index) {
@@ -1314,7 +1321,7 @@
       brandType_delSubCategories(mainIndex, subIndex) {
         if (
           this.form.brandTypeMainCategoriesArr[mainIndex].subCategoriesArr
-            .length === 1
+            .length == 1
         )
           return false;
         this.form.brandTypeMainCategoriesArr[
@@ -1332,7 +1339,7 @@
         });
       },
       brandSpecification_deleteSpecification(index, row) {
-        if (this.form.specificationInput.length === 1)
+        if (this.form.specificationInput.length == 1)
           return false;
         this.form.specificationInput.splice(index, 1);
       },
@@ -1346,7 +1353,7 @@
         });
       },
       brandBox_deleteBox(index, row) {
-        if (this.form.boxInput.length === 1) return false;
+        if (this.form.boxInput.length == 1) return false;
         this.form.boxInput.splice(index, 1);
       },
 
@@ -1358,7 +1365,7 @@
         });
       },
       brandDiscount_deleteDiscount(index, row) {
-        if (this.form.discountInput.length === 1) return false;
+        if (this.form.discountInput.length == 1) return false;
         this.form.discountInput.splice(index, 1);
       }
     }

@@ -269,6 +269,7 @@
           message: '新增成功！',
           type: 'success'
         });
+        this.brandBlurSearch()
       },
       editSuccess() {
         this.isEditBrandShow = false
