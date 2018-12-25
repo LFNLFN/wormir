@@ -1002,6 +1002,7 @@
         let a = value.split('-')[0]
         let b = value.split('-')[1]
         this.form.transactionCurrencyOutland[a] = this.transactionCurrencyArr[b]
+
       },
       addInlandCurrencyType() {
         this.inlandCurrencyArr.push(
@@ -1243,7 +1244,7 @@
           let tempArr2 = []
           let bbb = []
           this.form.transactionCurrencyOutland.forEach((item, index) => {
-            console.log(item.currencyId)
+
             tempArr2.push(`${index}-${item.currencyId - 1}`)
             bbb.push({ type: '香港/国外' })
           })

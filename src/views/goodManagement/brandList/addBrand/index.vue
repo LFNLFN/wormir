@@ -1170,7 +1170,6 @@
       onSubmit() {
         this.isSubmitting = true;
         console.log(this.form)
-        return false
         // 验证国内币种
         let valiInland = this.form.transactionCurrencyInland.some((item, index, arr) => {
           if (!item) return true;
