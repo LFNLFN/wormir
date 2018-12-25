@@ -28,7 +28,7 @@
 
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120" class-name="small-padding">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="viewDetail(scope.row)">
+          <el-button size="mini" type="primary" @click="reviewDialog(scope.row)">
             审批促销
           </el-button>
         </template>
@@ -43,102 +43,107 @@
     </div>
 
     <!--取消并单-->
-    <el-dialog :visible.sync="isDialogDetailShow">
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">促销商品</div>
-        </el-col>
-        <el-col :span="21">
-          <el-table :key="'product'" :data="productlist" v-loading="listLoading" element-loading-text="给我一点时间" border
-                    fit highlight-current-row style="width: 100%">
-            <el-table-column label="商品品牌"></el-table-column>
-            <el-table-column label="商品编号"></el-table-column>
-            <el-table-column label="商品名称"></el-table-column>
-            <el-table-column label="商品规格"></el-table-column>
-            <el-table-column label="装箱规格"></el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">渠道号</div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple">12323</div>
-        </el-col>
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">渠道名称</div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple"></div>
-        </el-col>
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">渠道级别</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content bg-purple"></div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">申请理由</div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">申请资料</div>
-        </el-col>
-        <el-col :span="10">
+    <!--<el-dialog :visible.sync="isDialogDetailShow">-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">促销商品</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="21">-->
+          <!--<el-table :key="'product'" :data="productlist" v-loading="listLoading" element-loading-text="给我一点时间" border-->
+                    <!--fit highlight-current-row style="width: 100%">-->
+            <!--<el-table-column label="商品品牌"></el-table-column>-->
+            <!--<el-table-column label="商品编号"></el-table-column>-->
+            <!--<el-table-column label="商品名称"></el-table-column>-->
+            <!--<el-table-column label="商品规格"></el-table-column>-->
+            <!--<el-table-column label="装箱规格"></el-table-column>-->
+          <!--</el-table>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">渠道号</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<div class="grid-content bg-purple">12323</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">渠道名称</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<div class="grid-content bg-purple"></div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">渠道级别</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="3">-->
+          <!--<div class="grid-content bg-purple"></div>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">申请理由</div>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">申请资料</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="10">-->
 
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">促销活动日期</div>
-        </el-col>
-        <el-col :span="8">
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">申请数量</div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple">12323</div>
-        </el-col>
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">库存数量</div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple"></div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <div>申请时间：</div>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content bg-purple">审核结果</div>
-        </el-col>
-        <el-col :span="21">
-          <el-radio-group v-model="radio" :change="radioChange()">
-            <el-radio :label="1">同意申请</el-radio>
-            <el-radio :label="2">驳回申请</el-radio>
-          </el-radio-group>
-        </el-col>
-      </el-row>
-      <el-row :gutter="5">
-        <el-col :span="3" align="center">
-          <div class="grid-content"></div>
-        </el-col>
-        <el-col :span="21">
-          <el-checkbox v-model="checked" :change="checkBoxChange()" :disabled="checkDisable">审批数量</el-checkbox>
-          <el-input-number v-model="AllowNum" :min="1" :disabled="numDisable"></el-input-number>
-        </el-col>
-      </el-row>
-      <div style="text-align:center;">
-        <el-button type="primary" @click="" :loading="submitLoading">确认提交</el-button>
-      </div>
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">促销活动日期</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="8">-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">申请数量</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<div class="grid-content bg-purple">12323</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">库存数量</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<div class="grid-content bg-purple"></div>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<div>申请时间：</div>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content bg-purple">审核结果</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="21">-->
+          <!--<el-radio-group v-model="radio" :change="radioChange()">-->
+            <!--<el-radio :label="1">同意申请</el-radio>-->
+            <!--<el-radio :label="2">驳回申请</el-radio>-->
+          <!--</el-radio-group>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<el-row :gutter="5">-->
+        <!--<el-col :span="3" align="center">-->
+          <!--<div class="grid-content"></div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="21">-->
+          <!--<el-checkbox v-model="checked" :change="checkBoxChange()" :disabled="checkDisable">审批数量</el-checkbox>-->
+          <!--<el-input-number v-model="AllowNum" :min="1" :disabled="numDisable"></el-input-number>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+      <!--<div style="text-align:center;">-->
+        <!--<el-button type="primary" @click="" :loading="submitLoading">确认提交</el-button>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
+
+    <!--审核弹层-->
+    <el-dialog :visible.sync="isDialogDetailShow" width="70%">
+      <firstTimeReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></firstTimeReview>
     </el-dialog>
 
   </div>
@@ -154,21 +159,34 @@
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
   import Mock from 'mockjs'
+  import firstTimeReview from './DLQDandDFQD/firstTimeReview'
 
   export default {
     name: 'SalesPromotion',
     directives: {
       waves
     },
+    components: {
+      firstTimeReview
+    },
     data() {
       return {
         tableKey: 0,
         list: [
-//          {
-//            channelNo: Mock.Random.natural(20180522001, 20180522100),
-//            channelName: 'ASD总店',
-//            applicationType: Mock.Random.natural(0, 1),
-//          }
+          {
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            applicationType: Mock.Random.natural(0, 1),
+            channelProp: 1,
+            channelLevel: 1,
+            // 商品表格数据
+            brandChineseName: '兰蔻',
+            goodsNo: '12345',
+            goodsName: '面霜',
+            goodsSpecification: '50ml',
+            packingSpecification: '4瓶/箱',
+            applicationReason: '吸引客流'
+          }
         ],
         applicationTypeFilters: [
           { text: '首次申请', value: 0 },
@@ -232,7 +250,7 @@
           ]
         },
         downloadLoading: false,
-        currentOrder: {}
+        currentRow: {}
       }
     },
     created() {
@@ -259,9 +277,9 @@
           this.numDisable = true
         }
       },
-      // 查看并单
-      viewDetail(row) {
-        this.currentOrder = row
+      // 审核促销
+      reviewDialog(row) {
+        this.currentRow = row
         this.isDialogDetailShow = true
       },
 
@@ -402,6 +420,11 @@
             }
           })
         )
+      },
+
+      firstTimeReviewSuccess() {
+        this.isDialogDetailShow = false
+        this.$message.success('审核成功')
       }
     },
     filters: {
