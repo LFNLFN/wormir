@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
-    <div class="theBorder theTopMsgBorder" style="padding: 3px">
+    <div class="theBorder theTopMsgBorder">
       <el-row>
-        <el-col :span="3" align="center">
+        <el-col :span="3" align="center" :style="{ height: tableHeight + 'px' }">
           <div class="grid-content bg-purple">促销商品</div>
         </el-col>
-        <el-col :span="21">
-          <el-table :key="'product'" :data="goodslist"
+        <el-col :span="21" style="padding-left: 0">
+          <el-table :key="'product'" :data="goodslist" ref="goodsTable"
                     border fit highlight-current-row
                     :header-cell-style="{ borderTop: 'none' }"
-                    class="no-border-right no-border-top no-border-bottom last-tr0"
+                    class="no-border-right no-border-top no-border-bottom no-border-left last-tr0"
                     style="width: 100%">
             <el-table-column align="center" label="商品品牌" prop="brandChineseName" />
             <el-table-column align="center" label="商品编号" prop="goodsNo"></el-table-column>
@@ -24,75 +24,102 @@
           <div class="grid-content bg-purple">渠道号</div>
         </el-col>
         <el-col :span="6">
-          <div class="grid-content bg-purple">{{goodsObject.channelNo}}</div>
+          <div class="grid-content bg-purple">{{ goodsObject.channelNo }}</div>
         </el-col>
         <el-col :span="3" align="center">
           <div class="grid-content bg-purple">渠道名称</div>
         </el-col>
         <el-col :span="6">
-          <div class="grid-content bg-purple">{{channelClassifyMap[goodsObject.channelClassify]}}</div>
+          <div class="grid-content bg-purple">{{ goodsObject.channelName }}</div>
         </el-col>
         <el-col :span="3" align="center">
           <div class="grid-content bg-purple">渠道级别</div>
         </el-col>
         <el-col :span="3">
-          <div class="grid-content bg-purple">{{goodsObject.channelLevel}}</div>
+          <div class="grid-content bg-purple">{{ goodsObject.channelLevel | channelLevel }}</div>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" align="center">
+        <el-col :span="3" align="center" style="min-height: 5em">
           <div class="grid-content bg-purple">申请理由</div>
         </el-col>
         <el-col :span="21">
-          <el-input type="textarea" :rows="1" placeholder="100字以内简要说明理由" class="noBorderTextarea"></el-input>
+          <div>{{ goodsObject.applicationReason }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="3" align="center" style="min-height: 64px;">
-          <div class="grid-content bg-purple">上传申请资料</div>
+          <div class="grid-content bg-purple">申请资料</div>
         </el-col>
         <el-col :span="10" style="padding-left: 1em">
-          <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/"
-                     :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
-            <div slot="tip" class="el-upload__tip">提示：需上传活动方案、促销版面申请成功截图</div>
-            <el-button slot="trigger" size="mini" v-waves type="primary" style="margin-top: 5px">浏览</el-button>
-          </el-upload>
+          <div style="display: flex;justify-content: flex-start;flex-wrap: wrap">
+            <div style="margin: 3px;" v-for="(item, index) in fileList">
+              <span>{{ item.fileName }}</span>
+              <span class="link-type">预览</span>
+              <span class="link-type">下载</span>
+            </div>
+          </div>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" align="center" style="min-height: 36px">
+        <el-col :span="3" align="center">
           <div class="grid-content bg-purple">促销活动日期</div>
         </el-col>
         <el-col :span="8">
-          <el-date-picker class="noBorderDatePicker" v-model="dateRange" type="daterange"
-                          range-separator="————" start-placeholder="开始日期"
-                          end-placeholder="结束日期"></el-date-picker>
-        </el-col>
-        <el-col :span="11" align="center" style="background-color: transparent">
-          <div align="left" style="color:red;line-height: 36px">温馨提示：促销活动的开始日期距离今天需要≥35天。</div>
+          <div>{{ promotion_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ promotion_end_time | parseTime('{y}年{m}月{d}日') }}</div>
         </el-col>
       </el-row>
 
       <el-row>
         <el-col :span="3">申请数量</el-col>
-        <el-col :span="3" style="border-right: none">
-          <el-input class="noBorderInput" placeholder="输入申请数量"></el-input>
+        <el-col :span="3">
+          <div class="grid-content bg-purple">{{ application_num }}</div>
         </el-col>
         <el-col :span="1" class="noBackground"><span>套</span></el-col>
         <el-col :span="0"></el-col>
+        <el-col :span="0"></el-col>
+        <el-col :span="2">&nbsp;</el-col>
         <el-col :span="3">库存数量</el-col>
-        <el-col :span="1" style="display: flex;justify-content: center;border-right: none"><span>1000</span></el-col>
+        <el-col :span="3"><span>1000</span></el-col>
         <el-col :span="1" class="noBackground"><span>套</span></el-col>
       </el-row>
-      <el-row class="no-border-bottom">
-        <el-col :offset="8" :span="10" class="noBackground"><span
-          style="color: grey">“库存数量”仅供参考，以吾蜜公司同意申请后才正式为该申请预留库存。</span></el-col>
+      <el-row>
+        <el-col :span="0"></el-col>
+        <el-col :span="6" :offset="3">
+          <span class="text-muted">{{
+            $t('order.applicationTime') }}: {{ promotion_application_Time | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+          </span>
+        </el-col>
       </el-row>
+      <el-row>
+        <el-col :span="3">审核结果</el-col>
+        <el-col :span="10" style="padding-top: 5px">
+          <el-radio-group v-model="isAgree" @change="applicationIsAgree">
+            <el-radio :label="true" size="mini">同意申请</el-radio>
+            <el-radio :label="false" size="mini" @change="applicationIsAgree">驳回申请</el-radio>
+          </el-radio-group>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="3" :offset="3" style="height: 40px;" class="border-left">批准数量</el-col>
+        <el-col :span="6" style="padding-top: 6px">
+          <el-input v-model.trim.number="approve_num" placeholder="请输入批准数量" :disabled="noApproveNum">
+            <template slot="append">套</template>
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row class="no-border-bottom">
+        <el-col :span="3" class="border-left">订货时间</el-col>
+        <el-col :span="16">
+          <div>{{ order_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ order_end_time | parseTime('{y}年{m}月{d}日') }}</div>
+        </el-col>
+      </el-row>
+
     </div>
 
 
     <div class="dialogBottomButton-wrap">
-      <el-button type="primary" @click="submitApplication" :loading="submitLoading">提交申请</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="submitLoading">提交申请</el-button>
     </div>
 
     <el-dialog :visible.sync="failDialogVisible" width="30%" append-to-body :show-close="false">
@@ -113,6 +140,8 @@
 
 <script>
   import waves from '@/directive/waves' // 水波纹指令
+  import { channelLevel } from '@/filters/index.js'
+  import { parseTime } from '@/utils/index.js'
 
   export default {
     name: 'applicationForm',
@@ -146,9 +175,19 @@
     },
     data() {
       return {
-        list: [],
-        dateRange: [],
-        fileList: [],
+        tableHeight: 0,
+        fileList: [
+          { fileName: '111.doc' }
+        ],
+        promotion_start_time: new Date('2018-12-22'),
+        promotion_end_time: new Date('2019-02-22'),
+        promotion_application_Time: new Date('2018-11-22'),
+        application_num: 100,
+        isAgree: null,
+        approve_num: null,
+        noApproveNum: true,
+        order_start_time: new Date('2018-12-12'),
+        order_end_time: new Date('2019-03-22'),
         failDialogVisible: false,
         successDialogVisible: false,
         submitLoading: false,
@@ -160,34 +199,32 @@
       }
     },
     methods: {
-      submitApplication() {
-        this.submitLoading = true
-        if (this.dateRange === '' || this.dateRange.length === 0) {
-          this.failDialogVisible = true
-          return
+      applicationIsAgree(val) {
+        if (val) {
+          this.noApproveNum = false;
+          this.approve_num = null
         }
-        const now = Date.now()
-        const diff = parseInt(this.dateRange[0] - now) / (1000 * 60 * 60 * 24) + 1
-        if (diff >= 35) {
-          this.successDialogVisible = true
-          this.$emit('submit-first-application')
-        } else {
-          this.failDialogVisible = true
+        else {
+          this.noApproveNum = true;
+          this.approve_num = null
         }
-      },
-      handlePreview() {
-      },
-      handleRemove() {
       },
       handleConfirm() {
         this.$emit('closeDLDFfirstApplicationForm')
         this.submitLoading = false
+      },
+      onSubmit() {
+        if (this.isAgree === null) {
+          this.$message.error('必须填写审核结果！');
+          return false
+        }
+        this.$emit('submit-success')
       }
     },
     mounted() {
-      window.setTimeout(() => {
-
-      }, 10)
+      this.$nextTick(() => {
+        this.tableHeight += this.$refs['goodsTable'].$el.offsetHeight
+      })
     }
   }
 </script>

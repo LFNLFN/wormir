@@ -142,8 +142,8 @@
     <!--</el-dialog>-->
 
     <!--审核弹层-->
-    <el-dialog :visible.sync="isDialogDetailShow">
-      <firstTimeReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp"></firstTimeReview>
+    <el-dialog :visible.sync="isDialogDetailShow" width="70%">
+      <firstTimeReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></firstTimeReview>
     </el-dialog>
 
   </div>
@@ -178,12 +178,14 @@
             channelName: 'ASD总店',
             applicationType: Mock.Random.natural(0, 1),
             channelProp: 1,
+            channelLevel: 1,
             // 商品表格数据
             brandChineseName: '兰蔻',
             goodsNo: '12345',
             goodsName: '面霜',
             goodsSpecification: '50ml',
             packingSpecification: '4瓶/箱',
+            applicationReason: '吸引客流'
           }
         ],
         applicationTypeFilters: [
@@ -418,6 +420,11 @@
             }
           })
         )
+      },
+
+      firstTimeReviewSuccess() {
+        this.isDialogDetailShow = false
+        this.$message.success('审核成功')
       }
     },
     filters: {
