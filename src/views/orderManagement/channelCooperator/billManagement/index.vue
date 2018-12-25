@@ -318,8 +318,8 @@
           url: '/order/managerOrderList.do',
           method: 'post',
           data: {
-            page: 1,
-            limit: 10,
+            page: this.listQuery.page,
+            limit: this.listQuery.limit,
             searchText: this.listQuery.searchText
           }
         }).then((res) => {

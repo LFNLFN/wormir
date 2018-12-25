@@ -151,7 +151,8 @@
                @close="isGoodManagementShow = false"
                :title="goodName + ' 商品管理'">
       <goodManagement
-        :goodTableData="goodTableData"
+        :brandNo="selectBrandNo"
+        :brandName='selectBrandName'
         v-if="isGoodManagementShow"
         @closeDialog="isGoodManagementShow=false">
       </goodManagement>
@@ -196,7 +197,8 @@
         }],
         isGoodManagementShow: false,
         goodName: '',
-        goodTableData: []
+        selectBrandNo: '',
+        selectBrandName: ''
       }
     },
     methods: {
@@ -248,9 +250,10 @@
         this.isStopCooperationShow = true
       },
       showGoodManagement(row) {
-        this.isGoodManagementShow = true
         this.goodName = row.chineseName
-        this.goodTableData = row.goodManagement_Arr
+        this.selectBrandNo = row.brandNo
+        this.selectBrandName = row.chineseName
+        this.isGoodManagementShow = true
       },
       submitCooperationTermination() {
         const vm = this
