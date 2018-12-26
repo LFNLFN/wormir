@@ -22,7 +22,7 @@ html {
   box-sizing: border-box;
 }
 
-#app{
+#app {
   height: 100%;
 }
 
@@ -53,9 +53,9 @@ a:hover {
   text-decoration: none;
 }
 
-div:focus{
+div:focus {
   outline: none;
- }
+}
 
 .fr {
   float: right;
@@ -113,14 +113,14 @@ code {
   }
 }
 
-.warn-content{
-  background: rgba(66,185,131,.1);
+.warn-content {
+  background: rgba(66, 185, 131, .1);
   border-radius: 2px;
   padding: 16px;
   padding: 1rem;
   line-height: 1.6rem;
   word-spacing: .05rem;
-  a{
+  a {
     color: #42b983;
     font-weight: 600;
   }
@@ -145,12 +145,13 @@ code {
 }
 
 .text-muted {
-  color: #787878!important;
+  color: #787878 !important;
 }
 
 .text-danger {
   color: $red;
 }
+
 .text-total {
   color: orangered
 }
@@ -208,17 +209,21 @@ code {
 .el-table th {
   background: #DFF2FC !important;
   font-weight: 700 !important;
-  color: #424242!important;
+  color: #424242 !important;
 }
+
 td {
-  color: #424242!important;
+  color: #424242 !important;
 }
+
 .el-table--border, .el-table--group {
   border: 1px solid #d5d5d5;
 }
-.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
   border-right: 1px solid #d5d5d5;
 }
+
 .el-table td, .el-table th.is-leaf {
   border-bottom: 1px solid #d5d5d5;
 }
@@ -226,16 +231,20 @@ td {
 .bg-purple-dark {
   background: transparent
 }
+
 .bg-purple {
   background: transparent
 }
+
 .bg-purple-light {
   background: transparent
 }
+
 // 取消点击表格出现的背景颜色
-.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td, .el-table__body tr.hover-row.current-row>td, .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .el-table__body tr.hover-row.el-table__row--striped>td, .el-table__body tr.hover-row>td {
+.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row > td, .el-table__body tr.hover-row.current-row > td, .el-table__body tr.hover-row.el-table__row--striped.current-row > td, .el-table__body tr.hover-row.el-table__row--striped > td, .el-table__body tr.hover-row > td {
   background-color: #fff;
 }
+
 // 品牌列表的子品类输入框后方的删除按钮
 .subCategories-item .el-input-group__append {
   background-color: #f56c6c;
@@ -246,71 +255,88 @@ td {
     border-color: #f78989;
   }
 }
+
 // 表格筛选图标
 .el-table__column-filter-trigger i {
   font-size: 20px;
 }
+
 [class*=" el-icon-"], [class^=el-icon-] {
   vertical-align: middle;
 }
+
 // 边框样式
 .border-top {
   border-top: solid #d5d5d5 1px;
 }
+
 .border-right {
   border-right: solid #d5d5d5 1px;
 }
+
 .border-bottom {
   border-bottom: solid #d5d5d5 1px;
 }
+
 .border-left {
   border-left: solid #d5d5d5 1px;
 }
+
 .border-top2 {
   border-top: solid #d5d5d5 2px;
 }
+
 .border-right2 {
   border-right: solid #d5d5d5 2px;
 }
+
 .border-bottom2 {
   border-bottom: solid #d5d5d5 2px;
 }
+
 .border-left2 {
   border-left: solid #d5d5d5 2px;
 }
-.no-border-top{
-  border-top: none!important;
+
+.no-border-top {
+  border-top: none !important;
 }
-.no-border-left{
-  border-left: none!important;
+
+.no-border-left {
+  border-left: none !important;
 }
-.no-border-bottom{
-  border-bottom: none!important;
+
+.no-border-bottom {
+  border-bottom: none !important;
 }
-.no-border-right{
-  border-right: none!important;
+
+.no-border-right {
+  border-right: none !important;
 }
-.no-border{
+
+.no-border {
   border: none;
 }
+
 .border1 {
   border: solid #d5d5d5 1px;
 }
+
 .border2 {
   border: solid #d5d5d5 2px;
 }
+
 .dialogBottomButton-wrap {
   text-align: center;
   margin-top: 1em;
 }
-
-
 
 // 新增渠道的表格的子栏目标题
 .form-part-title {
   border-bottom: 2px solid #424242;
   color: #424242
 }
+
 // 新增渠道的表格的表头^
 .addChannelDialog .el-form-item__label {
   background-color: #dff2fc;
@@ -319,39 +345,48 @@ td {
   text-align: center;
   padding: 0;
 }
+
 .idCardLabel .el-form-item__label {
   border-bottom: 1px solid #D5D5D5;
 }
+
 .addChannelDialog .el-form-item__content {
   padding-left: 1em;
   border: 1px solid #D5D5D5;
   border-left: none;
   border-bottom: none;
 }
+
 .idCardUpload .el-form-item__content {
   border: none;
 }
+
 .addChannelDialog .el-form-item.el-form-item--medium {
   margin: 0;
   &:last-of-type {
     //border-bottom: 1px solid #D5D5D5;
   }
 }
+
 .idCardCode.el-form-item.el-form-item--medium {
   border-bottom: 1px solid #D5D5D5;
 }
+
 .addChannelDialog .idCardUpload .el-form-item.el-form-item--medium {
   border: none;
 }
+
 // 新增渠道的表格的表头$
 .form-row .el-form-item__content {
   border: none;
   padding-left: 1em;
 }
+
 // 新增子渠道-终止渠道-合同信息表格
 .table-row .el-form-item__content {
   padding-left: 0;
 }
+
 .form-row .el-form-item__label {
   border: none;
   border-left: 1px solid #D5D5D5;
@@ -366,56 +401,70 @@ td {
   line-height: 35px;
   height: 35px;
 }
+
 .textareaTitle.add-brand-row.form-row .el-form-item__label {
   line-height: 55px;
   height: 55px;
 }
-.textareaTitleShow.add-brand-row.form-row .el-form-item__label  {
+
+.textareaTitleShow.add-brand-row.form-row .el-form-item__label {
   line-height: 56px;
   height: 56px;
 }
+
 // 新增品牌弹层$
 .table-row .el-form-item__label {
   height: 76px;
   padding-top: 25px;
 }
+
 .form-row.el-form-item.el-form-item--medium {
   margin: 0;
   &:last-of-type {
     border-bottom: none;
   }
 }
+
 .form-row {
   border-top: 1px solid #D5D5D5;
   border-right: 1px solid #D5D5D5;
 }
+
 .few-input-item.add-brand-row .el-form-item__label {
   height: 107px;
   line-height: 107px;
 }
+
 .imgTitle.form-row .el-form-item__label {
   height: 135px;
   line-height: 135px;
 }
+
 .imgUploadTitle.form-row .el-form-item__label {
   height: 182px;
   line-height: 182px;
 }
+
 .clear-border-right.form-row {
   border-right: none
 }
+
 .select-form-margin {
   margin: 3px 3px 0;
 }
+
 .select-form-width {
   width: 98%;
 }
+
 .last-form-row {
   border-bottom: 1px solid #D5D5D5;
 }
+
 .marginToLeft {
   margin-left: -1em;
 }
+
 .idCardUpload {
   border-left: 1px solid #D5D5D5;
   border-right: 1px solid #D5D5D5;
@@ -424,63 +473,81 @@ td {
 .noBorder {
   border: none
 }
+
 .noBorderTextarea textarea {
   border: none
 }
+
 .noBorderDatePicker {
   border: none
 }
-.noBorderInput input{
+
+.noBorderInput input {
   border: none
 }
+
 // 去除表格底部那条奇怪的伪类线
 .twoTable-wrap .el-table--border::after, .el-table--group::after, .el-table::before {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
+
 .el-table--border::after, .el-table--group::after {
   width: 0
 }
+
 // 解决表头换行问题
 .el-table .cell {
   word-break: keep-all;
   word-wrap: break-word;
 }
+
 // 弹层内部表格最后一列的右空隙去除
 .last-col {
-  border-right-width: 2px!important;
+  border-right-width: 2px !important;
 }
+
 // 级别变化 弹层样式设置
 .noBorder .el-table__header {
   border-top: 2px solid #D5D5D5;
 }
-.noBorder .el-table__body tr:last-of-type td{
+
+.noBorder .el-table__body tr:last-of-type td {
   border-bottom: 1px solid #D5D5D5;
 }
-.last-tr2 .el-table__body tr:last-of-type td{
+
+.last-tr2 .el-table__body tr:last-of-type td {
   border-bottom: 2px solid #D5D5D5;
 }
-.last-tr0 .el-table__body tr:last-of-type td{
+
+.last-tr0 .el-table__body tr:last-of-type td {
   border-bottom: 0 solid #D5D5D5;
 }
+
 .last-col-td0 {
-  border-right-width: 0!important;
+  border-right-width: 0 !important;
 }
+
 .compareBorder .el-table__header {
   border-top: none;
 }
-.compareBorder .el-table__body tr:last-of-type td{
+
+.compareBorder .el-table__body tr:last-of-type td {
   border-bottom: none;
 }
+
 .sumBorder .el-table__header {
   border-top: 1px solid #D5D5D5;
 }
-.sumBorder .el-table__body tr:last-of-type td{
+
+.sumBorder .el-table__body tr:last-of-type td {
   border-bottom: 2px solid #D5D5D5;
 }
+
 // 双层表格的上层
 .el-table--border th, .el-table__fixed-right-patch {
   border-bottom-color: #D5D5D5;
 }
+
 // 表格合计栏
 .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
   background-color: #B7E5F9;
@@ -488,10 +555,12 @@ td {
   font-weight: 700;
   padding: 0;
 }
+
 // 实际库存明细
 .empty-table .el-table__body-wrapper {
   display: none;
 }
+
 /*伪类补框*/
 td.units-wrap:after {
   content: '';
@@ -502,26 +571,31 @@ td.units-wrap:after {
   width: 1px;
   height: 100%;
 }
+
 .units-wrap .el-col {
   border: none;
   background-color: transparent;
   font-weight: normal;
 }
+
 .units-wrap .el-input--medium .el-input__inner {
   height: 24px;
   line-height: 24px;
   max-width: 40px;
 }
+
 .rowFlex {
   display: flex;
   justify-content: center;
 }
+
 .colFlex {
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
 }
+
 .theTopMsgBorder {
   border: solid #d5d5d5 2px;
   & .el-row {
@@ -532,16 +606,18 @@ td.units-wrap:after {
     }
   }
 }
+
 .table-btn-wrap {
   margin: 3px;
 }
+
 .form-row-text {
   line-height: 35px;
 }
+
 .merge-order-wrap .filter-container {
   padding: 0;
 }
-
 
 // 弹层悬浮关闭按钮
 .el-dialog.is-fullscreen .el-dialog__headerbtn {
@@ -554,10 +630,11 @@ td.units-wrap:after {
 .vali-table.el-table .cell, .vali-table.el-table th div {
   overflow: visible;
 }
+
 .vali-table .el-form-item__content {
-  margin-left: 0!important;
-  padding-left: 0!important;
-  border: none!important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  border: none !important;
 }
 
 // 新增品牌中的表单验证
@@ -565,10 +642,12 @@ td.units-wrap:after {
   top: 30%;
   left: 90%;
 }
+
 .form-error-inline .few-input-item .el-form-item__error {
   top: 106%;
   left: 80%;
 }
+
 // 合作渠道-去管理
 .form-error-beyond .el-form-item__error {
   top: 30%;
@@ -588,16 +667,24 @@ td.units-wrap:after {
   top: 30%;
   left: 80%;
 }
+
 .form-error-inside.form-error-inside-slot .el-form-item__error {
   top: 30%;
   left: 60%;
 }
 
-
 // 查看商品详情
 .viewDetail .el-form-item__content {
   padding-top: 3px
 }
-.textareaTitleShow .el-form-item__content{
+
+.textareaTitleShow .el-form-item__content {
   padding-top: 0
+}
+
+.normal-size-pic {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
