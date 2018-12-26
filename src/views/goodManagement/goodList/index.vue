@@ -121,7 +121,7 @@
       append-to-body
     >
       <div style="margin: 0 auto">
-        <img :src="currentGoodThumbnail" alt style="width: 100%;height: 100%">
+        <img :src="currentGoodThumbnail" alt class="normal-size-pic">
       </div>
     </el-dialog>
     <el-dialog
