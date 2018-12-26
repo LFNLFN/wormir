@@ -67,15 +67,13 @@
       </el-table-column>
       <el-table-column prop="userName" label="联系人" align="center" min-width="100"></el-table-column>
       <el-table-column
-        prop="jobType"
+        prop="job"
         label="职务"
         align="center"
         min-width="130"
-        :filters="jobTypeFilters"
-        :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ jobTypeMap[scope.row.jobType] ? jobTypeMap[scope.row.jobType].text : '' }}</span>
+          <span>{{ scope.row.position | job  }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="email" label="联系邮箱" min-width="180" align="center"></el-table-column>
@@ -99,6 +97,7 @@
 
 <script>
 import { channel_BlurSearch } from '@/api/channel'
+import { job } from '@/filters/index'
 import request from '@/utils/request'
 
 export default {
