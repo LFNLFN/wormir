@@ -143,7 +143,7 @@
 
     <!--审核弹层-->
     <el-dialog :visible.sync="isDialogDetailShow" width="70%">
-      <firstTimeReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></firstTimeReview>
+      <applicationReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></applicationReview>
     </el-dialog>
 
   </div>
@@ -159,7 +159,7 @@
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
   import Mock from 'mockjs'
-  import firstTimeReview from './DLQDandDFQD/firstTimeReview'
+  import applicationReview from './applicationReview'
 
   export default {
     name: 'SalesPromotion',
@@ -167,7 +167,7 @@
       waves
     },
     components: {
-      firstTimeReview
+      applicationReview
     },
     data() {
       return {
@@ -177,7 +177,7 @@
             channelNo: Mock.Random.natural(20180522001, 20180522100),
             channelName: 'ASD总店',
             applicationType: Mock.Random.natural(0, 1),
-            channelProp: 1,
+            channelProp: 3,
             channelLevel: 1,
             // 商品表格数据
             brandChineseName: '兰蔻',
