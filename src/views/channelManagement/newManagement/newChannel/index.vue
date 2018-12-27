@@ -106,12 +106,16 @@
           </el-button>
           <el-button
             size="mini"
+            v-if="scope.row.channelStatus==300"
+            @click="confirmSecurityAmount(scope.row)">确认付保证金
+          </el-button>
+          <el-button
+            size="mini"
             @click="showCheck(scope.row)">去查看
           </el-button>
           <el-button
             size="mini"
             type="danger"
-            v-if="scope.row.channelStatus==100"
             @click="showDelete(scope.row)">强制注销
           </el-button>
         </template>
@@ -299,6 +303,9 @@
       showConfirm(row) {
         this.currentRow = row
         this.isConfirmShow = true
+      },
+      confirmSecurityAmount(row) {
+        
       },
       showCheck(row) {
         this.currentRow = row
