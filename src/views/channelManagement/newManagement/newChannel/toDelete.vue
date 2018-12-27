@@ -42,7 +42,8 @@
           url: '/channel/channelCancel.do',
           method: 'post',
           data: {
-            channelNo: this.currentRow.channelNo
+            channelNo: this.currentRow.channelNo,
+            reason: this.form.reason
           }
         }).then(() => {
           this.$emit('submitSuccess')
