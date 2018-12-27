@@ -5,7 +5,7 @@
         <el-input v-model="filterForm.searchText" :placeholder="filterForm.placeholder1"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="warning" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table border :data="channelTableData" class="border2" style="width: 100%">

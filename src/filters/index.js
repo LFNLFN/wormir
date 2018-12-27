@@ -157,3 +157,16 @@ export function orderStatus(value) {
   }
   return statusMap[value]
 }
+
+
+// 操作类型
+export function operateType(value) {
+  const statusMap = {
+    1: '强制注销',
+    2: '注销审核',
+    3: '终止审核',
+    4: '注销渠道',
+    5: '终止渠道',
+  }
+  return statusMap[value]
+}

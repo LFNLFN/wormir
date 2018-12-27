@@ -215,7 +215,7 @@
     >
       <el-table-column prop="operateType" label="终止操作" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{}}</span>
+          <span>{{ scope.row.operateType | operateType }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="terminationType" label="终止类型" align="center" min-width="150">
@@ -232,7 +232,7 @@
       <el-table-column prop="reason" min-width="160" align="center" label="终止原因" />
       <el-table-column prop min-width="160" align="center" label="注销时间">
         <template slot-scope="scope">
-          <span>2018-04-11 21:39:44</span>
+          <span>暂无数据</span>
         </template>
       </el-table-column>
     </el-table>
@@ -244,7 +244,7 @@
           <div class="grid-content bg-purple">{{'保证金金额'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">￥ {{ currentRow.securityAmount }} - {{ securityAmountStatus? '已缴纳' :
+          <div class="grid-content bg-purple-light">￥ {{ currentRow.securityAmount }} - {{ currentRow.securityAmountStatus? '已缴纳' :
             '未缴纳' }}
           </div>
         </el-col>
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-  import { job, channelProp, contractStatus, orderStatus, contractProp } from '@/filters/index.js'
+  import { job, channelProp, contractStatus, orderStatus, contractProp, operateType } from '@/filters/index.js'
 
   export default {
     props: {
