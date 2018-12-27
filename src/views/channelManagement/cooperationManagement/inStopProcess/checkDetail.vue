@@ -18,7 +18,8 @@
         <el-col :span="19">
           <div
             class="grid-content bg-purple-light"
-          >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
+          >{{cooperationTypeMap[currentRow.cooperationType].text}}
+          </div>
         </el-col>
       </el-row>
       <el-row>
@@ -36,7 +37,8 @@
         <el-col :span="19">
           <div
             class="grid-content bg-purple-light"
-          >{{ channelLevelMap[currentRow.channelLevel].text }}</div>
+          >{{ channelLevelMap[currentRow.channelLevel].text }}
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -157,8 +159,12 @@
       style="width: 100%"
       class="border-top2 border-left2 border-right2"
     >
-      <el-table-column prop="job" label="职务" align="center" min-width="90"></el-table-column>
-      <el-table-column prop="name" label="姓名" align="center" min-width="80"></el-table-column>
+      <el-table-column prop="position" label="职务" align="center" min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.position | job }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
       <el-table-column prop="mobile" label="电话" align="center" min-width="90"></el-table-column>
       <el-table-column prop="email" label="邮箱" align="center" min-width="110"></el-table-column>
       <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
@@ -172,19 +178,30 @@
       style="width: 100%"
       class="border-top2 border-left2 border-right2"
     >
-      <el-table-column prop="contractID" label="合同编号" align="center" min-width="100"></el-table-column>
-      <el-table-column prop="contractProp" label="合同属性" align="center" min-width="90"></el-table-column>
-      <el-table-column prop="startTime" label="开始时间" align="center" min-width="110"></el-table-column>
-      <el-table-column prop="endTime" label="结束时间" align="center" min-width="110"></el-table-column>
-      <el-table-column prop="channelStatus" label="渠道状态" align="center" min-width="140">
+      <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
+      <el-table-column
+        prop="contractProp"
+        label="合同属性"
+        align="center"
+        min-width="90">
         <template slot-scope="scope">
-          <span v-if>{{'停止合作'}}</span>
-          <!--<span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>-->
+          <span>{{ scope.row.contractProp | contractProp }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="orderStockStatus" label="订货状态" align="center" min-width="120">
+      <el-table-column prop="startTime" label="开始时间" align="center" min-width="110"></el-table-column>
+      <el-table-column prop="endTime" label="结束时间" align="center" min-width="110"></el-table-column>
+      <el-table-column prop="status" label="合同状态" align="center" min-width="140">
         <template slot-scope="scope">
-          <span v-if>{{'关闭订货'}}</span>
+          <span>{{ scope.row.status | contractStatus }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="status"
+        label="订货状态"
+        align="center"
+        min-width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status | orderStatus }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -192,35 +209,27 @@
     <h3 class="form-part-title">终止情况</h3>
     <el-table
       border
-      :data="contractData"
+      :data="terminationData"
       style="width: 100%;border-bottom-width: 1px"
       class="border2"
     >
-      <el-table-column prop label="终止操作" align="center" min-width="150">
+      <el-table-column prop="operateType" label="终止操作" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>注销渠道</span>
+          <span>{{}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop label="终止类型" align="center" min-width="150">
+      <el-table-column prop="terminationType" label="终止类型" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>提前终止</span>
+          <span>{{ scope.row.terminationType | contractStatus }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop align="center" min-width="140" label="终止日期">
+      <el-table-column prop="terminationTime" align="center" min-width="140" label="终止日期" />
+      <el-table-column prop="technologyTransferStatus" align="center" min-width="140" label="技术对接">
         <template slot-scope="scope">
-          <span>2018-04-11</span>
+          <span>{{ scope.row.technologyTransferStatus? '完成对接系统' : '未完成对接系统'}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop align="center" min-width="140" label="技术对接">
-        <template slot-scope="scope">
-          <span>完成对接系统</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop min-width="160" align="center" label="终止原因">
-        <template slot-scope="scope">
-          <span>渠道异常</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="reason" min-width="160" align="center" label="终止原因" />
       <el-table-column prop min-width="160" align="center" label="注销时间">
         <template slot-scope="scope">
           <span>2018-04-11 21:39:44</span>
@@ -235,7 +244,9 @@
           <div class="grid-content bg-purple">{{'保证金金额'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light" @click>{{'¥ 10000 - 已支付'}}</div>
+          <div class="grid-content bg-purple-light">￥ {{ currentRow.securityAmount }} - {{ securityAmountStatus? '已缴纳' :
+            '未缴纳' }}
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -243,75 +254,79 @@
 </template>
 
 <script>
-export default {
-  props: {
-    currentRow: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      contactData: [],
-      contractData: [],
-      channelCodeMap: {
-        0: { text: 'DLQD', value: 0 },
-        1: { text: 'DFQD', value: 1 },
-        2: { text: 'FXQD', value: 2 }
-      },
-      channelStatusMap: {
-        0: { text: '待签合同', value: 0 },
-        1: { text: '待激活账号', value: 1 },
-        2: { text: '待付保证金', value: 2 },
-        3: { text: '待接系统', value: 3 },
-        4: { text: '停止签合同', value: 4 },
-        5: { text: '停止激活账户', value: 5 },
-        6: { text: '停止付保证金', value: 6 }
-      },
-      cooperationTypeMap: {
-        0: { text: '渠道入驻', value: 0 },
-        1: { text: '渠道变更', value: 1 }
-      },
-      channelTypeMap: {
-        0: { text: '淘宝C店', value: 0 },
-        1: { text: '淘宝企业店', value: 1 },
-        2: { text: '天猫店', value: 2 },
-        3: { text: 'B2C平台', value: 3 },
-      },
-      channelPropMap: {
-        0: { text: '独立渠道(DLQD)', value: 0 },
-        1: { text: '代发渠道(DFQD)', value: 1 },
-        2: { text: '分销渠道(FXQD)', value: 2 },
-      },
-      channelLevelMap: {
-        0: { text: 'A级渠道', value: 0 },
-        1: { text: 'B级渠道', value: 1 },
-        2: { text: 'C级渠道', value: 2 },
-        3: { text: 'C级渠道', value: 3 },
+  import { job, channelProp, contractStatus, orderStatus, contractProp } from '@/filters/index.js'
+
+  export default {
+    props: {
+      currentRow: {
+        type: Object,
+        required: true
       }
-    }
-  },
-  created() {
-    
-    this.$request({
-      url: '/channel/channelDetail.do',
-      method: 'post',
-      data: {
-        channelNo: this.currentRow.channelNo,
+    },
+    data() {
+      return {
+        contactData: [],
+        contractData: [],
+        terminationData: [],
+        channelCodeMap: {
+          0: { text: 'DLQD', value: 0 },
+          1: { text: 'DFQD', value: 1 },
+          2: { text: 'FXQD', value: 2 }
+        },
+        channelStatusMap: {
+          0: { text: '待签合同', value: 0 },
+          1: { text: '待激活账号', value: 1 },
+          2: { text: '待付保证金', value: 2 },
+          3: { text: '待接系统', value: 3 },
+          4: { text: '停止签合同', value: 4 },
+          5: { text: '停止激活账户', value: 5 },
+          6: { text: '停止付保证金', value: 6 }
+        },
+        cooperationTypeMap: {
+          0: { text: '渠道入驻', value: 0 },
+          1: { text: '渠道变更', value: 1 }
+        },
+        channelTypeMap: {
+          0: { text: '淘宝C店', value: 0 },
+          1: { text: '淘宝企业店', value: 1 },
+          2: { text: '天猫店', value: 2 },
+          3: { text: 'B2C平台', value: 3 },
+        },
+        channelPropMap: {
+          0: { text: '独立渠道(DLQD)', value: 0 },
+          1: { text: '代发渠道(DFQD)', value: 1 },
+          2: { text: '分销渠道(FXQD)', value: 2 },
+        },
+        channelLevelMap: {
+          0: { text: 'A级渠道', value: 0 },
+          1: { text: 'B级渠道', value: 1 },
+          2: { text: 'C级渠道', value: 2 },
+          3: { text: 'C级渠道', value: 3 },
+        }
       }
-    }).then((res) => {
-      if (res.errorCode == 0) {
-        this.contactData = res.data.contactData
-        this.contractData = res.data.contract
-        console.log(this.contractData)
-      } else {
+    },
+    created() {
+
+      this.$request({
+        url: '/channel/channelDetail.do',
+        method: 'post',
+        data: {
+          channelNo: this.currentRow.channelNo,
+        }
+      }).then((res) => {
+        if (res.errorCode == 0) {
+          this.contactData = res.data.contactData
+          this.contractData = res.data.contract
+          this.terminationData.push(res.data.termination)
+          console.log(this.contractData)
+        } else {
+          this.$message.error('渠道详情请求失败');
+        }
+      }).catch(() => {
         this.$message.error('渠道详情请求失败');
-      }
-    }).catch(() => {
-      this.$message.error('渠道详情请求失败');
-    })
-  },
-}
+      })
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -321,7 +336,7 @@ export default {
 
   20
   px
-  &:last-child {
+  & :last-child {
     margin-bottom: 0
   }
 

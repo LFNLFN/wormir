@@ -1,22 +1,25 @@
 <template>
   <div class="login-container">
+    <div style="display: flex;justify-content: center;margin-top: 50px">
+      <img src="./mini-logo.png" alt="">
+    </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">{{$t('login.title')}}</h3>
-        <lang-select class="set-language"></lang-select>
+        <h3 class="title">吾蜜OCC供应管理系统</h3>
+        <!--<lang-select class="set-language"></lang-select>-->
       </div>
       <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
+        <span class="svg-container svg-container_login username-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
+        <span class="svg-container password-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
@@ -54,8 +57,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '1234567'
+        username: "",
+        password: ""
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -167,7 +170,7 @@ $light_gray:#eee;
     right: 0;
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: 120px auto;
+    margin: 30px auto 120px;
   }
   .tips {
     font-size: 14px;
@@ -179,8 +182,14 @@ $light_gray:#eee;
       }
     }
   }
+  .svg-container.username-container {
+    padding-left: 7px;
+  }
+.svg-container.password-container {
+  padding-left: 10px;
+}
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    /*padding: 6px 5px 6px 15px;*/
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
@@ -208,8 +217,8 @@ $light_gray:#eee;
   }
   .show-pwd {
     position: absolute;
-    right: 10px;
-    top: 7px;
+    right: 8px;
+    top: 11px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;

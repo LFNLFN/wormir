@@ -20,7 +20,7 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ terminationStatusMap[scope.row.terminationStatus] ? terminationStatusMap[scope.row.terminationStatus].text : '' }}</span>
+          <span>{{ terminationStatusMap[scope.row.channelStatus] ? terminationStatusMap[scope.row.channelStatus].text : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column

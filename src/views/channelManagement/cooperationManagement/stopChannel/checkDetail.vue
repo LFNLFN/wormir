@@ -43,7 +43,7 @@
     <div class="border1">
       <el-row class="border-top">
         <el-col :span="5">
-          <div class="grid-content bg-purple ">渠道号}</div>
+          <div class="grid-content bg-purple ">渠道号</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">{{currentRow.channelNum}}</div>
@@ -55,56 +55,56 @@
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===1">个人</span>
-            <span v-if="currentRow.businessEntity===2">企业</span>
+            <span v-if="currentRow.businessEntity==1">个人</span>
+            <span v-if="currentRow.businessEntity==2">企业</span>
           </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">
-            <span v-if="currentRow.businessEntity===1">身份证号</span>
-            <span v-if="currentRow.businessEntity===2">公司名称</span>
+            <span v-if="currentRow.businessEntity==1">身份证号</span>
+            <span v-if="currentRow.businessEntity==2">公司名称</span>
           </div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===1">440682199406776021</span>
-            <span v-if="currentRow.businessEntity===2">{{'jkl公司'}}</span>
+            <span v-if="currentRow.businessEntity==1">{{ currentRow.idcardNo }}</span>
+            <span v-if="currentRow.businessEntity==2">{{ currentRow.companyName || '暂无数据' }}</span>
           </div>
         </el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===1">
+      <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">身份证正面</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
-                                                                               height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+        <el-col :span="7"><span><img :src="currentRow.idcardFront" alt=""
+                                     height="48px" width="48px"
+                                     class="link-type"></span></el-col>
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">身份证背面</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
-                                                                               height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+        <el-col :span="7"><span><img :src="currentRow.idcardBack" alt=""
+                                     height="48px" width="48px"
+                                     class="link-type"></span></el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===2">
+      <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'营业执照'}}</div>
         </el-col>
-        <el-col :span="19"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
-                                                                                height="48px" width="48px"
-                                                                                class="link-type"></span></el-col>
+        <el-col :span="19"><span><img :src="currentRow.businessLicense" alt=""
+                                      height="48px" width="48px"
+                                      class="link-type"></span></el-col>
       </el-row>
     </div>
     <p style="margin: .5em"></p>
     <div class="border1" style="border-top-width: 2px">
-      <el-row v-if="currentRow.businessEntity===1">
+      <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'公司地址'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{'广州海珠区'}}</div>
+          <div class="grid-content bg-purple-light">{{currentRow.businessAddress || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -112,7 +112,7 @@
           <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'asd专卖店'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.channelName || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -120,7 +120,7 @@
           <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'www.baidu.com'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.PCLink || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -128,7 +128,7 @@
           <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'123456'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.appLink || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -136,7 +136,7 @@
           <div class="grid-content bg-purple ">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'化妆品'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.businessRange || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -144,7 +144,7 @@
           <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'面膜'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.businessGoods || '暂无数据' }}</div>
         </el-col>
       </el-row>
     </div>
@@ -155,14 +155,13 @@
       :data="contactData"
       style="width: 100%"
       class="border-top2 border-left2 border-right2">
-      <el-table-column
-        prop="job"
-        label="职务"
-        align="center"
-        min-width="90">
+      <el-table-column prop="position" label="职务" align="center" min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.position | job }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="userName"
         label="姓名"
         align="center"
         min-width="80">
@@ -200,7 +199,7 @@
       style="width: 100%"
       class="border-top2 border-left2 border-right2">
       <el-table-column
-        prop="contractID"
+        prop="contractNo"
         label="合同编号"
         align="center"
         min-width="100">
@@ -210,6 +209,9 @@
         label="合同属性"
         align="center"
         min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.contractProp | contractProp }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="startTime"
@@ -224,22 +226,22 @@
         min-width="110">
       </el-table-column>
       <el-table-column
-        prop="channelStatus"
-        label="渠道状态"
+        prop="status"
+        label="合同状态"
         align="center"
         min-width="140">
         <template slot-scope="scope">
-          <span v-if="">{{'停止合作'}}</span>
-          <!--<span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>-->
+          <span>{{ scope.row.status | contractStatus }}</span>
         </template>
       </el-table-column>
+      </el-table-column>
       <el-table-column
-        prop="orderStockStatus"
+        prop="status"
         label="订货状态"
         align="center"
         min-width="120">
         <template slot-scope="scope">
-          <span v-if="">{{'关闭订货'}}</span>
+          <span>{{ scope.row.status | orderStatus }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -247,61 +249,30 @@
     <h3 class="form-part-title">终止情况</h3>
     <el-table
       border
-      :data="contractData"
+      :data="terminationData"
       style="width: 100%;border-bottom-width: 1px"
-      class="border2">
-      <el-table-column
-        prop=""
-        label="终止操作"
-        align="center"
-        min-width="150">
+      class="border2"
+    >
+      <el-table-column prop="operateType" label="终止操作" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>注销渠道</span>
+          <span>{{}}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop=""
-        label="终止类型"
-        align="center"
-        min-width="150">
+      <el-table-column prop="terminationType" label="终止类型" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>提前终止</span>
+          <span>{{ scope.row.terminationType | contractStatus }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop=""
-        align="center"
-        min-width="140"
-        label="终止日期">
+      <el-table-column prop="terminationTime" align="center" min-width="140" label="终止日期"/>
+      <el-table-column prop="technologyTransferStatus" align="center" min-width="140" label="技术对接">
         <template slot-scope="scope">
-          <span>2018-04-11</span>
+          <span>{{ scope.row.technologyTransferStatus? '完成对接系统' : '未完成对接系统'}}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop=""
-        align="center"
-        min-width="140"
-        label="技术对接">
+      <el-table-column prop="reason" min-width="160" align="center" label="终止原因"/>
+      <el-table-column prop min-width="160" align="center" label="注销时间">
         <template slot-scope="scope">
-          <span>完成对接系统</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop=""
-        min-width="160"
-        align="center"
-        label="终止原因">
-        <template slot-scope="scope">
-          <span>渠道异常</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop=""
-        min-width="160"
-        align="center"
-        label="注销时间">
-        <template slot-scope="scope">
-          <span>2018-04-11 21:39:44</span>
+          <span></span>
         </template>
       </el-table-column>
     </el-table>
@@ -313,7 +284,9 @@
           <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light " @click="">{{'¥ 10000 - 已支付'}}</div>
+          <div class="grid-content bg-purple-light ">￥ {{ currentRow.securityAmount }} - {{ securityAmountStatus? '已缴纳'
+            : '未缴纳' }}
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -321,6 +294,8 @@
 </template>
 
 <script>
+  import { job, contractStatus, orderStatus, contractProp } from '@/filters/index.js'
+
   export default {
     props: {
       currentRow: {
@@ -330,36 +305,9 @@
     },
     data() {
       return {
-        contactData: [{
-          job: '技术对接人',
-          name: '王小虎',
-          mobile: 15268172199,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }, {
-          job: '技术对接人',
-          name: '王小虎',
-          mobile: 15268172199,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }, {
-          job: '技术对接人',
-          name: '王小虎',
-          mobile: 15268172199,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }],
-        contractData: [{
-          contractID: 201805000002,
-          contractProp: '首次签订',
-          startTime: '2018-05-26',
-          endTime: '2018-05-29',
-          channelStatus: '待激活账号',
-          orderStockStatus: null
-        }],
+        contactData: [],
+        contractData: [],
+        terminationData: [],
         channelCodeMap: {
           0: { text: 'DLQD', value: 0 },
           1: { text: 'DFQD', value: 1 },
@@ -396,7 +344,28 @@
           3: { text: 'C级渠道', value: 3 },
         }
       }
-    }
+    },
+    created() {
+
+      this.$request({
+        url: '/channel/channelDetail.do',
+        method: 'post',
+        data: {
+          channelNo: this.currentRow.channelNo,
+        }
+      }).then((res) => {
+        if (res.errorCode == 0) {
+          this.contactData = res.data.contactData
+          this.contractData = res.data.contract
+          this.terminationData.push(res.data.termination)
+          console.log(this.contractData)
+        } else {
+          this.$message.error('渠道详情请求失败');
+        }
+      }).catch(() => {
+        this.$message.error('渠道详情请求失败');
+      })
+    },
   }
 </script>
 
