@@ -1,12 +1,12 @@
 <template>
   <div>
     <!--渠道特点-->
-    <h3 class="form-part-title">保证金</h3>
+    <h3 class="form-part-title">渠道特点</h3>
     <!--content-->
     <div class="border1" style="border-top-width: 2px">
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道属性'}}</div>
+          <div class="grid-content bg-purple ">渠道属性</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light">{{channelPropMap[currentRow.channelProp].text}}</div>
@@ -14,7 +14,7 @@
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{'合作类型'}}</div>
+          <div class="grid-content bg-purple">合作类型</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
@@ -22,7 +22,7 @@
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道类别'}}</div>
+          <div class="grid-content bg-purple ">渠道类别</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">{{channelTypeMap[currentRow.channelType].text}}</div>
@@ -30,7 +30,7 @@
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{'渠道级别'}}</div>
+          <div class="grid-content bg-purple">渠道级别</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light">{{ channelLevelMap[currentRow.channelLevel].text }}</div>
@@ -43,7 +43,7 @@
     <div class="border1">
       <el-row class="border-top">
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道号'}}</div>
+          <div class="grid-content bg-purple ">渠道号}</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">{{currentRow.channelNum}}</div>
@@ -51,44 +51,44 @@
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'经营主体'}}</div>
+          <div class="grid-content bg-purple ">经营主体</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===0">{{'个人'}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'企业'}}</span>
+            <span v-if="currentRow.businessEntity===1">个人</span>
+            <span v-if="currentRow.businessEntity===2">企业</span>
           </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">
-            <span v-if="currentRow.businessEntity===0">{{'身份证号'}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'公司名称'}}</span>
+            <span v-if="currentRow.businessEntity===1">身份证号</span>
+            <span v-if="currentRow.businessEntity===2">公司名称</span>
           </div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===0">{{440682199406776021}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'jkl公司'}}</span>
+            <span v-if="currentRow.businessEntity===1">440682199406776021</span>
+            <span v-if="currentRow.businessEntity===2">{{'jkl公司'}}</span>
           </div>
         </el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===0">
+      <el-row v-if="currentRow.businessEntity===1">
         <el-col :span="5" style="min-height: 57px">
-          <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
+          <div class="grid-content bg-purple ">身份证正面</div>
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
                                                                                height="48px" width="48px"
                                                                                class="link-type"></span></el-col>
         <el-col :span="5" style="min-height: 57px">
-          <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
+          <div class="grid-content bg-purple ">身份证背面</div>
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
                                                                                height="48px" width="48px"
                                                                                class="link-type"></span></el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===1">
+      <el-row v-if="currentRow.businessEntity===2">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'营业执照'}}</div>
         </el-col>
