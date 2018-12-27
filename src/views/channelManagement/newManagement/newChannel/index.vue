@@ -97,7 +97,7 @@
         label="操作"
         align="center"
         fixed="right"
-        min-width="100">
+        min-width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -305,16 +305,15 @@
         this.isConfirmShow = true
       },
       confirmSecurityAmount(row) {
-        
+        this.deleteVisible = true
       },
       showCheck(row) {
         this.currentRow = row
         this.isCheckShow = true
       },
       showDelete(row) {
-//        this.currentRow = row
-//        this.isDeleteShow = true
-        this.deleteVisible = true
+        this.currentRow = row
+        this.isDeleteShow = true
       },
       confirmDelete() {
         this.deleteVisible = false
@@ -381,7 +380,7 @@
 
 <style lang="scss" scoped>
   .el-table .el-button {
-    width: 7em;
+    width: 9em;
     margin-left: 1px;
     margin-bottom: 10px;
 
