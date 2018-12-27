@@ -603,7 +603,7 @@
         packingSpecification: 24
       })
 
-      window.setTimeout(() => {
+      this.$nextTick(() => {
 //        this.$refs['sumTable'].$el.children[3].children['0'].children[1].children['0'].cells[3].children['0'].innerHTML = `<div style="display: flex;justify-content: flex-end"><span>合计:</span></div>`
 
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
@@ -614,8 +614,7 @@
         this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
         this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[1].style.textAlign = 'right'
         this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
-
-      }, 700)
+      })
     }
   }
 </script>
