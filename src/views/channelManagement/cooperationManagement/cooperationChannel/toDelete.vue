@@ -10,8 +10,8 @@
       </el-form-item>
       <el-form-item label="终止类型" class="form-row" prop="terminationType">
         <el-radio-group v-model="form.terminationType">
-          <el-radio :label="0" >提前终止</el-radio>
-          <el-radio :label="1" >违规终止</el-radio>
+          <el-radio :label="-200" >提前终止</el-radio>
+          <el-radio :label="-300" >违规终止</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="终止日期" class="form-row" prop="terminationDate">
@@ -50,9 +50,9 @@
       return {
         form: {
           reason: null,
-          terminationType: null,
+          terminationType: -200,
           terminationDate: null,
-          depositHandleWay: null
+          depositHandleWay: 1
         },
         contractData: [{
           contractID: 201805000002,
@@ -81,15 +81,13 @@
     },
     methods: {
       onSubmit() {
-        this.isSubmitting = true
-        console.log(this.form)
         this.$refs["form"].validate(valid => {
           if (valid) {
             console.log("前端验证ok");
-            this.isSubmitting = false
-            return false;
+            this.isSubmitting = true
+            this.form.channelNo = this.currentRow.channelNo
             request({
-              url: "/channel/createChannel.do",
+              url: "/channel/cancelCooperateChannel.do",
               method: "post",
               data: this.form
             })

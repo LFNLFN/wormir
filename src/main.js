@@ -16,7 +16,7 @@ import './icons' // icon
 import './errorLog'// error log
 import './permission' // permission control
 // import './mock' // simulation data
-
+import request from './utils/request'
 import * as filters from './filters' // global filters
 
 Vue.use(Element, {
@@ -30,6 +30,7 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
+Vue.prototype.$request = request
 
 new Vue({
   el: '#app',
