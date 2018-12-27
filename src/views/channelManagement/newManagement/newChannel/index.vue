@@ -141,6 +141,15 @@
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
+
+    <el-dialog :visible.sync="deleteVisible" width="30%" :show-close="false">
+      <div style="text-align: center;">确认已收保证金？</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="confirmDelete">确定</el-button>
+        <el-button type="primary" @click="rejectDelete">取消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -156,6 +165,7 @@
   export default {
     data() {
       return {
+        deleteVisible: false,
         filterForm: {
           placeholder: '渠道号/渠道名称',
           searchText: '',
@@ -295,8 +305,16 @@
         this.isCheckShow = true
       },
       showDelete(row) {
-        this.currentRow = row
-        this.isDeleteShow = true
+//        this.currentRow = row
+//        this.isDeleteShow = true
+        this.deleteVisible = true
+      },
+      confirmDelete() {
+        this.deleteVisible = false
+        this.$message.success('操作成功！')
+      },
+      rejectDelete() {
+        this.deleteVisible = false
       },
       handleSizeChange(val) {
 //        channel_BlurSearch(this.filterForm.searchText, 1, val)
