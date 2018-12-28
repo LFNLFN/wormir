@@ -12,14 +12,14 @@
         <span class="svg-container svg-container_login username-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
+        <el-input name="username" type="text" v-model.trim="loginForm.username" autoComplete="on" placeholder="账号" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container password-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
+        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model.trim="loginForm.password" autoComplete="on" placeholder="密码" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
@@ -61,8 +61,8 @@ export default {
         password: ""
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, trigger: 'change', validator: validateUsername }],
+        password: [{ required: true, trigger: 'change', validator: validatePassword }]
       },
       passwordType: 'password',
       loading: false,
