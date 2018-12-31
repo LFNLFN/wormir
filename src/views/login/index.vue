@@ -207,7 +207,7 @@ $light_gray:#eee;
       font-size: 29px;
       font-weight: 400;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 20px auto 40px auto;
       text-align: center;
       font-weight: bold;
       letter-spacing: 3px;
