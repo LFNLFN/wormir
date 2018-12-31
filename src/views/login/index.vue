@@ -1,31 +1,34 @@
 <template>
   <div class="login-container">
     <div style="display: flex;justify-content: center;margin-top: 50px">
-      <img src="./mini-logo.png" alt="">
+      <img src="./login-page-logo.png" alt="" style="width: 230px;height: 230px">
     </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
         <h3 class="title">吾蜜OCC供应管理系统</h3>
         <!--<lang-select class="set-language"></lang-select>-->
       </div>
-      <el-form-item prop="username">
+      <div class="login-input-wrap">
+        <el-form-item prop="username">
         <span class="svg-container svg-container_login username-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model.trim="loginForm.username" autoComplete="on" placeholder="账号" />
-      </el-form-item>
+          <el-input name="username" type="text" v-model.trim="loginForm.username" autoComplete="on" placeholder="账号" />
+        </el-form-item>
 
-      <el-form-item prop="password">
+        <el-form-item prop="password">
         <span class="svg-container password-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model.trim="loginForm.password" autoComplete="on" placeholder="密码" />
-        <span class="show-pwd" @click="showPwd">
+          <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model.trim="loginForm.password" autoComplete="on" placeholder="密码" />
+          <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
-      </el-form-item>
+        </el-form-item>
 
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
+        <el-button type="primary" style="width:100%;margin:20px 0;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
+      </div>
+
 
     </el-form>
 
@@ -140,7 +143,7 @@ $light_gray:#eee;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-box-shadow: 0 0 0px 1000px #283443 inset !important;
         -webkit-text-fill-color: #fff !important;
       }
     }
@@ -170,7 +173,7 @@ $light_gray:#eee;
     right: 0;
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: 30px auto 120px;
+    margin: -110px auto 120px;
   }
   .tips {
     font-size: 14px;
@@ -201,12 +204,13 @@ $light_gray:#eee;
   .title-container {
     position: relative;
     .title {
-      font-size: 26px;
+      font-size: 29px;
       font-weight: 400;
       color: $light_gray;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+      letter-spacing: 3px;
     }
     .set-language {
       color: #fff;
@@ -229,5 +233,16 @@ $light_gray:#eee;
     right: 35px;
     bottom: 28px;
   }
+}
+
+.login-input-wrap {
+  /*box-sizing: border-box;*/
+  border: #5C6676 solid 2px;
+  border-radius: 5px;
+  padding: 20px 30px 0;
+}
+
+.login-input-wrap .login-container .el-input{
+  background-color: rgba(0, 0, 0, 0.1)
 }
 </style>
