@@ -140,6 +140,7 @@ $light_gray:#eee;
     display: inline-block;
     height: 47px;
     width: 85%;
+    background-color: #2d3a4b;
     input {
       background: transparent;
       border: 0px;
