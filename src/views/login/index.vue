@@ -31,8 +31,8 @@
       <div class="logo-wrap">
         <img src="./login-page-logo.png" alt="" style="width: 230px;height: 230px">
       </div>
-      <div style="height: 50px;border-left: 1px solid #fff;"></div>
-      <div>
+      <div class="split-line"></div>
+      <div class="company-msg">
         <span>Copyright &#169; 2017-2019 Wormir. All Rights Reserved.</span><br/>
         <span>公司地址：中国广州市越秀区东风东路761号丽丰中心3402</span><br/>
         <span>备案号：粤ICP备18003953-1号</span><br/>
@@ -253,20 +253,30 @@ $light_gray:#eee;
 }
 
   .copyright-wrap {
-    width: 60%;
     margin: 650px auto 0;
     color: #ffffff;
     font-size: 12px;
     line-height: 1.5em;
     padding-top: 10px;
-    display: flex;
-    justify-content: space-around;
+    position: relative;
+  }
+  .copyright-wrap > div {
+    position: absolute;
   }
   .logo-wrap {
     height: 80px;
     overflow: hidden;
+    right: 51%;
   }
 .logo-wrap img {
   margin-top: -86px;
 }
+  .split-line {
+    height: 50px;
+    border-left: 1px solid #fff;
+    left: 50%;
+  }
+  .company-msg {
+    left: 52%;
+  }
 </style>
