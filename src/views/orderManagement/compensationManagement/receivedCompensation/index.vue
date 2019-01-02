@@ -76,7 +76,7 @@
       <div v-if="isDialogDetailShow" class="dialog-wrap border-top2 border-left2 border-bottom border-right" style="">
         <el-row>
           <el-col :span="8">
-            <div class="grid-content bg-purple">{{$t('order.mergePaymentNo')}}</div>
+            <div class="grid-content bg-purple">Merge Payment No.</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{123456343}}</div>

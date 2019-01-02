@@ -5,7 +5,7 @@
     </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">吾蜜OCC供应管理系统</h3>
+        <div class="title">吾蜜OCC供应管理系统</div>
         <!--<lang-select class="set-language"></lang-select>-->
       </div>
       <div class="login-input-wrap">
@@ -29,9 +29,14 @@
         <el-button type="primary" style="width:100%;margin:20px 0;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
       </div>
 
-
     </el-form>
-
+    <div class="copyright-wrap">
+      <div>
+        <span>Copyright &#169; 2017-2019 Wormir. All Rights Reserved.</span><br/>
+        <span>公司地址：中国广州市越秀区东风东路761号丽丰中心3402</span><br/>
+        <span>备案号：粤ICP备18003953-1号</span><br/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -166,6 +171,7 @@ $light_gray:#eee;
   position: fixed;
   height: 100%;
   width: 100%;
+  overflow: auto;
   background-color: $bg;
   .login-form {
     position: absolute;
@@ -205,11 +211,10 @@ $light_gray:#eee;
     position: relative;
     .title {
       font-size: 29px;
-      font-weight: 400;
+      font-weight: normal;
       color: $light_gray;
-      margin: 20px auto 40px auto;
+      margin: 20px auto 20px auto;
       text-align: center;
-      font-weight: bold;
       letter-spacing: 3px;
     }
     .set-language {
@@ -245,4 +250,14 @@ $light_gray:#eee;
 .login-input-wrap .login-container .el-input{
   background-color: rgba(0, 0, 0, 0.1)
 }
+
+  .copyright-wrap {
+    width: 60%;
+    margin: 350px auto 0;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.5em;
+    border-top: 1px solid #fff;
+    padding-top: 10px;
+  }
 </style>
