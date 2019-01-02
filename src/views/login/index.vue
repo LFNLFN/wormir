@@ -1,8 +1,5 @@
 <template>
   <div class="login-container">
-    <div style="display: flex;justify-content: center;margin-top: 50px">
-      <img src="./login-page-logo.png" alt="" style="width: 230px;height: 230px">
-    </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
         <div class="title">吾蜜OCC供应管理系统</div>
@@ -31,6 +28,10 @@
 
     </el-form>
     <div class="copyright-wrap">
+      <div class="logo-wrap">
+        <img src="./login-page-logo.png" alt="" style="width: 230px;height: 230px">
+      </div>
+      <div style="height: 50px;border-left: 1px solid #fff;"></div>
       <div>
         <span>Copyright &#169; 2017-2019 Wormir. All Rights Reserved.</span><br/>
         <span>公司地址：中国广州市越秀区东风东路761号丽丰中心3402</span><br/>
@@ -179,7 +180,7 @@ $light_gray:#eee;
     right: 0;
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: -110px auto 120px;
+    margin: 80px auto 120px;
   }
   .tips {
     font-size: 14px;
@@ -253,11 +254,19 @@ $light_gray:#eee;
 
   .copyright-wrap {
     width: 60%;
-    margin: 350px auto 0;
+    margin: 650px auto 0;
     color: #ffffff;
     font-size: 12px;
     line-height: 1.5em;
-    border-top: 1px solid #fff;
     padding-top: 10px;
+    display: flex;
+    justify-content: space-around;
   }
+  .logo-wrap {
+    height: 80px;
+    overflow: hidden;
+  }
+.logo-wrap img {
+  margin-top: -86px;
+}
 </style>
