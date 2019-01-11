@@ -100,13 +100,13 @@
     methods: {
       getList() {
         this.listLoading = true
-//        this.list.push({
-//          brandNo: 123456,
-//          chineseName: '兰蔻',
-//          englishName: 'LANCOME',
-//          provenance: '法国',
-//          status: '正常供货'
-//        })
+        this.list.push({
+          brandNo: 123456,
+          chineseName: '兰蔻',
+          englishName: 'LANCOME',
+          provenance: '法国',
+          status: '正常供货'
+        })
         this.listLoading = false
       },
       handleCurrentChange() {

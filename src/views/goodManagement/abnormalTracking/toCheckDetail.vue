@@ -63,7 +63,7 @@
           <div class="grid-content bg-purple ">{{'渠道号'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.channelNum}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.channelNo}}</div>
         </el-col>
       </el-row>
       <el-row>
