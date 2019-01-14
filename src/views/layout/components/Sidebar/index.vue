@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar wrapClass="scrollbar-wrapper">
-    <img v-if="$store.state.app.sidebar.opened" src="../../../../assets/home-page-pic/logo.png" alt="" id="sidebar-pic-open">
-    <img v-else src="../../../../assets/home-page-pic/mini-logo.png" alt="" id="sidebar-pic-close">
+    <img v-show="$store.state.app.sidebar.opened" src="../../../../assets/home-page-pic/logo.png" alt="" id="sidebar-pic-open">
+    <img v-show="!$store.state.app.sidebar.opened" src="../../../../assets/home-page-pic/mini-logo.png" alt="" id="sidebar-pic-close">
     <el-menu
       mode="vertical"
       :show-timeout="200"

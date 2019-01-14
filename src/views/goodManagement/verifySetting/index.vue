@@ -125,13 +125,13 @@
     methods: {
       getList() {
         this.listLoading = true
-//        this.list.push({
-//          brandNo: 123456,
-//          chineseName: '兰蔻',
-//          englishName: 'LANCOM',
-//          provenance: '法国',
-//          status: Mock.Random.natural(0, 1)
-//        })
+        this.list.push({
+          brandNo: 123456,
+          chineseName: '兰蔻',
+          englishName: 'LANCOM',
+          provenance: '法国',
+          status: Mock.Random.natural(0, 1)
+        })
         this.listLoading = false
       },
       handleCurrentChange() {

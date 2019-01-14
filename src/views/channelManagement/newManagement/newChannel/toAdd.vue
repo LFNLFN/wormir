@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
-        <dd class="border1">
+        <dd class="border1" style="border-bottom-width: 2px">
           <el-form-item label="合作类型" prop="cooperativeType">
             <el-radio-group v-model="form.cooperativeType">
               <el-radio label="1">渠道入驻</el-radio>
@@ -11,13 +11,13 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="渠道属性" prop="channelProp">
-            <el-radio-group v-model="form.channelProp">
+            <el-radio-group v-model="form.channelProp" @change="channelPropChange">
               <el-radio label="1">DLQD</el-radio>
-              <el-radio label="2">DFQD</el-radio>
+              <!--<el-radio label="2">DFQD</el-radio>-->
               <el-radio label="3">FXQD</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="渠道类别" prop="channelType">
+          <el-form-item v-if="form.channelProp!=3" label="渠道类别" prop="channelType">
             <el-radio-group v-model="form.channelType">
               <el-radio label="1">淘宝C店</el-radio>
               <el-radio label="2">淘宝企业店</el-radio>
@@ -25,7 +25,7 @@
               <el-radio label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="渠道级别" prop="channelLevel" class="last-form-row">
+          <el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">
             <el-radio-group v-model="form.channelLevel">
               <el-radio label="1">A级渠道</el-radio>
               <el-radio label="2">B级渠道</el-radio>
@@ -41,7 +41,7 @@
         <dd class="border1">
           <el-form-item label="经营主体" label-width="130px" prop="businessEntity">
             <el-radio-group v-model="form.businessEntity">
-              <el-radio :label="1">个人</el-radio>
+              <el-radio :label="1" v-show="form.channelProp!=3">个人</el-radio>
               <el-radio :label="2">企业</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -563,7 +563,11 @@
         })
       },
 
-
+      channelPropChange(val) {
+        if(val == 3) {
+          this.form.businessEntity = 2
+        }
+      },
       addContact() {
         this.form.contactData.push({
           position: '',

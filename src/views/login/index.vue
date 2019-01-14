@@ -1,34 +1,43 @@
 <template>
   <div class="login-container">
-    <div style="display: flex;justify-content: center;margin-top: 50px">
-      <img src="./mini-logo.png" alt="">
-    </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">吾蜜OCC供应管理系统</h3>
+        <div class="title">吾蜜OCC供应管理系统</div>
         <!--<lang-select class="set-language"></lang-select>-->
       </div>
-      <el-form-item prop="username">
+      <div class="login-input-wrap">
+        <el-form-item prop="username">
         <span class="svg-container svg-container_login username-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model.trim="loginForm.username" autoComplete="on" placeholder="账号" />
-      </el-form-item>
+          <el-input name="username" type="text" v-model.trim="loginForm.username" autoComplete="on" placeholder="账号" />
+        </el-form-item>
 
-      <el-form-item prop="password">
+        <el-form-item prop="password">
         <span class="svg-container password-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model.trim="loginForm.password" autoComplete="on" placeholder="密码" />
-        <span class="show-pwd" @click="showPwd">
+          <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model.trim="loginForm.password" autoComplete="on" placeholder="密码" />
+          <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
-      </el-form-item>
+        </el-form-item>
 
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
+        <el-button type="primary" style="width:100%;margin:20px 0;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
+      </div>
 
     </el-form>
-
+    <div class="copyright-wrap">
+      <div class="logo-wrap">
+        <img src="./login-page-logo.png" alt="" style="width: 230px;height: 230px">
+      </div>
+      <div class="split-line"></div>
+      <div class="company-msg">
+        <span>Copyright &#169; 2017-2019 Wormir. All Rights Reserved.</span><br/>
+        <span>公司地址：中国广州市越秀区东风东路761号丽丰中心3402</span><br/>
+        <span>备案号：粤ICP备18003953-1号</span><br/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -131,6 +140,7 @@ $light_gray:#eee;
     display: inline-block;
     height: 47px;
     width: 85%;
+    background-color: #2d3a4b;
     input {
       background: transparent;
       border: 0px;
@@ -140,7 +150,7 @@ $light_gray:#eee;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-box-shadow: 0 0 0px 1000px #283443 inset !important;
         -webkit-text-fill-color: #fff !important;
       }
     }
@@ -163,6 +173,7 @@ $light_gray:#eee;
   position: fixed;
   height: 100%;
   width: 100%;
+  overflow: auto;
   background-color: $bg;
   .login-form {
     position: absolute;
@@ -170,7 +181,7 @@ $light_gray:#eee;
     right: 0;
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: 30px auto 120px;
+    margin: 80px auto 120px;
   }
   .tips {
     font-size: 14px;
@@ -201,12 +212,12 @@ $light_gray:#eee;
   .title-container {
     position: relative;
     .title {
-      font-size: 26px;
-      font-weight: 400;
+      font-size: 29px;
+      font-weight: normal;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 20px auto 20px auto;
       text-align: center;
-      font-weight: bold;
+      letter-spacing: 3px;
     }
     .set-language {
       color: #fff;
@@ -230,4 +241,43 @@ $light_gray:#eee;
     bottom: 28px;
   }
 }
+
+.login-input-wrap {
+  /*box-sizing: border-box;*/
+  border: #5C6676 solid 2px;
+  border-radius: 5px;
+  padding: 20px 30px 0;
+}
+
+.login-input-wrap .login-container .el-input{
+  background-color: rgba(0, 0, 0, 0.1)
+}
+
+  .copyright-wrap {
+    margin: 650px auto 0;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.5em;
+    padding-top: 10px;
+    position: relative;
+  }
+  .copyright-wrap > div {
+    position: absolute;
+  }
+  .logo-wrap {
+    height: 80px;
+    overflow: hidden;
+    right: 51%;
+  }
+.logo-wrap img {
+  margin-top: -86px;
+}
+  .split-line {
+    height: 50px;
+    border-left: 1px solid #fff;
+    left: 50%;
+  }
+  .company-msg {
+    left: 52%;
+  }
 </style>
