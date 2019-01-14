@@ -270,10 +270,7 @@
 
   const qiniu = require('qiniu-js')
   import request from "@/utils/request"
-
-  export default {
-    data() {
-      var validateName = (rule, value, callback) => {
+  var validateName = (rule, value, callback) => {
         console.log(value)
         if (!value) {
           callback(new Error('请输入正确名字'));
@@ -297,6 +294,10 @@
           callback();
         }
       };
+
+  export default {
+    data() {
+      
       return {
         form: {
           cooperativeType: '',
@@ -316,7 +317,7 @@
           companySummary: '',
           legalPerson: '',
           companyAddress: '',
-
+          
           contactData: [{
             position: '',
             userName: '',
@@ -488,8 +489,7 @@
       },
 
       submitAction() {
-        this.isSubmitting = true
-console.log(this.form)
+        
         // 验证渠道联系人和技术对接人
         let channelContactPerson = this.form.contactData.some((item, index, arr) => {
           return item.position == 1
@@ -544,6 +544,7 @@ console.log(this.form)
         }
         this.$refs['form'].validate((valid) => {
           if (valid) {
+            this.isSubmitting = true
             request({
               url: '/channel/createChannel.do',
               method: 'post',
@@ -574,7 +575,9 @@ console.log(this.form)
         })
       },
       deleteContact(index) {
-        this.form.contactData.splice(index, 1)
+        if (this.form.contactData.length > 1) {
+          this.form.contactData.splice(index, 1)
+        }
       }
     }
   }
