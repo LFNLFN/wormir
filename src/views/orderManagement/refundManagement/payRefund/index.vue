@@ -167,14 +167,14 @@
 
 
     <!--查看货单详情 --退订金-->
-    <!--<el-dialog :visible.sync="orderDetailVisible" fullscreen style="padding: 20px">-->
-      <!--<depositRefund v-if="orderDetailVisible"></depositRefund>-->
-    <!--</el-dialog>-->
+    <el-dialog :visible.sync="orderDetailVisible" fullscreen style="padding: 20px">
+      <depositRefund v-if="orderDetailVisible"></depositRefund>
+    </el-dialog>
 
     <!--查看货单详情 --退全款-->
-    <el-dialog :visible.sync="orderDetailVisible" fullscreen style="padding: 20px">
-      <residualRefund v-if="orderDetailVisible"></residualRefund>
-    </el-dialog>
+    <!--<el-dialog :visible.sync="orderDetailVisible" fullscreen style="padding: 20px">-->
+      <!--<residualRefund v-if="orderDetailVisible"></residualRefund>-->
+    <!--</el-dialog>-->
 
 
 
@@ -254,16 +254,16 @@
         // 查看货单详情$
 
         list: [
-//          {
-//            orderNo: Mock.Random.natural(20180522001, 20180522100),
-//            dealWay: Mock.Random.natural(0, 1),
-//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-//            retailerCategories: Mock.Random.natural(0, 2),
-//            retailerNo: Mock.Random.natural(2018001, 2018100),
-//            retailerName: 'QWE总店',
-//            orderStatus: Mock.Random.natural(0, 3),
-//            refundMoney: Mock.Random.natural(1000, 2000),
-//          }
+          {
+            orderNo: Mock.Random.natural(20180522001, 20180522100),
+            dealWay: Mock.Random.natural(0, 1),
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            retailerCategories: Mock.Random.natural(0, 2),
+            retailerNo: Mock.Random.natural(2018001, 2018100),
+            retailerName: 'QWE总店',
+            orderStatus: Mock.Random.natural(0, 3),
+            refundMoney: Mock.Random.natural(1000, 2000),
+          }
         ],
         dealWayFilters: [
           { text: '国内交易', value: 0 },
