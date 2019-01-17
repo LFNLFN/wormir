@@ -1,7 +1,7 @@
 <template>
   <div class="merge-order-wrap">
-    <div class="big-wrap">
-      <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1247px', padding: 0}">
+    <div class="big-wrap border-right2 border-top2">
+      <div class="filter-container theTopMsgBorder border-bottom2 mg-top-2" :style="{width: '1247px', padding: 0}">
         <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">Merge Payment NO. :</div>
@@ -12,15 +12,18 @@
         </el-row>
       </div>
 
-      <depositRefund  v-if="depositRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
-                     @cancel="depositRefundVisible = false" style="padding: 0;" class="addGrayBlock"/>
-      <residualRefund v-if="residualRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
-                      @cancel="residualRefundVisible = false" style="padding: 0" class="addGrayBlock"/>
+      <div class="mg-top-2">
+        <depositRefund  v-if="depositRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
+                        @cancel="depositRefundVisible = false" style="padding: 0;" />
+        <residualRefund v-if="residualRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
+                        @cancel="residualRefundVisible = false" style="padding: 0"/>
+      </div>
 
-      <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1416px', padding: 0}">
+      <div class="filter-container theTopMsgBorder border-bottom2 no-border-right" :style="{width: '1416px', padding: 0}">
         <el-table
           :data="[{something:0}]" border
           :show-header="false"
+          class="no-border-right"
           style="width: 100%">
           <el-table-column
             prop="something"
@@ -191,13 +194,15 @@
     border: none;
   }
 
-  .addGrayBlock {
-    width: 1247px;
-    border-bottom: 20px solid #D5D5D5;
-  }
   .big-wrap{
-    width: 1418px;
-    border: solid 1px #D5D5D5;
+    width: 1416px;
+    overflow: hidden;
   }
 
+  .merge-order-wrap:after {
+    content: '';
+    display: block;
+    width: 1450px;
+    height: 1px;
+  }
 </style>

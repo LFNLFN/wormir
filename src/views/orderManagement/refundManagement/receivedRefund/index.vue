@@ -122,15 +122,15 @@
         residualRefundVisible: false,
         mergeOrderRefundVisible: false,
         list: [
-//          {
-//            mergePayNo: Mock.Random.natural(1234567, 9999999),
-//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-//            remittanceSwifitCode: Mock.Random.natural(1234567, 9999999),
-//            remittanceBankName: Mock.Random.pick(['中国农业银行', '中国工商银行']),
-//            remittanceBankAddress: Mock.Random.pick(['广州市天河区', '上海市浦东区']),
-//            refundAmount: Mock.Random.natural(1000, 2000),
-//            refundStatus: Mock.Random.natural(0, 1),
-//          }
+          {
+            mergePayNo: Mock.Random.natural(1234567, 9999999),
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            remittanceSwifitCode: Mock.Random.natural(1234567, 9999999),
+            remittanceBankName: Mock.Random.pick(['中国农业银行', '中国工商银行']),
+            remittanceBankAddress: Mock.Random.pick(['广州市天河区', '上海市浦东区']),
+            refundAmount: Mock.Random.natural(1000, 2000),
+            refundStatus: Mock.Random.natural(0, 1),
+          }
         ],
         brandNameFilters: [
           { text: 'LANCOM', value: 'LANCOM' },
