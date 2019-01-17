@@ -13,9 +13,13 @@
     </div>
 
     <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
-                    @cancel="waitPayDepositVisible = false" style="padding: 0;" class="addGrayBlock"/>
+                    @payment_amountChange="paymentAmount += $event"
+                    @cancel="waitPayDepositVisible = false"
+                    style="padding: 0;" class="addGrayBlock"/>
     <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible" ref="longerTable"
-                     @cancel="waitPayResidualVisible = false" style="padding: 0" class="addGrayBlock"/>
+                     @payment_amountChange="paymentAmount += $event"
+                     @cancel="waitPayResidualVisible = false"
+                     style="padding: 0" class="addGrayBlock"/>
 
     <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1417px', padding: 0}">
       <el-table key='mergeTotal' :data="mergeTotalList"
@@ -25,83 +29,31 @@
                 :span-method="arraySpanMethod_merge"
                 :show-header="false"
                 :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
-        <el-table-column align="center" width="85" label="Code" prop="goodsNo">
-          <template slot-scope="scope">
-            <span>{{ scope.row.goodsNo }}</span>
-          </template>
-        </el-table-column>
 
-        <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
-                         show-overflow-tooltip/>
-
-        <el-table-column align="center" width="190" label="Size"
-                         prop="specificationChinese" show-overflow-tooltip/>
-
+        <el-table-column align="center" width="85" label="Code" prop="goodsNo"/>
+        <el-table-column align="center" width="130" label="Description" prop="goodsChineseName" show-overflow-tooltip/>
+        <el-table-column align="center" width="190" label="Size" prop="specificationChinese" show-overflow-tooltip/>
         <el-table-column align="center" label="Replenishment Package">
-          <el-table-column align="center" width="120" class-name="units-wrap"
-                           label="Replenishment Quantity">
-            <template slot-scope="scope">
-              <el-row>
-                <el-col :span="12" style="display: flex;justify-content: center">
-                  <span>{{scope.row.replenishmentQuantity}}</span>
-                </el-col>
-                <el-col :span="12" style="display: flex;justify-content: center">
-                  <span>瓶</span>
-                </el-col>
-              </el-row>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" width="100" label="Packing Unit">
-            <template slot-scope="scope">
-              <span>{{scope.row.packingUnit}} 瓶/箱</span>
-            </template>
-          </el-table-column>
+          <el-table-column align="center" width="120" class-name="units-wrap" label="Replenishment Quantity"></el-table-column>
+          <el-table-column align="center" width="100" label="Packing Unit"></el-table-column>
         </el-table-column>
+        <el-table-column align="center" width="90" label="Retail Price"/>
+        <el-table-column align="center" width="120" class-name="units-wrap" label="Replenishment Quantity"/>
+        <el-table-column width="140" align="center" label="Unit Purchase Price"/>
+        <el-table-column width="140" align="center" label="Total Purchase Price"/>
 
-        <el-table-column align="center" width="90" label="Retail Price">
-          <template slot-scope="scope">
-            <span v-if="scope.$index===mergeTotalList.length-1&&currentRow.payWay===2" class="text-danger">{{ '温馨提醒：由于收到订金后才备货，所以请及时自行转帐，并核准以上帐号信息以人民币种转帐，因个人错误转帐造成r的损失自行承担。' }}</span>
-            <span v-else-if="scope.$index===mergeTotalList.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
-            <span v-else>{{scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2)}}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center" width="120" class-name="units-wrap"
-                         label="Replenishment Quantity">
-          <template slot-scope="scope">
-            <el-row>
-              <el-col :span="12" style="display: flex;justify-content: center">
-                <span style="color:gray">{{scope.row.replenishmentQuantity}}</span>
-              </el-col>
-              <el-col :span="12" style="display: flex;justify-content: center">
-                <span>箱</span>
-              </el-col>
-            </el-row>
-          </template>
-        </el-table-column>
-
-        <el-table-column width="140" align="center" label="Unit Purchase Price">
-          <template slot-scope="scope">
-            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">{{ 'unpaid 30% deposit： ' }}</span>
-            <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="140" align="center" label="Total Purchase Price">
-          <template slot-scope="scope">
-            <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" width="128" label="30% Deposit">
+        <el-table-column align="right" width="128" label="30% Deposit">
           <template slot-scope="scope">
             <span class="text-total">{{ 'Unpaid Payment:' }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" width="170px" label="70% Residual Payment" class-name="last-col-td0">
           <template slot-scope="scope">
-            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">￥ {{ 122 }}</span>
-            <span v-else>￥ {{(122 * 0.3).toFixed(2)}}</span>
+            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">￥ {{ paymentAmount.toFixed(2) }}</span>
+            <span v-else>￥ {{0}}</span>
           </template>
         </el-table-column>
+
       </el-table>
       <el-row>
         <el-col :span="4" align="center">
@@ -173,7 +125,8 @@
           {
             goodsNo: 123456
           }
-        ]
+        ],
+        paymentAmount: 0,
       }
     },
     methods: {
@@ -212,7 +165,6 @@
     mounted() {
       this.$nextTick(()=>{
         this.rowLength = this.$refs['longerTable'].$el.offsetWidth
-        this.$refs['mergeTotalTable'].$el.children[1].children["0"].children[1].children["0"].children["0"].style.textAlign = 'right'
       })
     }
   }

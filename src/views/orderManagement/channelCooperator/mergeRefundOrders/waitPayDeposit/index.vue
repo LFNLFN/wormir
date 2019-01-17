@@ -7,7 +7,8 @@
             <div class="grid-content bg-purple">Order No. :</div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple"><span class="link-type" @click="viewWaitStock(currentRow)">{{ currentRow.orderNo }}</span></div>
+            <div class="grid-content bg-purple"><span class="link-type" @click="viewWaitStock(currentRow)">{{ currentRow.orderNo }}</span>
+            </div>
           </el-col>
         </el-row>
 
@@ -19,7 +20,7 @@
             <div class="grid-content bg-purple">{{ 5684635 }}</div>
           </el-col>
           <el-col :span="3">
-            <div class="grid-content bg-purple">Transportation: </div>
+            <div class="grid-content bg-purple">Transportation:</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content bg-purple">By Sea</div>
@@ -71,163 +72,231 @@
         </div>
         <div class="twoTable-wrap" style="padding-right: 20px">
           <!--订货表格-->
-          <div class="filter-container" style="padding-bottom: 0">
-            <el-table key='productList' :data="order.orderSubs || []"
-                      border fit size="mini"
-                      style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
-                      class="orderTable" ref="orderTable"
-                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}">
-              <el-table-column align="center" width="85" label="Code" prop="goodsNo">
-                <template slot-scope="scope">
-                  <span>{{scope.row.goodsNo}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
-                               show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <span>{{scope.row.goodsChineseName}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="90" label="Size"
-                               prop="specificationChinese" show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <span>{{scope.row.specificationChinese}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="220" class-name="units-wrap"
-                               label="Selling Unit" prop="packingSpecification"
-                               show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <el-row>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification || 0}}</span>
-                    </el-col>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>支/箱</span>
-                    </el-col>
-                  </el-row>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="90" label="Retail Price">
-                <template slot-scope="scope">
-                  <span>{{scope.row.supplyCurrencySymbol}}{{scope.row.supplyPrice.toFixed(2)}}</span>
-                </template>
-              </el-table-column>
+          <el-table key='productList' :data="order.orderSubs || []"
+                    border fit size="mini"
+                    style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
+                    class="orderTable" ref="orderTable"
+                    :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}">
+            <el-table-column align="center" width="85" label="Code" prop="goodsNo">
+              <template slot-scope="scope">
+                <span>{{scope.row.goodsNo}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
+                             show-overflow-tooltip>
+              <template slot-scope="scope">
+                <span>{{scope.row.goodsChineseName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="90" label="Size"
+                             prop="specificationChinese" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <span>{{scope.row.specificationChinese}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="220" class-name="units-wrap"
+                             label="Selling Unit" prop="packingSpecification"
+                             show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>{{scope.row.packingSpecification || 0}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>支/箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="90" label="Retail Price">
+              <template slot-scope="scope">
+                <span>{{scope.row.supplyCurrencySymbol}}{{scope.row.supplyPrice.toFixed(2)}}</span>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" width="120" class-name="units-wrap" label="Order  Quantity">
-                <template slot-scope="scope">
-                  <el-row>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.orderQuantity}}</span>
-                    </el-col>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>箱</span>
-                    </el-col>
-                  </el-row>
-                </template>
-              </el-table-column>
+            <el-table-column align="center" width="120" class-name="units-wrap" label="Order  Quantity">
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>{{scope.row.orderQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" width="140" label="Unit Purchase price" fixed="right">
-                <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
-                </template>
-              </el-table-column>
+            <el-table-column align="center" width="140" label="Unit Purchase price">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" width="140" label="Total Purchase Price" fixed="right">
-                <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
-                </template>
-              </el-table-column>
+            <el-table-column align="center" width="140" label="Total Purchase Price">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" label="30% Deposit" width="130" fixed="right">
-                <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
+            <el-table-column align="center" label="30% Deposit" width="130">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
           <!--补货表格-->
-          <div class="filter-container">
-            <el-table key='replenishment' :data="order.replenishmentList" border fit
-                      size="mini"
-                      style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
-                      class="orderTable" ref="replenishmentTable"
-                      :span-method="arraySpanMethod_replenishment"
-                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
-              <el-table-column align="center" width="85" label="Code" prop="goodsNo">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.goodsNo }}</span>
-                </template>
-              </el-table-column>
+          <el-table v-if="hasReplenishment" key='replenishment' :data="order.replenishmentList" ref="replenishmentTable"
+                    border fit size="mini"
+                    style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
+                    class="orderTable"
+                    :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
+            <el-table-column align="center" width="85" label="Code" prop="goodsNo">
+              <template slot-scope="scope">
+                <span>{{ scope.row.goodsNo }}</span>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
-                               show-overflow-tooltip/>
+            <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
+                             show-overflow-tooltip/>
 
-              <el-table-column align="center" width="90" label="Size"
-                               prop="specificationChinese" show-overflow-tooltip/>
+            <el-table-column align="center" width="90" label="Size"
+                             prop="specificationChinese" show-overflow-tooltip/>
 
-              <el-table-column align="center" label="Replenishment Package">
-                <el-table-column align="center" width="120" class-name="units-wrap"
-                                 label="Replenishment Quantity">
-                  <template slot-scope="scope">
-                    <el-row>
-                      <el-col :span="12" style="display: flex;justify-content: center">
-                        <span>{{scope.row.replenishmentQuantity}}</span>
-                      </el-col>
-                      <el-col :span="12" style="display: flex;justify-content: center">
-                        <span>瓶</span>
-                      </el-col>
-                    </el-row>
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" width="100" label="Packing Unit">
-                  <template slot-scope="scope">
-                    <span>{{scope.row.packingUnit}} 瓶/箱</span>
-                  </template>
-                </el-table-column>
-              </el-table-column>
-
-              <el-table-column align="center" width="90" label="Retail Price">
-                <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.payWay===2" class="text-danger">{{ '温馨提醒：由于收到订金后才备货，所以请及时自行转帐，并核准以上帐号信息以人民币种转帐，因个人错误转帐造成的损失自行承担。' }}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
-                  <span v-else>{{scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2)}}</span>
-                </template>
-              </el-table-column>
-
+            <el-table-column align="center" label="Replenishment Package">
               <el-table-column align="center" width="120" class-name="units-wrap"
                                label="Replenishment Quantity">
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span style="color:gray">{{scope.row.replenishmentQuantity}}</span>
+                      <span>{{scope.row.replenishmentQuantity}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>箱</span>
+                      <span>瓶</span>
                     </el-col>
                   </el-row>
                 </template>
               </el-table-column>
+              <el-table-column align="center" width="100" label="Packing Unit">
+                <template slot-scope="scope">
+                  <span>{{scope.row.packingUnit}} 瓶/箱</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
 
-              <el-table-column width="140" align="center" label="Unit Purchase Price" fixed="right">
+            <el-table-column align="center" width="90" label="Retail Price">
+              <template slot-scope="scope">
+                <span>{{scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" width="120" class-name="units-wrap"
+                             label="Replenishment Quantity">
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span style="color:gray">{{scope.row.replenishmentQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+
+            <el-table-column width="140" align="center" label="Unit Purchase Price">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column width="140" align="center" label="Total Purchase Price">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="130" label="30% Deposit">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-table :key='2' :data="totalTableData" ref="totalTable"
+                    border fit size="mini"
+                    style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
+                    class="orderTable"
+                    :span-method="arraySpanMethod"
+                    :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0, display: 'none'}">
+            <el-table-column align="center" width="85" label="Code" prop="goodsNo">
+              <template slot-scope="scope">
+                <span>{{ scope.row.goodsNo }}</span>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" width="130" label="Description" prop="goodsChineseName"
+                             show-overflow-tooltip/>
+
+            <el-table-column align="center" width="90" label="Size"
+                             prop="specificationChinese" show-overflow-tooltip/>
+
+            <el-table-column align="center" label="Replenishment Package">
+              <el-table-column align="center" width="120" class-name="units-wrap"
+                               label="Replenishment Quantity">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">{{ 'unpaid 30% deposit： ' }}</span>
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+                  <el-row>
+                    <el-col :span="12" style="display: flex;justify-content: center">
+                      <span>{{scope.row.replenishmentQuantity}}</span>
+                    </el-col>
+                    <el-col :span="12" style="display: flex;justify-content: center">
+                      <span>瓶</span>
+                    </el-col>
+                  </el-row>
                 </template>
               </el-table-column>
-              <el-table-column width="140" align="center" label="Total Purchase Price" fixed="right">
+              <el-table-column align="center" width="100" label="Packing Unit">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+                  <span>{{scope.row.packingUnit}} 瓶/箱</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="130" label="30% Deposit" fixed="right">
-                <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
+            </el-table-column>
+
+            <el-table-column align="left" width="90" label="Retail Price">
+              <template slot-scope="scope">
+                <span v-if="scope.$index==totalTableData.length-1&&currentRow.payWay===2" class="text-danger">{{ '温馨提醒：由于收到订金后才备货，所以请及时自行转帐，并核准以上帐号信息以人民币种转帐，因个人错误转帐造成的损失自行承担。' }}</span>
+                <span v-else-if="scope.$index==totalTableData.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+                <span v-else>{{scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" width="120" class-name="units-wrap"
+                             label="Replenishment Quantity">
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span style="color:gray">{{scope.row.replenishmentQuantity}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+
+            <el-table-column width="140" align="right" label="Unit Purchase Price">
+              <template slot-scope="scope">
+                <span class="text-total">{{ 'unpaid 30% deposit： ' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column width="140" align="center" label="Total Purchase Price">
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="130" label="30% Deposit">
+              <template slot-scope="scope">
+                <span class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
 
         </div>
 
@@ -325,20 +394,53 @@
           itemOrder_amount += subsItem.orderQuantity * subsItem.packingSpecification * subsItem.supplyPrice * 0.3
         })
         let itemReplenish_amount = 0
-        this.order.replenishmentList.forEach((replenishItem, index, arr) => {
-          if (arr.length - 1 === index) return false
-          itemReplenish_amount += replenishItem.supplyPrice * replenishItem.replenishmentQuantity * 0.3
-        })
-        const deposit30_amount = itemOrder_amount + itemReplenish_amount
-        return deposit30_amount
+//        this.order.replenishmentList.forEach((replenishItem, index, arr) => {
+//          if (arr.length - 1 === index) return false
+//          itemReplenish_amount += replenishItem.supplyPrice * replenishItem.replenishmentQuantity * 0.3
+//        })
+        return itemOrder_amount + itemReplenish_amount
       },
     },
     data() {
       return {
         list: [],
+        hasReplenishment: false,
         replenishmentList: [],
         listLoading: false,
         cartListSelect: [],
+        totalTableData: [
+          {
+            startDiscount: 70,
+            orderDiscount: 68,
+            goodsNo: 7534645,
+            goodsChineseName: '美白保湿',
+            specificationChinese: '200 ml',
+            packingUnit: 12,
+            supplyCurrencySymbol: '￥ ',
+            supplyPrice: 40,
+            unitsReplenishment: 10,
+            individualReplenishment: 0,
+            iProdQuantity_inventory: 15,
+            // unitsQuantities: [24, 28, 36, 40, 48],
+            unitsQuantities: [
+              [ // 一个数组为一行，一行最多放三个数据
+                { unit: 24, inventory: 200 },
+                { unit: 28, inventory: 210 },
+                { unit: 36, inventory: 220 }
+              ],
+              [ // 一个数组为一行，一行最多放三个数据
+                { unit: 40, inventory: 230 },
+                { unit: 48, inventory: 240 }
+              ]
+            ],
+            isAddedRow: false,
+            replenishmentQuantity: 36,
+            replenishmentQuantity_input: 0,
+            shipmentQuantity: 1,
+            cartonNo: '043524',
+            packingSpecification: 24
+          }
+        ],
         replenishmentListSelect: [],
         addAddressShow: false,
         addTransferAccountShow: false,
@@ -543,8 +645,8 @@
         //   }
         // })
       },
-      arraySpanMethod_replenishment({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === this.order.replenishmentList.length - 1) {
+      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === this.totalTableData.length - 1) {
           if (columnIndex === 5) {
             return {
               rowspan: 1,
@@ -610,87 +712,27 @@
       viewWaitStock(row) {
 //        this.currentRow = row
 //        this.waitStockVisible = true
+      },
+      // 弹层里面橙色总价
+      payment_amount() {
+        this.$emit('payment_amountChange', this.deposit30Amount)
       }
     },
     created() {
       this.getList()
     },
     mounted() {
+      this.payment_amount()
 
-      this.order.replenishmentList.push({
-        startDiscount: 70,
-        orderDiscount: 68,
-        goodsNo: 7534645,
-        goodsChineseName: '美白保湿',
-        specificationChinese: '200 ml',
-        packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
-        supplyPrice: 40,
-        unitsReplenishment: 10,
-        individualReplenishment: 0,
-        iProdQuantity_inventory: 15,
-        // unitsQuantities: [24, 28, 36, 40, 48],
-        unitsQuantities: [
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 24, inventory: 200 },
-            { unit: 28, inventory: 210 },
-            { unit: 36, inventory: 220 }
-          ],
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 40, inventory: 230 },
-            { unit: 48, inventory: 240 }
-          ]
-        ],
-        isAddedRow: false,
-        replenishmentQuantity: 36,
-        replenishmentQuantity_input: 0,
-        shipmentQuantity: 1,
-        cartonNo: '043524',
-        packingSpecification: 24
-      })
-      this.order.replenishmentList.push({
-        startDiscount: 70,
-        orderDiscount: 68,
-        goodsNo: 7534645,
-        goodsChineseName: '美白保湿',
-        specificationChinese: '200 ml',
-        packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
-        supplyPrice: 40,
-        unitsReplenishment: 10,
-        individualReplenishment: 0,
-        iProdQuantity_inventory: 15,
-        // unitsQuantities: [24, 28, 36, 40, 48],
-        unitsQuantities: [
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 24, inventory: 200 },
-            { unit: 28, inventory: 210 },
-            { unit: 36, inventory: 220 }
-          ],
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 40, inventory: 230 },
-            { unit: 48, inventory: 240 }
-          ]
-        ],
-        isAddedRow: false,
-        replenishmentQuantity: 36,
-        replenishmentQuantity_input: 0,
-        shipmentQuantity: 1,
-        cartonNo: '043524',
-        packingSpecification: 24
-      })
-
-      window.setTimeout(() => {
-//        this.$refs['sumTable'].$el.children[3].children['0'].children[1].children['0'].cells[3].children['0'].innerHTML = `<div style="display: flex;justify-content: flex-end"><span>合计:</span></div>`
+      this.$nextTick(() => {
 
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
-        this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
+        this.tableHeight += this.$refs['replenishmentTable'] && this.$refs['replenishmentTable'].$el.offsetHeight || 0
+        this.tableHeight += this.$refs['totalTable'].$el.offsetHeight
 
         this.rowLength = this.$refs['orderTable'].$el.offsetWidth + window.document.getElementsByClassName('brand-col')[0].offsetWidth
 
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
-
-      }, 100)
+      })
     }
   }
 </script>
@@ -723,6 +765,7 @@
   .el-col {
     border-radius: 0;
   }
+
   .el-col:nth-child(odd) {
     background: #dff2fc;
     color: #424242;
@@ -732,27 +775,32 @@
     align-items: center;
     justify-content: center;
   }
+
   .el-col:nth-child(odd):not(:last-of-type) {
     border-right: 1px solid #d5d5d5;
   }
+
   .el-col:nth-child(even) {
     color: #424242;
     font-size: 12px;
     display: flex;
     align-items: center;
   }
+
   .el-col:nth-child(even):not(:last-of-type) {
     border-right: 1px solid #d5d5d5;
   }
+
   .grid-content {
     border: none;
   }
 
   .units-wrap .el-col {
-    border: none!important;
+    border: none !important;
     background-color: transparent;
     font-weight: normal;
   }
+
   .units-wrap .el-input--medium .el-input__inner {
     height: 24px;
     line-height: 24px;

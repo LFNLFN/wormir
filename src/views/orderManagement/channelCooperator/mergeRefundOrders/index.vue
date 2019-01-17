@@ -184,43 +184,43 @@
       return {
         tableKey: 0,
         list: [
-//          {
-//            orderNo: Mock.Random.natural(123456, 999999),
-//            channelProp: Mock.Random.natural(0, 2),
-//            channelNo: Mock.Random.natural(20180522001, 20180522100),
-//            channelName: 'ASD总店',
-////            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-//            brandName: 'AESOP',
-//            transportation: Mock.Random.natural(0, 1),
-//            paymentReceive: Mock.Random.natural(1000, 2000),
-//            purchasePrice: Mock.Random.natural(23, 99),
-//            paymentToPay: Mock.Random.natural(500, 999),
-//            thirtyOrseventy: 30,
-//          },
-//          {
-//            orderNo: Mock.Random.natural(123456, 999999),
-//            channelProp: Mock.Random.natural(0, 2),
-//            channelNo: Mock.Random.natural(20180522001, 20180522100),
-//            channelName: 'ASD总店',
-//            brandName: 'LANCOM',
-//            transportation: Mock.Random.natural(0, 1),
-//            paymentReceive: Mock.Random.natural(1000, 2000),
-//            purchasePrice: Mock.Random.natural(23, 99),
-//            paymentToPay: Mock.Random.natural(500, 999),
-//            thirtyOrseventy: 70,
-//          },
-//          {
-//            orderNo: Mock.Random.natural(123456, 999999),
-//            channelProp: Mock.Random.natural(0, 2),
-//            channelNo: Mock.Random.natural(20180522001, 20180522100),
-//            channelName: 'ASD总店',
-//            brandName: 'LANCOM',
-//            transportation: Mock.Random.natural(0, 1),
-//            paymentReceive: Mock.Random.natural(1000, 2000),
-//            purchasePrice: Mock.Random.natural(23, 99),
-//            paymentToPay: Mock.Random.natural(500, 999),
-//            thirtyOrseventy: 30,
-//          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            brandName: 'AESOP',
+            transportation: Mock.Random.natural(0, 1),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            purchasePrice: Mock.Random.natural(23, 99),
+            paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 30,
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: 'AESOP',
+            transportation: Mock.Random.natural(0, 1),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            purchasePrice: Mock.Random.natural(23, 99),
+            paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 70,
+          },
+          {
+            orderNo: Mock.Random.natural(123456, 999999),
+            channelProp: Mock.Random.natural(0, 2),
+            channelNo: Mock.Random.natural(20180522001, 20180522100),
+            channelName: 'ASD总店',
+            brandName: 'LANCOM',
+            transportation: Mock.Random.natural(0, 1),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            purchasePrice: Mock.Random.natural(23, 99),
+            paymentToPay: Mock.Random.natural(500, 999),
+            thirtyOrseventy: 30,
+          },
         ],
         total: null,
         waitPayDepositVisible: false,
@@ -452,7 +452,8 @@
 
         const firstBrandName = this.ordersSelected[0].brandName
 
-        return this.ordersSelected.some(({ brandName }) => {
+        return this.ordersSelected.some(({ brandName }, index, arr) => {
+          if (index == arr.length-1) { return false }
           return brandName !== firstBrandName
         })
       },
@@ -558,11 +559,11 @@
 //          paymentToPay: Mock.Random.natural(500, 999),
 //        },
       )
-      window.setTimeout(() => {
+      this.$nextTick(() => {
 
         this.$refs['sumTable'].$el.children[2].children[0].children[1].children[this.list.length - 1].cells[0].style.textAlign = 'right'
 
-      }, 0)
+      })
     }
   }
 </script>

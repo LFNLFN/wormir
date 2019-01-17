@@ -624,6 +624,7 @@ td.units-wrap:after {
   position: fixed;
   top: 40px;
   right: 40px;
+  z-index: 9999999;
 }
 
 // 用于填写提交信息的表格
