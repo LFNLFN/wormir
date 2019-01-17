@@ -448,13 +448,13 @@
 
       // 检查并单是否有多品牌
       checkMergeOrder() {
-        if (this.ordersSelected.length === 1) return false
+        if (this.ordersSelected.length == 1) return false
 
         const firstBrandName = this.ordersSelected[0].brandName
 
         return this.ordersSelected.some(({ brandName }, index, arr) => {
           if (index == arr.length-1) { return false }
-          return brandName !== firstBrandName
+          return brandName != firstBrandName
         })
       },
 

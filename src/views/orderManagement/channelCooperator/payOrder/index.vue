@@ -123,16 +123,16 @@
         tableKey: 0,
         mergeOrderDetailVisible: false,
         list: [
-//          {
-//            mergePayNo: Mock.Random.natural(1234567, 9999999),
-//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-//            paymentSwifitCode: Mock.Random.natural(1234567, 9999999),
-//            receiptBankName: Mock.Random.pick(['Bank of America']),
-//            receiptBankAddress: Mock.Random.pick(['New York Manhattan']),
-//            paymentReceive: Mock.Random.natural(1000, 2000),
-//            paymentPay: Mock.Random.natural(1000, 2000),
-//            payOrderStatus: Mock.Random.natural(0, 2)
-//          }
+          {
+            mergePayNo: Mock.Random.natural(1234567, 9999999),
+            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
+            paymentSwifitCode: Mock.Random.natural(1234567, 9999999),
+            receiptBankName: Mock.Random.pick(['Bank of America']),
+            receiptBankAddress: Mock.Random.pick(['New York Manhattan']),
+            paymentReceive: Mock.Random.natural(1000, 2000),
+            paymentPay: Mock.Random.natural(1000, 2000),
+            payOrderStatus: Mock.Random.natural(0, 2)
+          }
         ],
         total: null,
         listLoading: false,
