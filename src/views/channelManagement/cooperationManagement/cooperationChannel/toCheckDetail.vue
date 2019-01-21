@@ -89,13 +89,13 @@
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.idcardFront)"><img :src="currentRow.idcardFront" alt="无图"
                                                                                height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+                                                                               class="link-type form-photo-offset"></span></el-col>
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple">{{'身份证背面'}}</div>
         </el-col>
         <el-col :span="7"><span @click="viewImage(currentRow.idcardBack)"><img :src="currentRow.idcardBack" alt="无图"
                                                                                height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+                                                                               class="link-type form-photo-offset"></span></el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5" style="min-height: 57px">
@@ -103,7 +103,7 @@
         </el-col>
         <el-col :span="19"><span @click="viewImage(currentRow.businessLicense)"><img :src="currentRow.businessLicense" alt="无图"
                                                                                 height="48px" width="48px"
-                                                                                class="link-type"></span></el-col>
+                                                                                class="link-type form-photo-offset"></span></el-col>
       </el-row>
     </div>
     <p style="margin: .5em"></p>

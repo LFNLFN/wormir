@@ -26,11 +26,11 @@
         <el-col :span="5" style="min-height: 56px"><span>身份证正面: </span></el-col>
         <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证正面"
                                                                   height="47px" width="47px"
-                                                                  class="link-type"></span></el-col>
+                                                                  class="link-type form-photo-offset"></span></el-col>
         <el-col :span="5" style="min-height: 56px"><span>身份证反面: </span></el-col>
         <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证反面"
                                                                   height="47px" width="47px"
-                                                                  class="link-type"></span></el-col>
+                                                                  class="link-type form-photo-offset"></span></el-col>
       </el-row>
 
 
@@ -54,7 +54,7 @@
         <el-col :span="5" style="min-height: 56px"><span>营业执照: </span></el-col>
         <el-col :span="19"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="营业执照"
                                                                    height="47px" width="47px"
-                                                                   class="link-type"></span></el-col>
+                                                                   class="link-type form-photo-offset"></span></el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5">

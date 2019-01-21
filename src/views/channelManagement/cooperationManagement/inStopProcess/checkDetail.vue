@@ -85,7 +85,7 @@
         </el-col>
         <el-col :span="7">
           <span @click="viewImage(currentRow.proofImage)">
-            <img :src="currentRow.idcardFront" alt height="48px" width="48px" class="link-type">
+            <img :src="currentRow.idcardFront" alt height="48px" width="48px" class="link-type form-photo-offset">
           </span>
         </el-col>
         <el-col :span="5" style="min-height: 57px">
@@ -93,7 +93,7 @@
         </el-col>
         <el-col :span="7">
           <span @click="viewImage(currentRow.proofImage)">
-            <img :src="currentRow.idcardBack" alt height="48px" width="48px" class="link-type">
+            <img :src="currentRow.idcardBack" alt height="48px" width="48px" class="link-type form-photo-offset">
           </span>
         </el-col>
       </el-row>
@@ -103,7 +103,7 @@
         </el-col>
         <el-col :span="19">
           <span @click="viewImage(currentRow.proofImage)">
-            <img :src="currentRow.businessLicense" alt height="48px" width="48px" class="link-type">
+            <img :src="currentRow.businessLicense" alt height="48px" width="48px" class="link-type form-photo-offset">
           </span>
         </el-col>
       </el-row>

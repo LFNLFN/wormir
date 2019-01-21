@@ -333,19 +333,6 @@
 
     </div>
 
-    <el-dialog :visible.sync="cancelOrderVisible" width="30%" append-to-body :show-close="false">
-      <p style="text-align: center">确认取消订货？</p>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="cancelOrderVisible=false">暂不</el-button>
-        <el-button type="primary" @click="handleConfirm()">确认</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :visible.sync="cancelOrderSubmitVisible" width="30%" append-to-body :show-close="false">
-      <p style="text-align: center">该次订货已被取消，可在“停止订货”状态中查看详情。</p>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="cancelOrderSubmitVisible=false">知道了</el-button>
-      </div>
-    </el-dialog>
 
   </div>
 </template>
