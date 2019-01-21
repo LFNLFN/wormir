@@ -37,7 +37,7 @@ export const constantRouterMap = [
       path: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       name: 'dashboard',
-      meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+      meta: { title: 'dashboard', icon: 'home', noCache: true }
     }]
   }
 ]
@@ -55,7 +55,7 @@ export const asyncRouterMap = [
     name: 'channelManagement',
     meta: {
       title: 'channelManagement',
-      icon: 'table'
+      icon: 'channelManagement'
     },
     children: [
       {
@@ -101,7 +101,7 @@ export const asyncRouterMap = [
     name: 'goodManagement',
     meta: {
       title: 'goodManagement',
-      icon: 'table'
+      icon: 'goodManagement'
     },
     children: [
       {
@@ -158,7 +158,7 @@ export const asyncRouterMap = [
     name: 'orderManagement',
     meta: {
       title: 'orderManagement',
-      icon: 'table'
+      icon: 'orderManagement'
     },
     children: [
       {
