@@ -102,61 +102,90 @@
       </div>
 
       <div style="display: flex">
-        <div class="brand-col">
-          <div class="col-head border-bottom" style="border-left: 2px solid #d5d5d5">商品品牌</div>
-          <div class="col-content"
-               :style="{height: tableHeight-37+'px', borderLeft: '2px solid #d5d5d5', borderBottom: '2px solid #d5d5d5'}">
-            <span>AESOP</span></div>
-        </div>
         <div class="twoTable-wrap" style="padding-right: 20px">
           <!--订货表格-->
           <div class="filter-container" style="padding-bottom: 0">
-            <el-table key='productList' :data="order.orderSubs || []"
-                      border fit size="mini"
-                      style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
-                      class="orderTable" ref="orderTable"
-                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}">
-              <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
+            <el-table
+              key="productList"
+              :data="orderDetail.goodList || []"
+              border
+              fit
+              size="mini"
+              style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
+              class="orderTable"
+              ref="orderTable"
+              :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}"
+            >
+              <el-table-column
+                align="center"
+                width="85"
+                label="商品品牌"
+                prop="brandName"
+              />
+              <el-table-column
+                align="center"
+                width="85"
+                :label="$t('product.productNo')"
+                prop="goodsNo"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.goodsNo}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsChineseName"
-                               show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <span>{{scope.row.goodsChineseName}}</span>
-                </template>
+              <el-table-column
+                align="center"
+                width="130"
+                :label="$t('product.productName')"
+                prop="goodsName"
+                show-overflow-tooltip
+              >
               </el-table-column>
-              <el-table-column align="center" width="90" :label="$t('product.productSpecification')"
-                               prop="specificationChinese" show-overflow-tooltip>
-                <template slot-scope="scope">
+              <el-table-column
+                align="center"
+                width="90"
+                :label="$t('product.productSpecification')"
+                prop="capacity"
+                show-overflow-tooltip
+              >
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.specificationChinese}}</span>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column align="center" width="220" class-name="units-wrap"
-                               :label="$t('order.packageSpecification')" prop="packingSpecification"
-                               show-overflow-tooltip>
+              <el-table-column
+                align="center"
+                width="220"
+                class-name="units-wrap"
+                :label="$t('order.packageSpecification')"
+                prop="packingSpecification"
+                show-overflow-tooltip
+              >
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification || 0}}</span>
+                      <span>{{scope.row.packingGoodsCount || 0}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>支/箱</span>
+                      <span>{{scope.row.packingGoodsUnit}}/箱</span>
                     </el-col>
                   </el-row>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.supplyCurrencySymbol}}{{scope.row.supplyPrice.toFixed(2)}}</span>
+                  <span>￥{{scope.row.unitPrice}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="120" class-name="units-wrap" :label="$t('order.orderQuantity')">
+              <el-table-column
+                align="center"
+                width="120"
+                class-name="units-wrap"
+                :label="$t('order.orderQuantity')"
+              >
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.orderQuantity}}</span>
+                      <!-- <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input> -->
+                      <span>{{scope.row.orderBoxNum}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -167,28 +196,40 @@
 
               <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.startDiscount}}%</span>
+                  <span>{{scope.row.initialDiscount}}%</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="140" :label="$t('price.orderDiscount')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.orderDiscount}}%</span>
+                  <span>{{scope.row.finalDiscount}}%</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" :label="$t('price.orderUnitPrice')">
+              <el-table-column
+                align="center"
+                width="140"
+                :label="$t('price.orderUnitPrice')"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.unitPrice * scope.row.finalDiscount}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('order.orderAmount')">
+              <el-table-column
+                align="center"
+                width="140"
+                :label="$t('order.orderAmount')"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.orderPrice}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" :label="$t('order.thirtyPercentDeposit')" width="130">
+              <el-table-column
+                align="center"
+                :label="$t('order.thirtyPercentDeposit')"
+                width="130"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.earnestAmount}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -199,8 +240,15 @@
                       size="mini"
                       style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
                       class="orderTable" ref="replenishmentTable"
+                      :show-header="haveReplenishment"
                       :span-method="arraySpanMethod_replenishment"
                       :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
+              <el-table-column
+                align="center"
+                width="85"
+                label="商品品牌"
+                prop="brandName"
+              />
               <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-1" class="text-muted"> 支付30%订金时间: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
@@ -272,7 +320,7 @@
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('order.thirtyPercentDeposit')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ deposit30Amount.toFixed(2) }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ currentRow.total_earnest_amount }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
@@ -305,14 +353,68 @@
 <script>
   /* eslint-disable */
 
-  // import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import request from "@/utils/request";
 
   export default {
     components: {},
     props: {
       currentRow: {
         type: Object,
-        required: true
+        defalut: () => {
+          return  {
+            "brandNo": 10001,
+            "goodsNo": 1000110001,
+            orderNo: 10001,
+            channelNo: 101,
+            channelClassify: 1,
+            channelLevel: 1,
+            orderAmount: 100,
+            orderStatus: 0,
+            FXMSG: [
+              {
+                channelNo: 1234,
+                channelClassify: 1,
+                channelLevel: 1,
+                applicationResult: 1,
+                firstApplicationResult: 1,
+                secondApplication: false,
+                firstReject: false,
+                secondApplicationResult: 1
+              },
+              {
+                channelNo: 2234,
+                channelClassify: 2,
+                channelLevel: 2,
+                applicationResult: 2,
+                firstApplicationResult: 2,
+                secondApplication: true,
+                firstReject: false,
+                secondApplicationResult: 2
+              },
+              {
+                channelNo: 3234,
+                channelClassify: 3,
+                channelLevel: 3,
+                applicationResult: 3,
+                firstApplicationResult: 3,
+                secondApplication: true,
+                firstReject: true,
+                secondApplicationResult: 3
+              }
+            ],
+            "goodsImg": "http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg",
+            "goodsChineseName": "兰蔻（LANCOME）空气轻垫唇油 口红唇釉唇彩 空气轻垫唇油166 6ML",
+            "goodsCategory": 10,
+            "series": "薰衣草",
+            "merchandiseMainVariety": 0,
+            "merchandiseChildVariety": 1,
+            "goodsSpecification": "102毫升/支",
+            "cartonSpecification": "10支/箱",
+            "unitPrice": "240.00",
+            "brandEnglishName": "LANCOME"
+          }
+        }
       }
     },
     computed: {
@@ -333,7 +435,43 @@
     data() {
       return {
         list: [],
-        replenishmentList: [],
+        orderDetail: {}, // 存放订货表格数据
+        haveReplenishment: false,
+        replenishmentList: [
+          {
+            startDiscount: 70,
+            orderDiscount: 68,
+            goodsNo: 7534645,
+            goodsChineseName: "美白保湿",
+            specificationChinese: "200 ml",
+            packingUnit: 12,
+            supplyCurrencySymbol: "￥ ",
+            supplyPrice: 40,
+            unitsReplenishment: 10,
+            individualReplenishment: 0,
+            iProdQuantity_inventory: 15,
+            // unitsQuantities: [24, 28, 36, 40, 48],
+            unitsQuantities: [
+              [
+                // 一个数组为一行，一行最多放三个数据
+                { unit: 24, inventory: 200 },
+                { unit: 28, inventory: 210 },
+                { unit: 36, inventory: 220 }
+              ],
+              [
+                // 一个数组为一行，一行最多放三个数据
+                { unit: 40, inventory: 230 },
+                { unit: 48, inventory: 240 }
+              ]
+            ],
+            isAddedRow: false,
+            replenishmentQuantity: 36,
+            replenishmentQuantity_input: 0,
+            shipmentQuantity: 1,
+            cartonNo: "043524",
+            packingSpecification: 24
+          },
+        ],
         listLoading: false,
         cartListSelect: [],
         replenishmentListSelect: [],
@@ -529,30 +667,34 @@
         let param = {}
       },
       getList() {
-        // requestShopCart().then(res => {
-        //   this.list = res.data
-        // })
+        request({
+          url: "/order/orderDetail.do",
+          method: "post",
+          data: { orderNo: this.currentRow.order_no || '' }
+        }).then(res => {
+          this.orderDetail = res.data;
+        });
       },
       removeAction(cartId, index) {
-        // cartRemove(cartId).then(res => {
-        //   if (res.errorCode == 0) {
-        //     this.list.splice(index, 1)
-        //   }
-        // })
+        cartRemove(cartId).then(res => {
+          if (res.errorCode == 0) {
+            this.list.splice(index, 1)
+          }
+        })
       },
       arraySpanMethod_replenishment({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === this.order.replenishmentList.length - 1) {
-          if (columnIndex === 0) {
+        if (rowIndex === this.replenishmentList.length - 1) {
+          if (columnIndex === 1) {
             return {
               rowspan: 1,
-              colspan: 7
+              colspan: 8
             }
-          } else if (columnIndex === 7) {
+          } else if (columnIndex === 8) {
             return {
               rowspan: 1,
               colspan: 4
             }
-          } else if (columnIndex === 11) {
+          } else if (columnIndex === 12) {
             return {
               rowspan: 1,
               colspan: 1
@@ -579,37 +721,37 @@
     },
     mounted() {
 
-      this.order.replenishmentList.push({
-        startDiscount: 70,
-        orderDiscount: 68,
-        goodsNo: 7534645,
-        goodsChineseName: '美白保湿',
-        specificationChinese: '200 ml',
-        packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
-        supplyPrice: 40,
-        unitsReplenishment: 10,
-        individualReplenishment: 0,
-        iProdQuantity_inventory: 15,
-        // unitsQuantities: [24, 28, 36, 40, 48],
-        unitsQuantities: [
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 24, inventory: 200 },
-            { unit: 28, inventory: 210 },
-            { unit: 36, inventory: 220 }
-          ],
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 40, inventory: 230 },
-            { unit: 48, inventory: 240 }
-          ]
-        ],
-        isAddedRow: false,
-        replenishmentQuantity: 36,
-        replenishmentQuantity_input: 0,
-        shipmentQuantity: 1,
-        cartonNo: '043524',
-        packingSpecification: 24
-      })
+//      this.order.replenishmentList.push({
+//        startDiscount: 70,
+//        orderDiscount: 68,
+//        goodsNo: 7534645,
+//        goodsChineseName: '美白保湿',
+//        specificationChinese: '200 ml',
+//        packingUnit: 12,
+//        supplyCurrencySymbol: '￥ ',
+//        supplyPrice: 40,
+//        unitsReplenishment: 10,
+//        individualReplenishment: 0,
+//        iProdQuantity_inventory: 15,
+//        // unitsQuantities: [24, 28, 36, 40, 48],
+//        unitsQuantities: [
+//          [ // 一个数组为一行，一行最多放三个数据
+//            { unit: 24, inventory: 200 },
+//            { unit: 28, inventory: 210 },
+//            { unit: 36, inventory: 220 }
+//          ],
+//          [ // 一个数组为一行，一行最多放三个数据
+//            { unit: 40, inventory: 230 },
+//            { unit: 48, inventory: 240 }
+//          ]
+//        ],
+//        isAddedRow: false,
+//        replenishmentQuantity: 36,
+//        replenishmentQuantity_input: 0,
+//        shipmentQuantity: 1,
+//        cartonNo: '043524',
+//        packingSpecification: 24
+//      })
 
       window.setTimeout(() => {
 //        this.$refs['sumTable'].$el.children[3].children['0'].children[1].children['0'].cells[3].children['0'].innerHTML = `<div style="display: flex;justify-content: flex-end"><span>合计:</span></div>`
@@ -617,11 +759,10 @@
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
 
-        this.rowLength = this.$refs['orderTable'].$el.offsetWidth + window.document.getElementsByClassName('brand-col')[0].offsetWidth
+        this.rowLength = this.$refs['orderTable'].$el.offsetWidth
 
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[1].style.textAlign = 'right'
-//        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
+        this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells["0"].style.textAlign = 'left'
+        this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells[1].style.textAlign = 'right'
 
       }, 100)
     }

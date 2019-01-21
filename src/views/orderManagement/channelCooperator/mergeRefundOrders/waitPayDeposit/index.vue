@@ -7,7 +7,7 @@
             <div class="grid-content bg-purple">Order No. :</div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple"><span class="link-type" @click="viewWaitStock(currentRow)">{{ currentRow.orderNo }}</span>
+            <div class="grid-content bg-purple"><span class="link-type" @click="viewDialog">{{ currentRow.orderNo }}</span>
             </div>
           </el-col>
         </el-row>
@@ -304,73 +304,10 @@
 
     </div>
 
-    <el-dialog :visible.sync="cancelOrderVisible" width="30%" append-to-body :show-close="false">
-      <p style="text-align: center">确认取消订货？</p>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="cancelOrderVisible=false">暂不</el-button>
-        <el-button type="primary" @click="handleConfirm()">确认</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :visible.sync="cancelOrderSubmitVisible" width="30%" append-to-body :show-close="false">
-      <p style="text-align: center">该次订货已被取消，可在“停止订货”状态中查看详情。</p>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="cancelOrderSubmitVisible=false">知道了</el-button>
-      </div>
-    </el-dialog>
-    <!--点击去付订金-->
-    <el-dialog :visible.sync="payWindowVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center">货单号: <span>{{currentRow.orderNo}}</span></div>
-      <div style="text-align: center;">账户余额: ￥{{accountResidual.toFixed(2)}}</div>
-      <div style="text-align: center;">支付30%订金: ￥{{deposit30.toFixed(2)}}</div>
-      <!--<div style="text-align: center" class="text-muted" v-if="accountResidual<deposit30">提醒：帐户余额不足扣减 ，请先充值。</div>-->
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="payWindowVisible=false">暂不</el-button>
-        <el-button type="primary" @click="handlePaymentConfirm()">确认支付</el-button>
-        <!--<el-button type="primary" v-if="accountResidual>=deposit30" @click="handlePaymentConfirm()">确认支付</el-button>-->
-        <!--<el-button type="primary" v-else @click="goRecharge()">去充值</el-button>-->
-      </div>
-    </el-dialog>
-    <el-dialog :visible.sync="completePaymentVisible" width="36%" append-to-body :show-close="false">
-      <div style="text-align: center">货单号 <span>{{currentRow.orderNo}}</span> 已完成订金支付。<br>当前帐户余额 ￥ <span>{{(accountResidual-deposit30).toFixed(2)}}</span><br>可在待备货状态项下『查看货单』。
-      </div>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="completePaymentVisible=false">知道了</el-button>
-      </div>
+    <el-dialog :visible.sync="isDialogShow" fullscreen style="padding: 20px" append-to-body title="待备货货单">
+      <waitStock></waitStock>
     </el-dialog>
 
-
-    <!--充值环节-->
-    <el-dialog :visible.sync="rechargeWindowVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center;">账户余额: ￥ {{accountResidual.toFixed(2)}}</div>
-      <div style="text-align: center;">充值金额:<span
-        style="color: red">请充入不少于 ￥ {{(deposit30-accountResidual).toFixed(2)}}</span>
-        <el-input v-model.number.lazy="rechargeAmount"></el-input>
-      </div>
-      <div style="text-align: center" class="text-danger">温馨提示：充值前请确保已绑定的银行卡有足够金额进行充值。</div>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="rechargeWindowVisible=false">暂不</el-button>
-        <el-button type="primary" @click="handleRechargeConfirm()">确认充值</el-button>
-        <el-button type="primary" @click="handleRechargeFailConfirm()">确认充值(失败)</el-button>
-      </div>
-    </el-dialog>
-    <!--充值成功-->
-    <el-dialog :visible.sync="rechargeSuccessVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center">已完成充值，当前帐户余额：¥ <span>{{accountResidual.toFixed(2)}}</span>，是否继续完成之前的订金支付？</div>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="rechargeSuccessVisible=false;payWindowVisible=false">否</el-button>
-        <el-button type="primary" @click="stayInGoPayDeposit()">是</el-button>
-      </div>
-    </el-dialog>
-    <!--充值失败-->
-    <el-dialog :visible.sync="rechargeFailVisible" width="30%" append-to-body :show-close="false">
-      <div style="text-align: center">充值金额: ￥ <span>{{Number(rechargeAmount).toFixed(2)}}</span><span
-        style="color: red">未完成充值！</span></div>
-      <div style="text-align: center" class="text-muted">说明：由于帐户绑定的银行卡余额不足，无法完成此次充值。请先确认银行卡金额充足再充值。</div>
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button type="primary" @click="rechargeFailVisible=false;payWindowVisible=false">暂不</el-button>
-        <el-button type="primary" @click="rechargeAgain()">再去充值</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -378,9 +315,9 @@
   /* eslint-disable */
 
   // import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
-
+  import waitStock from './waitStock.vue'
   export default {
-    components: {},
+    components: { waitStock },
     props: {
       currentRow: {
         type: Object,
@@ -407,6 +344,7 @@
         hasReplenishment: false,
         replenishmentList: [],
         listLoading: false,
+        isDialogShow: false,
         cartListSelect: [],
         totalTableData: [
           {
@@ -604,17 +542,6 @@
           compensationStatus: 10,
           mergePaymentNo: 857938502482
         },
-        isCancelOrder: false,
-        cancelOrderVisible: false,
-        cancelOrderSubmitVisible: false,
-        payWindowVisible: false,
-        accountResidual: 10000,
-        deposit30: 2232,
-        completePaymentVisible: false,
-        rechargeWindowVisible: false,
-        rechargeAmount: 0,
-        rechargeSuccessVisible: false,
-        rechargeFailVisible: false,
         tableHeight: 0,
         rowLength: 0
       }
@@ -670,48 +597,8 @@
           }
         }
       },
-      cancelOrderProcess() {
-        this.cancelOrderVisible = true
-      },
-      handleConfirm() {
-        this.isCancelOrder = true
-        this.cancelOrderVisible = false
-        this.cancelOrderSubmitVisible = true
-      },
-      handlePaymentConfirm() {
-        this.completePaymentVisible = true
-        this.payWindowVisible = false
-      },
-      goRecharge() {
-        this.rechargeWindowVisible = true
-      },
-      handleRechargeConfirm() {
-        this.accountResidual += this.rechargeAmount
-        this.rechargeSuccessVisible = true
-        this.rechargeWindowVisible = false
-      },
-      handleRechargeFailConfirm() {
-        this.accountResidual += this.rechargeAmount
-        this.rechargeFailVisible = true
-        this.rechargeWindowVisible = false
-      },
-      stayInGoPayDeposit() {
-        this.rechargeSuccessVisible = false
-        this.payWindowVisible = true
-      },
-      rechargeAgain() {
-        this.rechargeAmount = 0
-        this.deposit30 = 2232
-        this.accountResidual = 100
-        this.rechargeFailVisible = true
-        this.rechargeWindowVisible = true
-      },
-      goPayDeposit() {
-        this.payWindowVisible = true
-      },
-      viewWaitStock(row) {
-//        this.currentRow = row
-//        this.waitStockVisible = true
+      viewDialog() {
+        this.isDialogShow = true
       },
       // 弹层里面橙色总价
       payment_amount() {

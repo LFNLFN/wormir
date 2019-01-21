@@ -14,7 +14,7 @@
 
       <div class="mg-top-2">
         <depositRefund  v-if="depositRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
-                        @cancel="depositRefundVisible = false" style="padding: 0;" />
+                        @cancel="depositRefundVisible = false" style="padding: 0;"/>
         <residualRefund v-if="residualRefundVisible" @itsTotalRefund="theirTotalRefund+=$event"
                         @cancel="residualRefundVisible = false" style="padding: 0"/>
       </div>
