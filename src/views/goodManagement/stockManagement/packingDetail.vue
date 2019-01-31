@@ -149,16 +149,13 @@
     }
   }
 </script>
-<style>
-  .el-table .cell {
-    word-break: break-word;
-  }
+<style scoped>
 
   .filter-container {
-    width: 50%;
+    width: 48%;
     float: left;
-    padding-left: 3%;
-    padding-top: 1%;
+    margin-left: 10px;
+    margin-top: 10px;
   }
 
   .empty-table .el-table__body-wrapper {

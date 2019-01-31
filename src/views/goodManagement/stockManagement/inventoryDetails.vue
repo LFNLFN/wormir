@@ -31,6 +31,7 @@
               :header-cell-style="{padding: 0}"
               style="width: 100%"
               class="no-border-top border-left2"
+              :span-method="objectSpanMethod"
               >
       <el-table-column align="center" label="已入库" >
         <el-table-column align="center" label="箱码" prop="boxCode"/>
@@ -71,9 +72,7 @@ export default {
   created() {
     this.list[0] = this.product
     this.brandList[0] = this.product
-    this.prodcutCodeList[0] = this.product
-//    console.log(this.product)
-//    this.getProdcutCodeList(this.product.goodsNo, this.product.cartonSizeId)
+    this.getProdcutCodeList()
   },
   data() {
     return {
@@ -122,12 +121,12 @@ export default {
     },
     getSpanArr(data) {
       for (var i = 0; i < data.length; i++) {
-        if (i === 0) {
+        if (i == 0) {
           this.spanArr.push(1)
           this.pos = 0
         } else {
           // 判断当前元素与上一个元素是否相同
-          if (data[i].boxCode === data[i - 1].boxCode) {
+          if (data[i].boxCode == data[i - 1].boxCode) {
             this.spanArr[this.pos] += 1
             this.spanArr.push(0)
           } else {
@@ -147,27 +146,34 @@ export default {
         }
       }
     },
-    getProdcutCodeList(goodsNo, cartonSizeId) {
-      // this.productListLoading = true
-      // goodsSourceCodeJxcList(goodsNo, cartonSizeId).then(response => {
-      //   const itemList = response.data.items
-      //   itemList.forEach(item => {
-      //     console.log(this.spanArr[itemList.indexOf(item)])
-      //     this.prodcutCodeList.push({
-      //       'boxCode': item.boxCode,
-      //       'sourceCode': item.sourceCode,
-      //       'warehouseEntryTime': item.createTime,
-      //       'cartonCount': 1,
-      //       'goodsNum': 0,
-      //       'createUserId': response.data.createUserId
-      //     })
-      //   })
-      //   this.productListLoading = false
-      //   this.getSpanArr(this.prodcutCodeList)
-      //   this.prodcutCodeList.forEach(element => {
-      //     element.goodsNum = this.spanArr[this.prodcutCodeList.indexOf(element)]
-      //  })
-      // })
+    getProdcutCodeList() {
+       this.productListLoading = true
+      this.$request({
+        url: '/goods/fetchSourceCode.do',
+        method: 'post',
+        data: {
+          'goodsNo': this.product.goodsNo
+        }
+      })
+        .then(response => {
+         const itemList = response.data.items
+         itemList.forEach(item => {
+           this.prodcutCodeList.push({
+             'boxCode': item.boxCode,
+             'sourceCode': item.sourceCode,
+             'warehouseEntryTime': item.createTime,
+             'cartonCount': 1,
+             'goodsNum': 0,
+             'createUserId': item.createUserId
+           })
+         })
+         this.productListLoading = false
+         this.getSpanArr(this.prodcutCodeList)
+         this.prodcutCodeList.forEach(element => {
+           element.goodsNum = this.spanArr[this.prodcutCodeList.indexOf(element)]
+        })
+       })
+        .catch(err => { console.log(err) })
     },
     handleFilter() {
     },
@@ -210,6 +216,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 
 </style>

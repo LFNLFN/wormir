@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item"
                 placeholder="品牌序列号/品牌名称/商品编号/商品名称"
-                v-model="listQuery.keyword">
+                v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -24,7 +24,7 @@
       <el-table-column min-width="100" align="center" label="商品规格" prop="goodsSpecificationEnglish"/>
       <el-table-column min-width="100" align="center" label="装箱规格" prop="cartonSpecification">
         <template slot-scope="scope">
-          <span>{{scope.row.cartonSpecification}}件/箱</span>
+          <span>{{scope.row.cartonSpecification}}</span>
         </template>
       </el-table-column>
       <el-table-column min-width="100" align="center" label="箱型编号" prop="cartonSizeId"/>
@@ -127,33 +127,33 @@
       return {
         Mock,
         listQuery: {
-          keyword: '',
+          searchText: '',
           page: 1,
-          rows: 20
+          limit: 20
         },
         list: [
-          {
-            brandNo: Mock.Random.natural(123456, 199999),
-            brandEnglishName: 'LANCOM',
-            brandChineseName: '兰蔻',
-            goodsNo: Mock.Random.natural(123, 199),
-            goodsEnglishName: 'Lipstick',
-            goodsChineseName: '口红',
-            goodsSpecificationEnglish: '4g',
-            cartonSpecification: 10,
-            cartonSizeId: Mock.Random.natural(1, 9),
-            cartonSize: '10cm*10cm*10cm',
-            virtualDevanningInStockCount: Mock.Random.natural(1, 9),
-            devanningOutStockCount: Mock.Random.natural(1, 9),
-            virtualIndividualInStockCount: Mock.Random.natural(1, 9),
-            individualOutStockCount: Mock.Random.natural(1, 9),
-            boxCode: Mock.Random.natural(100, 999),
-            sourceCode: Mock.Random.natural(123, 199),
-            warehouseEntryTime: Mock.Random.now(),
-            cartonCount: Mock.Random.natural(1, 9),
-            goodsNum: Mock.Random.natural(1, 9),
-            createUserId: Mock.Random.natural(1, 9)
-          }
+//          {
+//            brandNo: Mock.Random.natural(123456, 199999),
+//            brandEnglishName: 'LANCOM',
+//            brandChineseName: '兰蔻',
+//            goodsNo: Mock.Random.natural(123, 199),
+//            goodsEnglishName: 'Lipstick',
+//            goodsChineseName: '口红',
+//            goodsSpecificationEnglish: '4g',
+//            cartonSpecification: 10,
+//            cartonSizeId: Mock.Random.natural(1, 9),
+//            cartonSize: '10cm*10cm*10cm',
+//            virtualDevanningInStockCount: Mock.Random.natural(1, 9),
+//            devanningOutStockCount: Mock.Random.natural(1, 9),
+//            virtualIndividualInStockCount: Mock.Random.natural(1, 9),
+//            individualOutStockCount: Mock.Random.natural(1, 9),
+//            boxCode: Mock.Random.natural(100, 999),
+//            sourceCode: Mock.Random.natural(123, 199),
+//            warehouseEntryTime: Mock.Random.now(),
+//            cartonCount: Mock.Random.natural(1, 9),
+//            goodsNum: Mock.Random.natural(1, 9),
+//            createUserId: Mock.Random.natural(1, 9)
+//          }
         ],
         isInventoryDetailsShow: false,
         isHoldInventoryShow: false,
@@ -169,53 +169,20 @@
     },
     methods: {
       getList() {
-        // this.listLoading = true
-        // getGoodsListStore(1, 20).then(response => {
-        //   const goodList = response.data.items
-        //   goodList.forEach(element => {
-        //     getGoodsCartonSizeInfo(element.goodsNo).then(response => {
-        //       const cartonSizeList = response.data.goodsCartonSize
-        //       cartonSizeList.forEach(item => {
-        //         stockDetailIndex(element.goodsNo, item.boxId).then(response => {
-        //           if (response.data.totalRecords !== 0) {
-        //             const stockDetail = response.data.items[0]
-        //             this.list.push({
-        //               'goodsEnglishName': stockDetail.goodsEnglishName,
-        //               'goodsChineseName': stockDetail.goodsChineseName,
-        //               'goodsSpecificationChinese': stockDetail.goodsSpecificationChinese,
-        //               'goodsSpecificationEnglish': stockDetail.goodsSpecificationEnglish,
-        //               'goodsQuality': stockDetail.goodsQuality,
-        //               'goodsNo': stockDetail.goodsNo,
-        //               'brandNo': stockDetail.brandNo,
-        //               'cartonSizeId': stockDetail.cartonSizeId,
-        //               'cartonSpecification': stockDetail.cartonSpecification,
-        //               'cartonSpecificationEnglish': stockDetail.cartonSpecificationEnglish,
-        //               'boxSize': stockDetail.boxSize,
-        //               // 这里修改为虚拟库存数量
-        //               'inStockCount': stockDetail.inStockCount,
-        //               'devanningInStockCount': stockDetail.devanningInStockCount,
-        //               'individualInStockCount': stockDetail.individualInStockCount,
-
-        //               'outStockCount': stockDetail.inStockCount,
-        //               'devanningOutStockCount': stockDetail.devanningInStockCount,
-        //               'individualOutStockCount': stockDetail.individualInStockCount,
-        //               'virtualIndividualInStockCount': stockDetail.virtualIndividualInStockCount,
-        //               'virtualDevanningInStockCount': stockDetail.virtualDevanningInStockCount,
-        //               'virtualInStockCount': stockDetail.virtualInStockCount,
-        //               // 出库数量
-        //               // 'outStockCount': stockDetail.outStockCount,
-        //               // 'devanningOutStockCount': stockDetail.devanningOutStockCount,
-        //               // 'individualOutStockCount': stockDetail.individualOutStockCount,
-        //               'createUserId': stockDetail.createUserId,
-        //               'createTime': stockDetail.createTime
-        //             })
-        //           }
-        //         })
-        //       })
-        //     })
-        //   })
-        //   this.listLoading = false
-        // })
+        this.listLoading = true
+        this.$request({
+          url: '/goods/fetchStockManagement.do',
+          method: 'post',
+          data: this.listQuery
+        }).then((res) => {
+          this.list = res.data.items
+          this.total = res.data.total
+          this.listLoading = false
+        }).catch((err) => {
+          console.log(err)
+          this.listLoading = false
+          this.$message.error('数据请求失败');
+        })
       },
       handleCurrentChange() {
       },
@@ -236,6 +203,7 @@
         this.currentProduct = row
       },
       handleFilter() {
+        this.getList()
       },
       handleSizeChange(val) {
         this.listQuery.rows = val
@@ -244,9 +212,6 @@
   }
 </script>
 <style scoped>
-  /*.el-dialog {*/
-  /*width: 1200px*/
-  /*}*/
   .table-btn-wrap:not(:last-of-type) {
     margin-bottom: 5px;
   }
