@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <el-table
-      border
+      border v-loading="listLoading" element-loading-text="给我一点时间"
       :data="goodTableData"
       style="width: 100%"
       class="border-top2 border-left2 border-right1"
@@ -152,6 +152,7 @@ import request from "@/utils/request";
 export default {
   data() {
     return {
+      listLoading: false,
       goodTableData: [],
       filterForm: {
         searchText: '',
@@ -175,6 +176,7 @@ export default {
   },
   methods: {
     goodBlurSearch() {
+      this.listLoading = true
       request({
         url: '/goodsInfo/list.do',
         method: 'post',
@@ -182,6 +184,7 @@ export default {
       }).then(res => {
         this.filterForm.total = res.data.total
         this.goodTableData = res.data.items
+        this.listLoading = false
       })
     },
     handleSizeChange(val) {
