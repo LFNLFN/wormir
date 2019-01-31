@@ -396,7 +396,7 @@
 <script>
   /* eslint-disable */
 
-  import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import { requestShopCart, createOrder } from "@/api/goods";
   import request from "@/utils/request";
 
   export default {
@@ -696,11 +696,7 @@
         });
       },
       removeAction(cartId, index) {
-        cartRemove(cartId).then(res => {
-          if (res.errorCode == 0) {
-            this.list.splice(index, 1)
-          }
-        })
+        
       },
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 2) {
