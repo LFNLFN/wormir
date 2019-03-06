@@ -40,10 +40,10 @@
         <el-table-column align="center" label="整箱">
           <el-table-column min-width="100" align="center" label="(units)" prop="virtualDevanningInStockCount"/>
         </el-table-column>
-        <el-table-column align="center" label="散货">
-          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"
-                           prop="virtualIndividualInStockCount"/>
-        </el-table-column>
+        <!--<el-table-column align="center" label="散货">-->
+          <!--<el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"-->
+                           <!--prop="virtualIndividualInStockCount"/>-->
+        <!--</el-table-column>-->
       </el-table-column>
       <el-table-column align="center" label="实际库存">
         <el-table-column align="center" label="商品数量" prop="outStockCount">
@@ -56,10 +56,10 @@
         <el-table-column align="center" label="整箱" prop="devanningOutStockCount">
           <el-table-column min-width="100" align="center" label="(units)" prop="devanningOutStockCount"/>
         </el-table-column>
-        <el-table-column align="center" label="散货" prop="individualOutStockCount">
-          <el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"
-                           prop="individualOutStockCount"/>
-        </el-table-column>
+        <!--<el-table-column align="center" label="散货" prop="individualOutStockCount">-->
+          <!--<el-table-column min-width="100" align="center" :label="'(' + $t('order.pcs') + ')'"-->
+                           <!--prop="individualOutStockCount"/>-->
+        <!--</el-table-column>-->
       </el-table-column>
       <el-table-column fixed="right" width="200" align="center" :label="$t('order.operation')"
                        class-name="small-padding">
@@ -82,7 +82,7 @@
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows"
+                     :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -105,7 +105,6 @@
   </div>
 </template>
 <script>
-  import Mock from 'mockjs'
   import inventoryDetails from './inventoryDetails'
   import holdInventory from './holdInventory'
   import outboundInventory from './outboundInventory'
@@ -125,11 +124,10 @@
     },
     data() {
       return {
-        Mock,
         listQuery: {
           searchText: '',
           page: 1,
-          limit: 20
+          limit: 10
         },
         list: [
 //          {
@@ -175,16 +173,18 @@
           method: 'post',
           data: this.listQuery
         }).then((res) => {
-          this.list = res.data.items
-          this.total = res.data.total
-          this.listLoading = false
+          if (res.errorCode == 0) {
+            this.list = res.data.items
+            this.total = res.data.total
+            this.listLoading = false
+          } else {
+            this.listLoading = false
+            this.$message.error('数据请求失败');
+          }
         }).catch((err) => {
-          console.log(err)
           this.listLoading = false
           this.$message.error('数据请求失败');
         })
-      },
-      handleCurrentChange() {
       },
       inventoryDetails(row) {
         this.isInventoryDetailsShow = true
@@ -205,8 +205,11 @@
       handleFilter() {
         this.getList()
       },
+      handleCurrentChange(val) {
+        this.listQuery.page = val
+      },
       handleSizeChange(val) {
-        this.listQuery.rows = val
+        this.listQuery.limit = val
       }
     }
   }

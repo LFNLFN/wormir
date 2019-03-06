@@ -1,0 +1,61 @@
+// 边框样式
+$color: #d5d5d5;
+.border-top {
+  border-top: solid #d5d5d5 1px;
+}
+
+.border-right {
+  border-right: solid #d5d5d5 1px;
+}
+
+.border-bottom {
+  border-bottom: solid #d5d5d5 1px;
+}
+
+.border-left {
+  border-left: solid #d5d5d5 1px;
+}
+
+.border-top2 {
+  border-top: solid #d5d5d5 2px;
+}
+
+.border-right2 {
+  border-right: solid #d5d5d5 2px;
+}
+
+.border-bottom2 {
+  border-bottom: solid #d5d5d5 2px;
+}
+
+.border-left2 {
+  border-left: solid #d5d5d5 2px;
+}
+
+.no-border-top {
+  border-top: none !important;
+}
+
+.no-border-left {
+  border-left: none !important;
+}
+
+.no-border-bottom {
+  border-bottom: none !important;
+}
+
+.no-border-right {
+  border-right: none !important;
+}
+
+.no-border {
+  border: none;
+}
+
+.border1 {
+  border: solid #d5d5d5 1px;
+}
+
+.border2 {
+  border: solid #d5d5d5 2px;
+}

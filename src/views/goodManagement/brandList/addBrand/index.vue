@@ -926,7 +926,6 @@
             }
           ],
 
-
           discountInput: [
             {
               orderMin: "",

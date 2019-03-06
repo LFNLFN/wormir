@@ -91,7 +91,7 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
-    <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
+    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="新增品牌">
       <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
     <el-dialog
@@ -162,7 +162,8 @@
 
 <script>
   import { brand_BlurSearch } from '@/api/brand'
-  import addBrand from './addBrand/index.vue'
+//  import addBrand from './addBrand/index.vue'
+  import addBrand from './addBrand/newIndex.vue'
   import editBrand from './editBrand/index.vue'
   import goodManagement from './goodManagement/index.vue'
   import request from "@/utils/request";

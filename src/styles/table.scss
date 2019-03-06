@@ -1,0 +1,145 @@
+/*伪类补框*/
+td.units-wrap:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px #d5d5d5 solid;
+  width: 1px;
+  height: 100%;
+}
+
+.units-wrap .el-col {
+  border: none;
+  background-color: transparent;
+  font-weight: normal;
+}
+
+.units-wrap .el-input--medium .el-input__inner {
+  height: 24px;
+  line-height: 24px;
+  max-width: 40px;
+}
+
+// 弹层内部表格最后一列的右空隙去除
+.last-col {
+  border-right-width: 2px !important;
+}
+
+// 级别变化 弹层样式设置
+.noBorder .el-table__header {
+  border-top: 2px solid #D5D5D5;
+}
+
+.noBorder .el-table__body tr:last-of-type td {
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.last-tr2 .el-table__body tr:last-of-type td {
+  border-bottom: 2px solid #D5D5D5;
+}
+
+.last-tr0 .el-table__body tr:last-of-type td {
+  border-bottom: 0 solid #D5D5D5;
+}
+
+.last-col-td0 {
+  border-right-width: 0 !important;
+}
+
+.compareBorder .el-table__header {
+  border-top: none;
+}
+
+.compareBorder .el-table__body tr:last-of-type td {
+  border-bottom: none;
+}
+
+.sumBorder .el-table__header {
+  border-top: 1px solid #D5D5D5;
+}
+
+.sumBorder .el-table__body tr:last-of-type td {
+  border-bottom: 2px solid #D5D5D5;
+}
+
+// 双层表格的上层
+.el-table--border th, .el-table__fixed-right-patch {
+  border-bottom-color: #D5D5D5;
+}
+
+// 表格合计栏
+.el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
+  background-color: #B7E5F9;
+  color: #424242;
+  font-weight: 700;
+  padding: 0;
+}
+
+// 实际库存明细
+.empty-table .el-table__body-wrapper {
+  display: none;
+}
+
+// 去除表格底部那条奇怪的伪类线
+.twoTable-wrap .el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: transparent !important;
+}
+
+.el-table--border::after, .el-table--group::after {
+  width: 0
+}
+
+// 解决表头换行问题
+.el-table .cell {
+  word-break: keep-all;
+  word-wrap: break-word;
+}
+
+.noBorder {
+  border: none
+}
+
+// 取消点击表格出现的背景颜色
+.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row > td, .el-table__body tr.hover-row.current-row > td, .el-table__body tr.hover-row.el-table__row--striped.current-row > td, .el-table__body tr.hover-row.el-table__row--striped > td, .el-table__body tr.hover-row > td {
+  background-color: #fff;
+}
+
+// 自己添加的覆盖样式
+.el-table th {
+  background: #DFF2FC !important;
+  font-weight: 700 !important;
+  color: #424242 !important;
+}
+
+td {
+  color: #424242 !important;
+}
+
+.el-table--border, .el-table--group {
+  border: 1px solid #d5d5d5;
+}
+
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+  border-right: 1px solid #d5d5d5;
+}
+
+.el-table td, .el-table th.is-leaf {
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.fake-table-head {
+  text-align: center;
+  color: #424242;
+  font-weight: 700;
+  background-color: #dff2fc
+}
+
+.fake-table tr.el-table__row:hover{
+  background-color: #dff2fc!important;
+}
+
+.add-brand-index-vue .inputHeaderClass {
+  background-color: #fff!important;
+}
+

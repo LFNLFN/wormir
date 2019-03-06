@@ -314,7 +314,7 @@
       },
 
       getList() {
-        request({
+        this.$request({
           url: '/order/managerOrderList.do',
           method: 'post',
           data: {
@@ -485,6 +485,9 @@
         this.currentRow = row
         this.isInterruptOrderingShow = true
       },
+    },
+    filters: {
+      orderStatus
     }
   }
 </script>

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="品牌序列号/品牌名称"
-                v-model="listQuery.keyword">
+                v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -33,22 +33,22 @@
       </el-table-column>
       <el-table-column width="150" align="center" :label="$t('order.operation')" class-name="small-padding">
         <template slot-scope="scope">
-          <el-row>
+          <div class="table-btn-wrap">
             <el-button type="primary" size="mini" @click="firstStagePage(scope.row)">一级页面</el-button>
-          </el-row>
-          <el-row>
+          </div>
+          <div class="table-btn-wrap">
             <el-button type="primary" size="mini" @click="secondStagePage(scope.row)">二级页面</el-button>
-          </el-row>
-          <el-row>
+          </div>
+          <div class="table-btn-wrap">
             <el-button type="primary" size="mini" @click="thirdStagePage(scope.row)">三级页面</el-button>
-          </el-row>
+          </div>
         </template>
       </el-table-column>
     </el-table>
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows"
+                     :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -86,9 +86,9 @@
     data() {
       return {
         listQuery: {
-          keyword: '',
+          searchText: '',
           page: 1,
-          rows: 20
+          limit: 20
         },
         list: [],
         isFirstPageDetailShow: false,
@@ -134,7 +134,13 @@
         })
         this.listLoading = false
       },
-      handleCurrentChange() {
+      handleFilter() {
+      },
+      handleSizeChange(val) {
+        this.listQuery.limit = val
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val
       },
       firstStagePage(row) {
         this.isFirstPageDetailShow = true
@@ -147,11 +153,6 @@
       thirdStagePage(row) {
         this.isThirdPageDetailShow = true
         this.currentBrand = row
-      },
-      handleFilter() {
-      },
-      handleSizeChange(val) {
-        this.listQuery.rows = val
       },
       filterHandler(value, row, column) {
         const property = column['property']
@@ -168,6 +169,9 @@
     }
   }
 </script>
-<style scoped>
 
+<style scoped>
+  .table-btn-wrap {
+    margin: 5px 0;
+  }
 </style>
