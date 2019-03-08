@@ -902,8 +902,6 @@
             }
           ],
 
-
-
           specificationInput: [
             {
               goodSpecificationChinese: '',

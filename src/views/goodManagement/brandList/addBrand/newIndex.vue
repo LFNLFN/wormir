@@ -59,7 +59,7 @@
               <template slot-scope="scope">
                 <el-input
                   v-model.trim="form.origin[scope.$index].originEnglish"
-                  placeholder="请输入原产国英文名称"
+                  placeholder="请输入原产国英文名称" clearable
                 ></el-input>
               </template>
             </el-table-column>
@@ -67,18 +67,8 @@
               <template slot-scope="scope">
                 <el-input
                   v-model.trim="form.origin[scope.$index].originChinese"
-                  placeholder="请输入原产国中文名称"
+                  placeholder="请输入原产国中文名称" clearable
                 ></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -98,7 +88,7 @@
               <template slot-scope="scope">
                 <el-input
                   v-model.trim="form.categotiesSetting[scope.$index].seriesName"
-                  placeholder="若无系列名请输入“其他”"
+                  placeholder="若无系列名请输入“其他”" clearable
                 ></el-input>
               </template>
             </el-table-column>
@@ -156,7 +146,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].goodSpecificationChinese"
-                    placeholder="例：30ml/支"
+                    placeholder="例：30ml/支" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -164,7 +154,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].goodSpecificationEnglish"
-                    placeholder="例：30ml"
+                    placeholder="例：30ml" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -174,7 +164,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].capacityChinese"
-                    placeholder="例：30毫升"
+                    placeholder="例：30毫升" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -182,7 +172,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].capacityEnglish"
-                    placeholder="例：30ml"
+                    placeholder="例：30ml" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -192,7 +182,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].packingUnitChinese"
-                    placeholder="例：支"
+                    placeholder="例：支" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -200,7 +190,7 @@
                 <template slot-scope="scope">
                   <el-input
                     v-model.trim="form.specificationSetting[scope.$index].packingUnitEnglish"
-                    placeholder="例：pcs"
+                    placeholder="例：pcs" clearable
                   ></el-input>
                 </template>
               </el-table-column>
@@ -225,14 +215,12 @@
           <el-col :span="12">
             <el-form-item label="空运国际物流天数" prop="airDeliverDays" class="form-row add-brand-row no-border-right">
               <el-input v-model.trim="form.airDeliverDays" placeholder="请输入整数" style="width: 160px">
-                <template slot="append">天</template>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="海运国际物流天数" prop="seaDeliverDays" class="form-row add-brand-row">
               <el-input v-model.trim="form.seaDeliverDays" placeholder="请输入整数" style="width: 160px">
-                <template slot="append">天</template>
               </el-input>
             </el-form-item>
           </el-col>
@@ -240,7 +228,9 @@
         <el-row class="border-bottom">
           <el-col :span="12">
             <el-form-item label="中断订货补偿率" prop="compensationRate" class="form-row add-brand-row no-border-right">
-              <el-input v-model.trim="form.compensationRate" placeholder="请输入数字" style="width: 160px"></el-input>
+              <el-input v-model.trim="form.compensationRate" placeholder="请输入数字" style="width: 160px">
+                <template slot="append">%</template>
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -249,7 +239,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="转海运起订标准" prop="minBySea" class="border-left border-right"
+        <el-form-item label="单渠道转海运起订量" prop="minBySea" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
             border
@@ -287,23 +277,13 @@
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.packingSetting[scope.$index].packing1" placeholder="例：Standard Packing"
-                          style="width: 160px"></el-input>
+                          style="width: 160px" clearable></el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="跨境贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.packingSetting[scope.$index].packing2" placeholder="例：Carton"
-                          style="width: 160px"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
+                          style="width: 160px" clearable></el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -318,23 +298,13 @@
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.paymentSetting[scope.$index].payment1" placeholder="例：By T/T"
-                          style="width: 160px"></el-input>
+                          style="width: 160px" clearable></el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="跨境贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.paymentSetting[scope.$index].payment2" placeholder="例：T/T"
-                          style="width: 160px"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
+                          style="width: 160px" clearable></el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -673,17 +643,17 @@
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="SWIFT Code">
               <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code"></el-input>
+                <el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code" clearable></el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="银行名称">
               <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].bankName" placeholder="请输入品牌商交易银行的英文名称"></el-input>
+                <el-input v-model.trim="form.bankInfo[scope.$index].bankName" placeholder="请输入品牌商交易银行的英文名称" clearable></el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="银行地址">
               <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].bankAddress" placeholder="请输入品牌商交易银行的英文地址"></el-input>
+                <el-input v-model.trim="form.bankInfo[scope.$index].bankAddress" placeholder="请输入品牌商交易银行的英文地址" clearable></el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -752,7 +722,9 @@
               <el-row class="border-bottom">
                 <el-col :span="8">
                   <el-form-item label="上传品名数量" prop="" class="form-row add-brand-row no-border-left no-border-right">
-                    <el-input v-model.trim.number="item.uploadNameNum" @change="changeItemUploadNameNum" placeholder="请输入个数"></el-input>
+                    <el-input v-model.trim.number="item.uploadNameNum" @change="item.editItemUploadNameNum=!item.editItemUploadNameNum" placeholder="请输入个数">
+                      <el-button slot="append" type="primary">确定</el-button>
+                    </el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="16" align="right">
@@ -764,7 +736,7 @@
                 </el-col>
                 <el-col :span="24" align="left" class="border-left">
                   <el-form-item label="" prop="" class="form-row add-brand-row no-border-right" style="padding-top: 15px">
-                    <div v-if="editItemUploadNameNum" v-show="!itemUploadNameNumIs0">
+                    <div v-if="item.editItemUploadNameNum" v-show="item.uploadNameNum>0">
                       <el-upload
                         class="upload-demo"
                         ref="upload"
@@ -776,10 +748,25 @@
                         :auto-upload="false">
                         <div slot="tip" class="el-upload__tip">{{ item.uploadTip }}</div>
                         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(index)">上传到服务器</el-button>
+                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(index,form,$message)">上传到服务器</el-button>
                       </el-upload>
                     </div>
-                    <div v-show="itemUploadNameNumIs0">请输入上传品名数量</div>
+                    <div v-else v-show="item.uploadNameNum>0">
+                      <el-upload :key="index+9999"
+                        class="upload-demo"
+                        ref="upload"
+                        :limit="item.uploadNameNum"
+                        multiple
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :on-preview="filePreview" :on-remove="fileRemove" :on-exceed="fileExceed" :before-upload="fileBeforeUpload" :on-change="fileOnChange[index]"
+                       :file-list="item.fileList"
+                        :auto-upload="false">
+                        <div slot="tip" class="el-upload__tip">{{ item.uploadTip }}</div>
+                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(index,form,$message)">上传到服务器</el-button>
+                      </el-upload>
+                    </div>
+                    <div v-show="!(item.uploadNameNum>0)">请输入上传品名数量</div>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -912,7 +899,7 @@
 
   import { getCooperationData, flowChange, makeFakeTableHeadClass, terminationReasonSpanMethod, contractStatusChange, timeChange } from './formData/cooperationMsg'
 
-  import { submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange, changeItemUploadNameNum } from './formData/uploadMsg'
+  import { submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6 } from './formData/uploadMsg'
 
   export default {
     data() {
@@ -931,18 +918,23 @@
         terminationReason: null, // 用于合作信息的提前终止原因
         brandStatus: 3, // 用于合作信息确定品牌状态
         uploadTemplateData: [
-          { title: '成分配比表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+成分配表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [] },
-          { title: '危害识别表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+危害识别表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [] },
-          { title: '标签文件', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+标签文件；文件格式：pdf./jpg./jpeg./png.', fileList: [] },
-          { title: '化妆品备案批文', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+化妆品备案批文；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [] },
-          { title: 'MSDS（英文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（英文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [] },
-          { title: 'MSDS（中文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（中文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [] },
-          { title: '进口化妆品安全性承诺书', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：品牌名称+进口化妆品安全性承诺书；文件格式：doc./docx./pdf./jpg./jpeg./png.', fileList: [] },
+          { title: '成分配比表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+成分配表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: '危害识别表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+危害识别表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: '标签文件', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+标签文件；文件格式：pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: '化妆品备案批文', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+化妆品备案批文；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: 'MSDS（英文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（英文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: 'MSDS（中文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（中文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
+          { title: '进口化妆品安全性承诺书', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：品牌名称+进口化妆品安全性承诺书；文件格式：doc./docx./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
         ], // 用于上传信息的视图响应
-        editItemUploadNameNum: true, // 用于上传信息的视图响应
-        itemUploadNameNumIs0: true, // 用于上传信息的视图响应
+        fileOnChange: [fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6],
         formRules: {},
-        isSubmitting: false
+        isSubmitting: false,
+        brandBasicsMsg: {},
+        goodsMsgRules: {},
+        deliverMsg: {},
+        moneyMsgRules: {},
+        uploadMsg: {},
+        cooperationMsgRules: {},
       }
     },
     methods: {
@@ -950,7 +942,7 @@
       addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount2FXLabel, discount1DLLabel,
       discount2DLLabel, discountItemMaxChange,
       getCurrencyInfo, getCooperationData, flowChange, makeFakeTableHeadClass, terminationReasonSpanMethod, contractStatusChange, timeChange,
-      submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange, changeItemUploadNameNum,
+      submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6,
       onSubmit() {
         this.isSubmitting = true;
 
@@ -967,7 +959,7 @@
               method: "post",
               data: this.form
             })
-              .then((res) => {
+              .then(res => {
                 if (res.errorCode == 0) {
                   this.$emit("submitSuccess");
                 }
@@ -989,21 +981,20 @@
       },
     },
     created() {
-      Object.assign(this.form, brandBasicsMsg, goodsMsg, deliverMsg, moneyMsg, uploadMsg, cooperationMsg)
+      this.brandBasicsMsg = JSON.parse(JSON.stringify(brandBasicsMsg))
+      this.goodsMsg = JSON.parse(JSON.stringify(goodsMsg))
+      this.deliverMsg = JSON.parse(JSON.stringify(deliverMsg))
+      this.moneyMsg = JSON.parse(JSON.stringify(moneyMsg))
+      this.uploadMsg = JSON.parse(JSON.stringify(uploadMsg))
+      this.cooperationMsg = JSON.parse(JSON.stringify(cooperationMsg))
+      // 以上代码用于生成数据副本，以免因对象共享无法初始化数据
+      Object.assign(this.form, this.brandBasicsMsg, this.goodsMsg, this.deliverMsg, this.moneyMsg, this.uploadMsg, this.cooperationMsg)
       Object.assign(this.formRules, brandBasicsMsgRules, goodsMsgRules, deliverMsgRules, moneyMsgRules, cooperationMsgRules)
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .displayNone {
-    display: none;
-  }
-
-  .mainCategories-wrap {
-    display: flex;
-    justify-content: flex-start;
-  }
 
   .mainCategories-item .el-form-item {
     width: 350px;
@@ -1022,15 +1013,6 @@
     height: 35px;
   }
 
-  .add-btn-wrap {
-    margin: 0 0 5px;
-  }
-
-  .upload-tip-color {
-    color: #606266;
-    font-size: 12px;
-  }
-
   .forLayout {
     padding-right: 10px;
   }
@@ -1038,10 +1020,12 @@
   .uploadItem {
     border-right: 1px solid #D5D5D5;
   }
+
   .uploadItem:not(:nth-of-type(1)) {
     margin: 20px 0;
     border-top: 1px solid #D5D5D5;
   }
+
 </style>
 
 

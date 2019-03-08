@@ -46,13 +46,41 @@ const validatePaymentSetting = (rule, value, callback) => {
 }
 
 const validateBrandBoxSetting = (rule, value, callback) => {
+  // 非空验证
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
       if (!item[key]) return true
     }
   });
-  if (valiNull) {
-    callback(new Error("品牌箱型设置表格必须全部填写！"));
+  // 两位小数验证
+  let valiDecimals = value.some((item, index, arr) => {
+    for (var key in item) {
+      if (key == 'boxNo') continue
+      if (!(item[key]/1 > 0)) return true // 如果不是数字，报错
+      // 如果有小数点
+      if (item[key].indexOf('.') > -1) {
+        if (item[key].indexOf('.') == 0) { item[key] = '0'+item[key] } //小数点之前没有数字
+        item[key] = item[key].substring(0, item[key].indexOf('.')+3)
+        if (item[key].length == item[key].indexOf('.')+1) { item[key] += '00' }
+        else if (item[key].length == item[key].indexOf('.')+1+1) { item[key] += '0' }// 判断此时小数点后是否够两位小数
+        else {}
+        if (key == 'weight') return false
+      }
+      // 如果没有小数点
+      else {
+        // 去除字符串开头多余的0
+        let targetIndex = -1
+        for (let ii=0; ii<item[key].length; ii++) {
+          if (item[key][ii] != 0) { targetIndex=ii; break }
+          else {}
+        }
+        if (targetIndex>=1) { item[key] = item[key].substring(targetIndex) }
+        item[key] += '.00'
+      }
+    }
+  });
+  if (valiNull || valiDecimals) {
+    callback(new Error("请正确填写品牌箱型设置表格！"));
   } else {
     callback();
   }
