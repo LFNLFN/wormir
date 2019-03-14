@@ -170,3 +170,13 @@ export function operateType(value) {
   }
   return statusMap[value]
 }
+
+// 品牌状态
+export function brandStatusFilter(value) {
+  const statusMap = {
+    1: '正常供货',
+    2: '停止供货',
+    3: '待定'
+  }
+  return statusMap[value]
+}

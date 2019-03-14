@@ -39,15 +39,15 @@
         prop="brandStatus"
         label="品牌状态"
         min-width="120"
-        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 0 }]"
+        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }, { text: '待定', value: 3 }]"
         :filter-method="filterHandler_brandStatus"
         align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.brandStatus? '正常供货' : '停止供货' }}</span>
+          <span>{{ scope.row.brandStatus | brandStatusFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        prop="brandOrigin"
+        prop="productionPlaceChinese"
         label="原产国/产地"
         min-width="100"
         align="center">
@@ -168,6 +168,8 @@
   import goodManagement from './goodManagement/index.vue'
   import request from "@/utils/request";
 
+  import { brandStatusFilter } from '@/filters/index'
+
   export default {
     data() {
       return {
@@ -269,10 +271,7 @@
       },
       submitSuccess() {
         this.isAddBrandShow = false
-        this.$message({
-          message: '新增成功！',
-          type: 'success'
-        });
+        this.$confirm(`新增品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
         this.brandBlurSearch()
       },
       editSuccess() {

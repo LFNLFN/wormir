@@ -1,140 +1,140 @@
 <template>
   <div class="add-brand-index-vue">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
-      <h2>基础信息</h2>
-      <div class="border1 form-error-inline">
-        <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
-          <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号"></el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="品牌名称（英文）" prop="englishName" class="form-row add-brand-row no-border-right">
-              <el-input v-model.trim="form.englishName" placeholder="请输入品牌名称（英文）"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="品牌名称（中文）" prop="chineseName" class="form-row add-brand-row">
-              <el-input v-model.trim="form.chineseName" placeholder="请输入品牌名称（中文）"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="15">
-            <el-form-item label="品牌公司名称" prop="brandCompanyName" class="form-row add-brand-row no-border-right">
-              <el-input v-model.trim="form.brandCompanyName" placeholder="请输入品牌公司名称"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label="电话" prop="brandCompanyPhone" class="form-row add-brand-row">
-              <el-input v-model.trim="form.brandCompanyPhone" placeholder="请输入品牌公司的所在国联系电话"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="品牌公司地址" prop="brandCompanyAddress" class="form-row add-brand-row">
-          <el-input v-model.trim="form.brandCompanyAddress" placeholder="请输入品牌公司地址"></el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="15">
-            <el-form-item label="生产企业名称" prop="producerName" class="form-row add-brand-row no-border-right">
-              <el-input v-model.trim="form.producerName" placeholder="请输入生产企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label="电话" prop="producerPhone" class="form-row add-brand-row">
-              <el-input v-model.trim="form.producerPhone" placeholder="请输入生产企业的所在国联系电话"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="生产企业地址" prop="producerAddress" class="form-row add-brand-row border-bottom">
-          <el-input v-model.trim="form.producerAddress" placeholder="请输入生产企业地址"></el-input>
-        </el-form-item>
-        <el-form-item label="原产国/产地" prop="origin" class="border1 no-border-top"
-                      style="padding: 5px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="[{}]"
-            class="no-border-right no-border-bottom"
-            style="width: 80%;margin: 4px">
-            <el-table-column align="center" label="英文">
-              <template slot-scope="scope">
-                <el-input
-                  v-model.trim="form.origin[scope.$index].originEnglish"
-                  placeholder="请输入原产国英文名称" clearable
-                ></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="中文">
-              <template slot-scope="scope">
-                <el-input
-                  v-model.trim="form.origin[scope.$index].originChinese"
-                  placeholder="请输入原产国中文名称" clearable
-                ></el-input>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-      </div>
+      <!--<h2>基础信息</h2>-->
+      <!--<div class="border1 form-error-inline">-->
+        <!--<el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">-->
+          <!--<el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号"></el-input>-->
+        <!--</el-form-item>-->
+        <!--<el-row>-->
+          <!--<el-col :span="12">-->
+            <!--<el-form-item label="品牌名称（英文）" prop="englishName" class="form-row add-brand-row no-border-right">-->
+              <!--<el-input v-model.trim="form.englishName" placeholder="请输入品牌名称（英文）"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="12">-->
+            <!--<el-form-item label="品牌名称（中文）" prop="chineseName" class="form-row add-brand-row">-->
+              <!--<el-input v-model.trim="form.chineseName" placeholder="请输入品牌名称（中文）"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+        <!--<el-row>-->
+          <!--<el-col :span="15">-->
+            <!--<el-form-item label="品牌公司名称" prop="brandCompanyName" class="form-row add-brand-row no-border-right">-->
+              <!--<el-input v-model.trim="form.brandCompanyName" placeholder="请输入品牌公司名称"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="9">-->
+            <!--<el-form-item label="电话" prop="brandCompanyPhone" class="form-row add-brand-row">-->
+              <!--<el-input v-model.trim="form.brandCompanyPhone" placeholder="请输入品牌公司的所在国联系电话"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+        <!--<el-form-item label="品牌公司地址" prop="brandCompanyAddress" class="form-row add-brand-row">-->
+          <!--<el-input v-model.trim="form.brandCompanyAddress" placeholder="请输入品牌公司地址"></el-input>-->
+        <!--</el-form-item>-->
+        <!--<el-row>-->
+          <!--<el-col :span="15">-->
+            <!--<el-form-item label="生产企业名称" prop="producerName" class="form-row add-brand-row no-border-right">-->
+              <!--<el-input v-model.trim="form.producerName" placeholder="请输入生产企业名称"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="9">-->
+            <!--<el-form-item label="电话" prop="producerPhone" class="form-row add-brand-row">-->
+              <!--<el-input v-model.trim="form.producerPhone" placeholder="请输入生产企业的所在国联系电话"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+        <!--<el-form-item label="生产企业地址" prop="producerAddress" class="form-row add-brand-row border-bottom">-->
+          <!--<el-input v-model.trim="form.producerAddress" placeholder="请输入生产企业地址"></el-input>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="原产国/产地" prop="origin" class="border1 no-border-top"-->
+                      <!--style="padding: 5px 0;margin-bottom: 0">-->
+          <!--<el-table-->
+            <!--border-->
+            <!--:data="[{}]"-->
+            <!--class="no-border-right no-border-bottom"-->
+            <!--style="width: 80%;margin: 4px">-->
+            <!--<el-table-column align="center" label="英文">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input-->
+                  <!--v-model.trim="form.origin[scope.$index].productionPlaceEnglish"-->
+                  <!--placeholder="请输入原产国英文名称" clearable-->
+                <!--&gt;</el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="中文">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input-->
+                  <!--v-model.trim="form.origin[scope.$index].productionPlaceChinese"-->
+                  <!--placeholder="请输入原产国中文名称" clearable-->
+                <!--&gt;</el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+          <!--</el-table>-->
+        <!--</el-form-item>-->
+      <!--</div>-->
 
       <h2>商品信息</h2>
       <div class="border1 form-error-inline">
-        <el-form-item label="品牌商品分类设置" prop="categotiesSetting" class="border1 no-border-bottom"
-                      style="padding: 5px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="[{}]"
-            class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
-            <el-table-column align="center" label="系列名称">
-              <template slot-scope="scope">
-                <el-input
-                  v-model.trim="form.categotiesSetting[scope.$index].seriesName"
-                  placeholder="若无系列名请输入“其他”" clearable
-                ></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="主品类">
-              <template slot-scope="scope">
-                <el-select
-                  v-model.trim="form.categotiesSetting[scope.$index].mainCategoties"
-                  placeholder="请选择品类"
-                >
-                  <el-option
-                    v-for="item in form.mainCategotiesArr"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="子品类">
-              <template slot-scope="scope">
-                <el-select
-                  v-model.trim="form.categotiesSetting[scope.$index].subCategoties"
-                  placeholder="请选择子品类"
-                >
-                  <el-option
-                    v-for="item in form.subCategotiesArr"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-        <el-form-item label="品牌商品规格设置" prop="specificationSetting" class="border1 no-border-top"
+        <!--<el-form-item label="品牌商品分类设置" prop="categotiesSetting" class="border1 no-border-bottom"-->
+                      <!--style="padding: 5px 0;margin-bottom: 0">-->
+          <!--<el-table-->
+            <!--border-->
+            <!--:data="[{}]"-->
+            <!--class="no-border-right no-border-bottom"-->
+            <!--style="width: 95%;margin: 4px">-->
+            <!--<el-table-column align="center" label="系列名称">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input-->
+                  <!--v-model.trim="form.categotiesSetting[scope.$index].seriesName"-->
+                  <!--placeholder="若无系列名请输入“其他”" clearable-->
+                <!--&gt;</el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="主品类">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-select-->
+                  <!--v-model.trim="form.categotiesSetting[scope.$index].mainCategoties"-->
+                  <!--placeholder="请选择品类"-->
+                <!--&gt;-->
+                  <!--<el-option-->
+                    <!--v-for="item in form.mainCategotiesArr"-->
+                    <!--:key="item.value"-->
+                    <!--:label="item.label"-->
+                    <!--:value="item.value">-->
+                  <!--</el-option>-->
+                <!--</el-select>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="子品类">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-select-->
+                  <!--v-model.trim="form.categotiesSetting[scope.$index].subCategoties"-->
+                  <!--placeholder="请选择子品类"-->
+                <!--&gt;-->
+                  <!--<el-option-->
+                    <!--v-for="item in form.subCategotiesArr"-->
+                    <!--:key="item.value"-->
+                    <!--:label="item.label"-->
+                    <!--:value="item.value">-->
+                  <!--</el-option>-->
+                <!--</el-select>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-button-->
+                  <!--type="danger"-->
+                  <!--icon="el-icon-delete"-->
+                  <!--size="mini"-->
+                  <!--@click=""-->
+                <!--&gt;</el-button>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+          <!--</el-table>-->
+        <!--</el-form-item>-->
+        <el-form-item label="品牌商品规格设置" prop="specificationSetting" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             border
@@ -207,6 +207,38 @@
             </el-table-column>
           </el-table>
         </el-form-item>
+        <el-form-item label="品牌转授权设置" prop="sublicenseChannelNo" class="border1 no-border-bottom no-border-top"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-radio-group v-model="sublicense">
+            <el-radio :label="1">非转授权</el-radio>
+            <el-radio :label="2">转授权</el-radio>
+          </el-radio-group>
+          <el-table
+            v-if="sublicense==2"
+            border :data="form.sublicenseStyleTable"
+            class="no-border-right no-border-bottom"
+            style="width: 95%;margin: 4px">
+            <el-table-column align="center" label="渠道号">
+              <template slot-scope="scope">
+                <el-input
+                  v-model.trim.number="form.sublicenseChannelNo[scope.$index]"
+                  placeholder="粘贴转授权渠道号" @change="sublicenseChannelNoChange" clearable
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="渠道名称">
+              <template slot-scope="scope">
+                <span>{{ sublicenseChannelName[form.sublicenseChannelNo[scope.$index]] || '系统自动读取' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button v-show="scope.$index==form.sublicenseStyleTable.length-1" type="danger" icon="el-icon-delete" size="mini" @click="deleteSublicense(scope.$index)"></el-button>
+                <el-button v-show="scope.$index==form.sublicenseStyleTable.length-1" type="success" icon="el-icon-plus" size="mini" @click="addSublicense(scope.$index)"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form-item>
       </div>
 
       <h2>易货信息</h2>
@@ -239,7 +271,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="单渠道转海运起订量" prop="minBySea" class="border-left border-right"
+        <el-form-item label="转海运起订标准" prop="minBySea" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
             border
@@ -260,13 +292,6 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-form-item label="品牌运输方式" prop="transportation" class="border-left border-right"
-                      style="padding: 5px 0;margin-bottom: 0">
-          <el-checkbox-group v-model="transportation" @change="transportationChange" style="margin: 0 5px">
-            <el-checkbox :label="1" border>By Air</el-checkbox>
-            <el-checkbox :label="2" border>By Sea</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
         <el-form-item label="品牌包装设置" prop="packingSetting" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
@@ -277,13 +302,17 @@
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.packingSetting[scope.$index].packing1" placeholder="例：Standard Packing"
-                          style="width: 160px" clearable></el-input>
+                          style="width: 260px" clearable>
+                  <template slot="prepend">包装</template>
+                </el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="跨境贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.packingSetting[scope.$index].packing2" placeholder="例：Carton"
-                          style="width: 160px" clearable></el-input>
+                          style="width: 260px" clearable>
+                  <template slot="prepend">Packing</template>
+                </el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -294,20 +323,31 @@
             border
             :data="[{}]"
             class="no-border-right no-border-bottom"
-            style="width: 65%;margin: 4px">
+            style="width: 85%;margin: 4px">
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.paymentSetting[scope.$index].payment1" placeholder="例：By T/T"
-                          style="width: 160px" clearable></el-input>
+                          style="width: 360px" clearable>
+                  <template slot="prepend">付款条件/Terms of Payment</template>
+                </el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="跨境贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.paymentSetting[scope.$index].payment2" placeholder="例：T/T"
-                          style="width: 160px" clearable></el-input>
+                          style="width: 360px" clearable>
+                  <template slot="prepend">Payment Term</template>
+                </el-input>
               </template>
             </el-table-column>
           </el-table>
+        </el-form-item>
+        <el-form-item label="品牌运输方式" prop="transportation" class="border-left border-right"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-checkbox-group v-model="transportation" @change="transportationChange" style="margin: 0 5px">
+            <el-checkbox :label="1" border>By Air</el-checkbox>
+            <el-checkbox :label="2" border>By Sea</el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
         <el-form-item label="品牌箱型设置" prop="brandBoxSetting" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
@@ -632,244 +672,191 @@
         </el-form-item>
       </div>
 
-      <h2>交易信息</h2>
-      <div class="border1 form-error-inline">
-        <el-form-item label="交易账号设置" prop="bankInfo" class="border-left border-right"
-                      style="padding: 3px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="form.bankInfo"
-            class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
-            <el-table-column align="center" label="SWIFT Code">
-              <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code" clearable></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="银行名称">
-              <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].bankName" placeholder="请输入品牌商交易银行的英文名称" clearable></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="银行地址">
-              <template slot-scope="scope">
-                <el-input v-model.trim="form.bankInfo[scope.$index].bankAddress" placeholder="请输入品牌商交易银行的英文地址" clearable></el-input>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-        <el-form-item label="交易币种设置" prop="currencyInfo" class="border-left border-right"
-                      style="padding: 3px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="[{},{}]"
-            class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
-            <el-table-column align="center" label="币种类别">
-              <template slot-scope="scope">
-                <span v-if="scope.$index==0">采购币种</span>
-                <span v-if="scope.$index==1">供货币种</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="币种名称">
-              <template slot-scope="scope">
-                <el-select
-                  v-if="scope.$index==0"
-                  v-model="procurementCurrency"
-                  placeholder="请选择币种">
-                  <el-option label="人民币" :value="2"></el-option>
-                  <el-option label="美元" :value="6"></el-option>
-                  <el-option label="欧元" :value="5"></el-option>
-                  <el-option label="英镑" :value="4"></el-option>
-                  <el-option label="澳元" :value="3"></el-option>
-                  <el-option label="港币" :value="1"></el-option>
-                </el-select>
-                <el-select
-                  v-if="scope.$index==1"
-                  v-model="supplyCurrency"
-                  placeholder="请选择币种">
-                  <el-option label="人民币" :value="2"></el-option>
-                  <el-option label="美元" :value="6"></el-option>
-                  <el-option label="欧元" :value="5"></el-option>
-                  <el-option label="英镑" :value="4"></el-option>
-                  <el-option label="澳元" :value="3"></el-option>
-                  <el-option label="港币" :value="1"></el-option>
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="币种符号">
-              <template slot-scope="scope">
-                <span v-if="scope.$index==0">{{ form.currencyCategories[procurementCurrency-1].symbol }}</span>
-                <span v-if="scope.$index==1">{{ form.currencyCategories[supplyCurrency-1].symbol }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="币种单位">
-              <template slot-scope="scope">
-                <span v-if="scope.$index==0">{{ form.currencyCategories[procurementCurrency-1].unit }}</span>
-                <span v-if="scope.$index==1">{{ form.currencyCategories[supplyCurrency-1].unit }}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-      </div>
+      <!--<h2>交易信息</h2>-->
+      <!--<div class="border1 form-error-inline">-->
+        <!--<el-form-item label="交易账号设置" prop="bankInfo" class="border-left border-right"-->
+                      <!--style="padding: 3px 0;margin-bottom: 0">-->
+          <!--<el-table-->
+            <!--border-->
+            <!--:data="form.bankInfo"-->
+            <!--class="no-border-right no-border-bottom"-->
+            <!--style="width: 95%;margin: 4px">-->
+            <!--<el-table-column align="center" label="SWIFT Code">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code" clearable></el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="银行名称">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input v-model.trim="form.bankInfo[scope.$index].bankName" placeholder="请输入品牌商交易银行的英文名称" clearable></el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="银行地址">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input v-model.trim="form.bankInfo[scope.$index].bankAddress" placeholder="请输入品牌商交易银行的英文地址" clearable></el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+          <!--</el-table>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="交易币种设置" prop="currencyInfo" class="border-left border-right"-->
+                      <!--style="padding: 3px 0;margin-bottom: 0">-->
+          <!--<el-table-->
+            <!--border-->
+            <!--:data="[{},{}]"-->
+            <!--class="no-border-right no-border-bottom"-->
+            <!--style="width: 95%;margin: 4px">-->
+            <!--<el-table-column align="center" label="币种类别">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span v-if="scope.$index==0">境外易货币种</span>-->
+                <!--<span v-if="scope.$index==1">境内易货币种</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="币种名称">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-select-->
+                  <!--v-if="scope.$index==0"-->
+                  <!--v-model="procurementCurrency"-->
+                  <!--placeholder="请选择币种">-->
+                  <!--<el-option label="人民币" :value="2"></el-option>-->
+                  <!--<el-option label="美元" :value="6"></el-option>-->
+                  <!--<el-option label="欧元" :value="5"></el-option>-->
+                  <!--<el-option label="英镑" :value="4"></el-option>-->
+                  <!--<el-option label="澳元" :value="3"></el-option>-->
+                  <!--<el-option label="港币" :value="1"></el-option>-->
+                <!--</el-select>-->
+                <!--<el-select-->
+                  <!--v-if="scope.$index==1"-->
+                  <!--v-model="supplyCurrency"-->
+                  <!--placeholder="请选择币种">-->
+                  <!--<el-option label="人民币" :value="2"></el-option>-->
+                  <!--<el-option label="美元" :value="6"></el-option>-->
+                  <!--<el-option label="欧元" :value="5"></el-option>-->
+                  <!--<el-option label="英镑" :value="4"></el-option>-->
+                  <!--<el-option label="澳元" :value="3"></el-option>-->
+                  <!--<el-option label="港币" :value="1"></el-option>-->
+                <!--</el-select>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="币种符号">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span v-if="scope.$index==0">{{ form.currencyCategories[procurementCurrency-1].symbol }}</span>-->
+                <!--<span v-if="scope.$index==1">{{ form.currencyCategories[supplyCurrency-1].symbol }}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="币种单位">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span v-if="scope.$index==0">{{ form.currencyCategories[procurementCurrency-1].unit }}</span>-->
+                <!--<span v-if="scope.$index==1">{{ form.currencyCategories[supplyCurrency-1].unit }}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+          <!--</el-table>-->
+        <!--</el-form-item>-->
+      <!--</div>-->
 
-      <h2>上传信息</h2>
-      <div class="border1 form-error-inline">
-        <el-form-item label="文件上传设置" prop="" class="border1" style="margin-bottom: 0">
-          <div class="forLayout">
-            <div class="uploadItem" v-for="(item, index) in uploadTemplateData" :key="index">
-              <div class="title fake-table-head border-left">{{ item.title }}</div>
-              <el-row class="border-bottom">
-                <el-col :span="8">
-                  <el-form-item label="上传品名数量" prop="" class="form-row add-brand-row no-border-left no-border-right">
-                    <el-input v-model.trim.number="item.uploadNameNum" @change="item.editItemUploadNameNum=!item.editItemUploadNameNum" placeholder="请输入个数">
-                      <el-button slot="append" type="primary">确定</el-button>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="16" align="right">
-                  <el-form-item label="" prop="" class="form-row add-brand-row no-border-right">
-                    <div style="line-height: 35px; padding-right: 10px">
-                      <el-button v-show="false" type="primary">查看上传目录</el-button>
-                    </div>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24" align="left" class="border-left">
-                  <el-form-item label="" prop="" class="form-row add-brand-row no-border-right" style="padding-top: 15px">
-                    <div v-if="item.editItemUploadNameNum" v-show="item.uploadNameNum>0">
-                      <el-upload
-                        class="upload-demo"
-                        ref="upload"
-                        :limit="item.uploadNameNum"
-                        multiple
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :on-preview="filePreview" :on-remove="fileRemove" :on-exceed="fileExceed" :before-upload="fileBeforeUpload" :on-change="fileOnChange"
-                        :file-list="item.fileList"
-                        :auto-upload="false">
-                        <div slot="tip" class="el-upload__tip">{{ item.uploadTip }}</div>
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(index,form,$message)">上传到服务器</el-button>
-                      </el-upload>
-                    </div>
-                    <div v-else v-show="item.uploadNameNum>0">
-                      <el-upload :key="index+9999"
-                        class="upload-demo"
-                        ref="upload"
-                        :limit="item.uploadNameNum"
-                        multiple
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :on-preview="filePreview" :on-remove="fileRemove" :on-exceed="fileExceed" :before-upload="fileBeforeUpload" :on-change="fileOnChange[index]"
-                       :file-list="item.fileList"
-                        :auto-upload="false">
-                        <div slot="tip" class="el-upload__tip">{{ item.uploadTip }}</div>
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(index,form,$message)">上传到服务器</el-button>
-                      </el-upload>
-                    </div>
-                    <div v-show="!(item.uploadNameNum>0)">请输入上传品名数量</div>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </div>
-          </div>
-        </el-form-item>
-      </div>
+      <!--<h2>上传信息</h2>-->
+      <!--<div class="border1 form-error-inline">-->
+        <!--<el-form-item label="文件上传设置" prop="" class="border1" style="margin-bottom: 0">-->
+          <!--<div class="forLayout">-->
+            <!--<uploadComponents @handleUploadFiles="handleUploadFiles(arguments)"></uploadComponents>-->
+          <!--</div>-->
+        <!--</el-form-item>-->
+      <!--</div>-->
 
-      <h2>合作信息</h2>
-      <div class="border1 form-error-inline">
-        <el-form-item label="OCC系统使用设置" class="border-left border-right"
-                      style="padding: 5px 0;margin-bottom: 0">
-          <el-radio-group v-model="flow" @change="flowChange">
-            <el-radio :label="1" border>全部使用常规流程</el-radio>
-            <el-radio :label="2" border>部分使用特殊流程</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"
-                      style="padding: 3px 0;margin-bottom: 0">
-          <el-checkbox-group v-model="specialProject">
-            <el-checkbox :label="1">Upload Inventory</el-checkbox>
-            <el-checkbox :label="2">Arrange Outbound</el-checkbox>
-            <el-checkbox :label="3">Upload Outbound Information</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"
-                      style="padding: 3px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="form.cooperationManagementData"
-            class="no-border-right no-border-bottom cooperationManagementTable"
-            style="width: 95%;margin: 4px">
-            <el-table-column align="center" label="合同编号">
-              <template slot-scope="scope">
-                <el-input v-model.trim="form.cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="合同属性" width="95px">
-              <template slot-scope="scope">
-                <span>首次签订</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="开始时间">
-              <template slot-scope="scope">
-                <el-date-picker v-model="form.cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="结束时间">
-              <template slot-scope="scope">
-                <el-date-picker v-model="form.cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="合同状态">
-              <template slot-scope="scope">
-                <el-select
-                  v-model="contractStatus"
-                  @change="contractStatusChange"
-                  placeholder="请选择状态">
-                  <el-option label="自动续签" :value="1"></el-option>
-                  <el-option label="到期终止" :value="2"></el-option>
-                  <el-option label="提前终止" :value="3"></el-option>
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="品牌状态" width="95px">
-              <template slot-scope="scope">
-                <span v-if="brandStatus == 1">正常供货</span>
-                <span v-if="brandStatus == 2">停止供货</span>
-                <span v-if="brandStatus == 3">待定</span>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-table
-            v-if="false"
-            border
-            :data="[{}]"
-            :show-header="false"
-            :span-method="terminationReasonSpanMethod"
-            :cell-class-name="makeFakeTableHeadClass"
-            class="no-border-right no-border-bottom no-border-top cooperationManagementTable"
-            style="width: 95%;margin: -4px 4px 4px">
-            <el-table-column align="center" label="合同编号">
-              <template slot-scope="scope">
-                <span>提前终止原因</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="合同属性" width="95px">
-              <template slot-scope="scope">
-                <el-input
-                  type="textarea"
-                  autosize
-                  placeholder="50字内说明提前终止原因"
-                  v-model="terminationReason">
-                </el-input>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="开始时间"/>
-            <el-table-column align="center" label="结束时间"/>
-            <el-table-column align="center" label="合同状态"/>
-            <el-table-column align="center" label="品牌状态" width="95px"/>
-          </el-table>
-        </el-form-item>
-      </div>
+      <!--<h2>合作信息</h2>-->
+      <!--<div class="border1 form-error-inline">-->
+        <!--<el-form-item label="OCC系统使用设置" class="border-left border-right"-->
+                      <!--style="padding: 5px 0;margin-bottom: 0">-->
+          <!--<el-radio-group v-model="flow" @change="flowChange">-->
+            <!--<el-radio :label="1" border>全部使用常规流程</el-radio>-->
+            <!--<el-radio :label="2" border>部分使用特殊流程</el-radio>-->
+          <!--</el-radio-group>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"-->
+                      <!--style="padding: 3px 0;margin-bottom: 0">-->
+          <!--<el-checkbox-group v-model="specialProject">-->
+            <!--<el-checkbox :label="1">Upload Inventory</el-checkbox>-->
+            <!--<el-checkbox :label="2">Arrange Outbound</el-checkbox>-->
+            <!--<el-checkbox :label="3">Upload Outbound Information</el-checkbox>-->
+          <!--</el-checkbox-group>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"-->
+                      <!--style="padding: 3px 0;margin-bottom: 0">-->
+          <!--<el-table-->
+            <!--border-->
+            <!--:data="form.cooperationManagementData"-->
+            <!--class="no-border-right no-border-bottom cooperationManagementTable"-->
+            <!--style="width: 95%;margin: 4px">-->
+            <!--<el-table-column align="center" label="合同编号">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input v-model.trim="form.cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="合同属性" width="95px">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span>首次签订</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="开始时间">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-date-picker v-model="form.cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="结束时间">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-date-picker v-model="form.cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="合同状态">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-select-->
+                  <!--v-model="contractStatus"-->
+                  <!--@change="contractStatusChange"-->
+                  <!--placeholder="请选择状态">-->
+                  <!--<el-option label="自动续签" :value="1"></el-option>-->
+                  <!--<el-option label="到期终止" :value="2"></el-option>-->
+                  <!--<el-option label="提前终止" :value="3"></el-option>-->
+                <!--</el-select>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="品牌状态" width="95px">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span v-if="brandStatus == 1">正常供货</span>-->
+                <!--<span v-if="brandStatus == 2">停止供货</span>-->
+                <!--<span v-if="brandStatus == 3">待定</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+          <!--</el-table>-->
+          <!--<el-table-->
+            <!--v-if="false"-->
+            <!--border-->
+            <!--:data="[{}]"-->
+            <!--:show-header="false"-->
+            <!--:span-method="terminationReasonSpanMethod"-->
+            <!--:cell-class-name="makeFakeTableHeadClass"-->
+            <!--class="no-border-right no-border-bottom no-border-top cooperationManagementTable"-->
+            <!--style="width: 95%;margin: -4px 4px 4px">-->
+            <!--<el-table-column align="center" label="合同编号">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span>提前终止原因</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="合同属性" width="95px">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-input-->
+                  <!--type="textarea"-->
+                  <!--autosize-->
+                  <!--placeholder="50字内说明提前终止原因"-->
+                  <!--v-model="terminationReason">-->
+                <!--</el-input>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="开始时间"/>-->
+            <!--<el-table-column align="center" label="结束时间"/>-->
+            <!--<el-table-column align="center" label="合同状态"/>-->
+            <!--<el-table-column align="center" label="品牌状态" width="95px"/>-->
+          <!--</el-table>-->
+        <!--</el-form-item>-->
+      <!--</div>-->
 
 
       <div class="dialogBottomButton-wrap">
@@ -880,6 +867,8 @@
 </template>
 
 <script>
+  import uploadComponents from './uploadComponents/index.vue'
+
   import brandBasicsMsg from './formData/brandBasicsMsg'
   import goodsMsg from './formData/goodsMsg'
   import deliverMsg from './formData/deliverMsg'
@@ -893,7 +882,11 @@
   import moneyMsgRules from './formRules/moneyMsgRules'
   import cooperationMsgRules from './formRules/cooperationMsgRules'
 
+  import { getBrandBasicsMsgData } from './formData/brandBasicsMsg'
+
   import { transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderClass1, discountHeaderStyle1, addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount1DLLabel, discount2FXLabel, discount2DLLabel,discountItemMaxChange } from './formData/deliverMsg'
+
+  import { sublicenseChannelNoChange, addSublicense, deleteSublicense, getGoodsMsg } from './formData/goodsMsg'
 
   import { getCurrencyInfo } from './formData/moneyMsg'
 
@@ -901,11 +894,18 @@
 
   import { submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6 } from './formData/uploadMsg'
 
+  import request from "@/utils/request"
+
   export default {
+    components: {
+      uploadComponents
+    },
     data() {
       return {
         form: {},
         transportation: [], // 用于易货信息的checkbox
+        sublicense: 1, // 用于控制授权区域视图
+        sublicenseChannelName: {}, // 用于控制授权区域视图
         discountTargetObj: [], // 用于易货信息的checkbox
         discountRange1Visible: false, // 用于易货信息的折扣表格
         discountRange2Visible: false, // 用于易货信息的折扣表格
@@ -938,15 +938,34 @@
       }
     },
     methods: {
+      getBrandBasicsMsgData,
+      sublicenseChannelNoChange, addSublicense, deleteSublicense, getGoodsMsg,
       transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderStyle1, discountHeaderClass1,
       addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount2FXLabel, discount1DLLabel,
       discount2DLLabel, discountItemMaxChange,
       getCurrencyInfo, getCooperationData, flowChange, makeFakeTableHeadClass, terminationReasonSpanMethod, contractStatusChange, timeChange,
       submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6,
+      handleUploadFiles() {
+        this.form.ingredientFormStr = arguments[0][0]
+        this.form.hazardFormStr = arguments[0][1]
+        this.form.tagFileStr = arguments[0][2]
+        this.form.officialDocumentsStr = arguments[0][3]
+        this.form.MSDSEnStr = arguments[0][4]
+        this.form.MSDSZhStr = arguments[0][5]
+        this.form.commitmentStr = arguments[0][6]
+        this.form.isAllUpload = arguments[0][7]
+      },
       onSubmit() {
         this.isSubmitting = true;
 
+//        if (!this.form.isAllUpload) {
+//          this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+//          return false
+//        }
+
         // 提交数据预处理
+        this.getBrandBasicsMsgData()
+        this.getGoodsMsg()
         this.getCurrencyInfo()
         this.getCooperationData()
         this.getUploadMsg()
@@ -1030,4 +1049,7 @@
 
 
 <!--有待解决的问题-->
+<!--品牌商品分类设置相关提交数据处理-->
+<!--折扣区间组件-->
+<!--红色星星-->
 <!--首次签订的判断依据是什么？-->

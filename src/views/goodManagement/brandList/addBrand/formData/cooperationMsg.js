@@ -18,7 +18,7 @@ export function getCooperationData() {
   this.form.flow = this.flow
   this.form.specialProject = this.specialProject
   this.form.cooperationManagementData[0].contractStatus = this.contractStatus
-  this.form.cooperationManagementData[0].brandStatus = this.brandStatus
+  this.form.cooperationManagementData[0].brandStatus = this.brandStatus || 3
   this.form.terminationReason = this.terminationReason
 }
 

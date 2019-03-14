@@ -9,9 +9,14 @@ let brandBasicsMsg = {
   producerPhoto: null,
   producerAddress: null,
   origin: [{
-    originEnglish: null,
-    originChinese: null
+    productionPlaceChinese: null,
+    productionPlaceEnglish: null
   }]
+}
+
+export function getBrandBasicsMsgData() {
+  this.form.productionPlaceChinese = this.form.origin[0].productionPlaceChinese
+  this.form.productionPlaceEnglish = this.form.origin[0].productionPlaceEnglish
 }
 
 export default brandBasicsMsg

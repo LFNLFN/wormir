@@ -31,7 +31,8 @@ let uploadMsg = {
     { title: 'MSDS（英文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（英文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
     { title: 'MSDS（中文）', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+MSDS（中文）；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
     { title: '进口化妆品安全性承诺书', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：品牌名称+进口化妆品安全性承诺书；文件格式：doc./docx./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
-  ]
+  ],
+  isAllUpload: false
 }
 
 export function submitUpload(index, form, message) {
@@ -44,6 +45,7 @@ export function submitUpload(index, form, message) {
       observable.subscribe({
         next(res) {
           console.log(res,123);
+          message.success('上传成功')
         },
         error(err) {
           console.log(err,456)
@@ -69,7 +71,7 @@ export function submitUpload(index, form, message) {
     case 1:
       form.hazardForm = window.___hazardForm
       form.hazardForm.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._hazardForm.push(`http://asset.wormir.com/${key}`)
           form.hazardFormStr = form._hazardForm.join()
         })
@@ -78,7 +80,7 @@ export function submitUpload(index, form, message) {
     case 2:
       form.tagFile = window.___tagFile
       form.tagFile.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._tagFile.push(`http://asset.wormir.com/${key}`)
           form.tagFileStr = form._tagFile.join()
         })
@@ -87,7 +89,7 @@ export function submitUpload(index, form, message) {
     case 3:
       form.officialDocuments = window.___officialDocuments
       form.officialDocuments.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._officialDocuments.push(`http://asset.wormir.com/${key}`)
           form.officialDocumentsStr = form._officialDocuments.join()
         })
@@ -96,7 +98,7 @@ export function submitUpload(index, form, message) {
     case 4:
       form.MSDSEn = window.___MSDSEn
       form.MSDSEn.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._MSDSEn.push(`http://asset.wormir.com/${key}`)
           form.MSDSEnStr = form._MSDSEn.join()
         })
@@ -105,7 +107,7 @@ export function submitUpload(index, form, message) {
     case 5:
       form.MSDSZh = window.___MSDSZh
       form.MSDSZh.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._MSDSZh.push(`http://asset.wormir.com/${key}`)
           form.MSDSZhStr = form._MSDSZh.join()
         })
@@ -114,7 +116,7 @@ export function submitUpload(index, form, message) {
     case 6:
       form.commitment = window.___commitment
       form.commitment.forEach(item => {
-        uploadAction(item.raw.file, key => {
+        uploadAction(item.raw, key => {
           form._commitment.push(`http://asset.wormir.com/${key}`)
           form.commitmentStr = form._commitment.join()
         })
@@ -122,10 +124,6 @@ export function submitUpload(index, form, message) {
       break;
   }
   // this.$refs.upload[index].submit()
-  console.log(message)
-  window.setTimeout(() => {
-    message.success('上传成功')
-  }, 1000)
 }
 export function fileRemove(file, fileList) {
   console.log(file, fileList);

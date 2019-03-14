@@ -24,9 +24,22 @@ const validateSpecificationSetting = (rule, value, callback) => {
   }
 }
 
+const validateSublicenseChannelNo = (rule, value, callback) => {
+  if (value.length==0) { callback(new Error("品牌商品规格设置表格必须全部填写！")) }
+  let valiNull = value.some((item, index, arr) => {
+    if (!item) return true
+  })
+  if (valiNull) {
+    callback(new Error("品牌转授权设置表格必须全部填写！"));
+  } else {
+    callback();
+  }
+}
+
 const goodsMsgRules = {
   categotiesSetting: [{ required: true, validator: validateCategotiesSetting, trigger: "blur" }],
   specificationSetting: [{ required: true, validator: validateSpecificationSetting, trigger: "blur" }],
+  sublicenseChannelNo: [{ required: true, validator: validateSublicenseChannelNo, trigger: "blur" }],
 }
 
 
