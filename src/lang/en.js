@@ -126,7 +126,8 @@ export default {
     abnormalTracking: 'Abnormal Tracking',
     customerTracking: 'Customer Tracking',
     verifySetting: 'Verify Setting',
-    stockManagement: 'Stock Management'
+    stockManagement: 'Stock Management',
+    settingManagement: 'Setting Management',
   },
   navbar: {
     logOut: 'Log Out',

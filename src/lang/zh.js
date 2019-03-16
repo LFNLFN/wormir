@@ -127,7 +127,9 @@ export default {
     abnormalTracking: '异常追踪',
     customerTracking: '顾客追踪',
     verifySetting: '验证设置',
-    stockManagement: '库存管理'
+    stockManagement: '库存管理',
+    accountManagement: '账户管理',
+    settingManagement: '设置管理',
   },
   navbar: {
     logOut: '退出登录',

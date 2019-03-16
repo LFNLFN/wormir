@@ -265,5 +265,23 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/accountManagement',
+    component: Layout,
+    name: 'accountManagement',
+    meta: {
+      title: 'accountManagement',
+      icon: 'orderManagement'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'settingManagement',
+        component: () => import('@/views/accountManagement/settingManagement/index.vue'),
+        name: 'settingManagement',
+        meta: { title: 'settingManagement' }
+      },
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]

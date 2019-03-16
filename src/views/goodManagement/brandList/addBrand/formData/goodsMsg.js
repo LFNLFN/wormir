@@ -62,6 +62,19 @@ export function deleteSublicense(index) {
   this.form.sublicenseStyleTable.splice(index, 1)
 }
 
+export function requestSubCategories(val) {
+  this.$request({
+    url: '/brand/getGoodSubCategoty.do',
+    method: "post",
+    data: { mainIndex: val }
+  })
+    .then( res => {
+      if (res.errorCode==0) {
+        this.subCategoryOptions = res.data.items
+      }
+    })
+}
+
 export function getGoodsMsg() {
   this.form.sublicense = this.sublicense
 }
