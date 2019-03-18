@@ -4,7 +4,7 @@
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
-          <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号"></el-input>
+          <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号" disabled v-loading="form.brandNoLoading"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -881,7 +881,7 @@
   import moneyMsgRules from './formRules/moneyMsgRules'
   import cooperationMsgRules from './formRules/cooperationMsgRules'
 
-  import { getBrandBasicsMsgData } from './formData/brandBasicsMsg'
+  import { getBrandBasicsMsgData,getBrandNo } from './formData/brandBasicsMsg'
 
   import { transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderClass1, discountHeaderStyle1, addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount1DLLabel, discount2FXLabel, discount2DLLabel,discountItemMaxChange } from './formData/deliverMsg'
 
@@ -940,7 +940,7 @@
       }
     },
     methods: {
-      getBrandBasicsMsgData,
+      getBrandBasicsMsgData,getBrandNo,
       sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,
       transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderStyle1, discountHeaderClass1,
       addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount2FXLabel, discount1DLLabel,
@@ -960,10 +960,10 @@
       onSubmit() {
         this.isSubmitting = true;
 
-//        if (!this.form.isAllUpload) {
-//          this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
-//          return false
-//        }
+        if (!this.form.isAllUpload) {
+          this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+          return false
+        }
 
         // 提交数据预处理
         this.getBrandBasicsMsgData()
@@ -1011,6 +1011,7 @@
       // 以上代码用于生成数据副本，以免因对象共享无法初始化数据
       Object.assign(this.form, this.brandBasicsMsg, this.goodsMsg, this.deliverMsg, this.moneyMsg, this.uploadMsg, this.cooperationMsg)
       Object.assign(this.formRules, brandBasicsMsgRules, goodsMsgRules, deliverMsgRules, moneyMsgRules, cooperationMsgRules)
+      this.getBrandNo()
       this.$request({
         url: '/brand/getSpecialProject.do',
         method: "post",
@@ -1069,6 +1070,6 @@
 
 
 <!--有待解决的问题-->
-<!--品牌商品分类设置相关提交数据处理-->
+<!--品牌号的生成规则-->
 <!--红色星星-->
 <!--首次签订的判断依据是什么？-->

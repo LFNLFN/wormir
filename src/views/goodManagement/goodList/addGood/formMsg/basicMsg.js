@@ -1,17 +1,6 @@
-let brandBasicsMsg = {
-  // brandNo: null,
-  brandNoLoading: false,
-  englishName: null,
-  chineseName: null,
-  brandCompanyName: null,
-  brandCompanyPhone: null,
-  brandCompanyAddress: null,
-  producerName: null,
-  producerPhoto: null,
-  producerAddress: null,
-  origin: [{
-    productionPlaceChinese: null,
-    productionPlaceEnglish: null
+let basicsMsg = {
+  brandOfGoods: [{
+    brandEnglishNameOfGoods: null
   }]
 }
 
@@ -34,4 +23,4 @@ export function getBrandBasicsMsgData() {
   this.form.productionPlaceEnglish = this.form.origin[0].productionPlaceEnglish
 }
 
-export default brandBasicsMsg
+export default basicsMsg
