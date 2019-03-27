@@ -435,7 +435,7 @@
               <el-radio :label="1">非转授权</el-radio>
               <el-radio :label="2">转授权</el-radio>
             </el-radio-group>
-            <div>可售渠道：<el-checkbox-group v-model="form.availableSalesChannel" style="display: inline-block">
+            <div v-if="form.sublicense==1">可售渠道：<el-checkbox-group v-model="form.availableSalesChannel" style="display: inline-block">
               <el-checkbox label="A级渠道" border></el-checkbox>
               <el-checkbox label="B级渠道" border></el-checkbox>
               <el-checkbox label="C级渠道" border></el-checkbox>
@@ -443,14 +443,14 @@
               <el-checkbox label="分销渠道" border></el-checkbox>
             </el-checkbox-group>
             </div>
-            <el-table
-              border :data="[{}]"
+            <el-table v-if="form.sublicense==2"
+              border :data="sublicenseChannelMsg"
               class="no-border-right no-border-bottom"
               style="width: 80%;margin: 4px">
               <el-table-column align="center" label="渠道号">
                 <template slot-scope="scope">
                   <el-select
-                    v-model="sublicenseChannelMsg"
+                    v-model="sublicenseChannelMsg[scope.$index]"
                     @change="sublicenseChannelNoChange"
                     placeholder="选择转授权渠道号"
                     value-key="id"
@@ -466,16 +466,118 @@
               </el-table-column>
               <el-table-column align="center" label="渠道名称">
                 <template slot-scope="scope">
-                  <span>{{ sublicenseChannelMsg[sublicenseChannelMsg.channelNo] || '选择后显示' }}</span>
+                  <span>{{ sublicenseChannelMsg[scope.$index][sublicenseChannelMsg[scope.$index].channelNo] || '选择后显示' }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                  <el-button type="danger" icon="el-icon-delete" size="mini" @click=""></el-button>
-                  <el-button type="success" icon="el-icon-plus" size="mini" @click=""></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteSublicenseChannel(scope.$index)"></el-button>
+                  <el-button type="success" icon="el-icon-plus" size="mini" @click="addSublicenseChannel(scope.$index)"></el-button>
                 </template>
               </el-table-column>
             </el-table>
+          </el-form-item>
+          <el-form-item label="价格信息设置" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
+            <el-table
+              border
+              :data="priceMsgTableData"
+              class="no-border-right no-border-bottom"
+              style="width: 95%;margin: 4px"
+              :header-cell-style="priceTableHeadStyle"
+            :span-method="priceMsgSpanMethod">
+              <el-table-column align="center" label="交易项目" prop="projectTitle"/>
+              <el-table-column align="center" label="币种类别">
+                <template slot-scope="scope">
+                  <el-select
+                    v-model="priceType[scope.$index]"
+                    placeholder="选择币种类别"
+                    value-key="currencyId"
+                    @change="priceTypeChange"
+                    :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 && (scope.$index==3 || scope.$index==5)"
+                  >
+                    <el-option
+                      v-for="(item,index) in currencyCategories"
+                      :key="item.currencyId"
+                      :label="item.name"
+                      :value="item">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="币种符号" width="100">
+                <template slot-scope="scope">
+                  {{ priceType[scope.$index].symbol || '选择后显示' }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="币种单位" width="100">
+                <template slot-scope="scope">
+                  {{ priceType[scope.$index].unit || '选择后显示' }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="价格类型" prop="priceTypeCol" />
+              <el-table-column align="center" label="金额">
+                <el-table-column align="center" label="hide" width="120px">
+                <template slot-scope="scope">
+                  <el-input v-model.trim="priceArr[scope.$index]" placeholder="输入数字" style="width: 100%"
+                            @change="priceArrChange"
+                            :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 && (scope.$index>=3 && scope.$index<=6)"></el-input>
+                </template>
+                </el-table-column>
+                <el-table-column align="center" label="hide" width="100px">
+                  <template slot-scope="scope">
+                    <span>{{ priceType[scope.$index].symbol&&priceArr[scope.$index] ? priceType[scope.$index].symbol + priceArr[scope.$index] : '输入后显示'}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column align="center" label="折扣">
+                <template slot-scope="scope">
+                  <span v-if="scope.$index==0 || scope.$index==7">0%</span>
+                  <el-input v-else v-model.trim.number="form.discountArr[scope.$index]" placeholder="输入数字" style="width: 100%"
+                            :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 && (scope.$index>=3 && scope.$index<=6)">
+                    <template slot="append">%</template>
+                  </el-input>
+                  <div style="color: darkgray">{{ discountTips(scope.$index) }}</div>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-table
+              border
+              :data="[{},{}]"
+              class="no-border-right no-border-bottom"
+              style="width: 95%;margin: 4px"
+            >
+              <el-table-column align="center" label="项目" class-name="fake-table-head">
+                <template slot-scope="scope">
+                  <span v-if="scope.$index==0">一般贸易</span>
+                  <span v-if="scope.$index==1">跨境贸易</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="分销订货起订折扣">
+                <template slot-scope="scope">
+                  <el-input v-model.trim="form.minOrderNumDiscountFX1" placeholder="输入数字" style="width: 160px"
+                            v-if="scope.$index==0" :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1"></el-input>
+                  <el-input v-model.trim="form.minOrderNumDiscountFX2" placeholder="输入数字" style="width: 160px"
+                            v-if="scope.$index==1" :disabled="form.propertyOfSale[0]==1&&form.propertyOfSale.length==1"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="独立订货起订折扣">
+                <template slot-scope="scope">
+                  <el-input v-model.trim="form.minOrderNumDiscountDL1" placeholder="输入数字" style="width: 160px"
+                            v-if="scope.$index==0" :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1"></el-input>
+                  <el-input v-model.trim="form.minOrderNumDiscountDL2" placeholder="输入数字" style="width: 160px"
+                            v-if="scope.$index==1" :disabled="form.propertyOfSale[0]==1&&form.propertyOfSale.length==1"></el-input>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
+          <el-form-item label="商品状态设置" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
+            <el-select
+              v-model="form.goodStatus"
+              placeholder="选择商品状态"
+            >
+              <el-option :key="1" label="正常销售" :value="1"></el-option>
+              <el-option :key="2" label="停止销售" :value="2"></el-option>
+            </el-select>
           </el-form-item>
         </div>
       </div>
@@ -544,10 +646,18 @@
             }
           ],
           propertyOfGoods: 1,
-          sublicense: 1,
-          sublicenseChannelMsg: {channelNo: null, channelName: null, id: null}
+          sublicense: 2,
+          sublicenseChannelMsg: [{channelNo: null, channelName: null, id: null}],
+          priceType: [{},{},{},{},{},{},{},{},{}],
+          priceArr: [],
+          discountArr: [0],
+          minOrderNumDiscountFX1: null,
+          minOrderNumDiscountFX2: null,
+          minOrderNumDiscountDL1: null,
+          minOrderNumDiscountDL2: null,
+          goodStatus: 1
         },
-        sublicenseChannelMsg: {channelNo: null, channelName: null, id: null},
+        sublicenseChannelMsg: [{channelNo: null, channelName: null, id: null}],
         formRules: {},
         brandNoLoading: false,
         brandOptions: [],
@@ -567,6 +677,57 @@
         cartonNo: null,
         brandPropertyOfSale: [],
         sublicenseChannelOptions: [],
+        priceMsgTableData: [
+          {projectTitle: '品牌在本国销售', priceTypeCol: '外国零售价/Retail Price'},
+          {projectTitle: '香港吾蜜向外国品牌采购', priceTypeCol: '空运采购价/Unit Purchase Price'},
+          {projectTitle: '', priceTypeCol: '海运采购价/Unit Purchase Price'},
+          {projectTitle: '香港吾蜜供货/广州吾蜜采购\n' + '（一般贸易）', priceTypeCol: '空运报关价/Unit Price'},
+          {projectTitle: '', priceTypeCol: '海运报关价/Unit Price'},
+          {projectTitle: '广州吾蜜供货/珠海吾蜜采购\n' + '（一般贸易）', priceTypeCol: '空运易货价'},
+          {projectTitle: '', priceTypeCol: '海运易货价'},
+          {projectTitle: '中国渠道销售', priceTypeCol: '中国零售价'},
+          {projectTitle: '中国渠道销售下限', priceTypeCol: '中国最低零售价'},
+        ],
+        currencyCategories: [
+          {
+            name: '港币',
+            currencyId: 1,
+            symbol: '$',
+            unit: '港元'
+          },
+          {
+            name: '人民币',
+            currencyId: 2,
+            symbol: '￥',
+            unit: '元'
+          },
+          {
+            name: '澳元',
+            currencyId: 3,
+            symbol: 'A$',
+            unit: '澳元'
+          },
+          {
+            name: '英镑',
+            currencyId: 4,
+            symbol: '£',
+            unit: '英镑'
+          },
+          {
+            name: '欧元',
+            currencyId: 5,
+            symbol: '€',
+            unit: '欧元'
+          },
+          {
+            name: '美元',
+            currencyId: 6,
+            symbol: '$',
+            unit: '美元'
+          },
+        ],
+        priceType: [{},{},{},{},{},{},{},{},{}],
+        priceArr: []
       }
     },
     methods: {
@@ -746,10 +907,63 @@
         this.form.grossWeight = val
       },
       validateFile,
+      addSublicenseChannel(index) {
+        this.sublicenseChannelMsg.splice(index+1, 0, {channelNo: null, channelName: null, id: null})
+        this.form.sublicenseChannelMsg = this.sublicenseChannelMsg
+      },
+      deleteSublicenseChannel(index) {
+        if (this.sublicenseChannelMsg.length==1) return false
+        this.sublicenseChannelMsg.splice(index, 1)
+        this.form.sublicenseChannelMsg = this.sublicenseChannelMsg
+      },
       sublicenseChannelNoChange(val) {
-        console.log(val)
-        this.sublicenseChannelMsg = val
-        this.form.sublicenseChannelMsg = val
+        this.form.sublicenseChannelMsg = this.sublicenseChannelMsg
+      },
+      priceMsgSpanMethod({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex==1 || rowIndex==3 || rowIndex==5) {
+            if (columnIndex < 4) {
+                return [2,1]
+            }
+        }
+        if (rowIndex==2 || rowIndex==4 || rowIndex==6) {
+          if (columnIndex < 4) {
+            return [0,0]
+          }
+        }
+      },
+      priceTypeChange(val) {
+        this.form.priceType = this.priceType
+      },
+      priceArrChange(value) {
+        let val = null
+        this.priceArr.forEach((item,index) => {
+          val = item
+          // 非空验证
+          if (!val) return false
+          // 两位小数验证
+          if (!(val/1 > 0)) return false // 如果不是数字，报错
+          // 如果有小数点
+          if (val.indexOf('.') > -1) {
+            if (val.indexOf('.') == 0) { val = '0'+val } //小数点之前没有数字
+            val = val.substring(0, val.indexOf('.')+3)
+            if (val.length == val.indexOf('.')+1) { val += '00' }
+            else if (val.length == val.indexOf('.')+1+1) { val += '0' }// 判断此时小数点后是否够两位小数
+            else {}
+          }
+          // 如果没有小数点
+          else {
+            // 去除字符串开头多余的0
+            let targetIndex = -1
+            for (let ii=0; ii<val.length; ii++) {
+              if (val[ii] != 0) { targetIndex=ii; break }
+              else {}
+            }
+            if (targetIndex>=1) { val = val.substring(targetIndex) }
+            val += '.00'
+            this.$set(this.priceArr, index, val)
+          }
+        })
+        this.form.priceArr = this.priceArr
       },
       onSubmit() {
         this.isSubmitting = true;
@@ -798,6 +1012,21 @@
           return 'fake-table-head'
         }
       },
+      priceTableHeadStyle({row, column, rowIndex, columnIndex}) {
+        if (rowIndex == 1) {
+          return { display: 'none' }
+        }
+      },
+      discountTips(index) {
+        switch (index) {
+          case 1: return '空运采购价/外国零售价'
+          case 2: return '海运采购价/外国零售价'
+          case 3: return '空运报关价/外国零售价'
+          case 4: return '海运报关价/外国零售价'
+          case 5: return '空运易货价/中国零售价'
+          case 6: return '海运易货价/中国零售价'
+        }
+      }
     },
     created() {
       Object.assign(this.formRules, formDataRules)
