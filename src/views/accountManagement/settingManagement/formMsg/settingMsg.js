@@ -36,8 +36,12 @@ export function categorySettingSpanMethod({ row, column, rowIndex, columnIndex }
 }
 
 export function addSubCategory(index) {
-  this.categorySetting.splice(index+1, 1, {mainIndex: null,mainName: null,subIndex: null,subName: null})
-  this.form.categorySetting.splice(index+1, 1, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+  let len = this.categorySetting.length
+  if (!this.categorySetting[len-1].mainName) {
+    this.$message.error('请先完成主品类的填写'); return false
+  }
+  this.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+  this.form.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
   this.form.categorySetting[index+1].mainIndex = this.form.categorySetting[index].mainIndex
   this.form.categorySetting[index+1].mainName = this.form.categorySetting[index].mainName
   this.form.categorySetting[index+1].subIndex = this.form.categorySetting[index].subIndex+1
@@ -74,9 +78,9 @@ export function deleteMainCategory(mainIndex) {
       endIndex = i;break
     }
   }
-  if (!endIndex) {
-    this.form.categorySetting.splice(startIndex, len-startIndex)
-    this.categorySetting.splice(startIndex, len-startIndex)
+  if (endIndex) {
+    this.form.categorySetting.splice(startIndex, endIndex)
+    this.categorySetting.splice(startIndex, endIndex)
   }
   this.getSpanArr(this.form.categorySetting)
 }

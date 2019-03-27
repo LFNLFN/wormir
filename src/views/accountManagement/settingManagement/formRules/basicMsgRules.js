@@ -57,7 +57,7 @@ const validateDomesticAuthorityCompanyMsg = (rule, value, callback) => {
     }
   })
   if (valiNull) {
-    callback(new Error("国内货权公司设置信息必须全部填写！"))
+    callback(new Error("国内货权公司信息须全部填写！"))
   } else {
     callback()
   }

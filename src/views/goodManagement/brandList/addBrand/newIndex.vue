@@ -857,7 +857,6 @@
         </el-form-item>
       </div>
 
-
       <div class="dialogBottomButton-wrap">
         <el-button type="primary" @click="onSubmit" :loading="isSubmitting">保存并提交</el-button>
       </div>
@@ -1070,6 +1069,6 @@
 
 
 <!--有待解决的问题-->
-<!--品牌号的生成规则-->
+<!--清关文件新建一张表-->
 <!--红色星星-->
 <!--首次签订的判断依据是什么？-->

@@ -134,12 +134,12 @@
     </el-dialog>
     <el-dialog
       :visible.sync="isAddGoodShow"
-      width="70%"
-      @close="isAddGoodShow = false"
+      width="95%"
+      @close="isAddGoodShow = false" :before-close="addDialogBeforeClose"
       title="添加品牌商品"
       append-to-body
     >
-      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess" :goodsNo='selectedGoodsNo'></addGood>
+      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess" :goodsNo='selectedGoodsNo' @temporary-save="temporarySave($event)"></addGood>
     </el-dialog>
   </div>
 </template>
@@ -147,7 +147,8 @@
 <script>
 import { getGoodList } from '@/api/goods'
 import goodDetail from './goodDetail/index.vue'
-import addGood from './addGood/index.vue'
+//import addGood from './addGood/index.vue'
+import addGood from './addGood/newIndex.vue'
 import request from "@/utils/request";
 export default {
   data() {
@@ -171,7 +172,8 @@ export default {
         20: '促销',
         30: '新品'
       },
-      selectedGoodsNo: undefined
+      selectedGoodsNo: undefined,
+      isTemporarySave: false,
     }
   },
   methods: {
@@ -219,6 +221,21 @@ export default {
       this.isAddGoodShow = false
       this.filterForm.currentPage = 1
       this.goodBlurSearch()
+    },
+    addDialogBeforeClose(done) {
+      this.$confirm('是否暂存已填写信息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {this.isTemporarySave=true;done()}).catch(() => {this.isTemporarySave=false;done()});
+    },
+    temporarySave(form) {
+      if (!this.isTemporarySave) return false
+      this.$request({
+        url: '/user/temporarySaveAddingGoodsMsg.do',
+        method: 'post',
+        data: {addingGoodsMsg: JSON.stringify(form), id:1}
+      }).then(() => { this.$message.success("暂存成功") })
     }
   },
   mounted() {

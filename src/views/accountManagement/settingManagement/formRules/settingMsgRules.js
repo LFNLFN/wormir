@@ -1,7 +1,9 @@
 const validateCategorySetting = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      if (!item[key] && item[key]!=0) return true
+      if (!item[key] && item[key]!=0) {
+        return true
+      }
     }
   });
   if (valiNull) {

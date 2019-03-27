@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-management" style="padding: 0 20px">
+  <div class="setting-management-index-vue" style="padding: 0 20px">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
@@ -214,10 +214,10 @@
               </el-table-column>
               <el-table-column align="center" label="7" width="70px">
                 <template slot-scope="scope">
-                  <p v-show="domesticAuthorityCompanyMsg.length>1">
+                  <p v-show="domesticAuthorityCompanyMsg.length>1" style="padding-top: 10px">
                     <el-button type="danger" icon="el-icon-delete" @click="deleteDomesticAuthorityCompany(index)"></el-button>
                   </p>
-                  <p v-show="index==domesticAuthorityCompanyMsg.length-1">
+                  <p v-show="index==domesticAuthorityCompanyMsg.length-1" style="padding-top: 10px">
                     <el-button type="success" icon="el-icon-plus" @click="addDomesticAuthorityCompany"></el-button>
                   </p>
                 </template>
@@ -407,6 +407,7 @@
       this.settingMsgRules = settingMsgRules
       Object.assign(this.form, this.basicMsg, this.settingMsg)
       Object.assign(this.formRules, this.basicMsgRules, this.settingMsgRules)
+
     }
   }
 </script>
