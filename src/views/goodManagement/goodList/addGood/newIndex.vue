@@ -112,6 +112,7 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="商品分类设置" prop="" class="border1 no-border-top"
+
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             v-loading="brandNoLoading"
@@ -290,6 +291,7 @@
               </el-table-column>
             </el-table>
         </el-form-item>
+
         <el-form-item label="申报要素表设置" prop="declarationSetting" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
           <declarationTable
             :declarationSetting.async="form.declarationSetting" :brandChineseName.async="form.brandChineseName"
@@ -298,6 +300,7 @@
             :makeUpOfGoods.async="form.makeUpOfGoods" :propertyOfSale.async="form.propertyOfSale"
           ></declarationTable>
         </el-form-item>
+
         <el-form-item label="装箱规格设置" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
           <el-table
             border
@@ -684,7 +687,8 @@
           minOrderNumDiscountFX2: null,
           minOrderNumDiscountDL1: null,
           minOrderNumDiscountDL2: null,
-          goodStatus: 1
+          goodStatus: 1,
+          cartonParam: null,
         },
         sublicenseChannelMsg: [{channelNo: null, channelName: null, id: null}],
         formRules: {},
@@ -880,6 +884,7 @@
             this.$set(this.form, 'width', item.width)
             this.$set(this.form, 'length', item.length)
             this.$set(this.form, 'weight', item.weight)
+            this.form.cartonParam = item
             return true
           }
         })
@@ -1011,15 +1016,27 @@
       },
       onSubmit() {
         this.isSubmitting = true;
-//        if(!this.validateFile()) {
-//          this.isSubmitting = false
-//          return false
-//        }
+        if(!this.validateFile()) {
+          this.isSubmitting = false
+          return false
+        }
+
+        this.form.ingredientArr = JSON.stringify(this.form.ingredientArr)
+        this.form.hazardArr = JSON.stringify(this.form.hazardArr)
+        this.form.tagArr = JSON.stringify(this.form.tagArr)
+        this.form.officialArr = JSON.stringify(this.form.officialArr)
+        this.form.MSDSenArr = JSON.stringify(this.form.MSDSenArr)
+        this.form.MSDSzhArr = JSON.stringify(this.form.MSDSzhArr)
+        this.form.commitment = JSON.stringify(this.form.commitment)
+        this.form.declarationSetting = JSON.stringify(this.form.declarationSetting)
+        this.form.declarationSpecification = JSON.stringify(this.form.declarationSpecification)
+        this.form.cartonParam = JSON.stringify(this.form.cartonParam)
+        this.form.packageSpecificationData = JSON.stringify(this.form.packageSpecificationData)
+
         console.log(this.form)
 
         this.$refs["form"].validate(valid => {
           if (valid) {
-            return false
             request({
               url: '/goods/createGood.do',
               method: "post",
@@ -1041,7 +1058,7 @@
               });
           } else {
             this.isSubmitting = false;
-            this.$message.error("请填写全部信息");
+            this.$message.error("请正确填写全部信息");
             return false;
           }
         });
@@ -1103,3 +1120,6 @@
     width: 98%;
   }
 </style>
+
+<!--待解决问题-->
+<!--品牌安全承诺书请求-->
