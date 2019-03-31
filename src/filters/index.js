@@ -180,3 +180,22 @@ export function brandStatusFilter(value) {
   }
   return statusMap[value]
 }
+
+// 商品属性
+export function propertyOfGoodsFilter(value) {
+  const statusMap = {
+    1: '新品',
+    2: '常规',
+    3: '促销',
+  }
+  return statusMap[value]
+}
+
+// 商品状态
+export function goodsStatusFilter(value) {
+  const statusMap = {
+    1: '正常销售',
+    2: '停止销售',
+  }
+  return statusMap[value]
+}

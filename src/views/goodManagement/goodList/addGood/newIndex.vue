@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
-        <el-form-item label="商品品牌" prop="brandMsg" class="border1 no-border-top"
+        <el-form-item label="商品品牌" prop="brandMsg" class="border1 border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             v-loading="brandNoLoading"
@@ -39,19 +39,19 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-form-item label="商品序列号" prop="" class="form-row add-brand-row border-bottom">
+        <el-form-item label="商品序列号" prop="" class="form-row add-brand-row no-margin-bottom">
           <el-row><el-col align="center"><span>{{ form.goodsNo || '系统自动生成，编号规则为：品牌序列号+生成年月日+两位顺序号（如01、02…...）' }}</span></el-col></el-row>
         </el-form-item>
-        <el-form-item label="原产国/产地" prop="" class="form-row add-brand-row border-bottom">
+        <el-form-item label="原产国/产地" prop="" class="form-row add-brand-row no-border-bottom no-margin-bottom">
           <el-row>
             <el-col :span="12" align="center" class="border-right" style="height: 35px"><span>{{ form.productionPlaceEnglish || '选品牌后显示英文名称' }}</span></el-col>
             <el-col :span="12" align="center" style="height: 35px"><span>{{ form.productionPlaceChinese || '选完品牌后显示中文名称' }}</span></el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="商品编号" prop="goodsNoForBrand" class="form-row add-brand-row">
+        <el-form-item label="商品编号" prop="goodsNoForBrand" class="form-row add-brand-row border-bottom no-margin-bottom">
           <el-input v-model.trim="form.goodsNoForBrand" placeholder="输入品牌商使用的商品编号"></el-input>
         </el-form-item>
-        <el-form-item label="商品名称" prop="" class="border1 no-border-top"
+        <el-form-item label="商品名称" prop="" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             border
@@ -90,10 +90,10 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-form-item label="商品条形码" prop="barcode" class="form-row add-brand-row">
+        <el-form-item label="商品条形码" prop="barcode" class="form-row add-brand-row border-bottom no-margin-bottom">
           <el-input v-model.trim="form.barcode" placeholder="输入商品条形码（Bar Code）"></el-input>
         </el-form-item>
-        <el-form-item label="商品组成" prop="makeUpOfGoods" class="border1 no-border-bottom no-border-top"
+        <el-form-item label="商品组成" prop="makeUpOfGoods" class="border1 border-bottom no-border-top"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-radio-group v-model="form.makeUpOfGoods" @change="makeUpOfGoodsChange">
             <el-radio :label="1">单品</el-radio>
@@ -104,7 +104,7 @@
 
       <h2>商品设置</h2>
       <div class="border1 form-error-inline">
-        <el-form-item label="销售属性设置" prop="propertyOfSale" class="border-left border-right"
+        <el-form-item label="销售属性设置" prop="propertyOfSale" class="border-left border-right border-top"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-checkbox-group v-model="form.propertyOfSale" style="margin: 0 5px">
             <el-checkbox :label="1" border v-if="brandPropertyOfSale.findIndex(x => x == 1)>-1" :disabled="brandPropertyOfSale.length==1">作为一般贸易商品销售</el-checkbox>
@@ -273,12 +273,12 @@
                   <el-form-item label="" prop="" style="margin-bottom: 0">
                     <clearanceFileUpload
                       :scope="scope" :brandNo="form.brandNo"
-                      :ingredientArr.async="form.ingredientArr"
-                      :hazardArr.async="form.hazardArr"
-                      :tagArr.async="form.tagArr"
-                      :officialArr.async="form.officialArr"
-                      :MSDSenArr.async="form.MSDSenArr"
-                      :MSDSzhArr.async="form.MSDSzhArr"
+                      :ingredientArr.sync="form.ingredientArr"
+                      :hazardArr.sync="form.hazardArr"
+                      :tagArr.sync="form.tagArr"
+                      :officialArr.sync="form.officialArr"
+                      :MSDSenArr.sync="form.MSDSenArr"
+                      :MSDSzhArr.sync="form.MSDSzhArr"
                     ></clearanceFileUpload>
                   </el-form-item>
                 </template>
@@ -294,10 +294,10 @@
 
         <el-form-item label="申报要素表设置" prop="declarationSetting" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
           <declarationTable
-            :declarationSetting.async="form.declarationSetting" :brandChineseName.async="form.brandChineseName"
-            :declarationSpecification.async="form.declarationSpecification" :declarationNum.async="form.declarationNum"
-            :specificationId.async="specificationId" :specificationOptions.async="specificationOptions"
-            :makeUpOfGoods.async="form.makeUpOfGoods" :propertyOfSale.async="form.propertyOfSale"
+            :declarationSetting.sync="form.declarationSetting" :brandChineseName.sync="form.brandChineseName"
+            :declarationSpecification.sync="form.declarationSpecification" :declarationNum.sync="form.declarationNum"
+            :specificationId.sync="specificationId" :specificationOptions.sync="specificationOptions"
+            :makeUpOfGoods.sync="form.makeUpOfGoods" :propertyOfSale.sync="form.propertyOfSale"
           ></declarationTable>
         </el-form-item>
 
@@ -344,14 +344,14 @@
           </el-table>
           <el-form-item label="" prop="packageSpecificationData" style="margin-bottom: 0">
             <packageSpecificationTable
-              :packageSpecificationData.async="form.packageSpecificationData"></packageSpecificationTable>
+              :packageSpecificationData.sync="form.packageSpecificationData"></packageSpecificationTable>
           </el-form-item>
         </el-form-item>
       </div>
 
       <div class="for-senior-executive" v-if="true">
         <h2>合作设置</h2>
-        <div class="border1 form-error-inline">
+        <div class="border1 form-error-inline" style="border-top: 2px solid #d5d5d5">
           <el-form-item v-if="form.makeUpOfGoods" label="商品属性设置" prop="" class="border1 no-border-bottom no-border-top"
                         style="padding: 5px 0;margin-bottom: 0">
             <el-radio-group v-model="form.propertyOfGoods">
@@ -497,7 +497,7 @@
               <el-table-column align="center" label="交易项目" prop="projectTitle"/>
               <el-table-column align="center" label="币种类别">
                 <template slot-scope="scope">
-                  <el-form-item label="" prop="priceType" style="margin-bottom: 0">
+                  <el-form-item label="" prop="" style="margin-bottom: 0">
                     <el-select
                       v-model="priceType[scope.$index]"
                       placeholder="选择币种类别"
@@ -529,7 +529,7 @@
               <el-table-column align="center" label="金额">
                 <el-table-column align="center" label="hide" width="120px">
                 <template slot-scope="scope">
-                  <el-form-item label="" prop="priceArr" style="margin-bottom: 0">
+                  <el-form-item label="" prop="" style="margin-bottom: 0">
                     <el-input v-model.trim="priceArr[scope.$index]" placeholder="输入数字" style="width: 100%"
                               @change="priceArrChange"
                               :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 && (scope.$index>=3 && scope.$index<=6)"></el-input>
@@ -942,6 +942,14 @@
         this.form.grossWeight = val
       },
       validateFile,
+      validatePriceMsg() {
+        this.form.priceType.some((item) => {
+          if (!item.symbol) {
+            this.$confirm(`请填写价格信息设置中的币种类别。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+            return true
+          }
+        })
+      },
       addSublicenseChannel(index) {
         this.sublicenseChannelMsg.splice(index+1, 0, {channelNo: null, channelName: null, id: null})
         this.form.sublicenseChannelMsg = this.sublicenseChannelMsg
@@ -1017,6 +1025,10 @@
       onSubmit() {
         this.isSubmitting = true;
         if(!this.validateFile()) {
+          this.isSubmitting = false
+          return false
+        }
+        if(this.validatePriceMsg()) {
           this.isSubmitting = false
           return false
         }
@@ -1119,7 +1131,12 @@
     margin: 3px;
     width: 98%;
   }
+  .no-margin-bottom {
+    margin-bottom: 0;
+  }
 </style>
 
 <!--待解决问题-->
+<!--装箱规格没有请求到两位小数-->
 <!--品牌安全承诺书请求-->
+<!--一般员工和高管区分-->

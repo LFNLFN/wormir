@@ -40,19 +40,15 @@
       </el-table-column>
       <el-table-column prop="goodsSerialNo" label="商品序列号" min-width="150" align="center"></el-table-column>
       <el-table-column prop="brandChineseName" label="商品品牌" min-width="120" align="center"></el-table-column>
-      <el-table-column
-        label="商品属性"
-        width="100"
-        align="center"
-      >
+      <el-table-column label="商品属性" width="100" align="center">
         <template slot-scope="scope">
-          <span>{{goodsCategoryList[scope.row.goodsCategory]}}</span>
+          <span>{{scope.row.propertyOfGoods | propertyOfGoodsFilter}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
       <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
-      <el-table-column prop="goodsNo" label="商品编号" width="100" align="center"></el-table-column>
+      <el-table-column prop="goodsNoForBrand" label="商品编号" width="100" align="center"></el-table-column>
       <el-table-column
         prop="goodsChineseName"
         label="商品名称-中文"
@@ -67,28 +63,19 @@
         align="center"
         show-overflow-tooltip
       ></el-table-column>
-      <!-- <el-table-column
-        prop="goodStatus"
-        width="110"
-        label="商品状态"
-        :filters="[{ text: '待提交审核', value: '待提交审核' }, { text: '待审核', value: '待审核' }, { text: '正常销售', value: '正常销售' }, { text: '停止销售', value: '停止销售' }]"
-        :filter-method="filterHandler_goodStatus"
-        align="center"
-      ></el-table-column> -->
       <el-table-column
         width="110"
         label="商品状态"
         align="center">
         <template slot-scope="scope">
-          <span>正常销售</span>
+          <span>{{scope.row.goodsStatus | goodsStatusFilter}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="goodPrice" label="商品售价" width="100" align="center">
-        <template slot-scope="scope">
-          <span>￥ {{ scope.row.unitPrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="initialDiscount" label="起订折扣" width="100" align="center"></el-table-column>
+      <!--<el-table-column prop="goodPrice" label="商品售价" width="100" align="center">-->
+        <!--<template slot-scope="scope">-->
+          <!--<span>￥ {{ scope.row.goodsPrice }}</span>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         prop="checkInTime"
         label="录入时间"
@@ -146,10 +133,12 @@
 
 <script>
 import { getGoodList } from '@/api/goods'
-import goodDetail from './goodDetail/index.vue'
+//import goodDetail from './goodDetail/index.vue'
+import goodDetail from './goodDetail/newIndex.vue'
 //import addGood from './addGood/index.vue'
 import addGood from './addGood/newIndex.vue'
-import request from "@/utils/request";
+import request from "@/utils/request"
+import { propertyOfGoodsFilter,goodsStatusFilter } from "@/filters/index.js"
 export default {
   data() {
     return {
@@ -168,9 +157,9 @@ export default {
       theGoodDetail: {},
       isAddGoodShow: false,
       goodsCategoryList: {
-        10: '常规',
-        20: '促销',
-        30: '新品'
+        1: '新品',
+        2: '常规',
+        3: '促销',
       },
       selectedGoodsNo: undefined,
       isTemporarySave: false,
@@ -178,7 +167,7 @@ export default {
   },
   methods: {
     goodBlurSearch() {
-      this.listLoading = true
+      // this.listLoading = true
       request({
         url: '/goodsInfo/list.do',
         method: 'post',
@@ -214,8 +203,8 @@ export default {
       return row[property] === value;
     },
     checkGoodDetail(row) {
-      this.selectedGoodsNo = row.goodsNo
-      this.isAddGoodShow = true
+      this.theGoodDetail = row
+      this.isGoodDetailShow = true
     },
     addSuccess() {
       this.isAddGoodShow = false
@@ -244,9 +233,13 @@ export default {
   components: {
     goodDetail,
     addGood
+  },
+  filters: {
+    propertyOfGoodsFilter,goodsStatusFilter
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 </style>
