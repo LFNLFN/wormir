@@ -1,7 +1,9 @@
 const validateCategotiesSetting = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      if (!item[key]) return true
+      if (!item[key] && item[key]!=0) {
+        return true
+      }
     }
   });
   if (valiNull) {
@@ -25,19 +27,19 @@ const validateSpecificationSetting = (rule, value, callback) => {
 }
 
 const validateSublicenseChannelNo = (rule, value, callback) => {
-  if (value.length==0) { callback(new Error("品牌商品规格设置表格必须全部填写！")) }
+  if (value.length==0) { callback(new Error("必填")) }
   let valiNull = value.some((item, index, arr) => {
     if (!item) return true
   })
   if (valiNull) {
-    callback(new Error("品牌转授权设置表格必须全部填写！"));
+    callback(new Error("必填"));
   } else {
     callback();
   }
 }
 
 const goodsMsgRules = {
-  categotiesSetting: [{ required: true, validator: validateCategotiesSetting, trigger: "blur" }],
+  categotiesSetting: [{ required: true, validator: validateCategotiesSetting, trigger: "change" }],
   specificationSetting: [{ required: true, validator: validateSpecificationSetting, trigger: "blur" }],
   sublicenseChannelNo: [{ required: true, validator: validateSublicenseChannelNo, trigger: "blur" }],
 }

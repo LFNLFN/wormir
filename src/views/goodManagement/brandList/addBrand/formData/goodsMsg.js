@@ -57,6 +57,25 @@ export function addSublicense(index) {
   this.form.sublicenseStyleTable.push({})
 }
 
+export function deleteCategotiesSetting(index) {
+  if (index==0) return false
+  this.form.categotiesSetting.splice(index,1)
+  this.categotiesSetting.splice(index,1)
+}
+
+export function addCategotiesSetting(index) {
+  this.form.categotiesSetting.splice(index,0,{
+    seriesName: null,
+    mainCategoties: null,
+    subCategoties: null
+  })
+  this.categotiesSetting.splice(index,0,{
+    seriesName: null,
+    mainCategoties: null,
+    subCategoties: null
+  })
+}
+
 export function deleteSublicense(index) {
   if (index==0) return false
   this.form.sublicenseStyleTable.splice(index, 1)
@@ -71,6 +90,9 @@ export function requestSubCategories(val) {
     .then( res => {
       if (res.errorCode==0) {
         this.subCategoryOptions = res.data.items
+        this.categotiesSetting.forEach((item, index, arr) => {
+          this.form.categotiesSetting[index].mainCategoties = item.mainCategoties
+        })
       }
     })
 }

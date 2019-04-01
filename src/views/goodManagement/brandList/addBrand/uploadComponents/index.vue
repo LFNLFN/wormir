@@ -264,9 +264,9 @@
         <el-col :span="16" align="right">
           <el-form-item label="" prop="" class="form-row add-brand-row no-border-right">
             <div style="line-height: 35px; padding-right: 10px">
-              <el-popover v-if="MEnFileListStr" placement="left" width="400" trigger="click">
+              <el-popover v-if="MZhFileListStr" placement="left" width="400" trigger="click">
                 <h4>MSDS（中文）上传目录</h4>
-                <p v-for="item in MEnFileListStr.split(',')">
+                <p v-for="item in MZhFileListStr.split(',')">
                   <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>

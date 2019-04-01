@@ -109,9 +109,9 @@ export function addDiscountRange(arr) {
     item.disabled = true
   })
   arr.push({ min: 0, max: 0, decreasing: 0, disabled: false })
-  arr[arr.length-1].min = arr[arr.length-2].max + 1
-  arr[arr.length-1].max = arr[arr.length-1].min + 1
-  arr[arr.length-1].decreasing = arr[arr.length-2].decreasing + 1
+  arr[arr.length-1].min = arr[arr.length-2].max/1 + 1
+  arr[arr.length-1].max = arr[arr.length-1].min/1 + 1
+  arr[arr.length-1].decreasing = arr[arr.length-2].decreasing/1 + 1
 }
 
 export function deleteDiscountRange(arr, index) {

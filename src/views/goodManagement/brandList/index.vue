@@ -8,14 +8,14 @@
         <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="showAddOrEditBrand">新增品牌</el-button>
       </el-form-item>
     </el-form>
     <el-table
       border
       :data="brandTableData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right1">
+      style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
+      >
       <el-table-column
         prop="brandNo"
         label="品牌序列号"
@@ -91,8 +91,8 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
-    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="新增品牌">
-      <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
+    <el-dialog :visible.sync="isAddOrEditBrandShow" v-if="isAddOrEditBrandShow" width="85%" @close="isAddOrEditBrandShow = false">
+      <addOrEditBrand v-if="isAddOrEditBrandShow" @submitSuccess="submitSuccess" :openStatus="'add'"></addOrEditBrand>
     </el-dialog>
     <el-dialog
       :visible.sync="isEditBrandShow"
@@ -163,7 +163,7 @@
 <script>
   import { brand_BlurSearch } from '@/api/brand'
 //  import addBrand from './addBrand/index.vue'
-  import addBrand from './addBrand/newIndex.vue'
+  import addOrEditBrand from './addBrand/newIndex.vue'
   import editBrand from './editBrand/index.vue'
   import goodManagement from './goodManagement/index.vue'
   import request from "@/utils/request";
@@ -180,7 +180,7 @@
           page_size: 10,
           total: 0
         },
-        isAddBrandShow: false,
+        isAddOrEditBrandShow: false,
         isEditBrandShow: false,
         currentBrand: {},
         isStopCooperationShow: false,
@@ -242,8 +242,8 @@
         const property = column['property'];
         return row[property] === value;
       },
-      showAddBrand() {
-        this.isAddBrandShow = true
+      showAddOrEditBrand() {
+        this.isAddOrEditBrandShow = true
       },
       showEditBrand(row) {
         this.isEditBrandShow = true
@@ -270,7 +270,7 @@
         })
       },
       submitSuccess() {
-        this.isAddBrandShow = false
+        this.isAddOrEditBrandShow = false
         this.$confirm(`新增品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
         this.brandBlurSearch()
       },
@@ -286,7 +286,7 @@
       this.brandBlurSearch()
     },
     components: {
-      addBrand,
+      addOrEditBrand,
       editBrand,
       goodManagement
     }

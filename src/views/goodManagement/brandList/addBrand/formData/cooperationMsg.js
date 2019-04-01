@@ -46,10 +46,12 @@ export function contractStatusChange(val) {
 export function timeChange(val) {
   let valiBrandStatus = this.form.cooperationManagementData.some(item => {
     for (let key in item) {
-      if (!item[key]) { return true }
-      else { return false }
+      if (!item[key]) {
+        return true
+      }
     }
   })
+  // console.log(valiBrandStatus)
   if (!valiBrandStatus) { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 1 }
   else { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 3 }
 }

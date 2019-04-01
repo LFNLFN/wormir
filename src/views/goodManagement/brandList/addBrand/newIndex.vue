@@ -81,7 +81,7 @@
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             border
-            :data="[{}]"
+            :data="categotiesSetting"
             class="no-border-right no-border-bottom"
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="系列名称">
@@ -95,9 +95,9 @@
             <el-table-column align="center" label="主品类">
               <template slot-scope="scope">
                 <el-select
-                  v-model.trim="form.categotiesSetting[scope.$index].mainCategoties"
+                  v-model.trim="categotiesSetting[scope.$index].mainCategoties"
                   @change="requestSubCategories"
-                  placeholder="请选择品类"
+                  placeholder="请选择主品类"
                 >
                   <el-option
                     v-for="item in mainCategoryOptions"
@@ -111,8 +111,8 @@
             <el-table-column align="center" label="子品类">
               <template slot-scope="scope">
                 <el-select
-                  v-model.trim="form.categotiesSetting[scope.$index].subCategoties"
-                  placeholder="请选择子品类"
+                  v-model.trim="categotiesSetting[scope.$index].subCategoties"
+                  placeholder="请选择子品类" @change="form.categotiesSetting[scope.$index].subCategoties = categotiesSetting[scope.$index].subCategoties"
                 >
                   <el-option
                     v-for="item in subCategoryOptions"
@@ -123,16 +123,16 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
-              </template>
-            </el-table-column>
+            <!--<el-table-column align="center" label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-button-->
+                  <!--type="danger"-->
+                  <!--icon="el-icon-delete"-->
+                  <!--size="mini"-->
+                  <!--@click="deleteCategotiesSetting(scope.$index)"-->
+                <!--&gt;</el-button>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
         </el-form-item>
         <el-form-item label="品牌商品规格设置" prop="specificationSetting" class="border1 no-border-top no-border-bottom"
@@ -196,19 +196,19 @@
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click=""
-                ></el-button>
-              </template>
-            </el-table-column>
+            <!--<el-table-column align="center" label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<el-button-->
+                  <!--type="danger"-->
+                  <!--icon="el-icon-delete"-->
+                  <!--size="mini"-->
+                  <!--@click=""-->
+                <!--&gt;</el-button>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
         </el-form-item>
-        <el-form-item label="品牌转授权设置" prop="sublicenseChannelNo" class="border1 no-border-bottom no-border-top"
+        <el-form-item label="品牌转授权设置" prop="" class="border1 no-border-top"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-radio-group v-model="sublicense">
             <el-radio :label="1">非转授权</el-radio>
@@ -221,10 +221,12 @@
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="渠道号">
               <template slot-scope="scope">
+                <el-form-item label="" prop="sublicenseChannelNo" style="margin-bottom: 0">
                 <el-input
                   v-model.trim.number="form.sublicenseChannelNo[scope.$index]"
                   placeholder="粘贴转授权渠道号" @change="sublicenseChannelNoChange" clearable
                 ></el-input>
+                </el-form-item>
               </template>
             </el-table-column>
             <el-table-column align="center" label="渠道名称">
@@ -243,7 +245,7 @@
       </div>
 
       <h2>易货信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5">
         <el-row>
           <el-col :span="12">
             <el-form-item label="空运国际物流天数" prop="airDeliverDays" class="form-row add-brand-row no-border-right">
@@ -674,7 +676,7 @@
       </div>
 
       <h2>交易信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
         <el-form-item label="交易账号设置" prop="bankInfo" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
@@ -764,7 +766,7 @@
       </div>
 
       <h2>合作信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
         <el-form-item label="OCC系统使用设置" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-radio-group v-model="flow" @change="flowChange">
@@ -775,7 +777,7 @@
         <el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-checkbox-group v-model="specialProject">
-            <el-checkbox v-for="item in specialProjectCheckingArr" :key="item.flowIndex" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
+            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :key="index" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"
@@ -884,7 +886,7 @@
 
   import { transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderClass1, discountHeaderStyle1, addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount1DLLabel, discount2FXLabel, discount2DLLabel,discountItemMaxChange } from './formData/deliverMsg'
 
-  import { sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg } from './formData/goodsMsg'
+  import { sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,addCategotiesSetting,deleteCategotiesSetting } from './formData/goodsMsg'
 
   import { getCurrencyInfo } from './formData/moneyMsg'
 
@@ -895,12 +897,22 @@
   import request from "@/utils/request"
 
   export default {
+    props: {
+      openStatus: { required: true, type: String },
+    },
     components: {
       uploadComponents
     },
     data() {
       return {
         form: {},
+        categotiesSetting: [
+          {
+            seriesName: null,
+            mainCategoties: null,
+            subCategoties: null
+          }
+        ],
         transportation: [], // 用于易货信息的checkbox
         sublicense: 1, // 用于控制授权区域视图
         sublicenseChannelName: {}, // 用于控制授权区域视图
@@ -940,7 +952,7 @@
     },
     methods: {
       getBrandBasicsMsgData,getBrandNo,
-      sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,
+      sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,addCategotiesSetting,deleteCategotiesSetting,
       transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderStyle1, discountHeaderClass1,
       addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount2FXLabel, discount1DLLabel,
       discount2DLLabel, discountItemMaxChange,
@@ -961,6 +973,9 @@
 
         if (!this.form.isAllUpload) {
           this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+          console.log(this.form.MSDSZhStr,'zh')
+          console.log(this.form.MSDSEnStr,'en')
+          this.isSubmitting = false
           return false
         }
 
@@ -1010,7 +1025,9 @@
       // 以上代码用于生成数据副本，以免因对象共享无法初始化数据
       Object.assign(this.form, this.brandBasicsMsg, this.goodsMsg, this.deliverMsg, this.moneyMsg, this.uploadMsg, this.cooperationMsg)
       Object.assign(this.formRules, brandBasicsMsgRules, goodsMsgRules, deliverMsgRules, moneyMsgRules, cooperationMsgRules)
-      this.getBrandNo()
+      if (this.openStatus=='add') {
+        this.getBrandNo()
+      }
       this.$request({
         url: '/brand/getSpecialProject.do',
         method: "post",
