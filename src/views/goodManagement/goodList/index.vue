@@ -18,8 +18,7 @@
     <el-table
       border v-loading="listLoading" element-loading-text="给我一点时间"
       :data="goodTableData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right1"
+      style="width: 100%;border-top: 2px solid #D5D5D5;border-left: 2px solid #D5D5D5"
     >
       <el-table-column
         fixed="left"
@@ -38,7 +37,7 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop="goodsSerialNo" label="商品序列号" min-width="150" align="center"></el-table-column>
+      <el-table-column prop="goodsNo" label="商品序列号" min-width="150" align="center"></el-table-column>
       <el-table-column prop="brandChineseName" label="商品品牌" min-width="120" align="center"></el-table-column>
       <el-table-column label="商品属性" width="100" align="center">
         <template slot-scope="scope">
@@ -126,7 +125,7 @@
       title="添加品牌商品"
       append-to-body
     >
-      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess" :goodsNo='selectedGoodsNo' @temporary-save="temporarySave($event)"></addGood>
+      <addGood v-if="isAddGoodShow" @submitSuccess="addSuccess" :goodsNo='selectedGoodsNo' @temporary-save="temporarySave($event)" @submitSuccesss="submitSuccessAction"></addGood>
     </el-dialog>
   </div>
 </template>
@@ -217,6 +216,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {this.isTemporarySave=true;done()}).catch(() => {this.isTemporarySave=false;done()});
+    },
+    submitSuccessAction() {
+      this.isAddGoodShow = false
+      this.goodBlurSearch()
     },
     temporarySave(form) {
       if (!this.isTemporarySave) return false

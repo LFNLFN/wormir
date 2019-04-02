@@ -88,22 +88,26 @@ export function fileTitle(index) {
 }
 
 export function addFile(type) {
-  if (type==1) {
-    this.form.ingredientArr.push({})
-  }
+  if (type==1) {this.form.ingredientArr.push({})}
+  if (type==2) {this.form.hazardArr.push({})}
+  if (type==3) {this.form.tagArr.push({})}
+  if (type==4) {this.form.officialArr.push({})}
+  if (type==5) {this.form.MSDSenArr.push({})}
+  if (type==6) {this.form.MSDSzhArr.push({})}
 }
 
 export function deleteFile(type) {
-  if (type==1) {
-    let len = this.form.ingredientArr.length
-    if (len==1) return false
-    this.form.ingredientArr.splice(len-1, 1)
-  }
+  if (type==1) {let len = this.form.ingredientArr.length;if (len==1) return false;this.form.ingredientArr.splice(len-1, 1)}
+  if (type==2) {let len = this.form.hazardArr.length;if (len==1) return false;this.form.hazardArr.splice(len-1, 1)}
+  if (type==3) {let len = this.form.tagArr.length;if (len==1) return false;this.form.tagArr.splice(len-1, 1)}
+  if (type==4) {let len = this.form.officialArr.length;if (len==1) return false;this.form.officialArr.splice(len-1, 1)}
+  if (type==5) {let len = this.form.MSDSenArr.length;if (len==1) return false;this.form.MSDSenArr.splice(len-1, 1)}
+  if (type==6) {let len = this.form.MSDSzhArr.length;if (len==1) return false;this.form.MSDSzhArr.splice(len-1, 1)}
 }
 
 export function validateFile() {
-  if (!this.form.ingredientArr[0].fileName || this.form.hazardArr[0].fileName || this.form.tagArr[0].fileName || this.form.officialArr[0].fileName || this.form.MSDSenArr[0].fileName || this.form.MSDSzhArr[0].fileName) {
+  if (!this.form.ingredientArr[0].fileName || !this.form.hazardArr[0].fileName || !this.form.tagArr[0].fileName || !this.form.officialArr[0].fileName || !this.form.MSDSenArr[0].fileName || !this.form.MSDSzhArr[0].fileName) {
     this.$confirm(`清关文件部分尚有未完成选择的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
     return false
-  }
+  } else { return true }
 }

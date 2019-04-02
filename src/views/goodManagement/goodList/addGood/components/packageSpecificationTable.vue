@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column align="center" label="商品数量">
         <template slot-scope="scope">
-          <el-input v-model.trim="packageSpecificationData[scope.$index].goodsNum" placeholder="输入整数"></el-input>
+          <el-input v-model.trim="packageSpecificationData[scope.$index].goodsNum" placeholder="输入整数" @change="goodsNumChange"></el-input>
         </template>
       </el-table-column>
       <el-table-column align="center" label="装箱单位">
@@ -79,15 +79,22 @@
         this.packageSpecificationData.splice(index,0,{
           packageSpecificationZh: null,
           packageSpecificationEn: null,
-          goodsNum: 0,
+          goodsNum: 1,
           packageUnitZh: null,
           packageUnitEn: null,
           mergeCartonUnit: '个/箱',
           cartonNumUnitZh: null,
           cartonNumUnitEn: null,
         })
+      },
+      goodsNumChange(val) {
+        if (!(val>0)) {
+          this.packageSpecificationData.some((item,index) => {
+            if (item.goodsNum>0) { return false } else { item.goodsNum = 1; return true }
+          })
+        }
       }
-    }
+    },
   }
 </script>
 

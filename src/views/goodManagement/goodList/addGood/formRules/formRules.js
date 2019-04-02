@@ -14,7 +14,7 @@ const validateBrandMsg = (rule, value, callback) => {
 const valiDeclarationSetting = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      if (!item[key]) return true
+      if (!item[key]) { return true }
     }
   });
   if (valiNull) {
@@ -87,6 +87,19 @@ const valiDiscountArr = (rule, value, callback) => {
   }
 }
 
+const valiDeclarationSpecification = (rule, value, callback) => {
+  let valiNull = value.some((item, index, arr) => {
+    if (!item) {
+      return true
+    }
+  });
+  if (valiNull) {
+    callback(new Error(" "));
+  } else {
+    callback();
+  }
+}
+
 const basicsMsgRules = {
   brandMsg: [{ required: true, validator: validateBrandMsg, trigger: "blur" }],
   goodsNoForBrand: [{ required: true, message: "必填", trigger: "blur" }],
@@ -115,6 +128,8 @@ const basicsMsgRules = {
   minOrderNumDiscountFX2: [{ required: true, type: 'number', message: "请填数字", trigger: "blur" }],
   minOrderNumDiscountDL1: [{ required: true, type: 'number', message: "请填数字", trigger: "blur" }],
   minOrderNumDiscountDL2: [{ required: true, type: 'number', message: "请填数字", trigger: "blur" }],
+  declarationNum: [{ required: true, message: "必填", trigger: "blur" }],
+  declarationSpecification:  [{ required: true, validator: valiDeclarationSpecification, trigger: "blur" }],
 }
 
 

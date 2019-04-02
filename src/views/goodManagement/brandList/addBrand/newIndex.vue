@@ -760,7 +760,7 @@
       <div class="border1 form-error-inline">
         <el-form-item label="文件上传设置" prop="" class="border1" style="margin-bottom: 0">
           <div class="forLayout">
-            <uploadComponents @handleUploadFiles="handleUploadFiles(arguments)"></uploadComponents>
+            <uploadComponents @handleUploadFiles="handleUploadFiles(arguments)" :brandNo="form.brandNo"></uploadComponents>
           </div>
         </el-form-item>
       </div>
@@ -970,11 +970,8 @@
       },
       onSubmit() {
         this.isSubmitting = true;
-
         if (!this.form.isAllUpload) {
           this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
-          console.log(this.form.MSDSZhStr,'zh')
-          console.log(this.form.MSDSEnStr,'en')
           this.isSubmitting = false
           return false
         }
@@ -985,6 +982,7 @@
         this.getCurrencyInfo()
         this.getCooperationData()
         this.getUploadMsg()
+
         console.log(this.form)
 
         this.$refs["form"].validate(valid => {

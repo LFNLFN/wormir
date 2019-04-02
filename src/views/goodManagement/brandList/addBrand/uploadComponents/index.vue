@@ -357,6 +357,9 @@
         return this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && true
       }
     },
+    props: {
+      brandNo: { required: true }
+    },
     data() {
       return {
         uploadNameNumIng: 0, isUploadingIng: false, ingFileList: [], ingFileKeyList: [], ingFileListStr: '',
@@ -570,6 +573,16 @@
                   _this.ingFileListStr = _this.ingFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 1,
+                    }
+                  })
                 })
               })
             }
@@ -581,6 +594,16 @@
                   _this.hazFileListStr = _this.hazFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 2,
+                    }
+                  })
                 })
               })
             }
@@ -592,6 +615,16 @@
                   _this.tagFileListStr = _this.tagFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 3,
+                    }
+                  })
                 })
               })
             }
@@ -603,6 +636,16 @@
                   _this.offiFileListStr = _this.offiFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 4,
+                    }
+                  })
                 })
               })
             }
@@ -614,6 +657,16 @@
                   _this.MEnFileListStr = _this.MEnFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 5,
+                    }
+                  })
                 })
               })
             }
@@ -625,6 +678,16 @@
                   _this.MZhFileListStr = _this.MZhFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 6,
+                    }
+                  })
                 })
               })
             }
@@ -636,6 +699,16 @@
                   _this.comFileListStr = _this.comFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                  this.$request({
+                    url: '/brand/addBrandClearanceFile.do',
+                    method: "post",
+                    data: {
+                      brandNo: this.brandNo,
+                      fileUrl: `http://asset.wormir.com/${key}`,
+                      fileName: item.raw.name,
+                      type: 7,
+                    }
+                  })
                 })
               })
             }

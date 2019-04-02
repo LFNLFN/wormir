@@ -292,13 +292,55 @@
             </el-table>
         </el-form-item>
 
-        <el-form-item label="申报要素表设置" prop="declarationSetting" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
+        <el-form-item label="申报要素表设置" prop="declarationSetting" class="border1 no-border-top no-border-bottom" style="padding: 5px 0;margin-bottom: 0">
           <declarationTable
             :declarationSetting.sync="form.declarationSetting" :brandChineseName.sync="form.brandChineseName"
             :declarationSpecification.sync="form.declarationSpecification" :declarationNum.sync="form.declarationNum"
             :specificationId.sync="specificationId" :specificationOptions.sync="specificationOptions"
             :makeUpOfGoods.sync="form.makeUpOfGoods" :propertyOfSale.sync="form.propertyOfSale"
           ></declarationTable>
+        </el-form-item>
+        <el-form-item label="" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
+          <el-table
+            :header-cell-style="headerCellStyle"
+            border fit :data="[{}]"
+            class="no-border-right no-border-bottom"
+            style="width: 95%;margin: 4px">
+            <el-table-column align="center" label="品牌类型">
+              <template slot-scope="scope">
+                境外品牌
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="包装规格">
+              <el-table-column align="center" label="hide-head">
+                <template slot-scope="scope">
+                  <el-form-item label="" prop="declarationSpecification" class="no-border" style="padding: 5px 0;margin-bottom: 0">
+                    <el-input v-for="item in form.declarationSpecification"
+                              v-model.trim="item.text"
+                              placeholder="输入相同品名构成规格，例：10ml/支；30ml/支" clearable
+                    ></el-input>
+                  </el-form-item>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="hide-head">
+                <template slot-scope="scope">
+                  <el-form-item v-if="form.declarationNum" label="" prop="declarationNum" class="no-border" style="padding: 5px 0;margin-bottom: 0">
+                    <el-input
+                      v-model.trim="form.declarationNum"
+                      placeholder="输入构成数量，例：3支/套" clearable
+                      :disabled="propertyOfSaleStatus"
+                    ></el-input>
+                  </el-form-item>
+                  <span v-else>不需填写</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column align="center" label="商品规格" v-if="!propertyOfSaleStatus">
+              <template slot-scope="scope">
+                {{ getSpecification() }}
+              </template>
+            </el-table-column>
+          </el-table>
         </el-form-item>
 
         <el-form-item label="装箱规格设置" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
@@ -438,8 +480,8 @@
               <el-radio :label="1">非转授权</el-radio>
               <el-radio :label="2">转授权</el-radio>
             </el-radio-group>
-            <el-form-item label="" prop="availableSalesChannel" style="margin-bottom: 0">
-              <div v-if="form.sublicense==1">可售渠道：<el-checkbox-group v-model="form.availableSalesChannel" style="display: inline-block">
+            <el-form-item v-if="form.sublicense==1" label="" prop="availableSalesChannel" style="margin-bottom: 0">
+              <div>可售渠道：<el-checkbox-group v-model="form.availableSalesChannel" style="display: inline-block">
                 <el-checkbox label="A级渠道" border></el-checkbox>
                 <el-checkbox label="B级渠道" border></el-checkbox>
                 <el-checkbox label="C级渠道" border></el-checkbox>
@@ -570,34 +612,36 @@
               </el-table-column>
               <el-table-column align="center" label="分销订货起订折扣">
                 <template slot-scope="scope">
-                  <el-form-item v-if="scope.$index==0" label="" prop="minOrderNumDiscountFX1" style="margin-bottom: 0">
+                  <el-form-item v-if="scope.$index==0 && form.propertyOfSale[0]==1 && form.propertyOfSale.length==1 || form.propertyOfSale.length==2" label="" prop="minOrderNumDiscountFX1" style="margin-bottom: 0">
                     <el-input v-model.trim.number="form.minOrderNumDiscountFX1" placeholder="输入数字" style="width: 160px"
                               :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1">
                       <template slot="append">%</template>
                     </el-input>
                   </el-form-item>
-                  <el-form-item v-if="scope.$index==1" label="" prop="minOrderNumDiscountFX2" style="margin-bottom: 0">
+                  <el-form-item v-else-if="scope.$index==1 && form.propertyOfSale[0]==2 && form.propertyOfSale.length==1 || form.propertyOfSale.length==2" label="" prop="minOrderNumDiscountFX2" style="margin-bottom: 0">
                     <el-input v-model.trim.number="form.minOrderNumDiscountFX2" placeholder="输入数字" style="width: 160px"
                               :disabled="form.propertyOfSale[0]==1&&form.propertyOfSale.length==1">
                       <template slot="append">%</template>
                     </el-input>
                   </el-form-item>
+                  <span v-else>不需填写</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="独立订货起订折扣">
                 <template slot-scope="scope">
-                  <el-form-item v-if="scope.$index==0" label="" prop="minOrderNumDiscountDL1" style="margin-bottom: 0">
+                  <el-form-item v-if="scope.$index==0 && form.propertyOfSale[0]==1&&form.propertyOfSale.length==1 || form.propertyOfSale.length==2" label="" prop="minOrderNumDiscountDL1" style="margin-bottom: 0">
                     <el-input v-model.trim.number="form.minOrderNumDiscountDL1" placeholder="输入数字" style="width: 160px"
                               :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1">
                       <template slot="append">%</template>
                     </el-input>
                   </el-form-item>
-                  <el-form-item v-if="scope.$index==1" label="" prop="minOrderNumDiscountDL2" style="margin-bottom: 0">
+                  <el-form-item v-else-if="scope.$index==1 && form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 || form.propertyOfSale.length==2" label="" prop="minOrderNumDiscountDL2" style="margin-bottom: 0">
                     <el-input v-model.trim.number="form.minOrderNumDiscountDL2" placeholder="输入数字" style="width: 160px"
                               :disabled="form.propertyOfSale[0]==1&&form.propertyOfSale.length==1">
                       <template slot="append">%</template>
                     </el-input>
                   </el-form-item>
+                  <span v-else>不需填写</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -669,7 +713,7 @@
             {
               packageSpecificationZh: null,
               packageSpecificationEn: null,
-              goodsNum: 0,
+              goodsNum: 1,
               packageUnitZh: null,
               packageUnitEn: null,
               mergeCartonUnit: '个/箱',
@@ -777,10 +821,14 @@
             }).then((res) => {
               if (res.errorCode != 0) return false
               let val = null
-              if (parseInt(res.data.item.toString().substr(-1,2))+1<10) {
-                val = '0'+(parseInt(res.data.item.toString().substr(-1,2))+1)
+              if (res.data.item == '00') {
+                val = '00'
               } else {
-                val = parseInt(res.data.item.toString().substr(-1,2))+1
+                if (parseInt(res.data.item.toString().substr(-1,2))+1<10) {
+                  val = '0'+(parseInt(res.data.item.toString().substr(-1,2))+1)
+                } else {
+                  val = parseInt(res.data.item.toString().substr(-1,2))+1
+                }
               }
               this.$set(this.form, 'goodsNo', item.brandNo+currentTimeStr()+val)
               this.$set(this.form, 'productionPlaceChinese', item.productionPlaceChinese)
@@ -1033,30 +1081,25 @@
           return false
         }
 
-        this.form.ingredientArr = JSON.stringify(this.form.ingredientArr)
-        this.form.hazardArr = JSON.stringify(this.form.hazardArr)
-        this.form.tagArr = JSON.stringify(this.form.tagArr)
-        this.form.officialArr = JSON.stringify(this.form.officialArr)
-        this.form.MSDSenArr = JSON.stringify(this.form.MSDSenArr)
-        this.form.MSDSzhArr = JSON.stringify(this.form.MSDSzhArr)
-        this.form.commitment = JSON.stringify(this.form.commitment)
-        this.form.declarationSetting = JSON.stringify(this.form.declarationSetting)
-        this.form.declarationSpecification = JSON.stringify(this.form.declarationSpecification)
-        this.form.cartonParam = JSON.stringify(this.form.cartonParam)
-        this.form.packageSpecificationData = JSON.stringify(this.form.packageSpecificationData)
-
         console.log(this.form)
 
         this.$refs["form"].validate(valid => {
           if (valid) {
-            request({
+            this.$request({
               url: '/goods/createGood.do',
               method: "post",
               data: this.form
             })
               .then(res => {
                 if (res.errorCode == 0) {
-                  this.$confirm(`新增商品信息已提交审核，可在“商品列表页”中查看详情。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+                  this.$confirm(`新增商品信息已提交审核，可在“商品列表页”中查看详情。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false }).then(() => {
+                    this.$emit('submitSuccesss')
+                    this.$request({
+                      url: '/user/temporarySaveAddingGoodsMsg.do',
+                      method: 'post',
+                      data: {id:1, addingGoodsMsg: null}
+                    })
+                  })
                   this.isSubmitting = false;
                 }
                 else {
@@ -1075,6 +1118,15 @@
           }
         });
       },
+      getSpecification() {
+        let specificationName = null
+        this.specificationOptions.some(item => {
+          if (item.tableId == this.specificationId) {
+            specificationName = item.specificationChinese
+          }
+        })
+        return specificationName || '自动显示'
+      },
       ClearanceFileClass({row, column, rowIndex, columnIndex}) {
         if (columnIndex == 0) {
             return 'fake-table-head'
@@ -1090,6 +1142,11 @@
           return { display: 'none' }
         }
       },
+      headerCellStyle({row, column, rowIndex, columnIndex}) {
+        if (rowIndex>0) {
+          return { display: 'none' }
+        }
+      },
       discountTips(index) {
         switch (index) {
           case 1: return '空运采购价/外国零售价'
@@ -1099,6 +1156,11 @@
           case 5: return '空运易货价/中国零售价'
           case 6: return '海运易货价/中国零售价'
         }
+      }
+    },
+    computed: {
+      propertyOfSaleStatus() {
+        return this.form.propertyOfSale.length==1 && this.form.propertyOfSale.findIndex(x => x == 1)==0
       }
     },
     created() {

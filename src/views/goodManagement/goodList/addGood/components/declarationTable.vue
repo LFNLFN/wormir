@@ -47,41 +47,7 @@
         </el-table-column>
       </el-table-column>
     </el-table>
-    <el-table
-      :header-cell-style="headerCellStyle"
-      border fit :data="[{}]"
-      class="no-border-right no-border-bottom"
-      style="width: 95%;margin: 4px">
-        <el-table-column align="center" label="品牌类型">
-          <template slot-scope="scope">
-            境外品牌
-          </template>
-        </el-table-column>
-      <el-table-column align="center" label="包装规格">
-        <el-table-column align="center" label="hide-head">
-          <template slot-scope="scope">
-            <el-input v-for="item in declarationSpecification"
-              v-model.trim="item.text"
-              placeholder="输入相同品名构成规格，例：10ml/支；30ml/支" clearable
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="hide-head">
-          <template slot-scope="scope">
-            <el-input
-              v-model.trim="declarationNum"
-              placeholder="输入构成数量，例：3支/套" clearable
-              :disabled="propertyOfSaleStatus"
-            ></el-input>
-          </template>
-        </el-table-column>
-      </el-table-column>
-      <el-table-column align="center" label="商品规格" v-if="!propertyOfSaleStatus">
-        <template slot-scope="scope">
-          {{ getSpecification() }}
-        </template>
-      </el-table-column>
-    </el-table>
+
   </div>
 </template>
 
