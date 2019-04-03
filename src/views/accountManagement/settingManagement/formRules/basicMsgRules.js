@@ -53,7 +53,7 @@ const validateCompensationRemitter = (rule, value, callback) => {
 const validateDomesticAuthorityCompanyMsg = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      if (!item[key]) return true
+      if (!item[key] && item[key]!=0) return true
     }
   })
   if (valiNull) {
@@ -66,7 +66,7 @@ const validateDomesticAuthorityCompanyMsg = (rule, value, callback) => {
 const validateExternalAuthorityCompanyMsg = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
     for (var key in item) {
-      if (!item[key]) return true
+      if (!item[key] && item[key]!=0) { return true }
     }
   })
   if (valiNull) {

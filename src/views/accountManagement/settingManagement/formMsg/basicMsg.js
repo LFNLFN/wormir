@@ -37,26 +37,104 @@ export function domesticAuthorityCompanyMsgCellClassName({row, column, rowIndex,
 }
 
 export function deleteDomesticAuthorityCompany(index) {
-  this.domesticAuthorityCompanyMsg.splice(index, 1)
-  this.form.domesticAuthorityCompanyMsg.splice(index, 1)
+  this.$confirm('确认删除?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/deleteDomesticAuthorityCompanyMsg.do',
+      method: "post",
+      data: { account: this.form.account, itemIndex: index }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.domesticAuthorityCompanyMsg.splice(index, 1)
+        this.form.domesticAuthorityCompanyMsg.splice(index, 1)
+        this.$message({ type: 'success', message: '删除成功!' });
+      } else {
+        this.$message({ type: 'error', message: '删除失败!请重试。' });
+      }
+    })
+  })
 }
 
-export function addDomesticAuthorityCompany() {
-  this.domesticAuthorityCompanyMsg.push({ address: null, city: null, englishName: null, contact: null, tel: null })
-  this.form.domesticAuthorityCompanyMsg.push({ address: null, city: null, englishName: null, contact: null, tel: null })
+export function addDomesticAuthorityCompany(index) {
+  this.$confirm('确认增加?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/addDomesticAuthorityCompanyMsg.do',
+      method: "post",
+      data: {
+        account: this.form.account,
+        address: null,
+        englishName: null,
+        contact: null,
+        tel: null,
+        itemIndex: index+1
+      }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.domesticAuthorityCompanyMsg.splice(index+1, 0, { address: null, city: null, englishName: null, contact: null, tel: null })
+        this.form.domesticAuthorityCompanyMsg.splice(index+1, 0, { address: null, city: null, englishName: null, contact: null, tel: null })
+        this.$message({ type: 'success', message: '新增成功!' });
+      } else {
+        this.$message({ type: 'error', message: '新增失败!请重试。' });
+      }
+    })
+  })
 }
 
 export function deleteExternalAuthorityCompany(index) {
-  this.externalAuthorityCompanyMsg.splice(index, 1)
-  this.form.externalAuthorityCompanyMsg.splice(index, 1)
+  this.$confirm('确认删除?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/deleteExternalAuthorityCompanyMsg.do',
+      method: "post",
+      data: { account: this.form.account, itemIndex: index }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.externalAuthorityCompanyMsg.splice(index, 1)
+        this.form.externalAuthorityCompanyMsg.splice(index, 1)
+        this.$message({ type: 'success', message: '删除成功!' });
+      } else {
+        this.$message({ type: 'error', message: '删除失败!请重试。' });
+      }
+    })
+  })
 }
 
-export function addExternalAuthorityCompany() {
-  this.externalAuthorityCompanyMsg.push({ name: null, address: null, tel: null })
-  this.form.externalAuthorityCompanyMsg.push({ name: null, address: null, tel: null })
+export function addExternalAuthorityCompany(index) {
+  this.$confirm('确认增加?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/addExternalAuthorityCompanyMsg.do',
+      method: "post",
+      data: {
+        account: this.form.account,
+        address: null,
+        name: null,
+        tel: null,
+        itemIndex: index+1
+      }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.externalAuthorityCompanyMsg.splice(index+1, 0, { name: null, address: null, tel: null })
+        this.form.externalAuthorityCompanyMsg.splice(index+1, 0, { name: null, address: null, tel: null })
+        this.$message({ type: 'success', message: '新增成功!' });
+      } else {
+        this.$message({ type: 'error', message: '新增失败!请重试。' });
+      }
+    })
+  })
 }
 
-export function getBasicMsgData() {
-  // this.form.domesticAuthorityCompanyMsg = this.domesticAuthorityCompanyMsg
-}
 

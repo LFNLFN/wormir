@@ -54,44 +54,131 @@ export function deleteSubCategory(index) {
   this.getSpanArr(this.form.categorySetting)
 }
 
-export function addMainCategory() {
-  this.categorySetting.push({mainIndex: null,mainName: null,subIndex: null,subName: null})
-  this.form.categorySetting.push({mainIndex: null,mainName: null,subIndex: null,subName: null})
-  const len = this.form.categorySetting.length
-  this.form.categorySetting[len-1].mainIndex = this.form.categorySetting[len-2].mainIndex + 1
-  this.form.categorySetting[len-1].subIndex = 0
-  this.getSpanArr(this.form.categorySetting)
+export function addMainCategory(index) {
+  this.$confirm('确认增加?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/addAccountGoodMainCategory.do',
+      method: "post",
+      data: {
+        account: this.form.account,
+        mainName: null,
+        mainIndex: 0,
+        subName: null,
+        subIndex: 0,
+        itemIndex: index+1
+      }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+        this.form.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+        const len = this.form.categorySetting.length
+        this.form.categorySetting[len-1].mainIndex = this.form.categorySetting[len-2].mainIndex + 1
+        this.form.categorySetting[len-1].subIndex = 0
+        this.getSpanArr(this.form.categorySetting)
+        this.$message({ type: 'success', message: '增加成功!' });
+      } else {
+        this.$message({ type: 'error', message: '增加失败!请重试。' });
+      }
+    })
+  })
 }
 
 export function deleteMainCategory(mainIndex) {
-  let startIndex = null
-  this.form.categorySetting.some((item,index) => {
-    if (item.mainIndex == mainIndex) {
-      startIndex = index
-      return true
-    } else { return false }
+
+  this.$confirm('确认删除?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/deleteAccountGoodMainCategory.do',
+      method: "post",
+      data: { account: this.form.account, mainIndex: mainIndex }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        let startIndex = null
+        this.form.categorySetting.some((item,index) => {
+          if (item.mainIndex == mainIndex) {
+            startIndex = index
+            return true
+          } else { return false }
+        })
+        let endIndex = null
+        let len = this.form.categorySetting.length
+        for (var i=startIndex; i<len; i++) {
+          if (i==len-1) {
+              endIndex = i
+          }
+          if (this.form.categorySetting[i].mainIndex!=mainIndex) {
+            endIndex = i;break
+          }
+        }
+
+        if (endIndex>=0) {
+          endIndex==0 ? this.form.categorySetting.splice(endIndex, 1) : this.form.categorySetting.splice(startIndex, endIndex-startIndex)
+          endIndex==0 ? this.categorySetting.splice(endIndex, 1) : this.categorySetting.splice(startIndex, endIndex-startIndex)
+        }
+        this.getSpanArr(this.form.categorySetting)
+        console.log(this.categorySetting,999)
+        console.log(this.form.categorySetting,9999)
+        this.$message({ type: 'success', message: '删除成功!' });
+      } else {
+        this.$message({ type: 'error', message: '删除失败!请重试。' });
+      }
+    })
   })
-  let endIndex = null
-  let len = this.form.categorySetting.length
-  for (var i=startIndex+1; i<len; i++) {
-    if (this.form.categorySetting[i].mainIndex!=mainIndex) {
-      endIndex = i;break
-    }
-  }
-  if (endIndex) {
-    this.form.categorySetting.splice(startIndex, endIndex)
-    this.categorySetting.splice(startIndex, endIndex)
-  }
-  this.getSpanArr(this.form.categorySetting)
 }
 
 export function addFlow(index) {
-  this.occSpecialSetting.push({flowName: null, flowIndex: 0})
-  this.form.occSpecialSetting.push({flowName: null, flowIndex: 0})
-  this.form.occSpecialSetting[index+1].flowIndex = this.form.occSpecialSetting[index].flowIndex+1
+  this.$confirm('确认增加?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/addOccSpecial.do',
+      method: "post",
+      data: {
+        account: this.form.account,
+        flowName: null,
+        flowIndex: index+1,
+        itemIndex: index+1
+      }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.occSpecialSetting.splice(index+1, 0, {flowName: null, flowIndex: index+1})
+        this.form.occSpecialSetting.splice(index+1, 0, {flowName: null, flowIndex: index+1})
+        this.form.occSpecialSetting[index+1].flowIndex = this.form.occSpecialSetting[index].flowIndex+1
+        this.$message({ type: 'success', message: '增加成功!' });
+      } else {
+        this.$message({ type: 'error', message: '增加失败!请重试。' });
+      }
+    })
+  })
 }
 
 export function deleteFlow(index) {
-  this.occSpecialSetting.splice(index, 1)
-  this.form.occSpecialSetting.splice(index, 1)
+  this.$confirm('确认删除?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$request({
+      url: '/user/deleteOccSpecial.do',
+      method: "post",
+      data: { account: this.form.account, itemIndex: index }
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.occSpecialSetting.splice(index, 1)
+        this.form.occSpecialSetting.splice(index, 1)
+        this.$message({ type: 'success', message: '删除成功!' });
+      } else {
+        this.$message({ type: 'error', message: '删除失败!请重试。' });
+      }
+    })
+  })
 }

@@ -2,7 +2,7 @@
   <div class="setting-management-index-vue" style="padding: 0 20px">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
       <h2>基础信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" style="border-top-width: 2px;border-bottom-width: 2px;">
         <el-form-item label="香港吾蜜交易账号" prop="tradeAccountSetting" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
@@ -150,7 +150,7 @@
         <el-form-item label="国内货权公司设置" prop="domesticAuthorityCompanyMsg" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0 0;margin-bottom: 0">
             <el-table
-              v-for="(item, index) in domesticAuthorityCompanyMsg"
+              v-for="(item, index) in domesticAuthorityCompanyMsg" :key="index"
               border :show-header="false"
               :data="[{},{}]"
               :span-method="domesticAuthorityCompanyMsgSpanMethod"
@@ -214,11 +214,11 @@
               </el-table-column>
               <el-table-column align="center" label="7" width="70px">
                 <template slot-scope="scope">
-                  <p v-show="domesticAuthorityCompanyMsg.length>1" style="padding-top: 10px">
+                  <p v-show="form.domesticAuthorityCompanyMsg.length>1" style="padding-top: 10px">
                     <el-button type="danger" icon="el-icon-delete" @click="deleteDomesticAuthorityCompany(index)"></el-button>
                   </p>
-                  <p v-show="index==domesticAuthorityCompanyMsg.length-1" style="padding-top: 10px">
-                    <el-button type="success" icon="el-icon-plus" @click="addDomesticAuthorityCompany"></el-button>
+                  <p v-show="index==form.domesticAuthorityCompanyMsg.length-1" style="padding-top: 10px">
+                    <el-button type="success" icon="el-icon-plus" @click="addDomesticAuthorityCompany(index)"></el-button>
                   </p>
                 </template>
               </el-table-column>
@@ -257,8 +257,10 @@
             </el-table-column>
             <el-table-column align="center" label="操作">
               <template slot-scope="scope">
-                <el-button type="danger" icon="el-icon-delete" @click="deleteExternalAuthorityCompany(scope.$index)" v-show="form.externalAuthorityCompanyMsg.length>1"></el-button>
-                <el-button type="success" icon="el-icon-plus" @click="addExternalAuthorityCompany" v-show="scope.$index==form.externalAuthorityCompanyMsg.length-1"></el-button>
+                <el-button type="danger" icon="el-icon-delete" @click="deleteExternalAuthorityCompany(scope.$index)"
+                           v-show="form.externalAuthorityCompanyMsg.length>1"></el-button>
+                <el-button type="success" icon="el-icon-plus" @click="addExternalAuthorityCompany(scope.$index)"
+                           v-show="scope.$index==form.externalAuthorityCompanyMsg.length-1"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -266,7 +268,7 @@
       </div>
 
       <h2>设置信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" style="border-top-width: 2px;border-bottom-width: 2px;">
         <el-form-item label="商品分类设置" prop="categorySetting" class="border1 no-border-top no-border-bottom"
                                      style="padding: 5px 0;margin-bottom: 0">
         <el-table
@@ -286,7 +288,7 @@
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button type="danger" icon="el-icon-delete" @click="deleteMainCategory(form.categorySetting[scope.$index].mainIndex,scope.$index)" v-show="form.categorySetting[form.categorySetting.length-1].mainIndex!=form.categorySetting[0].mainIndex"></el-button>
-              <el-button type="success" icon="el-icon-plus" @click="addMainCategory" v-show="form.categorySetting[scope.$index].mainIndex==form.categorySetting[form.categorySetting.length-1].mainIndex"></el-button>
+              <el-button type="success" icon="el-icon-plus" @click="addMainCategory(scope.$index)" v-show="form.categorySetting[scope.$index].mainIndex==form.categorySetting[form.categorySetting.length-1].mainIndex"></el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" label="子品类">
@@ -343,12 +345,13 @@
   import settingMsg from './formMsg/settingMsg'
   import basicMsgRules from './formRules/basicMsgRules'
   import settingMsgRules from './formRules/settingMsgRules'
-  import { domesticAuthorityCompanyMsgSpanMethod, domesticAuthorityCompanyMsgCellClassName, deleteDomesticAuthorityCompany, addDomesticAuthorityCompany, getBasicMsgData, deleteExternalAuthorityCompany, addExternalAuthorityCompany } from './formMsg/basicMsg'
+  import { domesticAuthorityCompanyMsgSpanMethod, domesticAuthorityCompanyMsgCellClassName, deleteDomesticAuthorityCompany, addDomesticAuthorityCompany,  deleteExternalAuthorityCompany, addExternalAuthorityCompany } from './formMsg/basicMsg'
   import { deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory,categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow } from './formMsg/settingMsg'
 
   export default {
     data() {
       return {
+        isInitial: true,
         form: {},
         basicMsg: {},
         settingMsg: {},
@@ -367,19 +370,18 @@
     methods: {
       onSubmit() {
         this.isSubmitting = true;
-        this.getBasicMsgData()
-        this.form.account = 'admin'
         console.log(this.form)
         this.$refs["form"].validate(valid => {
           if (valid) {
             this.$request({
-              url: '/user/initAccount.do',
+              url: this.isInitial ? '/user/updateAccount.do' : '/user/initAccount.do',
               method: "post",
               data: this.form
             })
               .then(res => {
                 if (res.errorCode == 0) {
                   this.$confirm('信息已保存，可在“账户管理”中的“设置管理”查看详情或进行修改。', { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+                  if (!this.isInitial) { this.isInitial = true }
                   this.isSubmitting = false;
                 }
                 else {
@@ -399,7 +401,7 @@
         })
 
       },
-      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,getBasicMsgData,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
+      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
     },
 
     created() {
@@ -409,21 +411,29 @@
       this.settingMsgRules = settingMsgRules
       Object.assign(this.form, this.basicMsg, this.settingMsg)
       Object.assign(this.formRules, this.basicMsgRules, this.settingMsgRules)
-
+      this.form.account = 'admin'
       this.$request({
         url: '/user/getAccount.do',
         method: "post",
         data: { account: 'admin' }
       }).then(res => {
-        if (res.errorCode!=0) return false
-        this.form.tradeAccountSetting = res.data.tradeAccountSetting
-        this.form.eQuickSetting = res.data.eQuickSetting
-        this.form.compensationBeneficiary = res.data.compensationBeneficiary
-        this.form.compensationRemitter = res.data.compensationRemitter
-        this.form.domesticAuthorityCompanyMsg = this.domesticAuthorityCompanyMsg = res.data.domesticAuthorityCompanyMsg
-        this.form.externalAuthorityCompanyMsg = this.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
-        this.form.categorySetting = this.categorySetting = res.data.categorySetting
-        this.form.occSpecialSetting = this.occSpecialSetting = res.data.occSpecialSetting
+        if (res.errorCode==0) {
+          this.form.tradeAccountSetting = res.data.tradeAccountSetting
+          this.form.eQuickSetting = res.data.eQuickSetting
+          this.form.compensationBeneficiary = res.data.compensationBeneficiary
+          this.form.compensationRemitter = res.data.compensationRemitter
+          this.form.domesticAuthorityCompanyMsg = res.data.domesticAuthorityCompanyMsg
+          this.domesticAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.domesticAuthorityCompanyMsg))
+          this.form.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
+          this.externalAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.externalAuthorityCompanyMsg))
+          this.form.categorySetting = res.data.categorySetting
+          this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
+          this.form.occSpecialSetting = res.data.occSpecialSetting
+          this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
+        } else {
+          this.isInitial = false
+        }
+
       })
     }
   }
