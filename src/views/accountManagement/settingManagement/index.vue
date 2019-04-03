@@ -368,6 +368,7 @@
       onSubmit() {
         this.isSubmitting = true;
         this.getBasicMsgData()
+        this.form.account = 'admin'
         console.log(this.form)
         this.$refs["form"].validate(valid => {
           if (valid) {
@@ -400,6 +401,7 @@
       },
       domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,getBasicMsgData,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
     },
+
     created() {
       this.basicMsg = JSON.parse(JSON.stringify(basicMsg))
       this.settingMsg = JSON.parse(JSON.stringify(settingMsg))
@@ -408,6 +410,21 @@
       Object.assign(this.form, this.basicMsg, this.settingMsg)
       Object.assign(this.formRules, this.basicMsgRules, this.settingMsgRules)
 
+      this.$request({
+        url: '/user/getAccount.do',
+        method: "post",
+        data: { account: 'admin' }
+      }).then(res => {
+        if (res.errorCode!=0) return false
+        this.form.tradeAccountSetting = res.data.tradeAccountSetting
+        this.form.eQuickSetting = res.data.eQuickSetting
+        this.form.compensationBeneficiary = res.data.compensationBeneficiary
+        this.form.compensationRemitter = res.data.compensationRemitter
+        this.form.domesticAuthorityCompanyMsg = this.domesticAuthorityCompanyMsg = res.data.domesticAuthorityCompanyMsg
+        this.form.externalAuthorityCompanyMsg = this.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
+        this.form.categorySetting = this.categorySetting = res.data.categorySetting
+        this.form.occSpecialSetting = this.occSpecialSetting = res.data.occSpecialSetting
+      })
     }
   }
 </script>

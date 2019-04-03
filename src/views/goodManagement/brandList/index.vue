@@ -8,7 +8,7 @@
         <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" icon="el-icon-plus" @click="showAddOrEditBrand">新增品牌</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -91,19 +91,11 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
-    <el-dialog :visible.sync="isAddOrEditBrandShow" v-if="isAddOrEditBrandShow" width="85%" @close="isAddOrEditBrandShow = false">
-      <addOrEditBrand v-if="isAddOrEditBrandShow" @submitSuccess="submitSuccess" :openStatus="'add'"></addOrEditBrand>
+    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="编辑品牌">
+      <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
-    <el-dialog
-      :visible.sync="isEditBrandShow"
-      width="75%"
-      @close="isEditBrandShow = false"
-      title="编辑品牌">
-      <editBrand
-        :brandObj="currentBrand"
-        v-if="isEditBrandShow"
-        @submitSuccess="editSuccess">
-      </editBrand>
+    <el-dialog :visible.sync="isEditBrandShow" width="85%" @close="isEditBrandShow = false" title="编辑品牌">
+      <editBrand :brandMsg="currentBrand" v-if="isEditBrandShow" @submitSuccess="editSuccess"></editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
                width="70%"
@@ -163,8 +155,9 @@
 <script>
   import { brand_BlurSearch } from '@/api/brand'
 //  import addBrand from './addBrand/index.vue'
-  import addOrEditBrand from './addBrand/newIndex.vue'
-  import editBrand from './editBrand/index.vue'
+  import addBrand from './addBrand/newIndex.vue'
+//  import editBrand from './editBrand/index.vue'
+  import editBrand from './addBrand/editIndex.vue'
   import goodManagement from './goodManagement/index.vue'
   import request from "@/utils/request";
 
@@ -180,7 +173,7 @@
           page_size: 10,
           total: 0
         },
-        isAddOrEditBrandShow: false,
+        isAddBrandShow: false,
         isEditBrandShow: false,
         currentBrand: {},
         isStopCooperationShow: false,
@@ -242,8 +235,8 @@
         const property = column['property'];
         return row[property] === value;
       },
-      showAddOrEditBrand() {
-        this.isAddOrEditBrandShow = true
+      showAddBrand() {
+        this.isAddBrandShow = true
       },
       showEditBrand(row) {
         this.isEditBrandShow = true
@@ -270,7 +263,7 @@
         })
       },
       submitSuccess() {
-        this.isAddOrEditBrandShow = false
+        this.isAddBrandShow = false
         this.$confirm(`新增品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
         this.brandBlurSearch()
       },
@@ -286,7 +279,7 @@
       this.brandBlurSearch()
     },
     components: {
-      addOrEditBrand,
+      addBrand,
       editBrand,
       goodManagement
     }

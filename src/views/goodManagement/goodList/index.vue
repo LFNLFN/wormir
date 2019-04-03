@@ -166,7 +166,7 @@ export default {
   },
   methods: {
     goodBlurSearch() {
-      // this.listLoading = true
+       this.listLoading = true
       request({
         url: '/goodsInfo/list.do',
         method: 'post',
