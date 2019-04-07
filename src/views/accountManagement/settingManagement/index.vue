@@ -272,6 +272,7 @@
         <el-form-item label="商品分类设置" prop="categorySetting" class="border1 no-border-top no-border-bottom"
                                      style="padding: 5px 0;margin-bottom: 0">
         <el-table
+          v-loading="categoryTableLoading"
           border
           :data="categorySetting"
           :span-method="categorySettingSpanMethod"
@@ -364,7 +365,8 @@
         categorySetting: [{mainIndex: 0,mainName: null,subIndex: 0,subName: null}],
         spanArr: [],
         pos: 0,
-        occSpecialSetting: [{flowName: null, flowIndex: 0}]
+        occSpecialSetting: [{flowName: null, flowIndex: 0}],
+        categoryTableLoading: false
       }
     },
     methods: {
@@ -401,7 +403,7 @@
         })
 
       },
-      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
+      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow,
     },
 
     created() {
@@ -430,6 +432,7 @@
           this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
           this.form.occSpecialSetting = res.data.occSpecialSetting
           this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
+          this.getSpanArr(this.form.categorySetting)
         } else {
           this.isInitial = false
         }

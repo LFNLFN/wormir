@@ -1,6 +1,6 @@
 let settingMsg = {
   categorySetting: [{mainIndex: 0,mainName: null,subIndex: 0,subName: null}],
-  occSpecialSetting: [{flowName: null, flowIndex: 0}]
+  occSpecialSetting: [{flowName: null, flowIndex: 0}],
 }
 
 export default settingMsg
@@ -36,9 +36,12 @@ export function categorySettingSpanMethod({ row, column, rowIndex, columnIndex }
 }
 
 export function addSubCategory(index) {
-  let len = this.categorySetting.length
-  if (!this.categorySetting[len-1].mainName) {
-    this.$message.error('请先完成主品类的填写'); return false
+  this.categoryTableLoading = true
+  let len = this.form.categorySetting.length
+  if (!this.form.categorySetting[len-1].mainName) {
+    this.$message.error('请先完成主品类的填写');
+    this.categoryTableLoading = false
+    return false
   }
   this.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
   this.form.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
@@ -46,12 +49,43 @@ export function addSubCategory(index) {
   this.form.categorySetting[index+1].mainName = this.form.categorySetting[index].mainName
   this.form.categorySetting[index+1].subIndex = this.form.categorySetting[index].subIndex+1
   this.getSpanArr(this.form.categorySetting)
+  this.$request({
+    url: '/user/addAccountGoodSubCategory.do',
+    method: "post",
+    data: {
+      account: this.form.account,
+      mainName: this.form.categorySetting[index+1].mainName,
+      mainIndex: this.form.categorySetting[index+1].mainIndex,
+      subName: null,
+      subIndex: this.form.categorySetting[index+1].subIndex,
+      itemIndex: index+1
+    }
+  }).then(res => {
+    if (res.errorCode == 0) { this.categoryTableLoading = false }
+    else { this.$message.error('新增失败，请重试'); this.categoryTableLoading = false }
+  })
 }
 
 export function deleteSubCategory(index) {
-  this.categorySetting.splice(index, 1)
-  this.form.categorySetting.splice(index, 1)
-  this.getSpanArr(this.form.categorySetting)
+  this.categoryTableLoading = true
+  this.$request({
+    url: '/user/deleteAccountGoodSubCategory.do',
+    method: "post",
+    data: {
+      account: this.form.account,
+      mainIndex: this.form.categorySetting[index].mainIndex,
+      subIndex: this.form.categorySetting[index].subIndex,
+      itemIndex: index
+    }
+  }).then(res => {
+    if (res.errorCode == 0) {
+      this.categorySetting.splice(index, 1)
+      this.form.categorySetting.splice(index, 1)
+      this.getSpanArr(this.form.categorySetting)
+      this.categoryTableLoading = false
+    }
+    else { this.$message.error('删除失败，请重试'); this.categoryTableLoading = false }
+  })
 }
 
 export function addMainCategory(index) {
