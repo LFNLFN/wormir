@@ -117,14 +117,16 @@ export function deleteMainCategory(mainIndex) {
             endIndex = i;break
           }
         }
-
-        if (endIndex>=0) {
-          endIndex==0 ? this.form.categorySetting.splice(endIndex, 1) : this.form.categorySetting.splice(startIndex, endIndex-startIndex)
-          endIndex==0 ? this.categorySetting.splice(endIndex, 1) : this.categorySetting.splice(startIndex, endIndex-startIndex)
+        if (endIndex-startIndex>=0) {
+          if (endIndex-startIndex==0) {
+            this.form.categorySetting.splice(endIndex, 1)
+            this.categorySetting.splice(endIndex, 1)
+          } else {
+            this.form.categorySetting.splice(startIndex, endIndex-startIndex)
+            this.categorySetting.splice(startIndex, endIndex-startIndex)
+          }
         }
         this.getSpanArr(this.form.categorySetting)
-        console.log(this.categorySetting,999)
-        console.log(this.form.categorySetting,9999)
         this.$message({ type: 'success', message: '删除成功!' });
       } else {
         this.$message({ type: 'error', message: '删除失败!请重试。' });
