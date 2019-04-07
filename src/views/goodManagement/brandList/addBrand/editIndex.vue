@@ -1051,6 +1051,7 @@
         if (res.errorCode==0) {
           this.form = res.data.brandDetail
 
+          // 品牌商品分类
           this.form.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
           this.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
           this.$request({
@@ -1067,7 +1068,16 @@
               }
             })
 
-          
+          // 品牌商品规格设置
+          this.form.specificationSetting = JSON.parse(JSON.stringify(res.data.specificationSetting))
+          this.specificationSetting = JSON.parse(JSON.stringify(res.data.specificationSetting))
+
+          this.sublicense = this.form.sublicense
+          this.form.sublicenseChannelNo = JSON.parse(JSON.stringify(res.data.sublicenseChannelNo))
+          this.form.sublicenseStyleTable = []
+          for (var s=0; s<this.form.sublicenseChannelNo.length; s++) {
+            this.form.sublicenseStyleTable.push({})
+          }
         }
       })
     }

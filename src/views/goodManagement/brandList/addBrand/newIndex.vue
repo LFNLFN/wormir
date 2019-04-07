@@ -897,9 +897,6 @@
   import request from "@/utils/request"
 
   export default {
-    props: {
-      openStatus: { required: true, type: String },
-    },
     components: {
       uploadComponents
     },
@@ -1023,9 +1020,7 @@
       // 以上代码用于生成数据副本，以免因对象共享无法初始化数据
       Object.assign(this.form, this.brandBasicsMsg, this.goodsMsg, this.deliverMsg, this.moneyMsg, this.uploadMsg, this.cooperationMsg)
       Object.assign(this.formRules, brandBasicsMsgRules, goodsMsgRules, deliverMsgRules, moneyMsgRules, cooperationMsgRules)
-      if (this.openStatus=='add') {
-        this.getBrandNo()
-      }
+      this.getBrandNo()
       this.$request({
         url: '/brand/getSpecialProject.do',
         method: "post",
