@@ -95,7 +95,7 @@
       <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
     <el-dialog :visible.sync="isEditBrandShow" width="85%" @close="isEditBrandShow = false" title="编辑品牌">
-      <editBrand :brandMsg="currentBrand" v-if="isEditBrandShow" @submitSuccess="editSuccess"></editBrand>
+      <editBrand :brandNo="currentBrand.brandNo" v-if="isEditBrandShow" @submitSuccess="editSuccess"></editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
                width="70%"

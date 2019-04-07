@@ -4,7 +4,7 @@
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
-          <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号" disabled v-loading="form.brandNoLoading"></el-input>
+          <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号" disabled></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -898,7 +898,7 @@
 
   export default {
     props: {
-      brandMsg: { required: true, type: Object },
+      brandNo: { required: true },
     },
     components: {
       uploadComponents
@@ -1042,8 +1042,34 @@
             this.mainCategoryOptions = res.data.items
           }
         })
-      // 先请求该品牌数据渲染
+      // 请求该品牌数据，进行初始化渲染
+      this.$request({
+        url: '/brand/brandDetail.do',
+        method: "post",
+        data: { brandNo: this.brandNo }
+      }).then(res => {
+        if (res.errorCode==0) {
+          this.form = res.data.brandDetail
 
+          this.form.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
+          this.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
+          this.$request({
+            url: '/brand/getGoodSubCategoty.do',
+            method: "post",
+            data: { mainIndex: this.form.categotiesSetting[0].mainCategoties }
+          })
+            .then(res => {
+              if (res.errorCode == 0) {
+                this.subCategoryOptions = res.data.items
+                this.categotiesSetting.forEach((item, index, arr) => {
+                  this.form.categotiesSetting[index].mainCategoties = item.mainCategoties
+                })
+              }
+            })
+
+          
+        }
+      })
     }
   }
 </script>
