@@ -403,7 +403,7 @@
         })
 
       },
-      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow,
+      domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
     },
 
     created() {
@@ -432,7 +432,6 @@
           this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
           this.form.occSpecialSetting = res.data.occSpecialSetting
           this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
-          this.getSpanArr(this.form.categorySetting)
         } else {
           this.isInitial = false
         }

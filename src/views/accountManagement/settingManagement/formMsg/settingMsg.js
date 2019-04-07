@@ -48,7 +48,7 @@ export function addSubCategory(index) {
   this.form.categorySetting[index+1].mainIndex = this.form.categorySetting[index].mainIndex
   this.form.categorySetting[index+1].mainName = this.form.categorySetting[index].mainName
   this.form.categorySetting[index+1].subIndex = this.form.categorySetting[index].subIndex+1
-  this.getSpanArr(this.form.categorySetting)
+  // this.getSpanArr(this.form.categorySetting)
   this.$request({
     url: '/user/addAccountGoodSubCategory.do',
     method: "post",
@@ -81,7 +81,7 @@ export function deleteSubCategory(index) {
     if (res.errorCode == 0) {
       this.categorySetting.splice(index, 1)
       this.form.categorySetting.splice(index, 1)
-      this.getSpanArr(this.form.categorySetting)
+      // this.getSpanArr(this.form.categorySetting)
       this.categoryTableLoading = false
     }
     else { this.$message.error('删除失败，请重试'); this.categoryTableLoading = false }
@@ -89,35 +89,31 @@ export function deleteSubCategory(index) {
 }
 
 export function addMainCategory(index) {
-  this.$confirm('确认增加?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    this.$request({
-      url: '/user/addAccountGoodMainCategory.do',
-      method: "post",
-      data: {
-        account: this.form.account,
-        mainName: null,
-        mainIndex: 0,
-        subName: null,
-        subIndex: 0,
-        itemIndex: index+1
-      }
-    }).then(res => {
-      if (res.errorCode == 0) {
-        this.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
-        this.form.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
-        const len = this.form.categorySetting.length
-        this.form.categorySetting[len-1].mainIndex = this.form.categorySetting[len-2].mainIndex + 1
-        this.form.categorySetting[len-1].subIndex = 0
-        this.getSpanArr(this.form.categorySetting)
-        this.$message({ type: 'success', message: '增加成功!' });
-      } else {
-        this.$message({ type: 'error', message: '增加失败!请重试。' });
-      }
-    })
+  this.categoryTableLoading = true
+  this.$request({
+    url: '/user/addAccountGoodMainCategory.do',
+    method: "post",
+    data: {
+      account: this.form.account,
+      mainName: null,
+      mainIndex: 0,
+      subName: null,
+      subIndex: 0,
+      itemIndex: index+1
+    }
+  }).then(res => {
+    if (res.errorCode == 0) {
+      this.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+      this.form.categorySetting.splice(index+1, 0, {mainIndex: null,mainName: null,subIndex: null,subName: null})
+      const len = this.form.categorySetting.length
+      this.form.categorySetting[len-1].mainIndex = this.form.categorySetting[len-2].mainIndex + 1
+      this.form.categorySetting[len-1].subIndex = 0
+      // this.getSpanArr(this.form.categorySetting)
+      this.categoryTableLoading = false
+    } else {
+      this.categoryTableLoading = false
+      this.$message({ type: 'error', message: '增加失败!请重试。' });
+    }
   })
 }
 
@@ -160,7 +156,7 @@ export function deleteMainCategory(mainIndex) {
             this.categorySetting.splice(startIndex, endIndex-startIndex)
           }
         }
-        this.getSpanArr(this.form.categorySetting)
+        // this.getSpanArr(this.form.categorySetting)
         this.$message({ type: 'success', message: '删除成功!' });
       } else {
         this.$message({ type: 'error', message: '删除失败!请重试。' });
