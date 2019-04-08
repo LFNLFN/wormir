@@ -354,11 +354,18 @@
   export default {
     computed: {
       isAllUpload() {
-        return this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && this.ingFileListStr && true
+        return this.ingFileListStr && this.hazFileListStr && this.tagFileListStr && this.offiFileListStr && this.MEnFileListStr && this.MZhFileListStr && this.comFileListStr && true
       }
     },
     props: {
-      brandNo: { required: true }
+      brandNo: { required: true },
+      _ingFileListStr: [String, Array],
+      _hazFileListStr: [String, Array],
+      _tagFileListStr: [String, Array],
+      _offiFileListStr: [String, Array],
+      _MEnFileListStr: [String, Array],
+      _MZhFileListStr: [String, Array],
+      _comFileListStr: [String, Array],
     },
     data() {
       return {
@@ -544,7 +551,7 @@
 
                   },
                   error(err) {
-                    console.log(err,456)
+
                   },
                   complete(res) {
                     if (index+1 == targetArr.length) {
@@ -714,6 +721,17 @@
             }
           })
           .catch(() => {})
+      }
+    },
+    created() {
+      if (this._ingFileListStr && this._hazFileListStr && this._tagFileListStr && this._offiFileListStr && this._MEnFileListStr && this._MZhFileListStr && this._comFileListStr) {
+        this.ingFileListStr = this._ingFileListStr
+        this.hazFileListStr = this._hazFileListStr
+        this.tagFileListStr = this._tagFileListStr
+        this.offiFileListStr = this._offiFileListStr
+        this.MEnFileListStr = this._MEnFileListStr
+        this.MZhFileListStr = this._MZhFileListStr
+        this.comFileListStr = this._comFileListStr
       }
     }
   }

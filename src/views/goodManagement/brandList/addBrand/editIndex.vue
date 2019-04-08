@@ -756,10 +756,17 @@
       </div>
 
       <h2>上传信息</h2>
-      <div class="border1 form-error-inline">
+      <div class="border1 form-error-inline" v-if="uploadVisible">
         <el-form-item label="文件上传设置" prop="" class="border1" style="margin-bottom: 0">
           <div class="forLayout">
-            <uploadComponents @handleUploadFiles="handleUploadFiles(arguments)" :brandNo="form.brandNo"></uploadComponents>
+            <uploadComponents @handleUploadFiles="handleUploadFiles(arguments)" :brandNo="form.brandNo"
+                              :_ingFileListStr="form.ingredientFormStr"
+                              :_hazFileListStr="form.hazardFormStr"
+                              :_tagFileListStr="form.tagFileStr"
+                              :_offiFileListStr="form.officialDocumentsStr"
+                              :_MEnFileListStr="form.MSDSEnStr"
+                              :_MZhFileListStr="form.MSDSZhStr"
+                              :_comFileListStr="form.commitmentStr"></uploadComponents>
           </div>
         </el-form-item>
       </div>
@@ -905,6 +912,7 @@
     data() {
       return {
         dialogLoading: false,
+        uploadVisible: false,
         form: {},
         categotiesSetting: [
           {
@@ -1102,6 +1110,7 @@
           this.procurementCurrency = res.data.procurementCurrency
           this.supplyCurrency = res.data.supplyCurrency
 
+          this.uploadVisible = true
           this.dialogLoading = false
         }
       })
