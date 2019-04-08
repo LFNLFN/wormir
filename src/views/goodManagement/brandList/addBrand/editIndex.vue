@@ -101,7 +101,6 @@
                 >
                   <el-option
                     v-for="item in mainCategoryOptions"
-                    :key="item.mainIndex"
                     :label="item.mainName"
                     :value="item.mainIndex">
                   </el-option>
@@ -116,7 +115,7 @@
                 >
                   <el-option
                     v-for="item in subCategoryOptions"
-                    :key="item.subIndex"
+                    :key="item.subName"
                     :label="item.subName"
                     :value="item.subIndex">
                   </el-option>
@@ -777,7 +776,7 @@
         <el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-checkbox-group v-model="specialProject">
-            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :key="index" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
+            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :key="item.flowName" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"
@@ -1099,6 +1098,9 @@
           this.form.discountRange1ForFX = res.data.discountRange1ForFX
           this.form.discountRange2ForDL = res.data.discountRange2ForDL
           this.form.discountRange2ForFX = res.data.discountRange2ForFX
+          this.form.bankInfo = res.data.bankInfo
+          this.procurementCurrency = res.data.procurementCurrency
+          this.supplyCurrency = res.data.supplyCurrency
 
           this.dialogLoading = false
         }
