@@ -1049,7 +1049,7 @@
         data: { brandNo: this.brandNo }
       }).then(res => {
         if (res.errorCode==0) {
-          this.form = res.data.brandDetail
+          Object.assign(this.form, JSON.parse(JSON.stringify(res.data.brandDetail)))
 
           // 品牌商品分类
           this.form.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
@@ -1078,6 +1078,18 @@
           for (var s=0; s<this.form.sublicenseChannelNo.length; s++) {
             this.form.sublicenseStyleTable.push({})
           }
+          this.form.sublicenseChannelNo.forEach((item) => {
+            this.sublicenseChannelNoChange(item)
+          })
+
+          // 易货信息初始化
+          Object.assign(this.form, JSON.parse(JSON.stringify(res.data.logisticsMsg)))
+          this.form.minBySea = res.data.minBySea
+          this.form.transportation = JSON.parse(JSON.stringify(res.data.transportation))
+          this.transportation = JSON.parse(JSON.stringify(res.data.transportation))
+          this.form.paymentSetting = res.data.paymentSetting
+          this.form.packingSetting = res.data.packingSetting
+          this.form.brandBoxSetting = res.data.brandBoxSetting
         }
       })
     }
