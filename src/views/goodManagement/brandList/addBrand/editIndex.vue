@@ -1,6 +1,6 @@
 <template>
   <div class="add-brand-index-vue">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" v-loading="dialogLoading">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
@@ -905,6 +905,7 @@
     },
     data() {
       return {
+        dialogLoading: false,
         form: {},
         categotiesSetting: [
           {
@@ -1014,6 +1015,7 @@
       },
     },
     created() {
+      this.dialogLoading = true
       this.brandBasicsMsg = JSON.parse(JSON.stringify(brandBasicsMsg))
       this.goodsMsg = JSON.parse(JSON.stringify(goodsMsg))
       this.deliverMsg = JSON.parse(JSON.stringify(deliverMsg))
@@ -1090,6 +1092,15 @@
           this.form.paymentSetting = res.data.paymentSetting
           this.form.packingSetting = res.data.packingSetting
           this.form.brandBoxSetting = res.data.brandBoxSetting
+          this.form.discountTargetObj = JSON.parse(JSON.stringify(res.data.discountTargetObj))
+          this.discountTargetObj = JSON.parse(JSON.stringify(res.data.discountTargetObj))
+          this.discountTargetObjChange(this.discountTargetObj)
+          this.form.discountRange1ForDL = res.data.discountRange1ForDL
+          this.form.discountRange1ForFX = res.data.discountRange1ForFX
+          this.form.discountRange2ForDL = res.data.discountRange2ForDL
+          this.form.discountRange2ForFX = res.data.discountRange2ForFX
+
+          this.dialogLoading = false
         }
       })
     }
