@@ -869,7 +869,8 @@
       </div>
 
       <div class="dialogBottomButton-wrap">
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">保存并提交</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isSubmitting" :disabled="submitDisabled">保存并提交</el-button>
+        <el-button type="primary" @click="saveContractMsg" :loading="isSaving" v-if="submitDisabled">保存合同信息</el-button>
       </div>
     </el-form>
   </div>
@@ -960,7 +961,9 @@
         specialProjectCheckingArr: [],
         mainCategoryOptions: [],
         subCategoryOptions: [],
-        cooperationManagementData: []
+        cooperationManagementData: [],
+        submitDisabled: false,
+        isSaving: false,
       }
     },
     methods: {
@@ -1025,6 +1028,17 @@
           }
         });
       },
+      saveContractMsg() {
+        this.$request({
+          url: '/brand/updateContractMsg.do',
+          method: "post",
+          data: { brandNo: this.form.brandNo, cooperationManagementData: this.form.cooperationManagementData }
+        }).then(res => {
+          if (res.errorCode==0) {
+              this.$message.success('保存成功')
+          }
+        })
+      }
     },
     created() {
       this.dialogLoading = true
@@ -1070,21 +1084,30 @@
             this.contractStatus[index] = item.contractStatus
             this.brandStatus[index] = item.brandStatus
           })
-          console.log(new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date())
-//          console.log(new Date())
-          if (this.form.cooperationManagementData[0].contractStatus==100 && new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date()<0) {
-            let lastItem = this.form.cooperationManagementData[this.form.cooperationManagementData.length-1]
-            this.$set(this.cooperationManagementData, this.form.cooperationManagementData.length,
-              {
-                contractNo: lastItem.contractNo,
-                startTime: lastItem.endTime,
-                endTime: moment(lastItem.endTime).add(1, 'y'),
-                contractStatus: lastItem.contractStatus,
-                brandStatus: lastItem.brandStatus,
-              })
-            this.contractStatus.push(lastItem.contractStatus)
-            this.brandStatus.push(lastItem.brandStatus)
-          }
+
+
+//          // 合同自动续签功能
+//          if (this.form.cooperationManagementData[0].contractStatus==100 && new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date()<0) {
+////            this.form.cooperationManagementData = res.data.contract[0].historyRecord? JSON.parse(res.data.contract[0].historyRecord) : this.cooperationManagementData
+//            let lastItem = this.form.cooperationManagementData[this.form.cooperationManagementData.length-1]
+//            this.$set(this.cooperationManagementData, this.form.cooperationManagementData.length,
+//              {
+//                contractNo: lastItem.contractNo,
+//                startTime: lastItem.endTime,
+//                endTime: moment(lastItem.endTime).add(1, 'y'),
+//                contractStatus: lastItem.contractStatus,
+//                brandStatus: lastItem.brandStatus,
+//              })
+//            this.contractStatus.push(lastItem.contractStatus)
+//            this.brandStatus.push(lastItem.brandStatus)
+//            this.submitDisabled = true
+//          }
+//          else if (this.form.cooperationManagementData[0].contractStatus==-100 && new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date()<0) {
+//            this.form.cooperationManagementData[0].brandStatus = this.cooperationManagementData[0].brandStatus = this.brandStatus[0] = 2
+//            this.submitDisabled = true
+//          }
+
+
 
           // 品牌商品分类
           this.form.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))

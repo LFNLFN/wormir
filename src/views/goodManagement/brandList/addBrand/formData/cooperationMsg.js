@@ -47,16 +47,13 @@ export function contractStatusChange(val) {
 
 export function timeChange(val) {
   this.form.cooperationManagementData = this.cooperationManagementData
-  let valiBrandStatus = this.form.cooperationManagementData.some(item => {
+
+  this.form.cooperationManagementData.forEach((item, index) => {
     for (let key in item) {
-      if (!item[key]) {
-        return true
-      }
+      if (!item[key]) { item.brandStatus = this.brandStatus[index] = 3; break }
+      else { item.brandStatus = this.brandStatus[index] = 1; break }
     }
   })
-  // console.log(valiBrandStatus)
-  if (!valiBrandStatus) { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 1 }
-  else { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 3 }
 }
 
 export function makeFakeTableHeadClass({row, column, rowIndex, columnIndex}) {
