@@ -783,19 +783,19 @@
         <el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-checkbox-group v-model="specialProject">
-            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :key="item.flowName" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
+            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
             border
-            :data="form.cooperationManagementData"
+            :data="cooperationManagementData"
             class="no-border-right no-border-bottom cooperationManagementTable"
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="合同编号">
               <template slot-scope="scope">
-                <el-input v-model.trim="form.cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>
+                <el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>
               </template>
             </el-table-column>
             <el-table-column align="center" label="合同属性" width="95px">
@@ -805,31 +805,31 @@
             </el-table-column>
             <el-table-column align="center" label="开始时间">
               <template slot-scope="scope">
-                <el-date-picker v-model="form.cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
+                <el-date-picker v-model="cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
               </template>
             </el-table-column>
             <el-table-column align="center" label="结束时间">
               <template slot-scope="scope">
-                <el-date-picker v-model="form.cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
+                <el-date-picker v-model="cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
               </template>
             </el-table-column>
             <el-table-column align="center" label="合同状态">
               <template slot-scope="scope">
                 <el-select
-                  v-model="contractStatus"
+                  v-model="contractStatus[scope.$index]"
                   @change="contractStatusChange"
                   placeholder="请选择状态">
-                  <el-option label="自动续签" :value="1"></el-option>
-                  <el-option label="到期终止" :value="2"></el-option>
-                  <el-option label="提前终止" :value="3"></el-option>
+                  <el-option label="自动续签" :value="100"></el-option>
+                  <el-option label="到期终止" :value="-100"></el-option>
+                  <el-option label="提前终止" :value="-200"></el-option>
                 </el-select>
               </template>
             </el-table-column>
             <el-table-column align="center" label="品牌状态" width="95px">
               <template slot-scope="scope">
-                <span v-if="brandStatus == 1">正常供货</span>
-                <span v-if="brandStatus == 2">停止供货</span>
-                <span v-if="brandStatus == 3">待定</span>
+                <span v-if="brandStatus[scope.$index] == 1">正常供货</span>
+                <span v-if="brandStatus[scope.$index] == 2">停止供货</span>
+                <span v-if="brandStatus[scope.$index] == 3">待定</span>
               </template>
             </el-table-column>
           </el-table>
@@ -932,9 +932,9 @@
         flow: 1, // 用于合作信息的流程radio
         useSpecialFlow: false, // 用于合作信息的流程checkbox
         specialProject: [], // 用于合作信息的被选中的特殊项目
-        contractStatus: null, // 用于合作信息的合同状态
+        contractStatus: [], // 用于合作信息的合同状态
         terminationReason: null, // 用于合作信息的提前终止原因
-        brandStatus: 3, // 用于合作信息确定品牌状态
+        brandStatus: [3], // 用于合作信息确定品牌状态
         uploadTemplateData: [
           { title: '成分配比表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+成分配表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
           { title: '危害识别表', uploadNameNum: 0, uploadTip: '从电脑中选取文件并上传，文件命名要求：商品品名+危害识别表；文件格式：doc./docx./xls./xlsx./csv./pdf./jpg./jpeg./png.', fileList: [], editItemUploadNameNum: true },
@@ -955,7 +955,8 @@
         cooperationMsgRules: {},
         specialProjectCheckingArr: [],
         mainCategoryOptions: [],
-        subCategoryOptions: []
+        subCategoryOptions: [],
+        cooperationManagementData: []
       }
     },
     methods: {
@@ -1110,6 +1111,26 @@
           this.procurementCurrency = res.data.procurementCurrency
           this.supplyCurrency = res.data.supplyCurrency
 
+          this.flow = this.form.flow
+          this.flowChange(this.flow)
+          this.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
+          this.form.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
+
+          this.$request({
+            url: '/brand/getMaxContractNo.do',
+            method: "post",
+            data: { brandNo: this.form.brandNo }
+          }).then(res => {
+            if (res.errorCode==0) {
+              this.cooperationManagementData = JSON.parse(JSON.stringify(res.data.item))
+              this.form.cooperationManagementData = JSON.parse(JSON.stringify(res.data.item))
+              this.form.cooperationManagementData.forEach((item,index) => {
+                this.contractStatus[index] = item.contractStatus
+                this.brandStatus[index] = item.brandStatus
+              })
+            }
+          })
+
           this.uploadVisible = true
           this.dialogLoading = false
         }
@@ -1154,6 +1175,5 @@
 
 
 <!--有待解决的问题-->
-<!--清关文件新建一张表-->
 <!--红色星星-->
 <!--首次签订的判断依据是什么？-->

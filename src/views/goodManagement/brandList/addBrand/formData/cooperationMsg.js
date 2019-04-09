@@ -17,8 +17,6 @@ let cooperationMsg = {
 export function getCooperationData() {
   this.form.flow = this.flow
   this.form.specialProject = this.specialProject
-  this.form.cooperationManagementData[0].contractStatus = this.contractStatus
-  this.form.cooperationManagementData[0].brandStatus = this.brandStatus || 3
   this.form.terminationReason = this.terminationReason
 }
 
@@ -32,18 +30,22 @@ export function flowChange(val) {
 }
 
 export function contractStatusChange(val) {
-  this.form.cooperationManagementData[0].contractStatus = val
-  let valiBrandStatus = this.form.cooperationManagementData.some(item => {
+  this.form.cooperationManagementData = this.cooperationManagementData
+  this.contractStatus.forEach((item,index) => {
+    this.form.cooperationManagementData[index].contractStatus = item
+  })
+
+
+  this.form.cooperationManagementData.forEach((item, index) => {
     for (let key in item) {
-      if (!item[key]) { return true }
-      else { return false }
+      if (!item[key]) { item.brandStatus = this.brandStatus[index] = 3; break }
+      else { item.brandStatus = this.brandStatus[index] = 1; break }
     }
   })
-  if (!valiBrandStatus) { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 1 }
-  else { this.form.cooperationManagementData[0].brandStatus = this.brandStatus = 3 }
 }
 
 export function timeChange(val) {
+  this.form.cooperationManagementData = this.cooperationManagementData
   let valiBrandStatus = this.form.cooperationManagementData.some(item => {
     for (let key in item) {
       if (!item[key]) {
