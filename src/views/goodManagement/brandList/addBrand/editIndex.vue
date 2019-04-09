@@ -795,22 +795,24 @@
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="合同编号">
               <template slot-scope="scope">
-                <el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>
+                <!--<el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号"></el-input>-->
+                <span>{{ cooperationManagementData[scope.$index].contractNo }}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" label="合同属性" width="95px">
               <template slot-scope="scope">
-                <span>首次签订</span>
+                <span v-if="scope.$index==0">首次签订</span>
+                <span v-else>再次签订</span>
               </template>
             </el-table-column>
             <el-table-column align="center" label="开始时间">
               <template slot-scope="scope">
-                <el-date-picker v-model="cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
+                <el-date-picker v-model="cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px" :disabled="scope.$index<cooperationManagementData.length-1"></el-date-picker>
               </template>
             </el-table-column>
             <el-table-column align="center" label="结束时间">
               <template slot-scope="scope">
-                <el-date-picker v-model="cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
+                <el-date-picker v-model="cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px" :disabled="scope.$index<cooperationManagementData.length-1"></el-date-picker>
               </template>
             </el-table-column>
             <el-table-column align="center" label="合同状态">
@@ -818,6 +820,7 @@
                 <el-select
                   v-model="contractStatus[scope.$index]"
                   @change="contractStatusChange"
+                  :disabled="scope.$index<cooperationManagementData.length-1"
                   placeholder="请选择状态">
                   <el-option label="自动续签" :value="100"></el-option>
                   <el-option label="到期终止" :value="-100"></el-option>
@@ -901,6 +904,7 @@
   import { submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6 } from './formData/uploadMsg'
 
   import request from "@/utils/request"
+  import moment from "moment"
 
   export default {
     props: {
@@ -1060,6 +1064,27 @@
       }).then(res => {
         if (res.errorCode==0) {
           Object.assign(this.form, JSON.parse(JSON.stringify(res.data.brandDetail)))
+          this.cooperationManagementData = JSON.parse(JSON.stringify(res.data.contract))
+          this.form.cooperationManagementData = JSON.parse(JSON.stringify(res.data.contract))
+          this.form.cooperationManagementData.forEach((item,index) => {
+            this.contractStatus[index] = item.contractStatus
+            this.brandStatus[index] = item.brandStatus
+          })
+          console.log(new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date())
+//          console.log(new Date())
+          if (this.form.cooperationManagementData[0].contractStatus==100 && new Date(this.form.cooperationManagementData[this.form.cooperationManagementData.length-1].endTime)-new Date()<0) {
+            let lastItem = this.form.cooperationManagementData[this.form.cooperationManagementData.length-1]
+            this.$set(this.cooperationManagementData, this.form.cooperationManagementData.length,
+              {
+                contractNo: lastItem.contractNo,
+                startTime: lastItem.endTime,
+                endTime: moment(lastItem.endTime).add(1, 'y'),
+                contractStatus: lastItem.contractStatus,
+                brandStatus: lastItem.brandStatus,
+              })
+            this.contractStatus.push(lastItem.contractStatus)
+            this.brandStatus.push(lastItem.brandStatus)
+          }
 
           // 品牌商品分类
           this.form.categotiesSetting = JSON.parse(JSON.stringify(res.data.categotiesSetting))
@@ -1116,20 +1141,6 @@
           this.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
           this.form.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
 
-          this.$request({
-            url: '/brand/getContractData.do',
-            method: "post",
-            data: { brandNo: this.form.brandNo }
-          }).then(res => {
-            if (res.errorCode==0) {
-              this.cooperationManagementData = JSON.parse(JSON.stringify(res.data.item))
-              this.form.cooperationManagementData = JSON.parse(JSON.stringify(res.data.item))
-              this.form.cooperationManagementData.forEach((item,index) => {
-                this.contractStatus[index] = item.contractStatus
-                this.brandStatus[index] = item.brandStatus
-              })
-            }
-          })
 
           this.uploadVisible = true
           this.dialogLoading = false
