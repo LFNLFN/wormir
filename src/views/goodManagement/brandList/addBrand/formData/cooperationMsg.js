@@ -14,6 +14,7 @@ let cooperationMsg = {
   terminationReason: null
 }
 
+
 export function getCooperationData() {
   this.form.flow = this.flow
   this.form.specialProject = this.specialProject

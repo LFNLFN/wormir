@@ -264,7 +264,7 @@
       },
       submitSuccess() {
         this.isAddBrandShow = false
-        this.$confirm(`新增品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+        this.$confirm(`品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
         this.brandBlurSearch()
       },
       editSuccess() {
@@ -273,6 +273,7 @@
           message: '编辑成功！',
           type: 'success'
         });
+        this.brandBlurSearch()
       },
     },
     mounted() {

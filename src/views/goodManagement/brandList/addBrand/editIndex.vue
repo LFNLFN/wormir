@@ -997,7 +997,7 @@
         this.$refs["form"].validate(valid => {
           if (valid) {
             request({
-              url: '/brand/createBrand.do',
+              url: '/brand/brandInfoUpdate.do',
               method: "post",
               data: this.form
             })
@@ -1006,12 +1006,12 @@
                   this.$emit("submitSuccess");
                 }
                 else {
-                  this.$message.error("新增失败");
+                  this.$message.error("编辑失败");
                   this.isSubmitting = false;
                 }
               })
               .catch(() => {
-                this.$message.error("新增失败");
+                this.$message.error("编辑失败");
                 this.isSubmitting = false;
               });
           } else {
@@ -1117,7 +1117,7 @@
           this.form.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
 
           this.$request({
-            url: '/brand/getMaxContractNo.do',
+            url: '/brand/getContractData.do',
             method: "post",
             data: { brandNo: this.form.brandNo }
           }).then(res => {

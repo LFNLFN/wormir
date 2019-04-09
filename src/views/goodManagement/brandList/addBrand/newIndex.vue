@@ -100,8 +100,8 @@
                   placeholder="请选择主品类"
                 >
                   <el-option
-                    v-for="item in mainCategoryOptions"
-                    :key="item.mainIndex"
+                    v-for="(item,index) in mainCategoryOptions"
+                    :key="index"
                     :label="item.mainName"
                     :value="item.mainIndex">
                   </el-option>
@@ -115,8 +115,8 @@
                   placeholder="请选择子品类" @change="form.categotiesSetting[scope.$index].subCategoties = categotiesSetting[scope.$index].subCategoties"
                 >
                   <el-option
-                    v-for="item in subCategoryOptions"
-                    :key="item.subIndex"
+                    v-for="(item,index) in subCategoryOptions"
+                    :key="index"
                     :label="item.subName"
                     :value="item.subIndex">
                   </el-option>
@@ -789,12 +789,13 @@
             style="width: 95%;margin: 4px">
             <el-table-column align="center" label="合同编号">
               <template slot-scope="scope">
-                <el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号" disabled></el-input>
+                <!--<el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号" disabled></el-input>-->
+                <span>{{contractNo}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" label="合同属性" width="95px">
               <template slot-scope="scope">
-                <span v-if="scope.$index=0">首次签订</span>
+                <span v-if="scope.$index==0">首次签订</span>
                 <span v-else>再次签订</span>
               </template>
             </el-table-column>
@@ -896,6 +897,7 @@
   import { submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6 } from './formData/uploadMsg'
 
   import request from "@/utils/request"
+  import { currentTimeStr } from '@/utils/timeFormat'
 
   export default {
     components: {
@@ -946,7 +948,8 @@
         specialProjectCheckingArr: [],
         mainCategoryOptions: [],
         subCategoryOptions: [],
-        cooperationManagementData: []
+        cooperationManagementData: [{}],
+        contractNo: null
       }
     },
     methods: {
@@ -1041,6 +1044,26 @@
             this.mainCategoryOptions = res.data.items
           }
         })
+
+      this.$request({
+        url: '/brand/getContractOrder.do',
+        method: "post",
+      }).then((res) => {
+        if (res.errorCode != 0) return false
+        let val = null
+        if (res.data.item == null) {
+          val = '01'
+        } else {
+          if (res.data.item[0].contractId+1<10) {
+            val = '0'+(res.data.item[0].contractId+1)
+          } else {
+            val = res.data.item[0].contractId+1
+          }
+        }
+        this.contractNo = 'hetong'+currentTimeStr()+val
+        this.form.cooperationManagementData[0].contractNo = this.contractNo
+        this.cooperationManagementData[0].contractNo = this.contractNo
+      })
     }
   }
 </script>
