@@ -1164,7 +1164,7 @@
           this.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
           this.form.specialProject = JSON.parse(JSON.stringify(res.data.specialProject))
 
-
+          this.form.isAllUpload = true
           this.uploadVisible = true
           this.dialogLoading = false
         }

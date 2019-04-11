@@ -16,7 +16,7 @@
               <el-popover v-if="ingFileListStr" placement="left" width="400" trigger="click">
                 <h4>成分配比表上传目录</h4>
                 <p v-for="item in ingFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -67,7 +67,7 @@
               <el-popover v-if="hazFileListStr" placement="left" width="400" trigger="click">
                 <h4>危害识别表上传目录</h4>
                 <p v-for="item in hazFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -117,7 +117,7 @@
               <el-popover v-if="tagFileListStr" placement="left" width="400" trigger="click">
                 <h4>标签文件上传目录</h4>
                 <p v-for="item in tagFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -167,7 +167,7 @@
               <el-popover v-if="offiFileListStr" placement="left" width="400" trigger="click">
                 <h4>化妆品备案批文上传目录</h4>
                 <p v-for="item in offiFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -217,7 +217,7 @@
               <el-popover v-if="MEnFileListStr" placement="left" width="400" trigger="click">
                 <h4>MSDS（英文）上传目录</h4>
                 <p v-for="item in MEnFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -267,7 +267,7 @@
               <el-popover v-if="MZhFileListStr" placement="left" width="400" trigger="click">
                 <h4>MSDS（中文）上传目录</h4>
                 <p v-for="item in MZhFileListStr.split(',')">
-                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a>
+                  <a :href="item.split('^_^')[0]" target="_blank" class="link-type">{{item.split('^_^')[1]}}</a><span class="delete-btn" @click="deleteAlreadyUploadFile(item.split('^_^')[0])"> 删除</span>
                 </p>
                 <el-button slot="reference" type="primary">查看上传目录</el-button>
               </el-popover>
@@ -721,6 +721,27 @@
             }
           })
           .catch(() => {})
+      },
+      deleteAlreadyUploadFile(url) {
+        this.$confirm('确认删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$request({
+            url: '/brand/deleteAlreadyUpload.do',
+            method: "post",
+            data: { url: url }
+          }).then(res => {
+            if (res.errorCode==0) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }
+          }).catch(() => {})
+
+        })
       }
     },
     created() {
@@ -757,5 +778,12 @@
 
   .form-row .el-form-item__label {
     height: 35px;
+  }
+
+  .delete-btn {
+    color: red;
+  }
+  .delete-btn:hover {
+    cursor: pointer;
   }
 </style>

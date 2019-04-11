@@ -16,7 +16,8 @@
       </el-form-item>
     </el-form>
     <el-table
-      border v-loading="listLoading" element-loading-text="给我一点时间"
+      border fit
+      v-loading="listLoading" element-loading-text="给我一点时间"
       :data="goodTableData"
       style="width: 100%;border-top: 2px solid #D5D5D5;border-left: 2px solid #D5D5D5"
     >
@@ -51,14 +52,14 @@
       <el-table-column
         prop="goodsChineseName"
         label="商品名称-中文"
-        width="120"
+        width="180"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column
         prop="goodsEnglishName"
         label="商品名称-英文"
-        width="120"
+        width="180"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
@@ -112,11 +113,11 @@
     </el-dialog>
     <el-dialog
       :visible.sync="isGoodDetailShow"
-      width="80%"
+      width="95%"
       @close="isGoodDetailShow = false"
       title="品牌商品详情"
     >
-      <goodDetail v-if="isGoodDetailShow" :theGoodDetail="theGoodDetail"></goodDetail>
+      <goodDetail v-if="isGoodDetailShow" :goodsNo="currentGood.goodsNo"></goodDetail>
     </el-dialog>
     <el-dialog
       :visible.sync="isAddGoodShow"
@@ -133,7 +134,7 @@
 <script>
 import { getGoodList } from '@/api/goods'
 //import goodDetail from './goodDetail/index.vue'
-import goodDetail from './goodDetail/newIndex.vue'
+import goodDetail from './addGood/editIndex.vue'
 //import addGood from './addGood/index.vue'
 import addGood from './addGood/newIndex.vue'
 import request from "@/utils/request"
@@ -153,7 +154,6 @@ export default {
       currentGoodThumbnail: '',
       isEnlargeGoodThumbnailShow: false,
       isGoodDetailShow: false,
-      theGoodDetail: {},
       isAddGoodShow: false,
       goodsCategoryList: {
         1: '新品',
@@ -162,6 +162,7 @@ export default {
       },
       selectedGoodsNo: undefined,
       isTemporarySave: false,
+      currentGood: null
     }
   },
   methods: {
@@ -202,7 +203,7 @@ export default {
       return row[property] === value;
     },
     checkGoodDetail(row) {
-      this.theGoodDetail = row
+      this.currentGood = row
       this.isGoodDetailShow = true
     },
     addSuccess() {
@@ -211,11 +212,12 @@ export default {
       this.goodBlurSearch()
     },
     addDialogBeforeClose(done) {
-      this.$confirm('是否暂存已填写信息?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {this.isTemporarySave=true;done()}).catch(() => {this.isTemporarySave=false;done()});
+//      this.$confirm('是否暂存已填写信息?', '提示', {
+//        confirmButtonText: '确定',
+//        cancelButtonText: '取消',
+//        type: 'warning'
+//      }).then(() => {this.isTemporarySave=true;done()}).catch(() => {this.isTemporarySave=false;done()});
+      done()
     },
     submitSuccessAction() {
       this.isAddGoodShow = false

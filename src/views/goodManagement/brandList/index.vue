@@ -2,7 +2,7 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.searchText" placeholder="请输入 品牌编号/品牌名称/产地" style="width: 300px"></el-input>
+        <el-input v-model="filterForm.searchText" placeholder="请输入品牌序列号/品牌名称/产地" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
@@ -12,7 +12,7 @@
       </el-form-item>
     </el-form>
     <el-table
-      border
+      border v-loading="tableLoading"
       :data="brandTableData"
       style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
       >
@@ -166,6 +166,7 @@
   export default {
     data() {
       return {
+        tableLoading: false,
         brandTableData: [],
         filterForm: {
           searchText: '',
@@ -199,6 +200,7 @@
     },
     methods: {
       brandBlurSearch() {
+        this.tableLoading = true
         request({
           url: '/brand/brandList.do',
           method: 'post',
@@ -210,9 +212,11 @@
         }).then((res) => {
           this.brandTableData = res.data.items
           this.filterForm.total = res.data.total
+          this.tableLoading = false
           console.log(res.data.items)
         }).catch(() => {
           this.$message.error('数据请求失败');
+          this.tableLoading = false
         })
       },
       handleSizeChange(val) {

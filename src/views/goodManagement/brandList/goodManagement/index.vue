@@ -5,7 +5,7 @@
         <el-input
           v-model="filterForm.goodSearchingMsg1"
           style="width: 250px"
-          placeholder="商品编号/商品名称/商品系列"
+          placeholder="商品序列号/商品名称/商品系列"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -37,7 +37,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="goodsSerialNo" min-width="150" label="商品序列号" align="center"></el-table-column>
+      <el-table-column prop="goodsNo" min-width="150" label="商品序列号" align="center"></el-table-column>
       <el-table-column  label="商品品牌" min-width="120" align="center">
         <template slot-scope="scope">
           <span>{{ brandName }}</span>
@@ -45,7 +45,7 @@
       </el-table-column>
       <el-table-column label="商品属性" width="100" align="center">
         <template slot-scope="scope">
-          <span>{{goodsCategoryList[scope.row.goodsCategory]}}</span>
+          <span>{{goodsCategoryList[scope.row.propertyOfGoods]}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import editGood from '../../goodList/addGood/index'
+import editGood from './editGoodNew.vue'
 import request from '@/utils/request'
 export default {
   props: ['brandNo', 'brandName'],
@@ -158,9 +158,9 @@ export default {
       isEditGoodShow: false,
       editGoodDetail: {},
       goodsCategoryList: {
-        10: '常规',
-        20: '促销',
-        30: '新品'
+        1: '常规',
+        2: '促销',
+        3: '新品'
       },
       selectedGoodsNo: undefined
     }

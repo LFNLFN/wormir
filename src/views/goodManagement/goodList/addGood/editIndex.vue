@@ -1,6 +1,6 @@
 <template>
   <div class="add-good-index-vue">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" v-loading="dialogLoading">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="商品品牌" prop="brandMsg" class="border1 border-top no-border-bottom"
@@ -344,11 +344,7 @@
         </el-form-item>
 
         <el-form-item label="装箱规格设置" prop="" class="border1 no-border-top" style="padding: 5px 0;margin-bottom: 0">
-          <el-table
-            border
-            :data="[{}]"
-            class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+          <el-table border :data="[{}]" class="no-border-right no-border-bottom" style="width: 95%;margin: 4px">
             <el-table-column align="center" label="箱型编号/Carton Type">
               <template slot-scope="scope">
                 <el-form-item label="" prop="cartonNo" style="margin-bottom: 0">
@@ -679,8 +675,12 @@
   import { fileTitle,addFile,deleteFile,validateFile } from './function/clearanceFile'
   export default {
     components: { clearanceFileUpload,declarationTable,packageSpecificationTable },
+    props: {
+      goodsNo: { required: true }
+    },
     data() {
       return {
+        dialogLoading: false,
         form: {
           brandMsg: [{ brandEnglishName: null, }],
           brandNo: null,
@@ -841,7 +841,7 @@
                   val = parseInt(res.data.item.toString().substr(-1,2))+1
                 }
               }
-              this.$set(this.form, 'goodsNo', item.brandNo+currentTimeStr()+val)
+//              this.$set(this.form, 'goodsNo', item.brandNo+currentTimeStr()+val)
               this.$set(this.form, 'productionPlaceChinese', item.productionPlaceChinese)
               this.$set(this.form, 'productionPlaceEnglish', item.productionPlaceEnglish)
               })
@@ -865,6 +865,7 @@
         }).then( res => {
           if (res.errorCode==0) {
             this.specificationOptions = res.data.items
+            this.specificationId = this.form.specificationId; this.specificationIdChange(this.specificationId)
           }
         })
         this.$request({
@@ -874,6 +875,7 @@
         }).then( res => {
           if (res.errorCode==0) {
             this.cartonOptions = res.data.items
+            this.cartonNo = this.form.cartonParam.cartonNo; this.cartonNoChange(this.cartonNo)
           }
         })
         // 获取品牌的销售属性以限制商品销售属性的选择范围
@@ -1035,8 +1037,8 @@
       priceTypeChange(val) {
         this.priceType[2] = this.priceType[1]
         this.priceType[4] = this.priceType[3]
-        this.priceType[8] =this.priceType[7] =this.priceType[6] = this.priceType[5]
-        this.priceType[12] =this.priceType[11] =this.priceType[10] = this.priceType[9]
+        this.priceType[8] = this.priceType[7] =this.priceType[6] = this.priceType[5]
+        this.priceType[12] = this.priceType[11] =this.priceType[10] = this.priceType[9]
         this.form.priceType = this.priceType
       },
       priceArrChange(value) {
@@ -1181,6 +1183,7 @@
       }
     },
     created() {
+      this.dialogLoading = true
       Object.assign(this.formRules, formDataRules)
       this.$request({
         url: '/brand/getBrandEnglishName.do',
@@ -1190,6 +1193,27 @@
             this.brandOptions = res.data.items
           }
         })
+      // 初始化渲染
+      this.$request({
+        url: '/goods/goodDetail.do',
+        method: "post",
+        data: { goodsNo: this.goodsNo }
+      }).then( res => {
+        if (res.errorCode==0) {
+          Object.assign(this.form, JSON.parse(JSON.stringify(res.data.goodInfo)))
+          this.form.brandMsg[0].brandEnglishName = res.data.goodInfo.brandNo;this.brandEnglishNameChange(res.data.goodInfo.brandNo)
+          this.seriesName = this.form.seriesName; this.seriesChange(this.form.seriesName)
+          this.mainCategoryName = this.form.mainCategoryName; this.mainCategoryNameChange(this.form.mainCategoryName)
+          this.subCategoryName = this.form.subCategoryName; this.subCategoryNameChange(this.form.subCategoryName)
+          this.priceType = this.form.priceType;
+          this.priceArr = this.form.priceArr;
+          this.discountArr = this.form.discountArr;
+          this.dialogLoading = false
+        }
+      })
+
+
+      // 暂存数据
 //      this.$request({
 //        url: '/user/getTemporarySaveAddingGoodsMsg.do',
 //        method: 'post',
@@ -1216,6 +1240,5 @@
 </style>
 
 <!--待解决问题-->
-<!--装箱规格没有请求到两位小数-->
 <!--品牌安全承诺书请求-->
 <!--一般员工和高管区分-->

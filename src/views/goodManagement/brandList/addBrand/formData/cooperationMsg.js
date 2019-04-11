@@ -17,7 +17,7 @@ let cooperationMsg = {
 
 export function getCooperationData() {
   this.form.flow = this.flow
-  this.form.specialProject = this.specialProject
+  this.form.specialProject = JSON.stringify(this.specialProject)
   this.form.terminationReason = this.terminationReason
 }
 
@@ -37,23 +37,29 @@ export function contractStatusChange(val) {
   })
 
 
-  this.form.cooperationManagementData.forEach((item, index) => {
-    for (let key in item) {
-      if (!item[key]) { item.brandStatus = this.brandStatus[index] = 3; break }
-      else { item.brandStatus = this.brandStatus[index] = 1; break }
+  for (var a=0; a<this.form.cooperationManagementData.length; a++) {
+    for (let key in this.form.cooperationManagementData[a]) {
+      if (!this.form.cooperationManagementData[a][key]) { this.form.cooperationManagementData[a].brandStatus = this.brandStatus[a] = 3; break }
+      else { this.form.cooperationManagementData[a].brandStatus = this.brandStatus[a] = 1; break }
     }
-  })
+  }
 }
 
 export function timeChange(val) {
   this.form.cooperationManagementData = this.cooperationManagementData
-
-  this.form.cooperationManagementData.forEach((item, index) => {
-    for (let key in item) {
-      if (!item[key]) { item.brandStatus = this.brandStatus[index] = 3; break }
-      else { item.brandStatus = this.brandStatus[index] = 1; break }
+  for (var a=0; a<this.form.cooperationManagementData.length; a++) {
+    for (let key in this.form.cooperationManagementData[a]) {
+      if (!this.form.cooperationManagementData[a][key]) { this.form.cooperationManagementData[a].brandStatus = this.brandStatus[a] = 3; break }
+      else { this.form.cooperationManagementData[a].brandStatus = this.brandStatus[a] = 1; break }
     }
-  })
+  }
+
+  // this.form.cooperationManagementData.forEach((item, index) => {
+  //   for (let key in item) {
+  //     if (!item[key]) { item.brandStatus = this.brandStatus[index] = 3; break }
+  //     else { item.brandStatus = this.brandStatus[index] = 1; break }
+  //   }
+  // })
 }
 
 export function makeFakeTableHeadClass({row, column, rowIndex, columnIndex}) {
