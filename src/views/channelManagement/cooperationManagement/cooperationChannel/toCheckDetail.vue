@@ -44,7 +44,7 @@
           <div class="grid-content bg-purple-light">{{channelTypeMap[currentRow.channelType].text}}</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.channelProp==4">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'渠道级别'}}</div>
         </el-col>
@@ -57,7 +57,7 @@
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
     <!--content-->
-    <div class="border1">
+    <div class="border1" style="border-top-width: 2px">
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'经营主体'}}</div>
@@ -154,8 +154,8 @@
     <el-table
       border
       :data="contactData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+      >
       <el-table-column
         prop="position"
         label="职务"
@@ -238,8 +238,8 @@
     <el-table
       border
       :data="contractData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+      >
       <el-table-column
         prop="contractNo"
         label="合同编号"

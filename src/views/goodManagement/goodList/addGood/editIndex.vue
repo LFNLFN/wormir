@@ -100,6 +100,22 @@
             <el-radio :label="2">套组</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item prop="goodsImg" label="商品图片" class="border1 border-bottom no-border-top"
+                      style="padding: 20px 0;margin-bottom: 0">
+          <el-upload
+            action=""
+            :http-request="uploadGoodsImgAction"
+            :limit="1"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove">
+            <img v-if="form.goodsImg" :src="form.goodsImg" class="avatar" style="width: 146px">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogGoodImgVisible" append-to-body>
+            <img width="100%" :src="form.goodsImg" alt="">
+          </el-dialog>
+        </el-form-item>
       </div>
 
       <h2>商品设置</h2>
@@ -817,6 +833,7 @@
         priceType: [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
         priceArr: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         discountArr: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        dialogGoodImgVisible: false
       }
     },
     methods: {
@@ -1083,6 +1100,18 @@
       discountArrChange(val) {
         this.form.discountArr = this.discountArr
       },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.form.goodsImg = file.url;
+        this.dialogGoodImgVisible = true;
+      },
+      uploadGoodsImgAction(options) {
+        this.uploadAction(options.file, key => {
+          this.form.goodsImg = `http://asset.wormir.com/${key}`
+        })
+      },
       onSubmit() {
         this.isSubmitting = true;
         if(!this.validateFile()) {
@@ -1175,7 +1204,24 @@
           case 11: return '海运易货价/中国零售价'
           case 12: return '海运易货价/中国零售价'
         }
-      }
+      },
+      uploadBusinessLicenseAction(options) {
+        this.uploadAction(options.file, key => {
+          this.form.businessLicense = `http://asset.wormir.com/${key}`
+        })
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 10
+
+        if (!isJPG) {
+          this.$message.error('上传图片只能是 JPG 格式!')
+        }
+        if (!isLt2M) {
+          this.$message.error('上传图片大小不能超过 10MB!')
+        }
+        return isJPG && isLt2M
+      },
     },
     computed: {
       propertyOfSaleStatus() {

@@ -11,7 +11,7 @@
         <el-button type="success" icon="el-icon-plus" @click="showAdd">新增渠道</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" style="width: 100%;" class="border-top2 border-left2">
+    <el-table border :data="channelTableData" style="width: 100%;border-left-width: 2px;border-top-width: 2px">
       <el-table-column prop="channelNum" label="渠道号" min-width="130" align="center"></el-table-column>
       <el-table-column prop="channelCode" label="渠道名称" min-width="100" align="center">
         <template slot-scope="scope">
@@ -68,18 +68,7 @@
           >{{ channelPropMap[scope.row.channelProp].text }}</div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="channelLevel"
-        label="渠道级别"
-        align="center"
-        min-width="90"
-        :filters="channelLevelFilters"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
-        </template>
-      </el-table-column>
+
       <el-table-column
         prop="createTime"
         label="创建时间"
@@ -91,7 +80,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            v-if="scope.row.channelStatus==100"
+            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==200 || scope.row.channelStatus==400"
             @click="showConfirm(scope.row)"
           >去确认</el-button>
           <el-button
@@ -127,9 +116,11 @@
     >
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @submitSuccess="confirmSuccess"></to-confirm>
     </el-dialog>
+
     <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案信息">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
+
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
@@ -289,7 +280,7 @@ export default {
         type: 'confirm',
         center: true
       }).then((event) => {
-        
+
         request({
           url: '/channel/confirmDeposit.do',
           method: 'post',
@@ -347,18 +338,15 @@ export default {
     },
     confirmSuccess() {
       this.isConfirmShow = false
-      this.$message({
-        message: '确认成功！',
-        type: 'success'
-      })
       this.channelSearch()
     },
     deleteSuccess() {
       this.isDeleteShow = false
       this.$message({
-        message: '删除成功！',
+        message: '注销成功！',
         type: 'success'
       })
+      this.channelSearch()
     },
   },
   components: {

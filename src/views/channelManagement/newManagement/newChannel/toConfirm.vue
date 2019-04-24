@@ -19,16 +19,16 @@
           <div class="grid-content bg-purple ">{{'身份证号码'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companyName || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.identityCardNo || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5" style="min-height: 56px"><span>身份证正面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证正面"
+        <el-col :span="7"><span @click="viewImage(currentRow.identityCardFront)"><img :src="currentRow.identityCardFront" alt="身份证正面"
                                                                   height="47px" width="47px"
                                                                   class="link-type form-photo-offset"></span></el-col>
         <el-col :span="5" style="min-height: 56px"><span>身份证反面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="身份证反面"
+        <el-col :span="7"><span @click="viewImage(currentRow.identityCardContrary)"><img :src="currentRow.identityCardContrary" alt="身份证反面"
                                                                   height="47px" width="47px"
                                                                   class="link-type form-photo-offset"></span></el-col>
       </el-row>
@@ -47,12 +47,12 @@
           <div class="grid-content bg-purple ">{{'公司简介'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companySummary || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.companyProfile || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5" style="min-height: 56px"><span>营业执照: </span></el-col>
-        <el-col :span="19"><span @click="viewImage(imageSrc)"><img :src="imageSrc" alt="营业执照"
+        <el-col :span="19"><span @click="viewImage(currentRow.businessLicense)"><img :src="currentRow.businessLicense" alt="营业执照"
                                                                    height="47px" width="47px"
                                                                    class="link-type form-photo-offset"></span></el-col>
       </el-row>
@@ -69,7 +69,7 @@
           <div class="grid-content bg-purple ">{{'公司地址'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companyAddress || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.businessAddress || '暂无数据' }}</div>
         </el-col>
       </el-row>
 
@@ -82,7 +82,7 @@
           <div class="grid-content bg-purple ">{{'店铺/平台名称'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.PCLink}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.channelName}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -90,15 +90,15 @@
           <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.PCLink}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.PCLink  || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
+          <div class="grid-content bg-purple ">{{ '手机店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.appLink}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.appLink  || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -106,7 +106,7 @@
           <div class="grid-content bg-purple ">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessRange}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessRange || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -114,34 +114,46 @@
           <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods || '暂无数据'}}</div>
         </el-col>
       </el-row>
     </div>
-    <!--合同签订below-->
-    <el-row style="margin-top: 1.5em" class="border-top">
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark" style="margin: 1em 0">合同签订</div>
-      </el-col>
-    </el-row>
-    <!--content-->
-    <el-form ref="form" :inline="true" :model="form" label-width="80px" style="margin-top: 1em;text-align: center" :rules="formRules" class="demo-form-inline">
-      <el-form-item label="">
+    <!--合同签订below，签合同前-->
+    <div v-if="currentRow.channelStatus==100">
+      <el-row style="margin-top: 1.5em" class="border-top">
+        <el-col :span="24">
+          <div class="grid-content bg-purple-dark" style="margin: 1em 0">合同签订</div>
+        </el-col>
+      </el-row>
+      <!--content-->
+      <el-form ref="form" :inline="true" :model="form" label-width="80px" style="margin-top: 1em;text-align: center" :rules="formRules" class="demo-form-inline">
+        <el-form-item label="">
           <!--<el-button type="warning">纸质合同签订完毕<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
-        <el-date-picker
-          v-model="form.dateRange"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
-        </el-date-picker>
-      </el-form-item>
-          <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
-      <div class="dialogBottomButton-wrap">
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">确认提交</el-button>
-      </div>
-    </el-form>
+          <el-date-picker
+            v-model="form.dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
+        <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
+        <div class="dialogBottomButton-wrap">
+          <el-button type="primary" @click="onSubmit" :loading="isSubmitting">确认提交</el-button>
+        </div>
+      </el-form>
+    </div>
 
+    <!--技术对接-->
+    <div v-if="currentRow.channelStatus==400">
+      <!--content-->
+      <el-form ref="form" :inline="true" :model="form" label-width="80px" style="margin-top: 1em;text-align: center" :rules="formRules" class="demo-form-inline">
+        <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
+        <div class="dialogBottomButton-wrap">
+          <el-button type="primary" @click="completeConnect" :loading="isSubmitting">完成系统对接，确认开通订货功能</el-button>
+        </div>
+      </el-form>
+    </div>
 
     <!-- viewImage -->
     <el-dialog :visible.sync="isViewImageShow" class="image-view" width="45%" append-to-body>
@@ -173,7 +185,8 @@
           resource: '',
           desc: ''
         },
-        imageSrc: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+//        imageSrc: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
+        imageSrc: '',
         isViewImageShow: false,
         isSubmitting: false,
         formRules: {}
@@ -197,11 +210,42 @@
           data: {
             channelNo: this.currentRow.channelNo,
             startTime: this.form.dateRange[0],
-            endTime: this.form.dateRange[1]
+            endTime: this.form.dateRange[1],
           }
-        }).then(() => {
-          this.$emit('submitSuccess')
-        }).catch(() => {
+        }).then((res) => {
+          if (res.errorCode==0) {
+            this.$alert('渠道号已开通，帐号和原始密码已经发送至渠道联系人手机号，请通知渠道依照短信指引激活帐号，交付保证金后开始安排技术对接。', '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$emit('submitSuccess')
+              }
+            });
+
+          }
+        } ).catch(() => {
+          this.$message.error('操作失败');
+          this.isSubmitting = false
+        })
+      },
+      completeConnect() {
+        this.isSubmitting = true
+        request({
+          url: '/channel/completeConnect.do',
+          method: 'post',
+          data: {
+            channelCode: this.currentRow.channelNo
+          }
+        }).then((res) => {
+          if (res.errorCode==0) {
+            this.$alert('渠道号已完成对接并开通订货功能。', '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$emit('submitSuccess')
+              }
+            });
+
+          }
+        } ).catch(() => {
           this.$message.error('操作失败');
           this.isSubmitting = false
         })

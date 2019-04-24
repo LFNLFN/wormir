@@ -130,6 +130,7 @@ const basicsMsgRules = {
   minOrderNumDiscountDL2: [{ required: true, type: 'number', message: "请填数字", trigger: "blur" }],
   declarationNum: [{ required: true, message: "必填", trigger: "blur" }],
   declarationSpecification:  [{ required: true, validator: valiDeclarationSpecification, trigger: "blur" }],
+  goodsImg: [{ required: true, message: "必填", trigger: "blur" }],
 }
 
 

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="货单号/渠道号/渠道名称/品牌名称/货单状态" v-model.trim="listQuery.searchText">
+                placeholder="货单号/渠道号/渠道名称/品牌名称" v-model.trim="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}

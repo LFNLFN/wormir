@@ -28,15 +28,6 @@
           <div class="grid-content bg-purple-light">{{ currentRow.channelType | channelType }}</div>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="5">
-          <div class="grid-content bg-purple">{{'渠道级别'}}</div>
-        </el-col>
-        <el-col :span="19">
-          <div class="grid-content bg-purple-light" v-if="currentRow.channelLevel">{{ currentRow.channelLevel | channelLevel }}</div>
-          <div class="grid-content bg-purple-light" v-else>{{ '暂无数据' }}</div>
-        </el-col>
-      </el-row>
     </div>
 
     <!--基本信息below-->
@@ -57,16 +48,16 @@
           <div class="grid-content bg-purple ">{{'身份证号码'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.idcardNo || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.identityCardNo || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5" style="min-height: 56px"><span>身份证正面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.idcardFront)"><img :src="currentRow.idcardFront" alt="身份证正面"
+        <el-col :span="7"><span @click="viewImage(currentRow.identityCardFront)"><img :src="currentRow.identityCardFront" alt="身份证正面"
                                                                   height="47px" width="47px"
                                                                   class="link-type form-photo-offset"></span></el-col>
         <el-col :span="5" style="min-height: 56px"><span>身份证反面: </span></el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.idcardBack)"><img :src="currentRow.idcardBack" alt="身份证反面"
+        <el-col :span="7"><span @click="viewImage(currentRow.identityCardContrary)"><img :src="currentRow.identityCardContrary" alt="身份证反面"
                                                                   height="47px" width="47px"
                                                                   class="link-type form-photo-offset"></span></el-col>
       </el-row>
@@ -85,7 +76,7 @@
           <div class="grid-content bg-purple ">{{'公司简介'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{ currentRow.companySummary || '暂无数据' }}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.companyProfile || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row v-if="currentRow.businessEntity==2">
@@ -143,7 +134,7 @@
           <div class="grid-content bg-purple ">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessRange  || '暂无数据'}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessRange || '暂无数据'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -151,7 +142,7 @@
           <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods  || '暂无数据'}}</div>
+          <div class="grid-content bg-purple-light ">{{currentRow.businessGoods || '暂无数据'}}</div>
         </el-col>
       </el-row>
     </div>
@@ -160,8 +151,8 @@
     <el-table
       border
       :data="contactData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+     >
       <el-table-column
         prop="position"
         label="职务"
@@ -212,12 +203,12 @@
       </el-table-column>
     </el-table>
     <!--合同信息below-->
-    <h3 class="form-part-title">合同信息</h3>
+    <h3 class="form-part-title" v-if="currentRow.channelStatus!=100">合同信息</h3>
     <el-table
+      v-if="currentRow.channelStatus!=100"
       border
       :data="contractData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px">
       <el-table-column
         prop="contractNo"
         label="合同编号"

@@ -2,11 +2,9 @@
   <div class="app-container">
     <el-table :data="list"
               v-loading="listLoading" element-loading-text="给我一点时间"
-              border fit highlight-current-row
-              class="noBorder"
-              style="width: 100%;border-left: solid 2px #D5D5D5">
+              border style="width: 100%;border-left: solid 2px #D5D5D5;border-top: solid 2px #D5D5D5">
       <el-table-column
-        prop="channelNum"
+        prop="channelNo"
         label="渠道号"
         width="200"
         align="center">
@@ -50,14 +48,14 @@
         align="center"
         width="100">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.currentLevelStatus].text }}</span>
+          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center" label="级别变化"
         width="100" prop="levelChange">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.lastLevelStatus].text.substr(0,1) }} → {{ channelLevelMap[scope.row.currentLevelStatus].text.substr(0,1) }}</span>
+          <span>{{ channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -65,9 +63,9 @@
         width="100" prop="changeType"
         class-name="last-col">
         <template slot-scope="scope">
-          <span v-if="scope.row.currentLevelStatus > scope.row.lastLevelStatus">{{ '升级' }}</span>
-          <span v-if="scope.row.currentLevelStatus === scope.row.lastLevelStatus">{{ '平级' }}</span>
-          <span v-if="scope.row.currentLevelStatus < scope.row.lastLevelStatus">{{ '降级' }}</span>
+          <span v-if="scope.row.channelLevel > scope.row.prevChannelLevel">{{ '升级' }}</span>
+          <span v-if="scope.row.channelLevel === scope.row.prevChannelLevel">{{ '平级' }}</span>
+          <span v-if="scope.row.channelLevel < scope.row.prevChannelLevel">{{ '降级' }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -77,7 +75,7 @@
           <div style="display: flex;justify-content: flex-start" class="select-item">
             <div class="select-title">品牌选择</div>
             <div class="select-content">
-              <el-select v-model="brandValue" placeholder="请选择品牌" class="noBorderInput">
+              <el-select v-model="brandValue" placeholder="请选择品牌" class="noBorderInput" @change="brandValueChange">
                 <el-option
                   v-for="item in brandOptions"
                   :key="item.value"
@@ -173,19 +171,19 @@
       return {
         brandOptions: [
           {
-            value: 0,
-            label: 'AESOP'
+            value: 10002,
+            label: 'Dior'
           },
           {
-            value: 1,
-            label: 'BONPOINT'
+            value: 10003,
+            label: 'test'
           },
           {
-            value: 2,
-            label: 'ORDINARY'
+            value: 10005,
+            label: 'OLAY'
           }
         ],
-        brandValue: 0,
+        brandValue: null,
         monthOptions: [
           {
             value: 1,
@@ -333,6 +331,9 @@
         })
 
         return sums
+      },
+      brandValueChange(val) {
+
       },
       getChannel() {
         this.list.push(this.currentRow)

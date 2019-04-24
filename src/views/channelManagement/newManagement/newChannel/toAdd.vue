@@ -25,14 +25,14 @@
               <el-radio label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">
-            <el-radio-group v-model="form.channelLevel">
-              <el-radio label="1">A级渠道</el-radio>
-              <el-radio label="2">B级渠道</el-radio>
-              <el-radio label="3">C级渠道</el-radio>
-              <el-radio label="4">D级渠道</el-radio>
-            </el-radio-group>
-          </el-form-item>
+          <!--<el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">-->
+            <!--<el-radio-group v-model="form.channelLevel">-->
+              <!--<el-radio label="1">A级渠道</el-radio>-->
+              <!--<el-radio label="2">B级渠道</el-radio>-->
+              <!--<el-radio label="3">C级渠道</el-radio>-->
+              <!--<el-radio label="4">D级渠道</el-radio>-->
+            <!--</el-radio-group>-->
+          <!--</el-form-item>-->
         </dd>
       </dl>
 
@@ -93,7 +93,7 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="" style="padding: 10px 0;" class="idCardUpload">
+          <el-form-item v-if="form.businessEntity==2 && form.channelType>1" label="" style="padding: 10px 0;" class="idCardUpload">
             <el-col :span="0"></el-col>
             <el-col :span="11" class="no-border-right">
               <el-form-item prop="businessLicense" label="营业执照" label-width="100px" class="form-row idCardLabel"
@@ -297,7 +297,7 @@
 
   export default {
     data() {
-      
+
       return {
         form: {
           cooperativeType: '',
@@ -317,7 +317,7 @@
           companySummary: '',
           legalPerson: '',
           companyAddress: '',
-          
+
           contactData: [{
             position: '',
             userName: '',
@@ -476,11 +476,11 @@
         })
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg'
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
         const isLt2M = file.size / 1024 / 1024 < 10
 
         if (!isJPG) {
-          this.$message.error('上传图片只能是 JPG 格式!')
+          this.$message.error('上传图片只能是 JPG 或 PNG 格式!')
         }
         if (!isLt2M) {
           this.$message.error('上传图片大小不能超过 10MB!')
@@ -489,7 +489,6 @@
       },
 
       submitAction() {
-        
         // 验证渠道联系人和技术对接人
         let channelContactPerson = this.form.contactData.some((item, index, arr) => {
           return item.position == 1
@@ -550,7 +549,12 @@
               method: 'post',
               data: this.form
             }).then(() => {
-              this.$emit('submitSuccess')
+              this.$alert('渠道资料完成提交，已进入“待签合同”流程，可在『新增渠道』列表页搜索查看。', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$emit('submitSuccess')
+                }
+              });
             }).catch(() => {
               this.$message.error('新增失败');
               this.isSubmitting = false

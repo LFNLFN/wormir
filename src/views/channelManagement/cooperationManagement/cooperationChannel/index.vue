@@ -11,7 +11,7 @@
         <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" style="width: 100%" class="border2">
+    <el-table border :data="channelTableData" style="width: 100%;border-width:2px" class="border2">
       <el-table-column
         prop="channelNum"
         label="渠道号"
@@ -48,20 +48,20 @@
           <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="channelProp"
-        label="渠道属性"
-        align="center"
-        min-width="100"
-        :filters="channelPropFilters"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <div
-            style="min-width: 4em;margin: 0 auto"
-          >{{ channelPropMap[scope.row.channelProp].text }}</div>
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--prop="channelProp"-->
+        <!--label="渠道属性"-->
+        <!--align="center"-->
+        <!--min-width="100"-->
+        <!--:filters="channelPropFilters"-->
+        <!--:filter-method="filterHandler"-->
+      <!--&gt;-->
+        <!--<template slot-scope="scope">-->
+          <!--<div-->
+            <!--style="min-width: 4em;margin: 0 auto"-->
+          <!--&gt;{{ channelPropMap[scope.row.channelProp].text }}</div>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
@@ -71,7 +71,7 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span>{{ scope.row.channelProp == 4 ? channelLevelMap[scope.row.channelLevel].text : '--' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="contractPeriod" label="合同期限" align="center" min-width="110">
@@ -94,9 +94,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="filterForm.currentPage"
+        :current-page="filterForm.page"
         :page-sizes="[10, 20, 30, 50]"
-        :page-size="filterForm.page_size"
+        :page-size="filterForm.limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="filterForm.total"
       ></el-pagination>
@@ -155,9 +155,9 @@ export default {
       isManagementShow: false,
       filterForm: {
         searchText: '',
-        openDate: '',
-        currentPage: 1,
-        page_size: 10,
+        openedDate: '',
+        page: 1,
+        limit: 10,
         total: 0
       },
       channelTableData: [],
@@ -210,46 +210,46 @@ export default {
         1000: { text: '已开通', value: 1000 },
       },
       cooperationTypeFilters: [
-        { text: '渠道入驻', value: 0 },
-        { text: '渠道变更', value: 1 }
+        { text: '渠道入驻', value: 1 },
+        { text: '渠道变更', value: 2 }
       ],
       cooperationTypeMap: {
-        0: { text: '渠道入驻', value: 0 },
-        1: { text: '渠道变更', value: 1 }
+        1: { text: '渠道入驻', value: 1 },
+        2: { text: '渠道变更', value: 2 }
       },
       channelTypeFilters: [
-        { text: '淘宝C店', value: 0 },
-        { text: '淘宝企业店', value: 1 },
-        { text: '天猫店', value: 2 },
-        { text: 'B2C平台', value: 3 },
+        { text: '淘宝C店', value: 1 },
+        { text: '淘宝企业店', value: 2 },
+        { text: '天猫店', value: 3 },
+        { text: 'B2C平台', value: 4 },
       ],
       channelTypeMap: {
-        0: { text: '淘宝C店', value: 0 },
-        1: { text: '淘宝企业店', value: 1 },
-        2: { text: '天猫店', value: 2 },
-        3: { text: 'B2C平台', value: 3 },
+        1: { text: '淘宝C店', value: 1 },
+        2: { text: '淘宝企业店', value: 2 },
+        3: { text: '天猫店', value: 3 },
+        4: { text: 'B2C平台', value: 4 },
       },
       channelPropFilters: [
-        { text: '独立渠道(DLQD)', value: 0 },
-        { text: '代发渠道(DFQD)', value: 1 },
-        { text: '分销渠道(FXQD)', value: 2 }
+        { text: '独立渠道(DLQD)', value: 1 },
+        { text: '代发渠道(DFQD)', value: 2 },
+        { text: '分销渠道(FXQD)', value: 3 }
       ],
       channelPropMap: {
-        0: { text: '独立渠道(DLQD)', value: 0 },
-        1: { text: '代发渠道(DFQD)', value: 1 },
-        2: { text: '分销渠道(FXQD)', value: 2 },
+        1: { text: '独立渠道(DLQD)', value: 1 },
+        2: { text: '代发渠道(DFQD)', value: 2 },
+        3: { text: '分销渠道(FXQD)', value: 3 },
       },
       channelLevelFilters: [
-        { text: 'A级渠道', value: 0 },
-        { text: 'B级渠道', value: 1 },
-        { text: 'C级渠道', value: 2 },
-        { text: 'D级渠道', value: 3 }
+        { text: 'A级渠道', value: 1 },
+        { text: 'B级渠道', value: 2 },
+        { text: 'C级渠道', value: 3 },
+        { text: 'D级渠道', value: 4 }
       ],
       channelLevelMap: {
-        0: { text: 'A级渠道', value: 0 },
-        1: { text: 'B级渠道', value: 1 },
-        2: { text: 'C级渠道', value: 2 },
-        3: { text: 'D级渠道', value: 3 },
+        1: { text: 'A级渠道', value: 1 },
+        2: { text: 'B级渠道', value: 2 },
+        3: { text: 'C级渠道', value: 3 },
+        4: { text: 'D级渠道', value: 4 },
       }
     }
   },
@@ -258,12 +258,7 @@ export default {
       request({
         url: '/channel/cooperateChannelList.do',
         method: 'post',
-        data: {
-          page: 1,
-          limit: 10,
-          searchText: '',
-          openedDate: null
-        }
+        data: this.filterForm,
       }).then((res) => {
         this.channelTableData = res.data.items
         this.filterForm.total = res.data.total
@@ -279,7 +274,7 @@ export default {
           this.channelTableData = res.data
           this.filterForm.total = res.data.length
         })
-      this.filterForm.page_size = val
+      this.filterForm.limit = val
     },
     handleCurrentChange(val) {
       channel_BlurSearch_withTime(this.filterForm.value1, null, val)
@@ -287,7 +282,7 @@ export default {
           this.channelTableData = res.data
           this.filterForm.total = res.data.length
         })
-      this.filterForm.currentPage = val
+      this.filterForm.page = val
     },
     filterHandler(value, row, column) {
       const property = column['property']

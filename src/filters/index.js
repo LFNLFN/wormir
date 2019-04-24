@@ -91,6 +91,7 @@ export function channelLevel(value) {
 // 合同状态
 export function contractStatus(value) {
   const statusMap = {
+    10: '未生效',
     100: '生效',
     '-100': '到期终止',
     '-200': '提前终止',
