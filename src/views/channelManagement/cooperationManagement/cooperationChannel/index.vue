@@ -85,8 +85,8 @@
       <el-table-column prop="openedDate" label="开通时间" align="center" min-width="110"></el-table-column>
       <el-table-column label="操作" align="center" min-width="140">
         <template slot-scope="scope">
-          <el-button size="mini" @click="showManagement(scope.row)">去管理</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)">强制注销</el-button>
+          <!--<el-button size="mini" @click="showManagement(scope.row)">去管理</el-button>-->
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)">终止渠道</el-button>
         </template>
       </el-table-column>
     </el-table>

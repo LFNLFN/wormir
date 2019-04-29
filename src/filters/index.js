@@ -50,7 +50,7 @@ export function businessEntity(value) {
   return statusMap[value]
 }
 // 渠道属性
-export function channelProp(value) {
+export function channelPropFilter(value) {
   const statusMap = {
     1: 'DLQD(独立渠道)',
     2: 'DFQD(代发渠道)',
@@ -60,7 +60,7 @@ export function channelProp(value) {
   return statusMap[value]
 }
 // 渠道属性
-export function cooperationType(value) {
+export function cooperationTypeFilter(value) {
   const statusMap = {
     1: '渠道入驻',
     2: '渠道变更',
@@ -84,6 +84,7 @@ export function channelLevel(value) {
     2: 'B级渠道',
     3: 'C级渠道',
     4: 'D级渠道',
+    5: '--',
   }
   return statusMap[value]
 }
@@ -197,6 +198,63 @@ export function goodsStatusFilter(value) {
   const statusMap = {
     1: '正常销售',
     2: '停止销售',
+  }
+  return statusMap[value]
+}
+
+// 渠道状态
+export function channelStatusFilter(value) {
+  const statusMap = {
+    50: '待审核',
+    '-50': '待审核',
+    100: '待签合同',
+    '-100': '停止签合同',
+    200: '待激活账号',
+    '-200': '停止激活账号',
+    300: '待付保证金',
+    '-300': '停止付保证金',
+    400: '待接系统',
+    '-400': '停止接系统',
+  }
+  return statusMap[value]
+}
+
+// 渠道终止类型
+export function channelTerminationTypeFilter(value) {
+  const statusMap = {
+    '-100': '到期终止',
+    '-200': '提前终止',
+    '-300': '违规终止',
+    '-400': '强制终止',
+  }
+  return statusMap[value]
+}
+
+// 技术对接类型
+export function technologyTransferStatusFilter(value) {
+  const statusMap = {
+    '-1': '未对接系统',
+    1: '已对接系统',
+  }
+  return statusMap[value]
+}
+
+// 合同属性类型
+export function contractSigningTypeFilter(value) {
+  const statusMap = {
+    1: '首次签订',
+    2: '再次签订',
+  }
+  return statusMap[value]
+}
+
+// 渠道终止类型
+export function channelTypeFilter(value) {
+  const statusMap = {
+    1: '淘宝C店',
+    2: '淘宝企业店',
+    3: '天猫店',
+    4: 'B2C平台',
   }
   return statusMap[value]
 }

@@ -17,6 +17,7 @@ import './errorLog'// error log
 import './permission' // permission control
 // import './mock' // simulation data
 import request from './utils/request'
+import moment from 'moment'
 import * as filters from './filters' // global filters
 
 Vue.use(Element, {
@@ -31,6 +32,7 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 Vue.prototype.$request = request
+Vue.prototype.$moment = moment
 
 new Vue({
   el: '#app',
