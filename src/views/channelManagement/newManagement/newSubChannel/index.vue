@@ -54,7 +54,7 @@
         :filters="channelPropFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <div style="min-width: 5em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
+          <div style="min-width: 5em;margin: 0 auto">{{ scope.row.channelProp | channelPropFilter }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -65,7 +65,7 @@
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span>{{ scope.row.channelLevel | channelLevel }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -256,15 +256,12 @@
           },
         ],
         channelCodeFilters: [
-          { text: 'DLQD', value: 0 },
-          { text: 'DFQD', value: 1 },
-          { text: 'FXQD', value: 2 }
+          { text: 'DLQD', value: 1 },
+          { text: 'DFQD', value: 2 },
+          { text: 'FXQD', value: 3 },
+          { text: 'FXZQD', value: 4 },
+          { text: '--', value: 5 },
         ],
-        channelCodeMap: {
-          0: { text: 'DLQD', value: 0 },
-          1: { text: 'DFQD', value: 1 },
-          2: { text: 'FXQD', value: 2 }
-        },
         channelStatusFilters: [
           { text: '待审核', value: 50 },
           { text: '停止审核', value: -50 },
@@ -277,47 +274,19 @@
           { text: '驳回申请', value: -40 },
           { text: '审核不通过', value: -40 },
         ],
-        channelStatusMap: {
-          50: { text: '待审核', value: 50 },
-          '-50': { text: '停止审核', value: -50 },
-          100: { text: '待签合同', value: 100 },
-          '-100': { text: '停止合同', value: -100 },
-          200: { text: '待激活', value: 200 },
-          300: { text: '待付保证金', value: 300 },
-          '-300': { text: '待付保证金', value: -300 },
-          400: { text: '待接系统', value: 400 },
-          '-400': { text: '停止接系统', value: -400 },
-          '-40': { text: '审核不通过', value: -40},
-//          4: { text: '驳回申请', value: 4 },
-//          5: { text: '停止审核', value: 5 },
-//          6: { text: '停止签合同', value: 6 }
-        },
         channelPropFilters: [
           { text: '分销子渠道(FXZQD)', value: 4 },
         ],
-        channelPropMap: {
-          4: { text: '分销子渠道(FXZQD)', value: 4 },
-        },
         cooperationTypeFilters: [
           { text: '渠道入驻', value: 1 },
           { text: '渠道变更', value: 2 }
         ],
-        cooperationTypeMap: {
-          1: { text: '渠道入驻', value: 1 },
-          2: { text: '渠道变更', value: 2 }
-        },
         channelTypeFilters: [
           { text: '淘宝C店', value: 1 },
           { text: '淘宝企业店', value: 2 },
           { text: '天猫店', value: 3 },
           { text: 'B2C平台', value: 4 },
         ],
-        channelTypeMap: {
-          1: { text: '淘宝C店', value: 1 },
-          2: { text: '淘宝企业店', value: 2 },
-          3: { text: '天猫店', value: 3 },
-          4: { text: 'B2C平台', value: 4 },
-        },
         channelLevelFilters: [
           { text: 'A级渠道', value: 1 },
           { text: 'B级渠道', value: 2 },
@@ -325,13 +294,6 @@
           { text: 'D级渠道', value: 4 },
           { text: '--', value: 0 },
         ],
-        channelLevelMap: {
-          1: { text: 'A级渠道', value: 1 },
-          2: { text: 'B级渠道', value: 2 },
-          3: { text: 'C级渠道', value: 3 },
-          4: { text: 'D级渠道', value: 4 },
-          0: { text: '--', value: 0 },
-        },
         isConfirmShow: false,
         isCheckShow: false,
         isDeleteShow: false,

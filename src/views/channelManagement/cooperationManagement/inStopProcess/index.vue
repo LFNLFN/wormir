@@ -252,8 +252,9 @@ export default {
           url: '/channel/cancellationStatusChange.do',
           method: 'post',
           data: {
-            channelNo: row.channelNo,
-            cancellationStatus: 2
+            channelNo: this.currentRow.channelNo,
+            cancellationStatus: 2,
+            historyData: this.currentRow
           },
         }).then((res) => {
           if (res.errorCode==0) {

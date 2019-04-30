@@ -11,7 +11,7 @@
         <el-button type="success" icon="el-icon-plus" @click="showAdd">新增渠道</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" style="width: 100%;border-left-width: 2px;border-top-width: 2px">
+    <el-table border :data="channelTableData" style="width: 100%;border-left-width: 2px;border-top-width: 2px" v-loading="listLoading">
       <el-table-column prop="channelNum" label="渠道号" min-width="130" align="center"></el-table-column>
       <el-table-column prop="channelCode" label="渠道名称" min-width="100" align="center">
         <template slot-scope="scope">

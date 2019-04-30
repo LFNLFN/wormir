@@ -2434,7 +2434,10 @@
         </el-table-column>
       </el-table>
     </template>
-
+    <!--viewImage-->
+    <el-dialog :visible.sync="isViewImageShow" class="image-view" width="75%" append-to-body>
+      <img :src="imageViewed" alt="" width="100%">
+    </el-dialog>
   </div>
 </template>
 

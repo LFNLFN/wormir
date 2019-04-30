@@ -118,6 +118,53 @@
         </el-col>
       </el-row>
     </div>
+
+    <h3 class="form-part-title">联系方式</h3>
+    <el-table
+      border
+      :data="contactData"
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+      class="border-top2 border-left2 border-right2">
+      <el-table-column
+        prop="dutyNo"
+        label="职务"
+        align="center"
+        min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.dutyNo | job }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="userName"
+        label="姓名"
+        align="center"
+        min-width="80">
+      </el-table-column>
+      <el-table-column
+        prop="mobile"
+        label="电话"
+        align="center"
+        min-width="90">
+      </el-table-column>
+      <el-table-column
+        prop="email"
+        label="邮箱"
+        align="center"
+        min-width="110">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="地址"
+        align="center"
+        min-width="140">
+      </el-table-column>
+      <el-table-column
+        prop="remark"
+        label="备注"
+        align="center"
+        min-width="100">
+      </el-table-column>
+    </el-table>
     <!--合同签订below，签合同前-->
     <div v-if="currentRow.channelStatus==100">
       <el-row style="margin-top: 1.5em" class="border-top">
@@ -185,11 +232,11 @@
           resource: '',
           desc: ''
         },
-//        imageSrc: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
         imageSrc: '',
         isViewImageShow: false,
         isSubmitting: false,
-        formRules: {}
+        formRules: {},
+        contactData: []
       }
     },
     methods: {
@@ -204,6 +251,13 @@
           this.isSubmitting = false
           return false
         }
+        let clientPhone = []
+        this.contactData.forEach((e,i,s) => {
+          clientPhone.push(e.mobile)
+        })
+        clientPhone = clientPhone.filter((e,i,s) => {
+          return s.indexOf(e) == i
+        })
         request({
           url: '/channel/createContract.do',
           method: 'post',
@@ -211,6 +265,7 @@
             channelNo: this.currentRow.channelNo,
             startTime: this.form.dateRange[0],
             endTime: this.form.dateRange[1],
+            phone: clientPhone,
           }
         }).then((res) => {
           if (res.errorCode==0) {
@@ -251,14 +306,8 @@
         })
       }
     },
-    filters: {
-      businessEntity: function(value) {
-        const statusMap = {
-          1: '个人',
-          2: '企业',
-        }
-        return statusMap[value]
-      }
+    created() {
+      this.contactData = this.currentRow.contactData
     }
   }
 </script>
