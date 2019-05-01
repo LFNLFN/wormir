@@ -51,17 +51,17 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="100px" prop="identityCardNo"
+          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="130px" prop="identityCardNo"
                         class="form-row idCardCode last-form-row">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="100px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="130px" class="form-row idCardCode"
                         prop="companyName">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
                       placeholder="请输入公司名称"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="100px"
+          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="130px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
@@ -98,22 +98,18 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2 && (form.channelType>1 || form.channelProp==3)" label="" style="padding: 10px 0;" class="idCardUpload">
-            <el-col :span="0"></el-col>
-            <el-col :span="11" class="no-border-right">
-              <el-form-item prop="businessLicense" label="营业执照" label-width="100px" class="form-row idCardLabel"
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadBusinessLicenseAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.businessLicense" :src="form.businessLicense" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
+          <el-form-item v-if="form.businessEntity==2 && (form.channelType>1 || form.channelProp==3)" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
+                        style="border: none;">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadBusinessLicenseAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.businessLicense" :src="form.businessLicense" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="法人" label-width="130px" class="form-row idCardCode"
                         prop="legalPerson">
