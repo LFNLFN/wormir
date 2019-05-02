@@ -66,38 +66,35 @@
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==1" label="" style="padding: 10px 0;" class="idCardUpload">
-            <el-col :span="0"></el-col>
-            <el-col :span="11" class="no-border-right">
-              <el-form-item prop="identityCardFront" label="身份证正面" label-width="100px" class="form-row idCardLabel"
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadfrontAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.identityCardFront" :src="form.identityCardFront" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
-            <el-col :span="0"></el-col>
-            <el-col :span="11">
-              <el-form-item prop="identityCardContrary" label="身份证反面" label-width="100px" class="form-row idCardLabel "
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadBackAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.identityCardContrary" :src="form.identityCardContrary" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
+
+
+          <el-form-item v-if="form.businessEntity==1" prop="identityCardFront" label="身份证正面" label-width="129px" class="form-row idCardLabel"
+                        style="border-top: none;border-bottom: solid #D5D5D5 1px;border-left: solid #D5D5D5 1px">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadfrontAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.identityCardFront" :src="form.identityCardFront" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
+          <el-form-item v-if="form.businessEntity==1" prop="identityCardContrary" label="身份证反面" label-width="129px" class="form-row idCardLabel "
+                        style="border-top: none;border-left: solid #D5D5D5 1px">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadBackAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.identityCardContrary" :src="form.identityCardContrary" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+
           <el-form-item v-if="form.businessEntity==2 && (form.channelType>1 || form.channelProp==3)" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
                         style="border: none;">
             <el-upload
