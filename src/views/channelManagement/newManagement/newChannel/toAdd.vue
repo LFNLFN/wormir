@@ -96,7 +96,7 @@
           </el-form-item>
 
           <el-form-item v-if="form.businessEntity==2 && (form.channelType>1 || form.channelProp==3)" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
-                        style="border: none;">
+                        style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
               class="avatar-uploader"
