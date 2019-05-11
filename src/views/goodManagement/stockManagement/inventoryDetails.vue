@@ -10,19 +10,23 @@
         v-loading="brandListLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%;"
     class="no-border-bottom border-left2 border-top2">
       <el-table-column align="center" label="品牌序列号" prop="brandNo"/>
-      <el-table-column align="center" label="品牌名称（中文）" prop="brandChineseName" />
       <el-table-column align="center" label="品牌名称（英文）" prop="brandEnglishName" />
-      <el-table-column align="center" label="商品名称（中文）" prop="goodsChineseName" />
+      <el-table-column align="center" label="品牌名称（中文）" prop="brandChineseName" />
+      <el-table-column align="center" label="商品名称（英文）" prop="goodsEnglishName" />
     </el-table>
     <el-table :data="list" border fit highlight-current-row
         v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
               class="no-border-bottom no-border-top border-left2">
-      <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
-      <el-table-column align="center" :label="$t('product.productName')" prop="goodsEnglishName" />
-      <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish" />
-      <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification" />
+      <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNoForBrand"/>
+      <el-table-column align="center" label="商品名称（中文）" prop="goodsChineseName" />
+      <el-table-column align="center" label="商品规格" prop="specificationChinese" />
+      <el-table-column align="center" :label="$t('order.packageSpecification')" prop="packageSpecificationZh" />
       <el-table-column align="center" label="箱型编号" prop="cartonSizeId" />
-      <el-table-column align="center" label="箱子尺寸" prop="cartonSize" />
+      <el-table-column align="center" label="箱子尺寸" width="160">
+        <template slot-scope="scope">
+          {{ cartonSize(scope.row.cartonParam) }}
+        </template>
+      </el-table-column>
     </el-table>
     <el-table :data="prodcutCodeList" size="mini"
               border fit highlight-current-row
@@ -32,16 +36,21 @@
               style="width: 100%"
               class="no-border-top border-left2"
               :span-method="objectSpanMethod"
+              :max-height="300"
               >
       <el-table-column align="center" label="已入库" >
         <el-table-column align="center" label="箱码" prop="boxCode"/>
-        <el-table-column align="center" label="首次装箱的商品码" prop="sourceCode"/>
+        <el-table-column align="center" label="商品码" prop="sourceCode"/>
         <el-table-column align="center" label="入库时间" >
           <template slot-scope="scope">{{scope.row.warehouseEntryTime}}</template>
         </el-table-column>
         <el-table-column align="center" label="操作账号" prop="createUserId"/>
         <el-table-column align="center" label="装箱数量">
-          <el-table-column align="center" label="(units)" prop="cartonCount"/>
+          <el-table-column align="center" label="(units)">
+            <template slot-scope="scope">
+              {{ scope.row.goodsNum / list[0].packageSpecificationZh.replace(/[^0-9]/ig, '') }}
+            </template>
+          </el-table-column>
         </el-table-column>
         <el-table-column align="center" label="商品数量">
           <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="goodsNum"/>
@@ -93,12 +102,13 @@ export default {
   },
   computed: {
     sumPackingQuantity() {
+      let sellingUnit = this.list[0].packageSpecificationZh.replace(/[^0-9]/ig, '')
       var totalAmount = 0
       for (var i = 0; i < this.prodcutCodeList.length; i++) {
         if (i === 0) {
-          totalAmount += this.prodcutCodeList[i].cartonCount
+          totalAmount += this.prodcutCodeList[i].goodsNum / sellingUnit
         } else if (this.prodcutCodeList[i].boxCode !== this.prodcutCodeList[i - 1].boxCode) {
-          totalAmount += this.prodcutCodeList[i].cartonCount
+          totalAmount += this.prodcutCodeList[i].goodsNum / sellingUnit
         }
       }
       return totalAmount
@@ -146,34 +156,46 @@ export default {
         }
       }
     },
-    getProdcutCodeList() {
-       this.productListLoading = true
+    getProdcutCodeList(goodsNo, cartonSizeId) {
+      this.prodcutCodeListst = []
+      this.spanArr = []
+      this.productListLoading = true
+
       this.$request({
-        url: '/goods/fetchSourceCode.do',
+        url: '/goods/inventoryDetail.do',
         method: 'post',
         data: {
-          'goodsNo': this.product.goodsNo
+          goodsNo: this.product.goodsNo,
+//          propertyOfSale: this.listQuery.propertyOfSale
         }
+      }).then((res) => {
+        this.prodcutCodeList = res.data.items
+        this.getSpanArr(this.prodcutCodeList)
+        this.productListLoading = false
+      }).catch(() => {
+        this.$message.error('Error');
+        this.productListLoading = false
       })
-        .then(response => {
-         const itemList = response.data.items
-         itemList.forEach(item => {
-           this.prodcutCodeList.push({
-             'boxCode': item.boxCode,
-             'sourceCode': item.sourceCode,
-             'warehouseEntryTime': item.createTime,
-             'cartonCount': 1,
-             'goodsNum': 0,
-             'createUserId': item.createUserId
-           })
-         })
-         this.productListLoading = false
-         this.getSpanArr(this.prodcutCodeList)
-         this.prodcutCodeList.forEach(element => {
-           element.goodsNum = this.spanArr[this.prodcutCodeList.indexOf(element)]
-        })
-       })
-        .catch(err => { console.log(err) })
+
+
+//      goodsSourceCodeJxcList(goodsNo, cartonSizeId).then(response => {
+//        const itemList = response.data.items
+//        itemList.forEach(item => {
+//          this.prodcutCodeList.push({
+//            'boxCode': item.boxCode,
+//            'sourceCode': item.sourceCode,
+//            'warehouseEntryTime': item.createTime,
+//            'cartonCount': 1,
+//            'goodsNum': 0,
+//            'createUserId': response.data.createUserId
+//          })
+//        })
+//        this.productListLoading = false
+//        this.getSpanArr(this.prodcutCodeList)
+//        this.prodcutCodeList.forEach(element => {
+//          element.goodsNum = this.spanArr[this.prodcutCodeList.indexOf(element)]
+//        })
+//      })
     },
     handleFilter() {
     },
@@ -212,7 +234,21 @@ export default {
       sums[4] = this.sumPackingQuantity
       sums[5] = this.sumproductQuantity
       return sums
-    }
+    },
+    cartonSize(cartonParam) {
+      let cartonSizeStr = ''
+      for (let key in cartonParam) {
+        if (key == 'id' || key == 'cartonNo') {
+          continue
+        }
+        if (key != 'weight') {
+          cartonSizeStr += [key] + ':' + cartonParam[key] + 'cm' + '\n'
+        } else {
+          cartonSizeStr += [key] + ':' + cartonParam[key] + 'kg'
+        }
+      }
+      return cartonSizeStr
+    },
   }
 }
 </script>

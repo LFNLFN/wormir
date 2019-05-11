@@ -14,9 +14,7 @@
           <div class="grid-content bg-purple">{{$t('brand.brandName')}}</div>
         </el-col>
         <el-col :span="21">
-          <div
-            class="grid-content bg-purple"
-          >{{brand.englishName}}&nbsp;&nbsp;&nbsp;{{brand.chineseName}}</div>
+          <div class="grid-content bg-purple">{{brand.englishName}}&nbsp;&nbsp;&nbsp;{{brand.chineseName}}</div>
         </el-col>
       </el-row>
     </div>
@@ -55,8 +53,8 @@
       show-summary
       v-loading="listLoading"
       element-loading-text="给我一点时间"
-      class="border-top2 border-left2 border-right2"
-      style="width: 100%"
+      style="width: 100%;border-top-width: 2px;border-left-width: 2px;"
+      :max-height="300"
     >
       <el-table-column align="center" label="箱码" prop="id" min-width="120px"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px">
@@ -175,9 +173,8 @@ export default {
       }
       return formatObj.y.toString() + formatObj.m.toString() + formatObj.d.toString() + formatObj.h.toString() + formatObj.i.toString() + formatObj.s.toString()
     },
-    handleFilter(value, row, column) {
-      const property = column['property'];
-      return row[property] === value;
+    handleFilter() {
+      this.getList()
     },
   }
 }

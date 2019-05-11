@@ -19,23 +19,16 @@
 
     <el-table
       :data="list"
-      v-loading="listLoading"
-      element-loading-text="给我一点时间"
-      border
-      fit
-      highlight-current-row
-      stripe
+      v-loading="listLoading" element-loading-text="给我一点时间"
+      border fit highlight-current-row
       size="mini"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right1"
+      style="width: 100%;border-top-width: 2px;border-left-width: 2px;"
     >
       <el-table-column
         align="center"
         label="品牌序列号"
         prop="brandNo"
         min-width="150"
-        :filters="[{text: 'LANCOM', value: 123456},{text: 'AESOP', value: 654321}]"
-        :filter-method="filterHandler"
       />
 
       <el-table-column
@@ -43,8 +36,6 @@
         label="品牌名称（中文）"
         prop="chineseName"
         min-width="140"
-        :filters="[{text: '兰蔻', value: '兰蔻'},{text: '伊索', value: '伊索'}]"
-        :filter-method="filterHandler"
       />
 
       <el-table-column
@@ -52,20 +43,18 @@
         label="品牌名称（英文）"
         prop="englishName"
         min-width="140"
-        :filters="[{text: 'LANCOM', value: 'LANCOM'},{text: 'AESOP', value: 'AESOP'}]"
-        :filter-method="filterHandler"
       />
 
-      <el-table-column align="center" label="原产国/产地" prop="brandOrigin" min-width="140"/>
+      <el-table-column align="center" label="原产国/产地" prop="productionPlaceChinese" min-width="140"/>
       <el-table-column
         prop="brandStatus"
         label="品牌状态"
         min-width="120"
-        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 0 }]"
+        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }]"
         :filter-method="filterHandler"
         align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.brandStatus? '正常供货' : '停止供货' }}</span>
+          <span>{{ scope.row.brandStatus | brandStatusFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -76,8 +65,8 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="productCodeDetail(scope.row)">查看商品码</el-button>
-          <el-button type="primary" size="mini" @click="boxCodeDetail(scope.row)">查看箱码</el-button>
+          <el-button type="primary" size="mini" @click="productCodeDetail(scope.row)" :disabled="scope.row.flow==2">查看商品码</el-button>
+          <el-button type="primary" size="mini" @click="boxCodeDetail(scope.row)" :disabled="scope.row.flow==2">查看箱码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -150,7 +139,7 @@ export default {
           this.listLoading = false
           this.$message.error('数据请求失败');
         })
-      
+
     },
     handleCurrentChange(val) {
       this.listQuery.page = val
@@ -165,6 +154,7 @@ export default {
       this.isBoxCodeDetailShow = true
     },
     handleFilter() {
+      this.getList()
     },
     handleSizeChange(val) {
       this.listQuery.limit = val

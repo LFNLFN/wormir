@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :inline="true" :model="filterForm" class="demo-form-inline" style="margin: 1em">
+    <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label>
         <el-input
           v-model="filterForm.goodSearchingMsg1"
@@ -13,9 +13,9 @@
       </el-form-item>
     </el-form>
     <el-table
-      border
+      border v-loading="listLoading"
       :data="goodTableData"
-      style="width: 100%"
+      style="width: 100%;border-width: 2px;border-right-width: 1px"
       class="border-top2 border-left2 border-right1"
     >
       <el-table-column
@@ -43,22 +43,7 @@
           <span>{{ brandName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="商品属性" width="100" align="center">
-        <template slot-scope="scope">
-          <span>{{goodsCategoryList[scope.row.propertyOfGoods]}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
-      <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
-      <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
-      <el-table-column prop="goodsNo" width="100" label="商品编号" align="center"></el-table-column>
-      <el-table-column
-        prop="goodsChineseName"
-        width="120"
-        label="商品名称-中文"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
+      <el-table-column prop="goodsNoForBrand" width="100" label="商品编号" align="center"></el-table-column>
       <el-table-column
         prop="goodsEnglishName"
         width="120"
@@ -66,29 +51,54 @@
         align="center"
         show-overflow-tooltip
       ></el-table-column>
-      <!-- <el-table-column
-        prop="goodStatus"
-        width="110"
-        label="商品状态"
-        :filters="[{ text: '待审核', value: '待审核' }, { text: '正常供货', value: '正常供货' }, { text: '停止供货', value: '停止供货' }]"
-        :filter-method="filterHandler"
+      <el-table-column
+        prop="goodsChineseName"
+        width="120"
+        label="商品名称-中文"
         align="center"
-      ></el-table-column>-->
-      <el-table-column width="110" label="商品状态" align="center">
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column label="商品组成" width="100" align="center" :filters="[{ text: '单品', value: 1 }, { text: '套组', value: 2 }]"
+                       :filter-method="filterHandler"  prop="makeUpOfGoods">
         <template slot-scope="scope">
-          <span>正常销售</span>
+          <span>{{ scope.row.makeUpOfGoods | makeUpOfGoodsFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="goodPrice" label="商品售价" width="100" align="center">
+      <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
+      <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
+      <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
+      <el-table-column label="商品属性" width="100" align="center" :filters="[{ text: '新品', value: 1 }, { text: '常规', value: 2 }, { text: '促销', value: 3 }]"
+                       :filter-method="filterHandler" prop="propertyOfGoods">
         <template slot-scope="scope">
-          <span>￥ {{ scope.row.unitPrice }}</span>
+          <span>{{scope.row.propertyOfGoods | propertyOfGoodsFilter}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="initialDiscount" label="起订折扣" width="100" align="center">
+      <el-table-column
+        prop="sublicense"
+        label="商品授权"
+        min-width="120"
+        :filters="[{ text: '转授权', value: 1 }, { text: '非转授权', value: 2 }]"
+        :filter-method="filterHandler"
+        align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.initialDiscount }}%</span>
+          <span>{{ scope.row.sublicense | sublicenseFilter }}</span>
         </template>
       </el-table-column>
+      <el-table-column width="110" label="商品状态" align="center" prop="goodStatus" :filters="[{ text: '正常销售', value: 1 }, { text: '停止销售', value: 2 }]" :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ scope.row.goodStatus | goodsStatusFilter }}</span>
+        </template>
+      </el-table-column>
+      <!--<el-table-column prop="goodPrice" label="商品售价" width="100" align="center">-->
+        <!--<template slot-scope="scope">-->
+          <!--<span>￥ {{ scope.row.unitPrice }}</span>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column prop="initialDiscount" label="起订折扣" width="100" align="center">-->
+        <!--<template slot-scope="scope">-->
+          <!--<span>{{ scope.row.initialDiscount }}%</span>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         prop="checkInTime"
         label="录入时间"
@@ -162,11 +172,13 @@ export default {
         2: '促销',
         3: '新品'
       },
-      selectedGoodsNo: undefined
+      selectedGoodsNo: undefined,
+      listLoading: false
     }
   },
   methods: {
     getList() {
+      this.listLoading = true
       request({
         url: '/brand/goodList.do',
         method: 'post',
@@ -174,6 +186,7 @@ export default {
       }).then(res => {
         this.goodTableData = res.data.items
         this.filterForm.total = res.data.total
+        this.listLoading = false
       })
     },
     handleSizeChange(val) {

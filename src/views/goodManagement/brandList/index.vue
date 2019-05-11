@@ -24,33 +24,77 @@
         fixed="left">
       </el-table-column>
       <el-table-column
-        prop="chineseName"
-        label="品牌名称（中文）"
-        min-width="100"
-        align="center">
-      </el-table-column>
-      <el-table-column
         prop="englishName"
         label="品牌名称（英文）"
         min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="brandStatus"
-        label="品牌状态"
+        prop="chineseName"
+        label="品牌名称（中文）"
         min-width="120"
-        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }, { text: '待定', value: 3 }]"
-        :filter-method="filterHandler_brandStatus"
         align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.brandStatus | brandStatusFilter }}</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop="productionPlaceChinese"
         label="原产国/产地"
         min-width="100"
         align="center">
+      </el-table-column>
+      <el-table-column
+        prop="contractStatus"
+        label="合同状态"
+        min-width="120"
+        :filters="[{ text: '自动续签', value: 100 }, { text: '到期终止', value: -100 }, { text: '提前终止', value: -200 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.contractStatus | contractStatus }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="brandStatus"
+        label="品牌状态"
+        min-width="120"
+        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }, { text: '待定', value: 3 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.brandStatus | brandStatusFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="sublicense"
+        label="品牌授权"
+        min-width="120"
+        :filters="[{ text: '转授权', value: 1 }, { text: '非转授权', value: 2 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sublicense | sublicenseFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="discountTargetObj"
+        label="供货类型"
+        min-width="120"
+        :filters="[{ text: '一般贸易', value: 1 }, { text: '跨境贸易', value: 2 }, { text: '一般贸易+跨境贸易', value: 3 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.discountTargetObj | discountTargetObjFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="flow"
+        label="系统使用"
+        min-width="120"
+        :filters="[{ text: '全部使用常规流程', value: 1 }, { text: '部分使用特殊流程', value: 2 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.flow | flowFilter }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="checkInTime"
@@ -235,7 +279,7 @@
           })
         this.filterForm.currentPage = val
       },
-      filterHandler_brandStatus(value, row, column) {
+      filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
       },
@@ -252,7 +296,7 @@
       showGoodManagement(row) {
         this.goodName = row.chineseName
         this.selectBrandNo = row.brandNo
-        this.selectBrandName = row.chineseName
+        this.selectBrandName = row.englishName
         this.isGoodManagementShow = true
       },
       submitCooperationTermination() {

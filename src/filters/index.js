@@ -93,7 +93,7 @@ export function channelLevel(value) {
 export function contractStatus(value) {
   const statusMap = {
     10: '未生效',
-    100: '生效',
+    100: '自动续签',
     '-100': '到期终止',
     '-200': '提前终止',
     '-300': '违规终止',
@@ -255,6 +255,43 @@ export function channelTypeFilter(value) {
     2: '淘宝企业店',
     3: '天猫店',
     4: 'B2C平台',
+  }
+  return statusMap[value]
+}
+
+// 品牌转授权类型
+export function sublicenseFilter(value) {
+  const statusMap = {
+    1: '转授权',
+    2: '非转授权',
+  }
+  return statusMap[value]
+}
+
+// 供货类型
+export function discountTargetObjFilter(value) {
+  const statusMap = {
+    1: '一般贸易',
+    2: '跨境贸易',
+    3: '一般贸易+跨境贸易',
+  }
+  return statusMap[value]
+}
+
+// 系统使用
+export function flowFilter(value) {
+  const statusMap = {
+    1: '全部使用常规流程',
+    2: '部分使用特殊流程',
+  }
+  return statusMap[value]
+}
+
+// 商品组成
+export function makeUpOfGoodsFilter(value) {
+  const statusMap = {
+    1: '单品',
+    2: '套组',
   }
   return statusMap[value]
 }

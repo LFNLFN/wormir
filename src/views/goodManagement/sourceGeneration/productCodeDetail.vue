@@ -28,7 +28,7 @@
         style="width: 400px;"
         class="filter-item"
         placeholder="商品码/操作账号/接收邮箱"
-        v-model="listQuery.keyword"
+        v-model="listQuery.searchText"
         size="mini"
       ></el-input>
       <el-button
@@ -41,22 +41,17 @@
       >{{$t('table.search')}}</el-button>
     </div>
 
-    <p style="margin-top: 0">已生成发送&nbsp;{{listQuery.total}}&nbsp;个商品码</p>
+    <p style="margin-top: 0">已生成发送&nbsp;{{ listQuery.total }}&nbsp;个商品码</p>
 
     <!--清单-->
     <el-table
       key="productList"
       :data="list"
-      border
-      fit
-      highlight-current-row
-      size="mini"
-      :summary-method="getSummaries"
-      show-summary
-      v-loading="listLoading"
-      element-loading-text="给我一点时间"
-      class="border-top2 border-left2 border-right2"
-      style="width: 100%"
+      border fit highlight-current-row size="mini"
+      :summary-method="getSummaries" show-summary
+      v-loading="listLoading" element-loading-text="给我一点时间"
+      style="width: 100%;border-top-width: 2px;border-left-width: 2px;"
+      :max-height="300"
     >
       <el-table-column align="center" label="商品码" min-width="120px" prop="id"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px" prop>
@@ -155,7 +150,7 @@ export default {
         window.open(row.filePath)
       }else {
         this.$message.error('文件路径有误')
-        
+
       }
     },
     resend(listObject) {
@@ -167,9 +162,8 @@ export default {
       sums[0] = this.list.length
       return sums
     },
-    handleFilter(value, row, column) {
-      const property = column['property'];
-      return row[property] === value;
+    handleFilter() {
+      this.getList()
     },
   }
 }
