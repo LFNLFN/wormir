@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-    <h2 :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">中断订货</h2>
+    <h2 v-if="currentRow.order_status==-110" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消待退订金</h2>
+    <h2 v-else-if="currentRow.order_status==-120" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消已退订金</h2>
+    <h2 v-else-if="currentRow.order_status==-150" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">缺货待退订金</h2>
+    <h2 v-else-if="currentRow.order_status==-160" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">缺货已退订金</h2>
     <div class="mainContent">
       <div class="filter-container theBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
         <el-row>
@@ -207,7 +210,6 @@
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <!-- <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input> -->
                       <span>{{scope.row.orderBoxNum}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
@@ -257,34 +259,61 @@
               </el-table-column>
             </el-table>
           </div>
+
           <!--补货表格-->
-          <div class="filter-container" style="padding-bottom: 0">
+          <div class="filter-container">
             <el-table key='replenishment' :data="order.replenishmentList" border fit
                       size="mini" :show-header="false"
                       style="width: 100%;border: 1px solid #d5d5d5;border-top:none;border-left-width: 2px"
-                      :span-method="arraySpanMethod"
                       class="orderTable" ref="replenishmentTable"
+                      :span-method="arraySpanMethod_replenishment"
                       :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}"
                       :cell-style="summaryCellStyle" :cell-class-name="summaryCellClass">
-              <el-table-column align="center" width="85" label="商品品牌" prop="brandName" />
+              <el-table-column
+                align="center"
+                width="85"
+                label="商品品牌"
+                prop="brandName"
+              />
               <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
                 <template slot-scope="scope">
-                  <el-popover v-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-50"
+                  <span v-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-110" class="text-muted">
+                    取消订货时间: {{ orderDetail.cancelOrderTime }}</span>
+                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-120"
+                    placement="right" title="" width="280" trigger="click"
+                  >
+                    <div class="text-muted">
+                      <p>{{'提交订单时间：' + orderDetail.orderCreateTime}}</p>
+                      <p>{{'支付订金时间：' + orderDetail.payEarnestTime}}</p>
+                      <p>{{'取消订货时间：' + orderDetail.cancelOrderTime}}</p>
+                      <p>{{'支付退款时间：' + orderDetail.depositRefundTime}}</p>
+                    </div>
+                    <el-button slot="reference" type="primary">操作时间记录</el-button>
+                  </el-popover>
+
+                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-150" class="text-muted">{{'取消订货时间：' + orderDetail.cancelOrderTime}}</span>
+                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-160"
                               placement="right" title="" width="280" trigger="click"
                   >
                     <div class="text-muted">
+                      <p>{{'提交订单时间：' + orderDetail.orderCreateTime}}</p>
                       <p>{{'支付订金时间：' + orderDetail.payEarnestTime}}</p>
-                      <p>{{'完成备货时间：' + orderDetail.completeStockUpTime}}</p>
-                      <p>{{'中断订货时间：' + orderDetail.cancelOrderTime}}</p>
+                      <p>{{'取消订货时间：' + orderDetail.cancelOrderTime}}</p>
+                      <p>{{'支付退款时间：' + orderDetail.depositRefundTime}}</p>
                     </div>
                     <el-button slot="reference" type="primary">操作时间记录</el-button>
                   </el-popover>
                   <span v-else-if="scope.$index===order.replenishmentList.length-1">{{ '原因: ' }}</span>
+                  <span v-else>{{ scope.row.goodsNo }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsChineseName">
                 <template slot-scope="scope">
-                  <span>渠道商超过期限未付余款，订货终止，订金不予退回。</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-110">{{ '等待备货时间过长，渠道商取消订货。' }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-120">{{ '等待备货时间过长，渠道商取消订货。' }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-150">{{ '不再备货，品牌商取消订货。' }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-160">{{ '不再备货，品牌商取消订货。' }}</span>
+                  <span v-else>{{ scope.row.goodsChineseName }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('product.productSpecification')"
@@ -312,7 +341,11 @@
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')" prop="tips">
                 <template slot-scope="scope">
-                  <!--<span>渠道商超过期限未付余款，订货终止，订金不予退回。</span>-->
+                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-110">退款将退回到您的账户余额，完成退款后可查看您账户余额的变化情况。</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-150">退款将退回到您的账户余额，完成退款后可查看您账户余额的变化情况。</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-120">退款已退回到您的账户余额，可查看您账户余额的变化情况。</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-160">退款已退回到您的账户余额，可查看您账户余额的变化情况。</span>
+                  <span v-else>{{ scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="120" class-name="units-wrap"
@@ -328,14 +361,12 @@
                   </el-row>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
+              <el-table-column align="center" width="140" :label="$t('price.startDiscount')" prop="tipsRight">
                 <template slot-scope="scope">
-                  <!--<div v-if="scope.$index===order.replenishmentList.length-2" class="text-total">{{-->
-                  <!--currentRow.channelClassify!==2?-->
-                  <!--'已付货款+跨境税金' : '70%余款' }} :-->
-                  <!--</div>-->
-                  <span v-if="scope.$index===order.replenishmentList.length-2&&currentRow.orderStatus===15" class="text-total">{{ '待退货款：' }}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.orderStatus===16" class="text-total">{{ '已退货款：' }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-110" class="text-total">{{'待退30%订金 : '}}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-120" class="text-total">{{'已退30%订金 : '}}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status===-150" class="text-total">{{'待退30%订金 : '}}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status===-160" class="text-total">{{'已退30%订金 : '}}</span>
                   <span v-else>{{scope.row.startDiscount}}%</span>
                 </template>
               </el-table-column>
@@ -346,15 +377,12 @@
               </el-table-column>
               <el-table-column width="140" align="center" :label="$t('price.orderUnitPrice')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">{{ '合计： ' }}</span>
-
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column width="140" align="center" :label="$t('order.orderAmount')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_channel_amount }}</span>
-                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+                  <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('order.thirtyPercentDeposit')">
@@ -371,6 +399,99 @@
       </div>
 
     </div>
+
+    <div>
+      <el-button v-if="currentRow.order_status==-150" class="filter-item" type="primary" style="margin-bottom: 0;" @click="goPayDeposit()">支付退款</el-button>
+    </div>
+
+    <el-dialog :visible.sync="cancelOrderSubmitVisible" width="30%" append-to-body :show-close="false">
+      <p style="text-align: center">该次订货已被取消，可在“停止订货”状态中查看详情。</p>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="cancelOrderSubmitVisible=false">知道了</el-button>
+      </div>
+    </el-dialog>
+
+    <!--点击去付订金-->
+    <el-dialog :visible.sync="payWindowVisible" width="30%" append-to-body :show-close="false">
+      <div style="text-align: center">
+        货单号:
+        <span>{{orderDetail.orderNo}}</span>
+      </div>
+      <div style="text-align: center;">账户余额: ￥{{ accountResidual.toFixed(2) }}</div>
+      <div style="text-align: center;">支付退款: ￥{{ currentRow.total_earnest_amount }}</div>
+      <div style="text-align: center" class="text-muted" v-if="accountResidual < currentRow.total_earnest_amount">提醒：帐户余额不足扣减 ，请先充值。</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="payWindowVisible=false">暂不</el-button>
+
+        <el-button type="primary" v-if="accountResidual >= currentRow.total_earnest_amount" @click="handlePaymentConfirm()">确认支付</el-button>
+        <el-button type="primary" v-else @click="goRecharge()">去充值</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 支付成功弹层 -->
+    <el-dialog
+      :visible.sync="completePaymentVisible"
+      width="36%"
+      append-to-body
+      :show-close="false"
+    >
+      <div style="text-align: center">
+        货单号
+        <span>{{currentRow.order_no}}</span> 已完成退款支付。
+        <br>当前帐户余额 ￥
+        <span>{{ (accountResidual - currentRow.total_earnest_amount).toFixed(2) }}</span>
+        <br>可在缺货已退订金状态项下『查看货单』。
+      </div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="completePayment">知道了</el-button>
+      </div>
+    </el-dialog>
+
+
+    <!--充值环节-->
+    <el-dialog :visible.sync="rechargeWindowVisible" width="35%" append-to-body :show-close="false">
+      <div style="text-align: center;">账户余额: ￥ {{accountResidual.toFixed(2)}}</div>
+      <div style="text-align: center;">
+        充值金额:
+        <span style="color: red">请充入不少于 ￥ {{(currentRow.total_earnest_amount-accountResidual).toFixed(2)}}</span>
+        <el-input v-model.number.lazy="rechargeAmount"></el-input>
+      </div>
+      <div style="text-align: center" class="text-danger">温馨提示：充值前请确保已绑定的银行卡有足够金额进行充值。</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeWindowVisible=false">暂不</el-button>
+        <el-button type="primary" @click="handleRechargeConfirm()">确认充值</el-button>
+        <!--<el-button type="primary" @click="handleRechargeFailConfirm()">确认充值(失败)</el-button>-->
+      </div>
+    </el-dialog>
+    <!--充值成功-->
+    <el-dialog
+      :visible.sync="rechargeSuccessVisible"
+      width="30%"
+      append-to-body
+      :show-close="false"
+    >
+      <div style="text-align: center">
+        已完成充值，当前帐户余额：¥
+        <span>{{accountResidual.toFixed(2)}}</span>，是否继续完成之前的订金支付？
+      </div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeSuccessVisible=false;payWindowVisible=false">否</el-button>
+        <el-button type="primary" @click="stayInGoPayDeposit()">是</el-button>
+      </div>
+    </el-dialog>
+    <!--充值失败-->
+    <el-dialog :visible.sync="rechargeFailVisible" width="30%" append-to-body :show-close="false">
+      <div style="text-align: center">
+        充值金额: ￥
+        <span>{{Number(rechargeAmount).toFixed(2)}}</span>
+        <span style="color: red">未完成充值！</span>
+      </div>
+      <div style="text-align: center" class="text-muted">说明：由于帐户绑定的银行卡余额不足，无法完成此次充值。请先确认银行卡金额充足再充值。</div>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="rechargeFailVisible=false;payWindowVisible=false">暂不</el-button>
+        <el-button type="primary" @click="rechargeAgain()">再去充值</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -393,9 +514,8 @@
       return {
         list: [],
         replenishmentList: [],
-        orderDetail: {}, // 存放订货表格数据
-        haveReplenishment: false,
         listLoading: false,
+        orderDetail: {}, // 存放订货表格数据
         payWay: '1',
         order: {
           replenishmentList: [
@@ -432,6 +552,16 @@
             }
           ],
         },
+        isCancelOrder: false,
+        cancelOrderSubmitVisible: false,
+        payWindowVisible: false,
+        accountResidual: 100,
+        deposit30: 2232,
+        completePaymentVisible: false,
+        rechargeWindowVisible: false,
+        rechargeAmount: 0,
+        rechargeSuccessVisible: false,
+        rechargeFailVisible: false,
         tableHeight: 0,
         rowLength: 0
       }
@@ -444,19 +574,67 @@
           data: { orderNo: this.currentRow.order_no }
         }).then(res => {
           this.orderDetail = res.data;
-          this.orderDetail.goodList.forEach((item, index, arr) => {
-            this.orderBoxNumTotal += item.orderBoxNum
-          })
+        })
+      },
+      handlePaymentConfirm() {
+        request({
+          url: "/order/orderStatusChange.do",
+          method: "post",
+          data: {
+            orderNo: this.currentRow.order_no,
+            statusChangeTo: -160, // 待备货
+          }
+        }).then(res => {
+          if (res.errorCode == 0) {
+            this.completePaymentVisible = true;
+            this.cancelOrderVisible = false;
+            this.payWindowVisible = false;
+          }
         });
       },
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      completePayment() {
+        this.$emit('orderStatusChange', -160)
+      },
+      goRecharge() {
+        this.rechargeWindowVisible = true;
+      },
+      handleRechargeConfirm() {
+        this.accountResidual += this.rechargeAmount;
+        this.rechargeSuccessVisible = true;
+        this.rechargeWindowVisible = false;
+      },
+      handleRechargeFailConfirm() {
+        this.accountResidual += this.rechargeAmount;
+        this.rechargeFailVisible = true;
+        this.rechargeWindowVisible = false;
+      },
+      stayInGoPayDeposit() {
+        this.rechargeSuccessVisible = false;
+        this.payWindowVisible = true;
+      },
+      rechargeAgain() {
+        this.rechargeAmount = 0;
+        this.deposit30 = 2232;
+        this.accountResidual = 100;
+        this.rechargeFailVisible = true;
+        this.rechargeWindowVisible = true;
+      },
+      goPayDeposit() {
+        this.payWindowVisible = true;
+      },
+      arraySpanMethod_replenishment({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 2) {
           if (columnIndex === 1) {
             return {
               rowspan: 1,
-              colspan: 10
+              colspan: 8
             }
-          } else if (columnIndex >= 10) {
+          } else if (columnIndex === 8) {
+            return {
+              rowspan: 1,
+              colspan: 4
+            }
+          } else if (columnIndex === 12) {
             return {
               rowspan: 1,
               colspan: 1
@@ -477,7 +655,17 @@
           } else if (columnIndex === 2) {
             return {
               rowspan: 1,
-              colspan: 12
+              colspan: 3
+            }
+          } else if (columnIndex === 5) {
+            return {
+              rowspan: 1,
+              colspan: 1
+            }
+          }  else if (columnIndex === 6) {
+            return {
+              rowspan: 1,
+              colspan: 8
             }
           } else {
             return {
@@ -489,7 +677,7 @@
       },
       summaryCellStyle({row, column, rowIndex, columnIndex}) {
         if (columnIndex == 1 && rowIndex == 0) {
-          return { textAlign: 'left' }
+            return { textAlign: 'left' }
         }
         else if (column.property == 'goodsChineseName') {
           return { textAlign: 'left' }
@@ -545,19 +733,11 @@
         cartonNo: '043524',
         packingSpecification: 24
       })
-      this.$nextTick(() => {
 
+      this.$nextTick(() => {
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
-
         this.rowLength = this.$refs['orderTable'].$el.offsetWidth
-
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 3].cells[0].style.textAlign = 'right'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 3].cells[1].style.textAlign = 'right'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 2].cells[0].style.textAlign = 'left'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 2].cells[1].style.textAlign = 'right'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
-
       })
     }
   }
@@ -587,4 +767,5 @@
   .orderTable .el-col {
     border-right: none;
   }
+
 </style>

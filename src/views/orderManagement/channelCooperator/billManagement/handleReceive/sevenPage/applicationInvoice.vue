@@ -7,7 +7,7 @@
       <el-table key='invoiceTable' :data="invoiceTableList" border fit
                 size="mini"
                 style="width: 100%"
-                class="orderTable border-left2 border-bottom border-right border-top2" ref="invoiceTable"
+                class="orderTable border-left2 border-bottom border-right2 border-top2" ref="invoiceTable"
                 :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
 
         <el-table-column align="center" min-width="100" label="货号" prop="goodsNo">

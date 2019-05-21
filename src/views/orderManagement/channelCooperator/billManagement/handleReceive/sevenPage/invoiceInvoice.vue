@@ -7,7 +7,7 @@
       <h5>TEL：852 3100 0001 （吾蜜电话，读取设置）</h5>
     </div>
     <h2 style="text-align: center">INVOICE</h2>
-    <div class="topTable theTopMsgBorder no-border-bottom" style="margin: 0 10%">
+    <div class="topTable theBorder no-border-bottom" style="margin: 0 10%">
       <el-row>
         <el-col :span="3">
           <div class="grid-content bg-purple">{{ 'TO：' }}</div>
@@ -55,7 +55,7 @@
       <el-table key='invoiceTable' :data="invoiceTableList" border fit
                 size="mini"
                 style="width: 100%"
-                class="orderTable border-left2 border-bottom border-right no-border-top" ref="invoiceTable"
+                class="orderTable border-left2 border-bottom border-right2 no-border-top" ref="invoiceTable"
                 :span-method="invoiceArraySpanMethod"
                 :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
 
@@ -447,42 +447,5 @@
 <style lang="scss" scoped>
   .topTitle.colFlex > * {
     margin: .25em;
-  }
-  .el-col {
-    border-radius: 0;
-  }
-  .el-col:nth-child(odd) {
-    background: #dff2fc;
-    color: #424242;
-    font-weight: 700;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .el-col:nth-child(odd):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .el-col:nth-child(even) {
-    color: #424242;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-  }
-  .el-col:nth-child(even):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .grid-content {
-    border: none;
-  }
-  .units-wrap .el-col {
-    border: none!important;
-    background-color: transparent;
-    font-weight: normal;
-  }
-  .units-wrap .el-input--medium .el-input__inner {
-    height: 24px;
-    line-height: 24px;
-    max-width: 40px;
   }
 </style>
