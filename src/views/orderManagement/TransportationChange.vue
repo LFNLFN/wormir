@@ -1,37 +1,30 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="110px">
+    <el-form ref="form" :model="form" label-width="110px" style="border: 1px solid #D5D5D5">
       <el-form-item :label="$t('mergeRefundOrders.orderNo')" class="form-row add-brand-row">
-        <div class="form-row-text">1212312</div>
+        <div class="form-row-text">{{ order.orderNo }}</div>
       </el-form-item>
       <el-form-item :label="$t('mergeRefundOrders.transportQuantity')" class="form-row add-brand-row">
-        <el-input v-model.number.lazy="form.transportQuantity" placeholder="请输入">
-          <template slot="append">pcs</template>
-        </el-input>
+        <div class="form-row-text">{{ order.orderNum }} pcs</div>
       </el-form-item>
       <el-form-item :label="$t('mergeRefundOrders.currentTransportation')" class="form-row add-brand-row">
-        <span class="form-row-text">空运</span>
+        <div class="form-row-text">{{ order.transportation | transportationFilterZh }}</div>
       </el-form-item>
-      <el-form-item :label="$t('mergeRefundOrders.quantityAtLeaseForTransportation')" class="form-row add-brand-row">
-        <el-input v-model="form.atLease" placeholder="请输入">
-          <template slot="append">pcs</template>
-        </el-input>
+      <el-form-item label="海运起订量" class="form-row add-brand-row">
+        <div class="form-row-text" v-if="order.property_of_sale==1">{{ order.minBySea1 }} pcs</div>
+        <div class="form-row-text" v-else-if="order.property_of_sale==2">{{ order.minBySea2 }} pcs</div>
       </el-form-item>
       <el-form-item :label="$t('mergeRefundOrders.whetherToChange')" class="form-row add-brand-row last-form-row">
-        <el-radio-group v-model="form.change">
-          <el-radio :label="1">{{$t('table.yes')}}</el-radio>
-          <el-radio :label="0">{{$t('table.no')}}</el-radio>
-        </el-radio-group>
-        <span style="margin: 0 20px"></span>
-        <el-radio-group v-model="form.transportation" v-if="form.change===1">
-          <el-radio :label="1">{{$t('mergeRefundOrders.byAir')}}</el-radio>
-          <el-radio :label="0">{{$t('mergeRefundOrders.bySea')}}</el-radio>
-        </el-radio-group>
+        <div class="form-row-text">
+          <el-radio v-model="transportation" :label="1" v-if="order.transportation==2" @change="transportationChange">改为空运</el-radio>
+          <el-radio v-model="transportation" :label="2" v-if="order.transportation==1" @change="transportationChange">改为海运</el-radio>
+        </div>
       </el-form-item>
-      <div class="dialogBottomButton-wrap">
-        <el-button type="primary" @click="submit">{{$t('mergeRefundOrders.confirmChange')}}</el-button>
-      </div>
     </el-form>
+
+    <div class="dialogBottomButton-wrap">
+      <el-button type="primary" @click="submit" :loading="listLoading">{{$t('mergeRefundOrders.confirmChange')}}</el-button>
+    </div>
   </div>
 </template>
 
@@ -46,35 +39,51 @@
     data() {
       return {
         form: {
-          orderNo: '',
           transportation: '',
-          change: '',
-          atLease: 56,
-          transportQuantity: 100
-        }
+        },
+        transportation: '',
+        transportationText: ''
       }
     },
     methods: {
-      async submit() {
-//        await changeTransportation(this.form)
-//        this.$message({
-//          message: this.$t('mergeRefundOrders.changeTransportationSuccessTips')
-//            .replace('#orderNo', this.form.orderNo).replace('#transportation#', this.form.transportation),
-//          type: 'success'
-//        })
-//        this.$emit('change')
-        const vm = this
-        this.$alert('货单号：1232355的运输方式已调整为#海运#，采购金额已作相应变化，请知悉。', '', {
-          confirmButtonText: this.$t('table.confirm'),
-          showClose: false,
-          center: true,
-          callback() {
-            vm.$emit('cancel') // 关闭调整运输弹层
+      submit() {
+        this.listLoading = true
+        this.$request({
+          url: '/order/changeTransportation.do',
+          method: 'post',
+          data: {
+            transportation: this.transportation,
+            orderNo: this.order.orderNo
           }
+        }).then((res) => {
+          if (res.errorCode == 0) {
+
+            const vm = this
+            this.$alert(`货单号：${this.order.orderNo}的运输方式已调整为#${this.transportationText}#，采购金额已作相应变化，请知悉。`, '', {
+              confirmButtonText: this.$t('table.confirm'),
+              showClose: false,
+              center: true,
+              callback() {
+                vm.$emit('change') // 关闭调整运输弹层
+              }
+            })
+
+            this.listLoading = false
+          } else {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
+          this.listLoading = false
         })
       },
-      cancel() {
-        this.$emit('cancel')
+      transportationChange(val) {
+        if (val==1) {
+            this.transportationText = '空运'
+        } else if (val==2) {
+          this.transportationText = '海运'
+        }
       }
     }
   }

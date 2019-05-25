@@ -175,10 +175,10 @@ export const asyncRouterMap = [
             meta: { title: 'billManagement' }
           },
           {
-            path: 'mergeRefundOrders',
-            component: () => import('@/views/orderManagement/channelCooperator/mergeRefundOrders/index.vue'),
-            name: 'mergeRefundOrders',
-            meta: { title: 'mergeRefundOrders' }
+            path: 'mergeOrders',
+            component: () => import('@/views/orderManagement/channelCooperator/mergeOrders/index.vue'),
+            name: 'mergeOrders',
+            meta: { title: 'mergeOrders' }
           },
           {
             path: 'payOrder',

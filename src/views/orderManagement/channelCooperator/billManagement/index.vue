@@ -190,6 +190,10 @@
       <depositRefund v-if="isDepositRefundShow" :currentRow="currentRow" @orderStatusChange="orderStatusChange($event)"></depositRefund>
     </el-dialog>
 
+    <el-dialog :visible.sync="isRefundFullPaymentShow" fullscreen style="padding: 20px">
+      <refundFullPayment v-if="isRefundFullPaymentShow" :currentRow="currentRow" @orderStatusChange="orderStatusChange($event)"></refundFullPayment>
+    </el-dialog>
+
     <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
         <el-table-column prop="key" label="Channel"></el-table-column>
@@ -224,6 +228,7 @@
   import stopOrdering from './stopOrdering/index.vue'
   import interruptOrdering from './interruptOrdering/index.vue'
   import depositRefund from './depositRefund/index.vue'
+  import refundFullPayment from './refundFullPayment/index.vue'
 
   export default {
     name: 'bill-management',
@@ -233,7 +238,7 @@
     components: {
       BillDetail, handleReceive, waitReceive, waitStock, shortageWaiting,
       waitReceiveResidual, waitShipment, alreadyReceive, stopOrdering, interruptOrdering,
-      depositRefund
+      depositRefund, refundFullPayment
     },
     data() {
       return {
@@ -249,6 +254,7 @@
         isStopOrderingShow: false,
         isInterruptOrderingShow: false,
         isDepositRefundShow: false,
+        isRefundFullPaymentShow: false,
         list: [],
         total: null,
         listLoading: false,
@@ -356,7 +362,8 @@
       },
 
       orderStatusChange(status) {
-        if (status == -160) { this.isDepositRefundShow = false }
+        if (status == -120 || status == -160) { this.isDepositRefundShow = false }
+        else if (status == -140) { this.isRefundFullPaymentShow = false }
         this.getList()
       },
 
@@ -499,6 +506,10 @@
       viewDepositRefund(row) {
         this.currentRow = row
         this.isDepositRefundShow = true
+      },
+      viewRefundFullPayment(row) {
+        this.currentRow = row
+        this.isRefundFullPaymentShow = true
       },
     }
   }

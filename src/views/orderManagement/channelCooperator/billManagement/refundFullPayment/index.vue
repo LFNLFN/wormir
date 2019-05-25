@@ -1,9 +1,7 @@
 <template>
   <div class="app-container">
-    <h2 v-if="currentRow.order_status==-110" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消待退订金</h2>
-    <h2 v-else-if="currentRow.order_status==-120" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消已退订金</h2>
-    <h2 v-else-if="currentRow.order_status==-150" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">缺货待退订金</h2>
-    <h2 v-else-if="currentRow.order_status==-160" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">缺货已退订金</h2>
+    <h2 v-if="currentRow.order_status==-130" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消待退全款</h2>
+    <h2 v-if="currentRow.order_status==-140" :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">取消已退全款</h2>
     <div class="mainContent">
       <div class="filter-container theBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
         <el-row>
@@ -134,198 +132,168 @@
       <div style="display: flex">
         <div class="twoTable-wrap" style="padding-right: 20px">
           <!--订货表格-->
-          <div class="filter-container" style="padding-bottom: 0">
-            <el-table
-              key="productList"
-              :data="orderDetail.goodList || []"
-              border
-              fit
-              size="mini"
-              style="width: 100%;border:none;border-left: 2px solid #d5d5d5;border-right: 1px solid #d5d5d5"
-              class="orderTable"
-              ref="orderTable"
-              :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}"
+          <el-table
+            key="productList"
+            :data="orderDetail.goodList || []"
+            border
+            fit
+            size="mini"
+            style="width: 100%;border:none;border-left: 2px solid #d5d5d5;border-right: 1px solid #d5d5d5"
+            class="orderTable"
+            ref="orderTable"
+            :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}"
+          >
+            <el-table-column
+              align="center"
+              width="85"
+              label="商品品牌"
+              prop="brandName"
+            />
+            <el-table-column
+              align="center"
+              width="85"
+              :label="$t('product.productNo')"
+              prop="goodsNo"
             >
-              <el-table-column
-                align="center"
-                width="85"
-                label="商品品牌"
-                prop="brandName"
-              />
-              <el-table-column
-                align="center"
-                width="85"
-                :label="$t('product.productNo')"
-                prop="goodsNo"
-              >
-                <template slot-scope="scope">
-                  <span>{{ scope.row.goodsNoForBrand }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="center"
-                width="130"
-                :label="$t('product.productName')"
-                prop="goodsName"
-                show-overflow-tooltip
-              >
-              </el-table-column>
-              <el-table-column
-                align="center"
-                width="90"
-                :label="$t('product.productSpecification')"
-                prop="specificationChinese"
-                show-overflow-tooltip
-              />
-              <el-table-column
-                align="center"
-                width="220"
-                class-name="units-wrap"
-                :label="$t('order.packageSpecification')"
-                prop="packingSpecification"
-                show-overflow-tooltip
-              >
-                <template slot-scope="scope">
-                  <el-row>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification.replace(/[^0-9]/ig,"")}}</span>
-                    </el-col>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification.replace(/\d+/g, '')}}</span>
-                    </el-col>
-                  </el-row>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')">
-                <template slot-scope="scope">
-                  <span>￥{{scope.row.unitPrice}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="center"
-                width="120"
-                class-name="units-wrap"
-                :label="$t('order.orderQuantity')"
-              >
-                <template slot-scope="scope">
-                  <el-row>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.orderBoxNum}}</span>
-                    </el-col>
-                    <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>箱</span>
-                    </el-col>
-                  </el-row>
-                </template>
-              </el-table-column>
+              <template slot-scope="scope">
+                <span>{{ scope.row.goodsNoForBrand }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="130"
+              :label="$t('product.productName')"
+              prop="goodsName"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="90"
+              :label="$t('product.productSpecification')"
+              prop="specificationChinese"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              align="center"
+              width="220"
+              class-name="units-wrap"
+              :label="$t('order.packageSpecification')"
+              prop="packingSpecification"
+              show-overflow-tooltip
+            >
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>{{scope.row.packingSpecification.replace(/[^0-9]/ig,"")}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>{{scope.row.packingSpecification.replace(/\d+/g, '')}}</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')">
+              <template slot-scope="scope">
+                <span>￥{{scope.row.unitPrice}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="120"
+              class-name="units-wrap"
+              :label="$t('order.orderQuantity')"
+            >
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>{{scope.row.orderBoxNum}}</span>
+                  </el-col>
+                  <el-col :span="12" style="display: flex;justify-content: center">
+                    <span>箱</span>
+                  </el-col>
+                </el-row>
+              </template>
+            </el-table-column>
 
-              <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
-                <template slot-scope="scope">
-                  <span>{{scope.row.initialDiscount}}%</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('price.orderDiscount')">
-                <template slot-scope="scope">
-                  <span>{{scope.row.finalDiscount}}%</span>
-                </template>
-              </el-table-column>
+            <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
+              <template slot-scope="scope">
+                <span>{{scope.row.initialDiscount}}%</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="140" :label="$t('price.orderDiscount')">
+              <template slot-scope="scope">
+                <span>{{scope.row.finalDiscount}}%</span>
+              </template>
+            </el-table-column>
 
-              <el-table-column
-                align="center"
-                width="140"
-                :label="$t('price.orderUnitPrice')"
-              >
-                <template slot-scope="scope">
-                  <span>￥ {{(scope.row.unitPrice * scope.row.finalDiscount/100).toFixed(2)}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="center"
-                width="140"
-                :label="$t('order.orderAmount')"
-              >
-                <template slot-scope="scope">
-                  <span>￥ {{scope.row.orderPrice}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="center"
-                :label="$t('order.thirtyPercentDeposit')"
-                width="130"
-              >
-                <template slot-scope="scope">
-                  <span>￥ {{scope.row.earnestAmount}}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-
+            <el-table-column
+              align="center"
+              width="140"
+              :label="$t('price.orderUnitPrice')"
+            >
+              <template slot-scope="scope">
+                <span>￥ {{(scope.row.unitPrice * scope.row.finalDiscount/100).toFixed(2)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              width="140"
+              :label="$t('order.orderAmount')"
+            >
+              <template slot-scope="scope">
+                <span>￥ {{scope.row.orderPrice}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              :label="$t('order.thirtyPercentDeposit')"
+              width="130"
+            >
+              <template slot-scope="scope">
+                <span>￥ {{scope.row.earnestAmount}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
+              <template slot-scope="scope">
+                <span>￥ {{ scope.row.surplusAmount }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
           <!--补货表格-->
-          <div class="filter-container">
+          <div class="filter-container" style="padding-bottom: 0">
             <el-table key='replenishment' :data="order.replenishmentList" border fit
                       size="mini" :show-header="false"
                       style="width: 100%;border: 1px solid #d5d5d5;border-top:none;border-left-width: 2px"
+                      :span-method="arraySpanMethod"
                       class="orderTable" ref="replenishmentTable"
-                      :span-method="arraySpanMethod_replenishment"
                       :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}"
                       :cell-style="summaryCellStyle" :cell-class-name="summaryCellClass">
-              <el-table-column
-                align="center"
-                width="85"
-                label="商品品牌"
-                prop="brandName"
-              />
+              <el-table-column align="center" width="85" label="商品品牌" prop="brandName" />
               <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2 && (currentRow.order_status==-110 || currentRow.order_status==-150)" class="text-muted">
-                    取消订货时间: {{ orderDetail.cancelOrderTime }}</span>
-                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-120"
-                    placement="right" title="" width="280" trigger="click"
+                  <span v-if="scope.$index===order.replenishmentList.length-2 && currentRow.order_status==-130"
+                        class="text-muted">{{'取消订货时间：' + orderDetail.cancelOrderTime}}</span>
+                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-140"
+                              placement="right" title="" width="280" trigger="click"
                   >
                     <div class="text-muted">
                       <p>{{'提交订单时间：' + orderDetail.orderCreateTime}}</p>
                       <p>{{'支付订金时间：' + orderDetail.payEarnestTime}}</p>
                       <p>{{'完成备货时间：' + orderDetail.completeStockUpTime}}</p>
+                      <p>{{'支付余款时间：' + orderDetail.paySurplusTime}}</p>
                       <p>{{'取消订货时间：' + orderDetail.cancelOrderTime}}</p>
-                      <p>{{'支付退款时间：' + orderDetail.depositRefundTime}}</p>
-                    </div>
-                    <el-button slot="reference" type="primary">操作时间记录</el-button>
-                  </el-popover>
-                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-160"
-                              placement="right" title="" width="280" trigger="click"
-                  >
-                    <div class="text-muted">
-                      <p>{{'提交订单时间：' + orderDetail.orderCreateTime}}</p>
-                      <p>{{'支付订金时间：' + orderDetail.payEarnestTime}}</p>
-                      <p>{{'取消订货时间：' + orderDetail.cancelOrderTime}}</p>
-                      <p>{{'支付退款时间：' + orderDetail.depositRefundTime}}</p>
-                    </div>
-                    <el-button slot="reference" type="primary">操作时间记录</el-button>
-                  </el-popover>
-
-                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-150" class="text-muted">{{'取消订货时间：' + orderDetail.cancelOrderTime}}</span>
-                  <el-popover v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-160"
-                              placement="right" title="" width="280" trigger="click"
-                  >
-                    <div class="text-muted">
-                      <p>{{'提交订单时间：' + orderDetail.orderCreateTime}}</p>
-                      <p>{{'支付订金时间：' + orderDetail.payEarnestTime}}</p>
-                      <p>{{'取消订货时间：' + orderDetail.cancelOrderTime}}</p>
-                      <p>{{'支付退款时间：' + orderDetail.depositRefundTime}}</p>
+                      <p>{{'支付退款时间：' + orderDetail.surplusRefundTime}}</p>
                     </div>
                     <el-button slot="reference" type="primary">操作时间记录</el-button>
                   </el-popover>
                   <span v-else-if="scope.$index===order.replenishmentList.length-1">{{ '原因: ' }}</span>
-                  <span v-else>{{ scope.row.goodsNo }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsChineseName">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-110">{{ '等待备货时间过长，渠道商取消订货。' }}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-120">{{ '等待备货时间过长，渠道商取消订货。' }}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-150">{{ '不再备货，品牌商取消订货。' }}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-160">{{ '不再备货，品牌商取消订货。' }}</span>
-                  <span v-else>{{ scope.row.goodsChineseName }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-130">{{ '等待发货时间过长，渠道商取消订货。' }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-140">{{ '等待发货时间过长，渠道商取消订货。' }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('product.productSpecification')"
@@ -353,11 +321,8 @@
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')" prop="tips">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-110">退款将退回到您的账户余额，完成退款后可查看您账户余额的变化情况。</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-150">退款将退回到您的账户余额，完成退款后可查看您账户余额的变化情况。</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-120">退款已退回到您的账户余额，可查看您账户余额的变化情况。</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-160">退款已退回到您的账户余额，可查看您账户余额的变化情况。</span>
-                  <span v-else>{{ scope.row.supplyCurrencySymbol + scope.row.supplyPrice.toFixed(2) }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-130">退款将退回到您的账户余额，完成退款后可查看您账户余额的变化情况。</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1&&currentRow.order_status==-140">退款已退回到您的账户余额，可查看您账户余额的变化情况。</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="120" class-name="units-wrap"
@@ -373,12 +338,14 @@
                   </el-row>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('price.startDiscount')" prop="tipsRight">
+              <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-110" class="text-total">{{'待退30%订金 : '}}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status==-120" class="text-total">{{'已退30%订金 : '}}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status===-150" class="text-total">{{'待退30%订金 : '}}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.order_status===-160" class="text-total">{{'已退30%订金 : '}}</span>
+                  <!--<div v-if="scope.$index===order.replenishmentList.length-2" class="text-total">{{-->
+                    <!--currentRow.channelClassify!==2?-->
+                    <!--'已付货款+跨境税金' : '70%余款' }} :-->
+                  <!--</div>-->
+                  <span v-if="scope.$index===order.replenishmentList.length-2&&currentRow.orderStatus===15" class="text-total">{{ '待退货款：' }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-2&&currentRow.orderStatus===16" class="text-total">{{ '已退货款：' }}</span>
                   <span v-else>{{scope.row.startDiscount}}%</span>
                 </template>
               </el-table-column>
@@ -389,18 +356,27 @@
               </el-table-column>
               <el-table-column width="140" align="center" :label="$t('price.orderUnitPrice')">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">{{ '合计： ' }}</span>
+
+                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.packingUnit).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column width="140" align="center" :label="$t('order.orderAmount')">
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_channel_amount }}</span>
+                  <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('order.thirtyPercentDeposit')">
                 <template slot-scope="scope">
                   <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_earnest_amount }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
+                <template slot-scope="scope">
+                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_surplus_amount }}</span>
+                  <span v-else>￥ {{ (scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.7).toFixed(2) }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -412,8 +388,9 @@
 
     </div>
 
+    <p></p>
     <div :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">
-      <el-button v-if="currentRow.order_status==-110 || currentRow.order_status==-150" class="filter-item" type="primary" style="margin-bottom: 0;" @click="goPayDeposit(currentRow.order_status-10)">支付退款</el-button>
+      <el-button v-if="currentRow.order_status==-130" class="filter-item" type="primary" style="margin-bottom: 0;" @click="goPayDeposit(currentRow.order_status-10)">支付退款</el-button>
     </div>
 
     <el-dialog :visible.sync="cancelOrderSubmitVisible" width="30%" append-to-body :show-close="false">
@@ -455,12 +432,12 @@
         <br>
         <span v-if="currentRow.order_status==-150">可在缺货已退订金状态项下『查看货单』。</span>
         <span v-else-if="currentRow.order_status==-110">可在取消已退订金状态项下『查看货单』。</span>
+        <span v-else-if="currentRow.order_status==-130">可在取消已退全款状态项下『查看货单』。</span>
       </div>
       <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button type="primary" @click="completePayment(currentRow.order_status-10)">知道了</el-button>
       </div>
     </el-dialog>
-
 
     <!--充值环节-->
     <el-dialog :visible.sync="rechargeWindowVisible" width="35%" append-to-body :show-close="false">
@@ -524,12 +501,13 @@
         required: true
       }
     },
+    computed: {},
     data() {
       return {
+        orderDetail: {}, // 存放订货表格数据
         list: [],
         replenishmentList: [],
         listLoading: false,
-        orderDetail: {}, // 存放订货表格数据
         payWay: '1',
         order: {
           replenishmentList: [
@@ -588,7 +566,7 @@
           data: { orderNo: this.currentRow.order_no }
         }).then(res => {
           this.orderDetail = res.data;
-        })
+        });
       },
       handlePaymentConfirm(statusCode) {
         request({
@@ -636,19 +614,14 @@
       goPayDeposit() {
         this.payWindowVisible = true;
       },
-      arraySpanMethod_replenishment({ row, column, rowIndex, columnIndex }) {
+      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 2) {
           if (columnIndex === 1) {
             return {
               rowspan: 1,
-              colspan: 8
+              colspan: 10
             }
-          } else if (columnIndex === 8) {
-            return {
-              rowspan: 1,
-              colspan: 4
-            }
-          } else if (columnIndex === 12) {
+          } else if (columnIndex >= 10) {
             return {
               rowspan: 1,
               colspan: 1
@@ -676,10 +649,17 @@
               rowspan: 1,
               colspan: 1
             }
-          }  else if (columnIndex === 6) {
-            return {
-              rowspan: 1,
-              colspan: 8
+          } else if (columnIndex === 6) {
+            if (this.currentRow.channelClassify === 2) {
+              return {
+                rowspan: 1,
+                colspan: 10
+              }
+            } else {
+              return {
+                rowspan: 1,
+                colspan: 9
+              }
             }
           } else {
             return {
@@ -691,7 +671,7 @@
       },
       summaryCellStyle({row, column, rowIndex, columnIndex}) {
         if (columnIndex == 1 && rowIndex == 0) {
-            return { textAlign: 'left' }
+          return { textAlign: 'left' }
         }
         else if (column.property == 'goodsChineseName') {
           return { textAlign: 'left' }
@@ -747,7 +727,6 @@
         cartonNo: '043524',
         packingSpecification: 24
       })
-
       this.$nextTick(() => {
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
@@ -758,28 +737,7 @@
 </script>
 
 <style scoped>
-
-  .col-head {
-    background: rgb(223, 242, 252);
-    color: rgb(66, 66, 66);
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 36px;
-    text-align: center;
-    width: 100px;
-  }
-
-  .col-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: rgb(66, 66, 66);
-    width: 100px;
-  }
-
   .orderTable .el-col {
     border-right: none;
   }
-
 </style>

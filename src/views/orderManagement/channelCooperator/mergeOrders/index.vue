@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="货单号/品牌名称/渠道号/渠道名称" v-model="listQuery.title">
+                placeholder="货单号/品牌名称/渠道号/渠道名称" v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -10,8 +10,7 @@
     </div>
 
     <el-table :key='tableKey' :data="list" ref="sumTable"
-              v-loading="listLoading"
-              element-loading-text="给我一点时间"
+              v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row
               @selection-change="handleSelectionChange"
               :span-method="arraySpanMethod"
@@ -19,7 +18,7 @@
               style="width: 100%;border-right-width: 1px">
       <el-table-column type="selection" align="center" width="100"></el-table-column>
 
-      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="100" prop="orderNo"
+      <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="130" prop="orderNo"
                        fixed="left">
         <template slot-scope="scope">
           <span class="link-type" @click="viewOrderDetail(scope.row)">{{ scope.row.orderNo }}</span>
@@ -32,7 +31,7 @@
         :filters="brandNameFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ scope.row.brandName }}</span>
+          <span>{{ scope.row.brand_name }}</span>
         </template>
       </el-table-column>
 
@@ -43,47 +42,51 @@
         :filter-method="filterHandler"
         prop="channelProp">
         <template slot-scope="scope">
-          <span>{{ channelPropMap[scope.row.channelProp].text }}</span>
+          <span>{{ scope.row.channel_prop | channelPropFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="渠道号" prop="channelNo">
-      </el-table-column>
+      <el-table-column min-width="150px" align="center" label="渠道号" prop="channel_no"/>
 
-      <el-table-column min-width="120px" label="渠道名称" align="center" prop="channelName">
-      </el-table-column>
+      <el-table-column min-width="120px" label="渠道名称" align="center" prop="channel_name"/>
 
       <el-table-column
         min-width="100px" align="center"
         :label="$t('mergeRefundOrders.transportation')"
-        :filters="channelPropFilters"
+        :filters="transportationFilters"
         :filter-method="filterHandler" prop="transportation">
         <template slot-scope="scope">
-          <span>{{transportationMap[scope.row.transportation].text}}</span>
+          <span>{{ scope.row.transportation | transportationFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="100px" align="center" :label="$t('mergeRefundOrders.paymentReceive')"
-                       prop="paymentReceive">
+      <el-table-column min-width="100" label="采购单价" align="center" prop="">
+        <template slot-scope="scope">待完成功能</template>
+      </el-table-column>
+
+      <el-table-column
+        min-width="100px" align="center"
+        label="货款类型"
+        :filters="paymentTypeFilters"
+        :filter-method="filterHandler" prop="order_status">
+        <template slot-scope="scope">
+          <span>{{ scope.row.order_status | paymentTypeFilter }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="100px" align="center" label="已收货款"
+                       prop="paymentReceive" fixed="right">
         <template slot-scope="scope">
           <span v-if="scope.$index===list.length-1">{{'合计：'}}</span>
-          <span v-else>￥ {{scope.row.paymentReceive.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="100px" align="center" :label="$t('mergeRefundOrders.purchasePrice')"
-                       prop="purchasePrice">
-        <template slot-scope="scope">
-          <span v-if="scope.$index===list.length-1">{{' '}}</span>
-          <span v-else>€ {{scope.row.purchasePrice.toFixed(2)}}</span>
+          <span v-else>{{ scope.row.receivedPayAmount }}</span>
         </template>
       </el-table-column>
 
       <el-table-column class-name="status-col" :label="$t('mergeRefundOrders.paymentToPay')" min-width="100"
-                       prop="paymentToPay">
+                       prop="paymentToPay" fixed="right">
         <template slot-scope="scope">
-          <span v-if="scope.$index===list.length-1">€ {{paymentToPayAmount.toFixed(2)}}</span>
-          <span v-else>€ {{scope.row.paymentToPay.toFixed(2)}}</span>
+          <span v-if="scope.$index===list.length-1">{{ selectedOrderAmount }}</span>
+          <span v-else>{{ scope.row.waitPayAmount }}</span>
         </template>
       </el-table-column>
 
@@ -91,7 +94,7 @@
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
           <div v-if="scope.$index===list.length-1">
-            <el-button type="primary" @click="submitMergeOrder" size="medium" :disabled="ordersSelected.length<2">
+            <el-button type="primary" @click="submitMergeOrder" size="medium" :disabled="ordersSelected.length<1">
               {{$t('mergeRefundOrders.submitMergeOrder')}}
             </el-button>
           </div>
@@ -102,6 +105,10 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <p class="warn-notice" style="text-align: right">
+      温馨提醒：可勾选单张或多张相同品牌订货的货单进行并单支付。
+    </p>
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -133,21 +140,21 @@
     </el-dialog>
 
     <!-- 待付30%订金详情 -->
-    <el-dialog :visible.sync="waitPayDepositVisible" title="待付订金" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="waitPayDepositVisible" fullscreen style="padding: 20px">
       <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
                       @cancel="waitPayDepositVisible = false"/>
     </el-dialog>
 
     <!-- 待付70%详情 -->
-    <el-dialog :visible.sync="waitPayResidualVisible" title="待付余款" fullscreen style="padding: 20px">
+    <el-dialog :visible.sync="waitPayResidualVisible" fullscreen style="padding: 20px">
       <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible"
                        @cancel="waitPayResidualVisible = false"/>
     </el-dialog>
 
     <!-- 提交并单详情 -->
-    <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
-      <mergeOrderDetail v-if="mergeOrderDetailVisible"
-                        @cancel="mergeOrderDetailVisible = false"/>
+    <el-dialog :visible.sync="mergeOrderDetailVisible" fullscreen style="padding: 20px">
+      <mergeOrderDetail v-if="mergeOrderDetailVisible"  :orders="ordersSelected" :mergeTitle="mergeTitle"
+                        @cancel="mergeOrderDetailVisible = false;getList()"/>
     </el-dialog>
 
   </div>
@@ -161,6 +168,7 @@
     updateArticle
   } from '@/api/article'
   import waves from '@/directive/waves' // 水波纹指令
+  import * as tableFilters from '@/tableFilters'
   import { parseTime } from '@/utils'
   import BillDetail from '../../BillDetail'
   import TransportationChange from '../../TransportationChange'
@@ -183,45 +191,7 @@
     data() {
       return {
         tableKey: 0,
-        list: [
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-//            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            brandName: 'AESOP',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 30,
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: 'AESOP',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 70,
-          },
-          {
-            orderNo: Mock.Random.natural(123456, 999999),
-            channelProp: Mock.Random.natural(0, 2),
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            brandName: 'LANCOM',
-            transportation: Mock.Random.natural(0, 1),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            purchasePrice: Mock.Random.natural(23, 99),
-            paymentToPay: Mock.Random.natural(500, 999),
-            thirtyOrseventy: 30,
-          },
-        ],
+        list: [],
         total: null,
         waitPayDepositVisible: false,
         waitPayResidualVisible: false,
@@ -232,7 +202,7 @@
           page: 1,
           limit: 20,
           importance: undefined,
-          title: undefined,
+          searchText: undefined,
           type: undefined,
           sort: '+id'
         },
@@ -278,28 +248,10 @@
         isDialogMergeOrderConfirmShow: false, // 并单确认框控制
         currentOrder: {},
         mergeOrderBill: {}, // 并单
-        brandNameFilters: [
-          { text: 'LANCOM', value: 'LANCOM' },
-          { text: 'AESOP', value: 'AESOP' }
-        ],
-        channelPropFilters: [
-          { text: 'DLQD', value: 0 },
-          { text: 'FXQD', value: 1 },
-          { text: 'DFQD', value: 2 }
-        ],
-        channelPropMap: {
-          0: { text: 'DLQD', value: 0 },
-          1: { text: 'FXQD', value: 1 },
-          2: { text: 'DFQD', value: 2 },
-        },
-        transportationFilters: [
-          { text: '空运', value: 0 },
-          { text: '海运', value: 1 },
-        ],
-        transportationMap: {
-          0: { text: '空运', value: 0 },
-          1: { text: '海运', value: 1 },
-        },
+        brandNameFilters: [],
+        channelPropFilters: tableFilters.channelPropFilters,
+        transportationFilters: tableFilters.transportationFilters,
+        paymentTypeFilters: tableFilters.paymentTypeFilters
       }
     },
     created() {
@@ -307,12 +259,38 @@
     },
     methods: {
       getList() {
-//      this.listLoading = true
-//      fetchList(this.listQuery).then(response => {
-//        this.list = response.items
-//        this.total = response.total
-//        this.listLoading = false
-//      })
+        this.listLoading = true
+        this.$request({
+          url: '/order/waitMergeOrderList.do',
+          method: 'post',
+          data: this.listQuery
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.list = res.data.items
+            this.total = res.data.total
+            this.brandNameFilters = res.data.brandNameFilters
+            this.list.push(
+              {
+                orderNo: Mock.Random.natural(123456, 999999),
+                channelProp: Mock.Random.natural(0, 2),
+                channelNo: Mock.Random.natural(20180522001, 20180522100),
+                channelName: 'ASD总店',
+                brandName: 'LANCOM',
+                transportation: Mock.Random.natural(0, 1),
+                paymentReceive: Mock.Random.natural(1000, 2000),
+                purchasePrice: Mock.Random.natural(23, 99),
+                paymentToPay: Mock.Random.natural(500, 999),
+              },
+            )
+            this.listLoading = false
+          } else {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
+          this.listLoading = false
+        })
       },
       handleFilter() {
         this.listQuery.page = 1
@@ -448,7 +426,7 @@
 
       // 检查并单是否有多品牌
       checkMergeOrder() {
-        if (this.ordersSelected.length == 1) return false
+        if (this.ordersSelected.length == 0) return false
 
         const firstBrandName = this.ordersSelected[0].brandName
 
@@ -498,22 +476,16 @@
       },
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.list.length - 1) {
-          if (columnIndex === 7) {
+          if (columnIndex === 8) {
             return {
               rowspan: 1,
-              colspan: 8
+              colspan: 9
             }
           }
-          else if (columnIndex < 7) {
+          else if (columnIndex <= 7) {
             return {
               rowspan: 0,
               colspan: 0
-            }
-          }
-          else if (columnIndex > 7) {
-            return {
-              rowspan: 1,
-              colspan: 1
             }
           }
           else {
@@ -527,87 +499,40 @@
 
       viewOrderDetail(row) {
         this.currentRow = row
-        if (row.thirtyOrseventy === 30) {
+        if (row.order_status == 30) {
           this.waitPayDepositVisible = true
         }
-        if (row.thirtyOrseventy === 70) {
+        if (row.order_status == 40) {
           this.waitPayResidualVisible = true
         }
       },
     },
     computed: {
-      paymentToPayAmount() {
-        let itemOrder_amount = 0
-        this.list.forEach((item, index, arr) => {
-          if (index === arr.length - 1) return false
-          itemOrder_amount += item.paymentToPay
+      selectedOrderAmount() {
+        if (this.ordersSelected.length < 1) { return '--' }
+        let symbol = this.ordersSelected[0].waitPayAmount.substring(0,1)
+        let selectedOrderAmount = 0
+        this.ordersSelected.forEach((item, index, arr) => {
+          selectedOrderAmount += item.waitPayAmount.substring(1)/1
         })
-        return itemOrder_amount
+        return symbol + selectedOrderAmount.toFixed(2)
       },
+      mergeTitle() {
+        let tmp = this.ordersSelected.some((e,i,s) => {
+          if (i==0) { return false }
+          return e.order_status != s[i-1].order_status
+        })
+        if (tmp) { return '提交并单支付货款' }
+        else {
+          if (this.ordersSelected[0].order_status==30) { return '提交并单支付订金' }
+          else if (this.ordersSelected[0].order_status==40) { return '提交并单支付余款' }
+        }
+      }
     },
-    mounted() {
-      this.list.push(
-//        {
-//          orderNo: Mock.Random.natural(123456, 999999),
-//          channelProp: Mock.Random.natural(0, 2),
-//          channelNo: Mock.Random.natural(20180522001, 20180522100),
-//          channelName: 'ASD总店',
-//          brandName: 'LANCOM',
-//          transportation: Mock.Random.natural(0, 1),
-//          paymentReceive: Mock.Random.natural(1000, 2000),
-//          purchasePrice: Mock.Random.natural(23, 99),
-//          paymentToPay: Mock.Random.natural(500, 999),
-//        },
-      )
-      this.$nextTick(() => {
-
-        this.$refs['sumTable'].$el.children[2].children[0].children[1].children[this.list.length - 1].cells[0].style.textAlign = 'right'
-
-      })
-    }
   }
 </script>
 <style scoped>
   .el-dialog {
     width: 90%;
-  }
-
-  .el-row {
-    margin-bottom: 20px;
-  }
-
-  .el-col {
-    border-radius: 4px;
-  }
-
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-
-  .bg-purple {
-    background: #d3dce6;
-  }
-
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-    padding-top: 6px;
-  }
-
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-
-  .mb20 {
-    margin-bottom: 20px;
-  }
-
-  .text-danger {
-    color: #ff0000;
   }
 </style>

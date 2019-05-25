@@ -56,19 +56,19 @@
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司名称" label-width="130px" class="form-row idCardCode"
                         prop="companyName">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
                       placeholder="请输入公司名称"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="130px"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司简介" label-width="130px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
           </el-form-item>
 
 
-          <el-form-item v-if="form.businessEntity==1" prop="identityCardFront" label="身份证正面" label-width="129px" class="form-row idCardLabel"
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardFront" label="身份证正面" label-width="129px" class="form-row idCardLabel"
                         style="border-top: none;border-bottom: solid #D5D5D5 1px;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -81,7 +81,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==1" prop="identityCardContrary" label="身份证反面" label-width="129px" class="form-row idCardLabel "
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardContrary" label="身份证反面" label-width="129px" class="form-row idCardLabel "
                         style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -95,7 +95,7 @@
             </el-upload>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==2 && (form.channelType>1 || form.channelProp==3)" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
+          <el-form-item v-if="form.businessEntity==2 && form.channelType>1 && form.channelProp==1" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
                         style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -108,19 +108,14 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="法人" label-width="130px" class="form-row idCardCode"
-                        prop="legalPerson">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.legalPerson"
-                      placeholder="请输入法人"></el-input>
-          </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司地址" label-width="130px" class="form-row idCardCode"
                         prop="companyAddress">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
           </el-form-item>
 
 
-          <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="channelName">
+          <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="channelName" v-if="form.channelProp==1">
             <el-col :span="11" class="marginToLeft">
               <el-form-item label="" prop="channelName">
                 <el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
@@ -129,7 +124,7 @@
             </el-col>
             <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item label="PC店铺/平台链接" label-width="130px" class="form-row last-form-row" prop="PCLink">
+          <el-form-item label="PC店铺/平台链接" label-width="130px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
             <el-col :span="11" class="marginToLeft">
               <el-form-item label="" prop="PCLink">
                 <el-input v-model="form.PCLink" class="noBorderInput marginToLeft"
@@ -143,13 +138,13 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right">
+          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right" v-if="form.channelProp==1">
             *由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
           <el-form-item label="经营范围" label-width="130px" prop="businessRange">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
                       placeholder="请输入经营内容（200字以内）"></el-input>
           </el-form-item>
-          <el-form-item label="经营过的类似商品" label-width="130px" prop="businessGoods" class="last-form-row">
+          <el-form-item label="经营过的类似商品" label-width="130px" class="last-form-row">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessGoods"
                       placeholder="请提供商品名称和销量（200字以内）"></el-input>
           </el-form-item>
@@ -325,9 +320,7 @@
           businessGoods: '',
           companyName: '',
           companySummary: '',
-          legalPerson: '',
           companyAddress: '',
-
           contactData: [{
             dutyNo: '',
             userName: '',
@@ -392,9 +385,6 @@
             { required: true, message: ' ', trigger: 'blur' },
           ],
           businessLicense: [
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          legalPerson: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
           companyAddress: [

@@ -296,3 +296,28 @@ export function makeUpOfGoodsFilter(value) {
   }
   return statusMap[value]
 }
+
+// 运输方式
+export function transportationFilter(value) {
+  const statusMap = {
+    1: 'By Air',
+    2: 'By Sea',
+  }
+  return statusMap[value]
+}
+export function transportationFilterZh(value) {
+  const statusMap = {
+    1: '空运',
+    2: '海运',
+  }
+  return statusMap[value]
+}
+
+// 货款类型
+export function paymentTypeFilter(value) {
+  const statusMap = {
+    30: '30%订金',
+    40: '70%余款',
+  }
+  return statusMap[value]
+}

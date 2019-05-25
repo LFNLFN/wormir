@@ -22,7 +22,7 @@ export default {
     orderManagement: '订货管理',
     allOrders: '全部订单',
     billManagement: '货单管理',
-    mergeRefundOrders: '提交并单',
+    mergeOrders: '提交并单',
     payOrder: '支付货款',
     payRefund: '支付退款',
     compensationManagement: '补款管理',
