@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="并单支付号/货单号/品牌名称" v-model="listQuery.title">
+                placeholder="并单支付号/货单号/品牌名称" v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -16,7 +16,7 @@
       class="border2"
       style="width: 100%;border-right-width: 1px">
 
-      <el-table-column align="center" :label="$t('payOrder.mergePayNo')" min-width="120" fixed="left" prop="mergePayNo"/>
+      <el-table-column align="center" label="并单支付号/货单号" min-width="120" fixed="left" prop="mergeOrderNo"/>
 
       <el-table-column
         min-width="120px" align="center"
@@ -25,36 +25,29 @@
         :filter-method="filterHandler"
         prop="brandName" />
 
-      <el-table-column min-width="150px" align="center" :label="$t('payOrder.paymentSwifitCode')" prop="paymentSwifitCode" />
+      <el-table-column min-width="150px" align="center" label="收款SWIFIT Code" prop="swifitCode" />
 
-      <el-table-column min-width="160px" align="center" :label="$t('payOrder.bank')" prop="receiptBankName" />
+      <el-table-column min-width="160px" align="center" label="收款银行" prop="bankName" />
 
-      <el-table-column min-width="180px" align="center" :label="$t('payOrder.bankAddress')" prop="receiptBankAddress" />
+      <el-table-column min-width="180px" align="center" label="银行地址" prop="bankAddress" />
 
-      <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentReceive')" prop="paymentReceive">
-        <template slot-scope="scope">
-          <span>$ {{scope.row.paymentReceive.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column min-width="100px" align="center" label="货款金额" prop="paymentAmount"/>
 
-      <el-table-column min-width="100px" align="center" :label="$t('payOrder.paymentPay')" prop="paymentPay">
-        <template slot-scope="scope">
-          <span>$ {{scope.row.paymentPay.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" :label="$t('payOrder.status')" min-width="120" prop="payOrderStatus"
-                       :filters="payOrderStatusFilters"
+      <el-table-column min-width="100px" align="center" label="付款状态" prop="paymentStatus"
+                       :filters="paymentStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ scope.row.payOrderStatus | payOrderStatusFilter }}</span>
+          <span>{{scope.row.paymentStatus | paymentStatusFilter}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="viewMergeOrder">
+          <el-button v-if="scope.row.paymentStatus==1" size="medium" type="primary" @click="viewMergeOrder(scope.row)">
+            去付货款
+          </el-button>
+          <el-button v-else size="medium" type="primary" @click="viewMergeOrder(scope.row)">
             查看并单
           </el-button>
         </template>
@@ -78,8 +71,7 @@
 
     <!-- 提交并单详情 -->
     <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
-      <mergeOrderDetail v-if="mergeOrderDetailVisible"
-                        @cancel="mergeOrderDetailVisible = false"/>
+      <mergeOrderDetail v-if="mergeOrderDetailVisible" @cancel="mergeOrderDetailVisible = false" :mergeOrderNo="mergeOrderNo" :orders="orders"/>
     </el-dialog>
 
   </div>
@@ -98,6 +90,7 @@
   import { cancelMergeOrder } from '../../../../api/bill'
   import Mock from 'mockjs'
   import mergeOrderDetail from './mergeOrderDetail/index.vue'
+  import { paymentStatusFilters } from '@/tableFilters/index.js'
 
   const calendarTypeOptions = [
     { key: 'CN', display_name: 'China' },
@@ -122,23 +115,13 @@
       return {
         tableKey: 0,
         mergeOrderDetailVisible: false,
-        list: [
-          {
-            mergePayNo: Mock.Random.natural(1234567, 9999999),
-            brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-            paymentSwifitCode: Mock.Random.natural(1234567, 9999999),
-            receiptBankName: Mock.Random.pick(['Bank of America']),
-            receiptBankAddress: Mock.Random.pick(['New York Manhattan']),
-            paymentReceive: Mock.Random.natural(1000, 2000),
-            paymentPay: Mock.Random.natural(1000, 2000),
-            payOrderStatus: Mock.Random.natural(0, 2)
-          }
-        ],
+        list: [],
         total: null,
         listLoading: false,
         listQuery: {
           page: 1,
           limit: 20,
+          searchText: '',
           importance: undefined,
           title: undefined,
           type: undefined,
@@ -187,15 +170,10 @@
         },
         downloadLoading: false,
         currentOrder: {},
-        brandNameFilters: [
-          { text: 'LANCOM', value: 'LANCOM' },
-          { text: 'AESOP', value: 'AESOP' }
-        ],
-        payOrderStatusFilters: [
-          { text: '待付货款', value: 0 },
-          { text: '待确认到账', value: 1 },
-          { text: '货款已到账', value: 2 },
-        ],
+        brandNameFilters: [],
+        paymentStatusFilters: paymentStatusFilters,
+        mergeOrderNo: null,
+        orders: null,
       }
     },
     filters: {
@@ -244,12 +222,25 @@
       },
 
       getList() {
-//      this.listLoading = true
-//      fetchList(this.listQuery).then(response => {
-//        this.list = response.items
-//        this.total = response.total
-//        this.listLoading = false
-//      })
+        this.listLoading = true
+        this.$request({
+          url: '/order/paymentOrderList.do',
+          method: 'post',
+          data: this.listQuery
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.list = res.data.items
+            this.total = res.data.total
+            this.brandNameFilters = res.data.brandNameFilters
+            this.listLoading = false
+          } else {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
+          this.listLoading = false
+        })
       },
       handleFilter() {
         this.listQuery.page = 1
@@ -381,7 +372,24 @@
           })
         )
       },
-      viewMergeOrder() {
+      viewMergeOrder(row) {
+        this.mergeOrderNo = row.mergeOrderNo
+        this.$request({
+          url: '/order/mergeOrderDetail.do',
+          method: 'post',
+          data: row.orderNos
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.orders = res.data.items
+            this.listLoading = false
+          } else {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
+          this.listLoading = false
+        })
         this.mergeOrderDetailVisible = true
       }
     }

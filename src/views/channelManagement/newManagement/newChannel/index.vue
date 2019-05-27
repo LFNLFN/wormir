@@ -12,8 +12,8 @@
       </el-form-item>
     </el-form>
     <el-table border :data="channelTableData" style="width: 100%;border-left-width: 2px;border-top-width: 2px" v-loading="listLoading">
-      <el-table-column prop="channelNum" label="渠道号" min-width="130" align="center"></el-table-column>
-      <el-table-column prop="channelCode" label="渠道名称" min-width="100" align="center">
+      <el-table-column prop="channelNum" label="渠道号" min-width="180" align="center"></el-table-column>
+      <el-table-column prop="channelCode" label="渠道名称" min-width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.channelCode }}</span>
         </template>
@@ -22,7 +22,7 @@
         prop="channelStatus"
         label="渠道状态"
         align="center"
-        min-width="100"
+        min-width="130"
         :filters="channelStatusFilters"
         :filter-method="filterHandler"
       >
@@ -34,7 +34,7 @@
         prop="cooperationType"
         label="合作类型"
         align="center"
-        min-width="90"
+        min-width="120"
         :filters="cooperationTypeFilters"
         :filter-method="filterHandler"
       >
@@ -46,7 +46,7 @@
         prop="channelType"
         label="渠道类别"
         align="center"
-        min-width="90"
+        min-width="120"
         :filters="channelTypeFilters"
         :filter-method="filterHandler"
       >
@@ -58,7 +58,7 @@
         prop="channelProp"
         label="渠道属性"
         align="center"
-        min-width="100"
+        min-width="120"
         :filters="channelPropFilters"
         :filter-method="filterHandler"
       >
@@ -73,7 +73,7 @@
         prop="createTime"
         label="创建时间"
         align="center"
-        width="120"
+        width="160"
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column label="操作" align="center" fixed="right" min-width="150">

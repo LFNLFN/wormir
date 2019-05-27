@@ -159,7 +159,11 @@
             url: '/order/submitMergeOrder.do',
             method: 'post',
             data: {
-              orderNos: this.orderNos
+              orderNos: this.orderNos,
+              brandBankInfo: this.brandBankInfo,
+              totalPaidPayment: this.totalPaidPayment,
+              brandNo: this.orders[0].brand_no,
+              brandName: this.orders[0].brand_name,
             }
           }).then((res) => {
             if (res.errorCode == 0) {

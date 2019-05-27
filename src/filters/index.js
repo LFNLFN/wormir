@@ -321,3 +321,13 @@ export function paymentTypeFilter(value) {
   }
   return statusMap[value]
 }
+
+// 付款类型
+export function paymentStatusFilter(value) {
+  const statusMap = {
+    1: '待付货款',
+    2: '待确认到帐',
+    3: '已确认到账',
+  }
+  return statusMap[value]
+}

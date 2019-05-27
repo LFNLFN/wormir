@@ -17,3 +17,10 @@ export const paymentTypeFilters = [
   { text: '30%订金', value: 30 },
   { text: '70%余款', value: 40 },
 ]
+
+// 付款类型
+export const paymentStatusFilters = [
+  { text: '待付货款', value: 1 },
+  { text: '待确认到账', value: 2 },
+  { text: '货款已到账', value: 3 },
+]
