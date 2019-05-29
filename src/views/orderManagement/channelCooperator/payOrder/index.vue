@@ -70,8 +70,11 @@
     </el-dialog>
 
     <!-- 提交并单详情 -->
-    <el-dialog :visible.sync="mergeOrderDetailVisible" title="并单详情" fullscreen style="padding: 20px">
-      <mergeOrderDetail v-if="mergeOrderDetailVisible" @cancel="mergeOrderDetailVisible = false" :mergeOrderNo="mergeOrderNo" :orders="orders"/>
+    <el-dialog :visible.sync="mergeOrderDetailVisible" fullscreen style="padding: 20px">
+      <mergeOrderDetail v-if="mergeOrderDetailVisible" @cancel="mergeOrderDetailVisible = false"
+                        :orders="orders"
+                        :currentMergeOrder="currentOrder"
+                        :mergeTitle="mergeTitle" />
     </el-dialog>
 
   </div>
@@ -172,7 +175,6 @@
         currentOrder: {},
         brandNameFilters: [],
         paymentStatusFilters: paymentStatusFilters,
-        mergeOrderNo: null,
         orders: null,
       }
     },
@@ -187,14 +189,6 @@
       },
       typeFilter(type) {
         return calendarTypeKeyValue[type]
-      },
-      payOrderStatusFilter(status) {
-        const statusMap = {
-          0: '待付货款',
-          1: '待确认到账',
-          2: '货款已到账'
-        }
-        return statusMap[status]
       },
     },
     created() {
@@ -373,14 +367,16 @@
         )
       },
       viewMergeOrder(row) {
-        this.mergeOrderNo = row.mergeOrderNo
+        this.listLoading = true
+        this.currentOrder = row
         this.$request({
           url: '/order/mergeOrderDetail.do',
           method: 'post',
-          data: row.orderNos
+          data: { orderNos: row.orderNos }
         }).then((res) => {
           if (res.errorCode == 0) {
             this.orders = res.data.items
+            this.mergeOrderDetailVisible = true
             this.listLoading = false
           } else {
             this.$message.error('数据请求失败');
@@ -390,7 +386,31 @@
           this.$message.error('数据请求失败');
           this.listLoading = false
         })
-        this.mergeOrderDetailVisible = true
+      }
+    },
+    computed: {
+      mergeTitle() {
+        let tmp = this.orders.some((e,i,s) => {
+          if (i==0) { return false }
+          return e.order_status != s[i-1].order_status
+        })
+        if (tmp) {
+          if (this.currentOrder.paymentStatus==1) { return '待付并单货款' }
+          else if (this.currentOrder.paymentStatus==2) { return '并单货款待确认到账' }
+          else if (this.currentOrder.paymentStatus==3) { return '并单货款已确认到账' }
+        }
+        else {
+          if (this.orders[0].order_status==30) {
+            if (this.currentOrder.paymentStatus==1) { return '待付并单订金' }
+            else if (this.currentOrder.paymentStatus==2) { return '并单订金待确认到账' }
+            else if (this.currentOrder.paymentStatus==3) { return '并单订金已确认到账' }
+          }
+          else if (this.orders[0].order_status==40) {
+            if (this.currentOrder.paymentStatus==1) { return '待付并单余款' }
+            else if (this.currentOrder.paymentStatus==2) { return '并单余款待确认到账' }
+            else if (this.currentOrder.paymentStatus==3) { return '并单余款已确认到账' }
+          }
+        }
       }
     }
   }

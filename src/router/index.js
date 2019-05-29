@@ -175,6 +175,12 @@ export const asyncRouterMap = [
             meta: { title: 'billManagement' }
           },
           {
+            path: 'domesticReceive',
+            component: () => import('@/views/orderManagement/channelCooperator/domesticReceive/index.vue'),
+            name: 'domesticReceive',
+            meta: { title: 'domesticReceive' }
+          },
+          {
             path: 'mergeOrders',
             component: () => import('@/views/orderManagement/channelCooperator/mergeOrders/index.vue'),
             name: 'mergeOrders',
@@ -185,6 +191,12 @@ export const asyncRouterMap = [
             component: () => import('@/views/orderManagement/channelCooperator/payOrder/index.vue'),
             name: 'payOrder',
             meta: { title: 'payOrder' }
+          },
+          {
+            path: 'orderRefund',
+            component: () => import('@/views/orderManagement/channelCooperator/orderRefund/index.vue'),
+            name: 'orderRefund',
+            meta: { title: 'orderRefund' }
           },
           {
             path: 'salesPromotion',

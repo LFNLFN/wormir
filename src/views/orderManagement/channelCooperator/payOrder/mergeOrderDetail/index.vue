@@ -85,6 +85,42 @@
 
       </el-table>
     </div>
+    <!--总接收款数-->
+    <div class="wrap4" v-if="currentMergeOrder.paymentStatus==3" style="margin-top: -1px">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;border-top: none"
+                :show-header="false"
+      >
+        <el-table-column align="right" label="" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">Total Received Payment：</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">{{ totalPaidPayment }}</div>
+          </template>
+        </el-table-column>
+
+      </el-table>
+    </div>
+    <!--时间记录-->
+    <div class="wrap5" style="margin-top: -1px">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;border-top: none"
+                :show-header="false"
+      >
+        <el-table-column align="left" label="" prop="">
+          <template slot-scope="scope">
+            <div :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-muted">
+              <span v-if="currentMergeOrder.paymentStatus==1">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}</span>
+              <span v-else-if="currentMergeOrder.paymentStatus==2">支付时间（Worrmir）：{{ currentMergeOrder.payTime }}</span>
+              <span v-else-if="currentMergeOrder.paymentStatus==3">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}；  支付时间（Worrmir）：{{ currentMergeOrder.payTime }}； 确认到账时间（Brand）：{{ currentMergeOrder.receivePaymentTime }}</span>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
 
     <!--遍历显示订单-->
     <div v-for="(item,index) in orders">
@@ -100,10 +136,9 @@
                        style="padding: 0" class="addGrayBlock"/>
     </div>
 
-    <div class="text-center" :style="{paddingBottom: 0, width: rowLength+'px'}">
-      <el-button @click="submitMergeOrder" type="primary" style="width: 10em" :loading="listLoading">确认提交</el-button>
-      <p class="warn-notice">温馨提醒：货单一经提交不可取消，请谨慎操作。</p>
-    </div>
+    <!--<div class="text-center" :style="{paddingBottom: 0, width: rowLength+'px'}">-->
+      <!--<el-button @click="submitMergeOrder" type="primary" style="width: 10em" :loading="listLoading">确认提交</el-button>-->
+    <!--</div>-->
 
   </div>
 </template>
@@ -123,6 +158,9 @@
       },
       mergeTitle: {
         type: String
+      },
+      currentMergeOrder: {
+        type: Object
       }
     },
     computed: {

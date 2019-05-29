@@ -144,7 +144,8 @@
         listLoading: false,
         wormirBankInfo: {},
         brandBankInfo: {},
-        orderNos: []
+        orderNos: [],
+        channelNos: [],
       }
     },
     methods: {
@@ -160,7 +161,9 @@
             method: 'post',
             data: {
               orderNos: this.orderNos,
+              channelNos: this.channelNos,
               brandBankInfo: this.brandBankInfo,
+              wormirBankInfo: this.wormirBankInfo,
               totalPaidPayment: this.totalPaidPayment,
               brandNo: this.orders[0].brand_no,
               brandName: this.orders[0].brand_name,
@@ -216,6 +219,7 @@
       })
       this.orders.forEach((e,i,s) => {
         this.orderNos.push(e.orderNo)
+        this.channelNos.push(e.channel_no)
       })
     }
   }
