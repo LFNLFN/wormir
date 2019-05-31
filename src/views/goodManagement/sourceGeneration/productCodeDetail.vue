@@ -102,18 +102,14 @@ export default {
   },
   data() {
     return {
-      list: [{
-        productCode: Mock.Random.natural(101, 199),
-        createUserId: Mock.Random.natural(1, 9),
-        recipients: Mock.Random.email('gmail.com'),
-        createTime: Mock.Random.now()
-      }],
+      list: [],
       listQuery: {
         searchText: '',
         total: 0,
         page: 1,
         limit: 10,
-        type: 1
+        type: 1,
+        brandNo: this.brand.brandNo,
       },
       brandName: 'abcde',
       codeAccumulate: '100',

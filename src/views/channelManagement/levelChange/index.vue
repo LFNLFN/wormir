@@ -75,7 +75,8 @@
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
+          <span v-if="scope.row.prevChannelLevel">{{ channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
+          <span v-else>{{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
         </template>
       </el-table-column>
       <el-table-column
