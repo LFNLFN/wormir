@@ -15,7 +15,8 @@
         </el-table-column>
         <el-table-column align="left" label="" prop="">
           <template slot-scope="scope">
-            <div>{{orders[0].orderNo}}</div>
+            <div v-if="orders.length==1">{{orders[0].orderNo}}</div>
+            <div v-else-if="orders.length>1">{{ createNumWithRange(7) }}</div>
           </template>
         </el-table-column>
       </el-table>
@@ -111,6 +112,7 @@
 <script>
   import waitPayDeposit from './waitPayDeposit/index.vue'
   import waitPayResidual from './waitPayResidual/index.vue'
+  import { createNumWithRange } from '@/utils/index'
 
   export default {
     components: {
@@ -190,6 +192,7 @@
           })
         }).catch(() => {});
       },
+      createNumWithRange,
     },
     mounted() {
       this.$nextTick(()=>{

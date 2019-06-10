@@ -272,6 +272,12 @@ export const asyncRouterMap = [
             component: () => import('@/views/orderManagement/problematicProductManagement/lessCargoProduct/index.vue'),
             name: 'lessCargoProduct',
             meta: { title: 'lessCargoProduct' }
+          },
+          {
+            path: 'compensationManagement',
+            component: () => import('@/views/orderManagement/problematicProductManagement/compensationManagement/index.vue'),
+            name: 'compensationManagement',
+            meta: { title: '物流赔保' }
           }
         ]
       }

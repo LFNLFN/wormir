@@ -372,7 +372,6 @@
     methods: {
       onSubmit() {
         this.isSubmitting = true;
-        console.log(this.form)
         this.$refs["form"].validate(valid => {
           if (valid) {
             this.$request({

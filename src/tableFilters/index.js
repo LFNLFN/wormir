@@ -24,3 +24,24 @@ export const paymentStatusFilters = [
   { text: '待确认到账', value: 2 },
   { text: '货款已到账', value: 3 },
 ]
+
+// 补款状态
+export const compensationStatusFilters = [
+  { text: '申请补款', value: 0 },
+  { text: '待审核', value: 1 },
+  { text: '待补款', value: 2 },
+  { text: '已补款', value: 3 },
+  { text: '驳回申请', value: 4 },
+  { text: '申诉中', value: 5 },
+  { text: '协商中', value: 6 },
+  { text: '驳回申诉', value: 7 }
+]
+
+// 补款类型
+export const compensationTypeFilters = [
+  { text: '--', value: 1 },
+  { text: '不支持补款', value: 2 },
+  { text: '申请后补款', value: 3 },
+  { text: '申诉后补款', value: 4 },
+  { text: '破损转补款', value: 5 },
+]

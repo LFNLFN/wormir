@@ -267,3 +267,17 @@ export function deepClone(source) {
 export function uniqueArr(arr) {
   return Array.from(new Set(arr))
 }
+
+// 生成指定位数的随机数字
+export function createNumWithRange(range) {
+  function randomNumber(max, min) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+  return randomNumber(Math.pow(10, range) - 1, Math.pow(10, range - 1))
+}
+
+// 表格的表头过滤
+export function filterHandler(value, row, column) {
+  const property = column['property'];
+  return row[property] === value;
+}

@@ -331,3 +331,44 @@ export function paymentStatusFilter(value) {
   }
   return statusMap[value]
 }
+
+
+// 瑕疵订单-补款状态
+export function compensationStatusFilter(value) {
+  const statusMap = {
+    0: '申请补款',
+    1: '待审核',
+    2: '待补款',
+    3: '已补款',
+    4: '驳回申请',
+    5: '申诉中',
+    6: '协商中',
+    7: '驳回申诉',
+  }
+  return statusMap[value]
+}
+
+// 补款类型（方式）
+export function compensationTypeFilter(value) {
+  const statusMap = {
+    1: '——',
+    2: '不支持补款',
+    3: '申请后补款',
+    4: '申诉后补款',
+    5: '破损转补款',
+  }
+  return statusMap[value]
+}
+
+// 申诉理由
+export function appealReasonFilter(value) {
+  const statusMap = {
+    1: '给予顾客补款，顾客体验相对好',
+    2: '给予顾客补款，尽力避免退货',
+    3: '给予顾客补款，减少带来投诉',
+    4: '请求吾蜜公司介入协商',
+    5: '商品有瑕疵，申请转补款继续销售',
+    6: '商品破损严重，只能接受退款',
+  }
+  return statusMap[value]
+}

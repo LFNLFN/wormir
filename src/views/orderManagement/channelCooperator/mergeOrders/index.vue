@@ -15,7 +15,7 @@
               @selection-change="handleSelectionChange"
               :span-method="arraySpanMethod"
               class="border2"
-              style="width: 100%;border-right-width: 1px">
+              style="width: 100%;border-right-width: 1px;">
       <el-table-column type="selection" align="center" width="100"></el-table-column>
 
       <el-table-column align="center" :label="$t('mergeRefundOrders.orderNo')" min-width="130" prop="orderNo"

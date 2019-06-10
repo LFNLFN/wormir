@@ -1,0 +1,37 @@
+// col表格
+.el-col {
+  border-radius: 0;
+}
+.el-col:nth-child(odd) {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-col:nth-child(odd):not(:last-of-type) {
+  border-right: 1px solid #d5d5d5;
+}
+.el-col:nth-child(even) {
+  color: #424242;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.el-col:nth-child(even):not(:last-of-type) {
+  border-right: 1px solid #d5d5d5;
+}
+.grid-content {
+  border: none;
+}
+
+// 定制border
+.theBorder {
+  border: solid #d5d5d5 2px;
+  & .el-row {
+    border-bottom: solid #d5d5d5 1px;
+    margin-bottom: 0;
+  }
+}
