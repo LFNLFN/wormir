@@ -418,3 +418,23 @@ export function appealReviewResultFilter(value) {
   }
   return statusMap[value]
 }
+
+// 少货商品退款状态
+export function lessCargoRefundStatusFilter(value) {
+  const statusMap = {
+    0: '申请退款',
+    1: '待审核',
+    2: '待退款',
+    3: '已退款',
+  }
+  return statusMap[value]
+}
+
+// 少货退款类型（方式）
+export function lessCargoRefundTypeFilter(value) {
+  const statusMap = {
+    1: '——',
+    2: '少货退款',
+  }
+  return statusMap[value]
+}

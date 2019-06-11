@@ -237,6 +237,7 @@
 </template>
 
 <script>
+  import problem_style from '@/styles/problem-col.scss'
   export default {
     props: {
       currentRow: {

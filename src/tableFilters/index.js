@@ -65,3 +65,17 @@ export const refundTypeFilters = [
   { text: '申请后退款', value: 3 },
   { text: '申诉后退款', value: 4 },
 ]
+
+// 退款状态
+export const lessCargoRefundStatusFilters = [
+  { text: '申请退款', value: 0 },
+  { text: '待审核', value: 1 },
+  { text: '待退款', value: 2 },
+  { text: '已退款', value: 3 },
+]
+
+// 退款类型
+export const lessCargoRefundTypeFilters = [
+  { text: '--', value: 1 },
+  { text: '少货退款', value: 2 },
+]
