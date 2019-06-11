@@ -15,7 +15,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="showOrder(scope.row)">{{scope.row.orderNo}}</span>
         </template>
       </el-table-column>
 
@@ -179,9 +179,9 @@
       </negotiating>
     </el-dialog>
 
-    <!--货单号详情-->
-    <el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">
-      <alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>
+    <!--查看已收货货单-->
+    <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
+      <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
 
   </div>
@@ -193,7 +193,7 @@ import { parseTime } from '@/utils'
 import * as tableFilters from '@/tableFilters/index.js'
 import orderDetail from './orderDetail/index.vue'
 import turnToBrand from './turnToBrand/index.vue'
-import alreadyReceive from './alreadyReceive/index.vue'
+import alreadyReceive from '../alreadyReceive/index.vue'
 
 import applyForReplenishment from './applyForReplenishment/index.vue'
 import waitForApplicationReview from './waitForApplicationReview/index.vue'
@@ -260,6 +260,7 @@ export default {
       imageViewed: '',
       isViewImageShow: false,
       dialogWidth: '70%',
+      isOrderShow: false,
     }
   },
   created() {
@@ -364,7 +365,10 @@ export default {
       this.isNegotiatingShow = true
       this.currentRow = row
     },
-
+    showOrder(row) {
+      this.currentRow = row
+      this.isOrderShow = true
+    },
   },
 }
 </script>

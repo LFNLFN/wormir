@@ -18,7 +18,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="showOrder(scope.row)">{{scope.row.orderNo}}</span>
         </template>
       </el-table-column>
 
@@ -113,10 +113,6 @@
       </el-pagination>
     </div>
 
-    <!--货单号详情-->
-    <el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">
-      <alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>
-    </el-dialog>
 
     <!--申请退款状态-->
     <el-dialog :visible.sync="isApplicationShow" :width="dialogWidth">
@@ -146,6 +142,13 @@
       ></alreadyRefund>
     </el-dialog>
 
+
+    <!--查看已收货货单-->
+    <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
+      <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -153,7 +156,7 @@
   import { issueGoods } from '@/api/goods'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
-  import alreadyReceive from './alreadyReceive/index.vue'
+  import alreadyReceive from '../alreadyReceive/index.vue'
   import orderStatus from './orderStatus/index.vue'
   import * as tableFilters from '@/tableFilters/index.js'
 
@@ -177,8 +180,6 @@
     },
     data() {
       return {
-        // 按钮弹层
-        orderNoDetailVisible: false,
         isApplicationShow: false,
         isWaitReviewShow: false,
         isWaitForRefundShow: false,
@@ -206,6 +207,7 @@
         isViewImageShow: false,
         dialogWidth: '70%',
         brandNameFilters: [],
+        isOrderShow: false,
       }
     },
     created() {
@@ -288,9 +290,9 @@
         return row[property] === value;
       },
 
-      // 按钮弹层
-      viewOrderNoDetail(row) {
-        this.orderNoDetailVisible = true
+      showOrder(row) {
+        this.currentRow = row
+        this.isOrderShow = true
       },
     }
   }

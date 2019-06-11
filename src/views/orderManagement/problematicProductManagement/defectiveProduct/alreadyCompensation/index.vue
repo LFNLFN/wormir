@@ -420,7 +420,6 @@
   import problem_style from '@/styles/problem-col.scss'
 
   export default {
-    components: { ElRow },
     props: {
       currentRow: {
         type: Object,

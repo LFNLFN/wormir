@@ -633,4 +633,12 @@
   .orderTable .el-col {
     border-right: none;
   }
+  .units-wrap .el-col {
+    border: none;
+    background-color: transparent;
+    font-weight: normal;
+  }
+  .theBorder .el-col:nth-child(even) {
+    padding-left: 1em;
+  }
 </style>

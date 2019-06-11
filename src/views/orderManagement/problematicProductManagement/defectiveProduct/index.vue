@@ -15,7 +15,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="showOrder(scope.row)">{{scope.row.orderNo}}</span>
         </template>
       </el-table-column>
 
@@ -174,10 +174,10 @@
       </negotiateProcessing>
     </el-dialog>
 
-    <!--货单号详情-->
-    <!--<el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">-->
-      <!--<alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>-->
-    <!--</el-dialog>-->
+    <!--查看已收货货单-->
+    <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
+      <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
+    </el-dialog>
 
   </div>
 </template>
@@ -185,7 +185,7 @@
 <script>
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import alreadyReceive from './alreadyReceive/index.vue'
+import alreadyReceive from '../alreadyReceive/index.vue'
 import * as tableFilters from '@/tableFilters/index.js'
 
 import applyForCompensation from './applyForCompensation/index.vue'
@@ -252,7 +252,8 @@ export default {
       imageViewed: '',
       isViewImageShow: false,
       currentRow: {},
-      dialogWidth: '70%'
+      dialogWidth: '70%',
+      isOrderShow: false,
     }
   },
   created() {
@@ -348,6 +349,10 @@ export default {
     viewNegotiateProcessing(row) {
       this.isNegotiateProcessingShow = true
       this.currentRow = row
+    },
+    showOrder(row) {
+      this.currentRow = row
+      this.isOrderShow = true
     },
   },
 }
