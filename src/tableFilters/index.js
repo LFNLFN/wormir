@@ -45,3 +45,23 @@ export const compensationTypeFilters = [
   { text: '申诉后补款', value: 4 },
   { text: '破损转补款', value: 5 },
 ]
+
+// 退款状态
+export const refundStatusFilters = [
+  { text: '申请退款', value: 0 },
+  { text: '待审核', value: 1 },
+  { text: '待退款', value: 2 },
+  { text: '已退款', value: 3 },
+  { text: '驳回申请', value: 4 },
+  { text: '申诉中', value: 5 },
+  { text: '协商中', value: 6 },
+  { text: '驳回申诉', value: 7 }
+]
+
+// 退款类型
+export const refundTypeFilters = [
+  { text: '--', value: 1 },
+  { text: '不支持退款', value: 2 },
+  { text: '申请后退款', value: 3 },
+  { text: '申诉后退款', value: 4 },
+]

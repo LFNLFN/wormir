@@ -372,3 +372,49 @@ export function appealReasonFilter(value) {
   }
   return statusMap[value]
 }
+
+// 破损订单-退款状态
+export function refundStatusFilter(value) {
+  const statusMap = {
+    0: '申请退款',
+    1: '待审核',
+    2: '待退款',
+    3: '已退款',
+    4: '驳回申请',
+    5: '申诉中',
+    6: '协商中',
+    7: '驳回申诉',
+  }
+  return statusMap[value]
+}
+
+// 退款类型（方式）
+export function refundTypeFilter(value) {
+  const statusMap = {
+    1: '——',
+    2: '不支持退款',
+    3: '申请后退款',
+    4: '申诉后退款',
+  }
+  return statusMap[value]
+}
+
+// 申请审核结果
+export function applicationReviewResultFilter(value) {
+  const statusMap = {
+    1: '同意申请',
+    2: '驳回申请',
+    3: '破损转补款',
+  }
+  return statusMap[value]
+}
+
+// 申诉审核结果
+export function appealReviewResultFilter(value) {
+  const statusMap = {
+    1: '同意申请',
+    2: '驳回申请',
+    3: '破损转补款',
+  }
+  return statusMap[value]
+}
