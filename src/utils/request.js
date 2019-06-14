@@ -18,7 +18,10 @@ service.interceptors.request.use(config => {
   if (store.getters.token) {
     // config.headers['X-Token'] = store.getters.token // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     config.headers['X-Token'] = window.localStorage.token ? window.localStorage.token : ''
-    config.headers['userLevel'] = JSON.parse(window.localStorage.userData).userLevel
+    if (window.localStorage.userData) {
+      config.headers['userLevel'] = JSON.parse(window.localStorage.userData).userLevel
+    }
+    
   }
   return config
 }, error => {
