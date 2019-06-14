@@ -26,7 +26,7 @@
       </el-table-column>
       <el-table-column align="center" label="商品规格" prop="goodsSpecificationChinese" min-width="100"/>
       <el-table-column align="center" label="商品码" prop="sourceCode" min-width="100"/>
-      <el-table-column align="center" label="商品售价" prop="goodsPrice" min-width="100">
+      <el-table-column align="center" label="最低零售价" prop="goodsPrice" min-width="100">
         <template slot-scope="scope">
           <span>￥ {{ scope.row.goodsPrice.toFixed(2) }}</span>
         </template>
@@ -38,12 +38,18 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="购买渠道" prop="channelNo" min-width="120">
+      <el-table-column align="center" label="购买/获取渠道" prop="channelNo" min-width="120">
         <template slot-scope="scope">
           <span class="link-type" @click="showCheck(scope.row)">{{ 'ZXC总店' }}</span>
         </template>
       </el-table-column>
-
+      <el-table-column min-width="120" align="center" label="出库属性" prop="outboundProperty"
+                       :filters="propertyFilters"
+                       :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <span>{{ propertyMap[scope.row.activeStatus].text }}</span>
+        </template>
+      </el-table-column>
       <el-table-column min-width="120" align="center" label="商品情况" prop="productStatus"
                        :filters="productStatusFilters"
                        :filter-method="filterHandler">
@@ -51,9 +57,6 @@
           <span>{{ productStatusMap[scope.row. productStatus].text }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="销售时间" prop="salesTime" min-width="120" />
-
       <el-table-column min-width="120" align="center" label="激活状态" prop="activeStatus"
                        :filters="activeStatusFilters"
                        :filter-method="filterHandler">
@@ -61,10 +64,11 @@
           <span>{{ activeStatusMap[scope.row.activeStatus].text }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="销售/出库时间" prop="salesTime" min-width="120" />
 
       <el-table-column min-width="100" align="center" label="异常详情" prop="abnormalDetail"/>
       <el-table-column min-width="100" align="center" label="所在城市" prop="city"/>
-      <el-table-column min-width="100" align="center" label="购买地址" prop="address"/>
+      <el-table-column min-width="250" align="center" label="收货地址" prop="address"/>
       <el-table-column min-width="150" align="center" label="身份证号" prop="identification"/>
       <el-table-column min-width="100" align="center" label="验证手机号" prop="">
         <template slot-scope="scope">
@@ -150,22 +154,32 @@
         }],
 
         productStatusFilters: [
-          { text: '未定义', value: 0 },
           { text: '正常商品', value: 1 },
           { text: '瑕疵商品', value: 2 },
           { text: '破损商品', value: 3 },
           { text: '少货商品', value: 4 },
           { text: '瑕疵待确认', value: 5 },
           { text: '破损待确认', value: 6 },
+          { text: '未定义商品', value: 0 },
+          { text: '正常赠品', value: 7 },
+          { text: '瑕疵赠品', value: 8 },
+          { text: '破损赠品', value: 9 },
+          { text: '少货赠品', value: 10 },
+          { text: '未定义赠品', value: 11 },
         ],
         productStatusMap: {
-//          0: { text: '未定义', value: 0 },
+//          0: { text: '未定义商品', value: 0 },
           1: { text: '正常商品', value: 1 },
           2: { text: '瑕疵商品', value: 2 },
           3: { text: '破损商品', value: 3 },
           4: { text: '少货商品', value: 4 },
           5: { text: '瑕疵待确认', value: 5 },
           6: { text: '破损待确认', value: 6 },
+          7: { text: '正常赠品', value: 7 },
+          8: { text: '瑕疵赠品', value: 8 },
+          9: { text: '破损赠品', value: 9 },
+          10: { text: '少货赠品', value: 10 },
+          11: { text: '未定义赠品', value: 11 },
         },
         activeStatusFilters: [
           { text: '无效激活', value: 0 },
@@ -174,6 +188,16 @@
         activeStatusMap: {
           0: { text: '无效激活', value: 0 },
           1: { text: '有效激活', value: 1 },
+        },
+        propertyFilters: [
+          { text: '一般贸易商品', value: 0 },
+          { text: '跨境贸易商品', value: 1 },
+          { text: '一般贸易赠品', value: 2 },
+        ],
+        propertyMap: {
+          0: { text: '一般贸易商品', value: 0 },
+          1: { text: '跨境贸易商品', value: 1 },
+          2: { text: '一般贸易赠品', value: 2 },
         },
         dateRange: undefined,
         listLoading: false

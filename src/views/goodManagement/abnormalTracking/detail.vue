@@ -37,10 +37,9 @@
               size="mini" style="width: 100%;border-top:none"
               class="border2">
       <el-table-column min-width="120" align="center" label="商品编号" fixed="left" prop="goodsNo"/>
-      <el-table-column min-width="120" align="center" label="商品名称" prop="goodsEnglishName"/>
+      <el-table-column min-width="120" align="center" label="商品名称（英文）" prop="goodsEnglishName"/>
       <el-table-column min-width="120" align="center" label="箱码" prop="boxCode"/>
       <el-table-column min-width="120" align="center" label="商品码" prop="sourceCode"/>
-      <el-table-column width="120" align="center" label="出库时间" prop="outboundTime"/>
       <el-table-column min-width="120" align="center" label="收货状态" prop="receiveStatus">
         <template slot-scope="scope">
           <span>{{ receiveStatusMap[scope.row.receiveStatus].text }}</span>
@@ -58,12 +57,12 @@
         </template>
       </el-table-column>
       <el-table-column width="120" align="center" label="流转时间" prop="transferTime"/>
-      <el-table-column min-width="100" align="center" label="商品售价" prop="goodsPrice">
+      <el-table-column min-width="100" align="center" label="最低零售价" prop="goodsPrice">
         <template slot-scope="scope">
           <span>￥ {{ scope.row.goodsPrice.toFixed(2) }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="100" align="center" label="实际售价" prop="actualPrice">
+      <el-table-column min-width="100" align="center" label="出库售价" prop="actualPrice">
         <template slot-scope="scope">
           <span>￥ {{ scope.row.actualPrice.toFixed(2) }}</span>
         </template>
@@ -78,6 +77,7 @@
           <span>{{ transferSituationMap[scope.row.transferSituation].text }}</span>
         </template>
       </el-table-column>
+      <el-table-column width="120" align="center" label="出库时间" prop="outboundTime"/>
       <el-table-column min-width="100" align="center" label="异常详情" prop="abnormalDetail"/>
     </el-table>
   </div>

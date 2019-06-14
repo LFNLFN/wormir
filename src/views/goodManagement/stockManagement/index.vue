@@ -33,7 +33,7 @@
         <el-table-column align="center" label="整箱">
           <el-table-column min-width="100" align="center" label="(units)" prop="virtualDevanningInStockCount">
             <template slot-scope="scope">
-              {{ scope.row.holdInventoryQuantity / scope.row.packageSpecificationZh.replace(/[^0-9]/ig, '') }}
+              {{ scope.row.holdInventoryQuantity / scope.row.packageSpecificationZh }}
             </template>
           </el-table-column>
         </el-table-column>
@@ -46,7 +46,7 @@
         <el-table-column align="center" label="整箱" prop="devanningOutStockCount">
           <el-table-column min-width="100" align="center" label="(units)" prop="devanningOutStockCount">
             <template slot-scope="scope">
-              {{ scope.row.currentInventoryQuantity / scope.row.packageSpecificationZh.replace(/[^0-9]/ig, '') }}
+              {{ scope.row.currentInventoryQuantity / scope.row.packageSpecificationZh }}
             </template>
           </el-table-column>
         </el-table-column>
@@ -66,9 +66,6 @@
           <div class="table-btn-wrap">
             <el-button type="primary" size="mini" @click="outboundInventory(scope.row)">实际库存明细</el-button>
           </div>
-          <div class="table-btn-wrap">
-            <el-button type="primary" size="mini" @click="packingDetail(scope.row)">装箱明细</el-button>
-          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -80,20 +77,16 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="isInventoryDetailsShow" title="入库明细" width="80%">
+    <el-dialog :visible.sync="isInventoryDetailsShow" title="入库明细" fullscreen>
       <inventory-details :product="currentProduct" v-if="isInventoryDetailsShow"></inventory-details>
     </el-dialog>
 
-    <el-dialog :visible.sync="isHoldInventoryShow" title="虚拟库存明细" width="85%">
+    <el-dialog :visible.sync="isHoldInventoryShow" title="虚拟库存明细" fullscreen>
       <hold-inventory :product="currentProduct" v-if="isHoldInventoryShow"></hold-inventory>
     </el-dialog>
 
     <el-dialog :visible.sync="isOutboundInventoryShow" title="实际库存明细" fullscreen style="padding: 20px 10px">
       <outbound-inventory :product="currentProduct" v-if="isOutboundInventoryShow"></outbound-inventory>
-    </el-dialog>
-
-    <el-dialog :visible.sync="isPackingDetailShow" title="装箱明细" width="80%">
-      <packing-detail :product="currentProduct" v-if="isPackingDetailShow"></packing-detail>
     </el-dialog>
   </div>
 </template>
@@ -123,7 +116,7 @@
           limit: 10,
           propertyOfSale: 1
         },
-        list: [],
+        list: [{brandNo: '1', brandEnglishName: '1', brandChineseName: '1', goodsNoForBrand: '1', goodsEnglishName: '1', goodsChineseName: '1', specificationChinese: '1'}],
         isInventoryDetailsShow: false,
         isHoldInventoryShow: false,
         isOutboundInventoryShow: false,
