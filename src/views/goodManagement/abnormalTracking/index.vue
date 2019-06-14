@@ -179,16 +179,16 @@
           1: { text: '已收货', value: 1 },
         },
         productStatusFilters: [
-          { text: '未定义', value: 0 },
           { text: '正常商品', value: 1 },
           { text: '瑕疵商品', value: 2 },
           { text: '破损商品', value: 3 },
           { text: '少货商品', value: 4 },
           { text: '瑕疵待确认', value: 5 },
           { text: '破损待确认', value: 6 },
+          { text: '未定义商品', value: 0 }
         ],
         productStatusMap: {
-//          0: { text: '未定义', value: 0 },
+//          0: { text: '未定义商品', value: 0 },
           1: { text: '正常商品', value: 1 },
           2: { text: '瑕疵商品', value: 2 },
           3: { text: '破损商品', value: 3 },

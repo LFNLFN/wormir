@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="顾客编号/联系电话/商品码"
+      <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="会员编号/联系电话/商品码"
                 v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
@@ -12,15 +12,16 @@
               border fit highlight-current-row size="mini"
                class="border-top2 border-left2"
                style="width: 100%" >
-      <el-table-column  min-width="120" align="center" label="顾客编号" prop="customerNo" />
-      <el-table-column  min-width="100" align="center" label="顾客姓名" prop="name" />
+      <el-table-column  min-width="120" align="center" label="会员编号" prop="customerNo" />
+      <el-table-column  min-width="100" align="center" label="会员姓名" prop="name" />
       <el-table-column  min-width="120" align="center" label="电话号码" prop="phone" />
-      <el-table-column  min-width="100" align="center" label="顾客性别" prop="gender" />
-      <el-table-column  min-width="100" align="center" label="顾客年龄" prop="age" />
-      <el-table-column  min-width="120" align="center" label="顾客生日" prop="birthday" />
+      <el-table-column  min-width="100" align="center" label="会员性别" prop="gender" />
+      <el-table-column  min-width="100" align="center" label="会员年龄" prop="age" />
+      <el-table-column  min-width="120" align="center" label="会员生日" prop="birthday" />
+      <el-table-column  min-width="120" align="center" label="会员属性" prop="property" :filters="propertyFilter"/>
       <el-table-column width= "120" align="center" :label="$t('order.operation')" class-name="small-padding">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="buyingDetail(scope.row)">购买详情</el-button>
+          <el-button type="primary" size="mini" @click="buyingDetail(scope.row)">查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,7 +64,16 @@ export default {
       isBuyingDetailShow: false,
       currentCustomer: '',
       listLoading: false,
-      total: 0
+      total: 0,
+
+      propertyFilter: [
+          { text: '普通会员', value: 1 },
+          { text: '白银会员', value: 2 },
+          { text: '黄金会员', value: 3 },
+          { text: '白钻会员', value: 4 },
+          { text: '黄钻会员', value: 5 },
+          { text: '皇冠会员', value: 6 },
+        ],
     }
   },
   created() {
@@ -78,7 +88,8 @@ export default {
         phone: '18588888888',
         gender: '女',
         age: '20',
-        birthday: '1997-10-01'
+        birthday: '1997-10-01',
+        property: '普通会员'
       })
       this.listLoading = false
     },

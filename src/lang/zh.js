@@ -127,7 +127,7 @@ export default {
     i18n: '国际化',
     salesPromotion: '审批促销',
     abnormalTracking: '异常追踪',
-    customerTracking: '顾客追踪',
+    customerTracking: '会员追踪',
     verifySetting: '验证设置',
     stockManagement: '库存管理',
     accountManagement: '账户管理',

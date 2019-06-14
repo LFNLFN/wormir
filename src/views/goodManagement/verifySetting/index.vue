@@ -14,15 +14,9 @@
               border fit highlight-current-row size="mini"
               class="border-top2 border-left2"
               style="width: 100%">
-      <el-table-column min-width="120" align="center" label="品牌序列号" prop="brandNo"
-                       :filters="brandFilters"
-                       :filter-method="filterHandler"/>
-      <el-table-column min-width="120" align="center" label="品牌名称（中文）" prop="chineseName"
-                       :filters="chineseNameFilters"
-                       :filter-method="filterHandler" />
-      <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="englishName"
-                       :filters="englishNameFilters"
-                       :filter-method="filterHandler" />
+      <el-table-column min-width="120" align="center" label="品牌序列号" prop="brandNo"/>
+      <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="englishName"/>
+      <el-table-column min-width="120" align="center" label="品牌名称（中文）" prop="chineseName"/>
       <el-table-column min-width="120" align="center" label="原产国/产地" prop="provenance"/>
       <el-table-column min-width="120" align="center" label="品牌状态" prop="status"
                        :filters="statusFilters"
@@ -97,21 +91,9 @@
         currentBrand: '',
         listLoading: false,
         total: 0,
-        brandFilters: [
-          { text: 'LANCOM', value: 123456 },
-          { text: 'AESOP', value: 654321 }
-        ],
-        chineseNameFilters: [
-          { text: '兰蔻', value: '兰蔻' },
-          { text: '伊索', value: '伊索' }
-        ],
-        englishNameFilters: [
-          { text: 'LANCOM', value: 'LANCOM' },
-          { text: 'AESOP', value: 'AESOP' }
-        ],
         statusFilters: [
-          { text: '兰蔻', value: '兰蔻' },
-          { text: '伊索', value: '伊索' }
+          { text: '停止供货', value: 0 },
+          { text: '正常供货', value: 1 }
         ],
         statusMap: {
           0: { text: '停止供货', value: 0 },
