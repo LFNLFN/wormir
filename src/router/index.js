@@ -197,12 +197,6 @@ export const asyncRouterMap = [
             component: () => import('@/views/orderManagement/channelCooperator/orderRefund/index.vue'),
             name: 'orderRefund',
             meta: { title: 'orderRefund' }
-          },
-          {
-            path: 'salesPromotion',
-            component: () => import('@/views/orderManagement/channelCooperator/salesPromotion/index.vue'),
-            name: 'salesPromotion',
-            meta: { title: 'salesPromotion' }
           }
         ]
       },
@@ -274,13 +268,44 @@ export const asyncRouterMap = [
             meta: { title: 'lessCargoProduct' }
           },
           {
+            path: 'compensationAndRefund',
+            component: () => import('@/views/orderManagement/problematicProductManagement/compensationAndRefund/index.vue'),
+            name: 'compensationAndRefund',
+            meta: { title: '赔偿退款' }
+          },
+          {
+            path: 'submitMergeOrder',
+            component: () => import('@/views/orderManagement/problematicProductManagement/submitMergeOrder/index.vue'),
+            name: 'submitMergeOrder',
+            meta: { title: '提交并单' }
+          },
+          {
+            path: 'payRefund',
+            component: () => import('@/views/orderManagement/problematicProductManagement/payRefund/index.vue'),
+            name: 'payRefund',
+            meta: { title: '支付退款' }
+          },
+          {
             path: 'compensationManagement',
             component: () => import('@/views/orderManagement/problematicProductManagement/compensationManagement/index.vue'),
             name: 'compensationManagement',
             meta: { title: '物流赔保' }
-          }
+          },
+
         ]
-      }
+      },
+      {
+        path: 'salesPromotion',
+        component: () => import('@/views/orderManagement/salesPromotion/index.vue'),
+        name: 'salesPromotion',
+        meta: { title: 'salesPromotion' }
+      },
+      {
+        path: 'invoiceManagement',
+        component: () => import('@/views/orderManagement/invoiceManagement/index.vue'),
+        name: 'invoiceManagement',
+        meta: { title: '发票管理' }
+      },
     ]
   },
   {
