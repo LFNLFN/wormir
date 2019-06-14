@@ -1,163 +1,214 @@
 <template>
   <div class="app-container">
+    <h2 :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">待发货</h2>
     <div class="mainContent">
-      <div class="filter-container theTopMsgBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
+      <div class="filter-container theBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
         <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">货单号:</div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple">{{ currentRow.orderNo }}</div>
+            <div class="grid-content bg-purple">{{ orderDetail.orderNo }}</div>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">渠道号:</div>
           </el-col>
-          <el-col :span="8">
-            <div class="grid-content bg-purple">{{ currentRow.channelClassify }}</div>
-          </el-col>
-          <el-col :span="3">
-            <div class="grid-content bg-purple">渠道名称</div>
-          </el-col>
-          <el-col :span="8">
-            <div class="grid-content bg-purple">{{ channelClassifyMap[currentRow.channelClassify] }}</div>
+          <el-col :span="20">
+            <div class="grid-content bg-purple">{{ orderDetail.channelNo }}</div>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="3" align="center">
-            <div class="grid-content bg-purple">Address:</div>
-          </el-col>
-          <el-col :span="15">
-            <div class="grid-content bg-purple">Guangzhou Panyu</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">City:</div>
-          </el-col>
-          <el-col :span="2">
-            <div class="grid-content bg-purple">广州</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="3" align="center">
-            <div class="grid-content bg-purple">Consignee's Name:</div>
-          </el-col>
-          <el-col :span="9">
-            <div class="grid-content bg-purple">Tony Ma</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">Contact:</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">0757-34345424</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">Tel:</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">13734234234</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="3" align="center">
-            <div class="grid-content bg-purple">收款SWFIT Code</div>
-          </el-col>
-          <el-col :span="3">
-            <div class="grid-content bg-purple">453566787469</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">收款银行:</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">中国农业银行</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">银行地址</div>
-          </el-col>
-          <el-col :span="10">
-            <div class="grid-content bg-purple">广州市天河区石牌桥</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="3" align="center">
-            <div class="grid-content bg-purple">汇款SWFIT Code</div>
-          </el-col>
-          <el-col :span="3">
-            <div class="grid-content bg-purple">413266787469</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">汇款银行:</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">中国工商银行</div>
-          </el-col>
-          <el-col :span="2" align="center">
-            <div class="grid-content bg-purple">银行地址</div>
-          </el-col>
-          <el-col :span="10">
-            <div class="grid-content bg-purple">广州市番禺区市桥</div>
-          </el-col>
-        </el-row>
+
+        <div v-if="orderDetail.propertyOfSale==1">
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">收货地址:</div>
+            </el-col>
+            <el-col :span="19">
+              <div class="grid-content bg-purple">{{ orderDetail.address }}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">收货方:</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{orderDetail.name}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">联系人:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.contact}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">联系电话:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-if="orderDetail.propertyOfSale==2">
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">Address:</div>
+            </el-col>
+            <el-col :span="15">
+              <div class="grid-content bg-purple">{{ orderDetail.address}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">City:</div>
+            </el-col>
+            <el-col :span="2">
+              <div class="grid-content bg-purple">{{orderDetail.city}}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">Consignee's Name:</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{orderDetail.name}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">Contact:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.contact}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">Tel:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" v-if="orderDetail.payWay==10">
+              <div class="grid-content bg-purple">收款SWFIT Code</div>
+            </el-col>
+            <el-col :span="3" v-if="orderDetail.payWay==10">
+              <div class="grid-content bg-purple">453566787469</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">收款银行</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">中国农业银行</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">银行地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">广州市天河区石牌桥</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center" v-if="orderDetail.payWay==10">
+              <div class="grid-content bg-purple">汇款SWFIT Code</div>
+            </el-col>
+            <el-col :span="3" v-if="orderDetail.payWay==10">
+              <div class="grid-content bg-purple">{{orderDetail.bankSwift}}</div>
+            </el-col>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">汇款银行</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.bankName}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">银行地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{orderDetail.bankAddress}}</div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
 
       <div style="display: flex">
-        <div class="brand-col">
-          <div class="col-head border-bottom" style="border-left: 2px solid #d5d5d5">商品品牌</div>
-          <div class="col-content"
-               :style="{height: tableHeight-37+'px', borderLeft: '2px solid #d5d5d5', borderBottom: '2px solid #d5d5d5'}">
-            <span>AESOP</span></div>
-        </div>
         <div class="twoTable-wrap" style="padding-right: 20px">
           <!--订货表格-->
           <div class="filter-container" style="padding-bottom: 0">
-            <el-table key='productList' :data="order.orderSubs || []"
-                      border fit size="mini"
-                      style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5"
-                      class="orderTable" ref="orderTable"
-                      :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}">
-              <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
+            <el-table
+              key="productList"
+              :data="orderDetail.goodList || []"
+              border
+              fit
+              size="mini"
+              style="width: 100%;border:none;border-left: 2px solid #d5d5d5;border-right: 1px solid #d5d5d5"
+              class="orderTable"
+              ref="orderTable"
+              :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}"
+            >
+              <el-table-column
+                align="center"
+                width="85"
+                label="商品品牌"
+                prop="brandName"
+              />
+              <el-table-column
+                align="center"
+                width="85"
+                :label="$t('product.productNo')"
+                prop="goodsNo"
+              >
                 <template slot-scope="scope">
-                  <span>{{scope.row.goodsNo}}</span>
+                  <span>{{ scope.row.goodsNoForBrand }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="130" :label="$t('product.productName')" prop="goodsChineseName"
-                               show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <span>{{scope.row.goodsChineseName}}</span>
-                </template>
+              <el-table-column
+                align="center"
+                width="130"
+                :label="$t('product.productName')"
+                prop="goodsName"
+                show-overflow-tooltip
+              >
               </el-table-column>
-              <el-table-column align="center" width="90" :label="$t('product.productSpecification')"
-                               prop="specificationChinese" show-overflow-tooltip>
-                <template slot-scope="scope">
-                  <span>{{scope.row.specificationChinese}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" width="220" class-name="units-wrap"
-                               :label="$t('order.packageSpecification')" prop="packingSpecification"
-                               show-overflow-tooltip>
+              <el-table-column
+                align="center"
+                width="90"
+                :label="$t('product.productSpecification')"
+                prop="specificationChinese"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                align="center"
+                width="220"
+                class-name="units-wrap"
+                :label="$t('order.packageSpecification')"
+                prop="packingSpecification"
+                show-overflow-tooltip
+              >
                 <template slot-scope="scope">
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.packingSpecification || 0}}</span>
+                      <span>{{scope.row.packingSpecification.replace(/[^0-9]/ig,"")}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>支/箱</span>
+                      <span>{{scope.row.packingSpecification.replace(/\d+/g, '')}}</span>
                     </el-col>
                   </el-row>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="90" :label="$t('price.domesticRetailPrice')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.supplyCurrencySymbol}}{{scope.row.supplyPrice.toFixed(2)}}</span>
+                  <span>￥{{scope.row.unitPrice}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="120" class-name="units-wrap" :label="$t('order.orderQuantity')">
+              <el-table-column
+                align="center"
+                width="120"
+                class-name="units-wrap"
+                :label="$t('order.orderQuantity')"
+              >
                 <template slot-scope="scope">
-                  <span></span>
                   <el-row>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>{{scope.row.orderQuantity}}</span>
+                      <!-- <el-input v-model="orderQuantityInput[scope.$index]" placeholder="0"></el-input> -->
+                      <span>{{scope.row.orderBoxNum}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
                       <span>箱</span>
@@ -168,57 +219,67 @@
 
               <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
                 <template slot-scope="scope">
-                  <span></span>
-                  <span>{{scope.row.startDiscount}}%</span>
+                  <span>{{scope.row.initialDiscount}}%</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="140" :label="$t('price.orderDiscount')">
                 <template slot-scope="scope">
-                  <span>{{scope.row.orderDiscount}}%</span>
+                  <span>{{scope.row.finalDiscount}}%</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" width="140" :label="$t('price.orderUnitPrice')">
+              <el-table-column
+                align="center"
+                width="140"
+                :label="$t('price.orderUnitPrice')"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification).toFixed(2)}}</span>
+                  <span>￥ {{(scope.row.unitPrice * scope.row.finalDiscount/100).toFixed(2)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="140" :label="$t('order.orderAmount')">
+              <el-table-column
+                align="center"
+                width="140"
+                :label="$t('order.orderAmount')"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.orderPrice}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" :label="$t('order.thirtyPercentDeposit')" width="130">
+              <el-table-column
+                align="center"
+                :label="$t('order.thirtyPercentDeposit')"
+                width="130"
+              >
                 <template slot-scope="scope">
-                  <span>￥ {{(scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.3).toFixed(2)}}</span>
+                  <span>￥ {{scope.row.earnestAmount}}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('order.residualPayment')" align="center"
-                               width="170">
+              <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
                 <template slot-scope="scope">
-                  <span>￥ {{ (scope.row.supplyPrice * scope.row.packingSpecification * scope.row.orderQuantity * 0.7).toFixed(2) }}</span>
+                  <span>￥ {{ scope.row.surplusAmount }}</span>
                 </template>
               </el-table-column>
-              <!--<el-table-column label="跨境税金" align="center" width="170" v-if="currentRow.channelClassify!==2">-->
-                <!--<template slot-scope="scope">-->
-                  <!--<span>￥ {{ (scope.row.supplyPrice * 0.119).toFixed(2) }}</span>-->
-                <!--</template>-->
-              <!--</el-table-column>-->
-            </el-table>
             </el-table>
           </div>
           <!--补货表格-->
           <div class="filter-container" style="padding-bottom: 0">
             <el-table key='replenishment' :data="order.replenishmentList" border fit
                       size="mini"
-                      style="width: 100%;border: 1px solid #d5d5d5;border-top:none;"
+                      style="width: 100%;border: 1px solid #d5d5d5;border-left-width: 2px;border-top:none;"
                       :span-method="arraySpanMethod"
+                      :show-header="haveReplenishment"
                       class="orderTable" ref="replenishmentTable"
                       :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
+              <el-table-column
+                align="center"
+                width="85"
+                label="商品品牌"
+                prop="brandName"
+              />
               <el-table-column align="center" width="85" :label="$t('product.productNo')" prop="goodsNo">
                 <template slot-scope="scope">
-                  <div class="text-muted" v-if="scope.$index===order.replenishmentList.length-1">支付70%余款时间: {{ new
-                    Date(completeStockTime) | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+                  <div class="text-muted" v-if="scope.$index===order.replenishmentList.length-1">支付70%余款时间: {{ orderDetail.paySurplusTime }}
                   </div>
                   <span v-else>{{scope.row.goodsNo}}</span>
                 </template>
@@ -243,7 +304,7 @@
                 </el-table-column>
                 <el-table-column align="center" width="100" label="装箱规格">
                   <template slot-scope="scope">
-                    <span>{{scope.row.packingUnit}} 瓶/箱</span>
+                    <span>{{ scope.row.packingUnit }} 瓶/箱</span>
                   </template>
                 </el-table-column>
               </el-table-column>
@@ -291,14 +352,14 @@
               </el-table-column>
               <el-table-column align="center" width="130" :label="$t('order.thirtyPercentDeposit')">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ deposit30Amount.toFixed(2)}}</span>
-                  <span v-else-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ (deposit30Amount+deposit70Amount).toFixed(2) }}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_earnest_amount }}</span>
+                  <span v-else-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{ currentRow.total_channel_amount }}</span>
                   <span v-else>￥ {{(scope.row.supplyPrice * scope.row.replenishmentQuantity * 0.3).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
                 <template slot-scope="scope">
-                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ deposit70Amount.toFixed(2)}}</span>
+                  <span v-if="scope.$index===order.replenishmentList.length-2" class="text-total">￥ {{ currentRow.total_surplus_amount }}</span>
                   <div v-else-if="scope.$index===order.replenishmentList.length-1" class="text-total">￥ {{
                     deposit70Amount.toFixed(2) }}
                   </div>
@@ -316,11 +377,9 @@
             </el-table>
           </div>
 
-          <!--<div style="display: flex;justify-content: flex-end;margin-top: 10px">-->
-            <!--<el-button v-if="urgeBtnVisible" class="filter-item" type="primary" @click="urgeVisible=true">催促发货-->
-            <!--</el-button>-->
-            <!--<el-button v-if="cancelOrderBtnVisible" class="filter-item" type="primary" @click="cancelOrderProcess">取消订货-->
-            <!--</el-button>-->
+          <!--<div style="display: flex;justify-content: center;margin-top: 10px">-->
+            <!--<el-button v-if="urgeBtnVisible" class="filter-item" style="width: 100px" type="primary" @click="makeUrge">催促发货</el-button>-->
+            <!--<el-button v-if="cancelOrderBtnVisible" class="filter-item" style="width: 100px" type="primary" @click="cancelOrderProcess">取消订货</el-button>-->
           <!--</div>-->
         </div>
 
@@ -357,7 +416,8 @@
 <script>
   /* eslint-disable */
 
-  // import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import { requestShopCart, cartRemove, createOrder } from "@/api/goods";
+  import request from "@/utils/request";
 
   export default {
     components: {},
@@ -411,10 +471,12 @@
     data() {
       return {
         enterStatusTime: new Date('2018-11-11'),
-        urgeBtnVisible: true,
+        urgeBtnVisible: false,
         urgeVisible: false,
-        cancelOrderBtnVisible: true,
+        cancelOrderBtnVisible: false,
         list: [],
+        orderDetail: {}, // 存放订货表格数据
+        haveReplenishment: false,
         replenishmentList: [],
         listLoading: false,
         cartListSelect: [],
@@ -433,7 +495,6 @@
           4: '分销子渠道'
 //        4: 'FXZQD'
         },
-        completeStockTime: '2018-11-11 14:22:56',
         order: {
           orderNo: 10005,
           refundOrderStatus: 40,
@@ -592,25 +653,36 @@
         let param = {}
       },
       getList() {
-        // requestShopCart().then(res => {
-        //   this.list = res.data
-        // })
+        request({
+          url: "/order/orderDetail.do",
+          method: "post",
+          data: { orderNo: this.currentRow.order_no }
+        }).then(res => {
+          this.orderDetail = res.data;
+          if (this.orderDetail.urgeAvailable) {
+            this.urgeBtnVisible = true
+          }
+          if (this.orderDetail.cancelOrderAvailable) {
+            this.cancelOrderBtnVisible = true
+            this.urgeBtnVisible = false
+          }
+        });
       },
       removeAction(cartId, index) {
-        // cartRemove(cartId).then(res => {
-        //   if (res.errorCode == 0) {
-        //     this.list.splice(index, 1)
-        //   }
-        // })
+        cartRemove(cartId).then(res => {
+          if (res.errorCode == 0) {
+            this.list.splice(index, 1)
+          }
+        })
       },
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === this.order.replenishmentList.length - 2) {
-          if (columnIndex === 10) {
+          if (columnIndex === 11) {
             return {
               rowspan: 1,
-              colspan: 11
+              colspan: 12
             }
-          } else if (columnIndex > 10) {
+          } else if (columnIndex > 11) {
             return {
               rowspan: 1,
               colspan: 1
@@ -623,17 +695,17 @@
           }
         }
         if (rowIndex === this.order.replenishmentList.length - 1) {
-          if (columnIndex === 0) {
+          if (columnIndex === 1) {
             return {
               rowspan: 1,
-              colspan: 7
+              colspan: 8
             }
-          } else if (columnIndex === 7) {
+          } else if (columnIndex === 8) {
             return {
               rowspan: 1,
               colspan: 4
             }
-          } else if (columnIndex === 11) {
+          } else if (columnIndex === 12) {
             return {
               rowspan: 1,
               colspan: 3
@@ -650,9 +722,29 @@
         this.cancelOrderVisible = true
       },
       handleConfirm() {
-        this.isCancelOrder = true
-        this.cancelOrderVisible = false
-        this.cancelOrderSubmitVisible = true
+        request({
+          url: "/order/orderStatusChange.do",
+          method: "post",
+          data: {
+            orderNo: this.currentRow.order_no,
+            statusChangeTo: -130, // 取消订单，待退全款
+          }
+        }).then(res => {
+          if (res.errorCode == 0) {
+            this.cancelOrderVisible = false;
+            const vm = this
+            this.$alert('该次订货已被取消，可在『一般贸易商品』“取消待退全款”状态中查看详情。', '', {
+              confirmButtonText: this.$t('table.confirm'),
+              showClose: false,
+              callback() {
+                vm.$emit('orderStatusChange',-130)
+              }
+            })
+          }
+        });
+//        this.isCancelOrder = true
+//        this.cancelOrderVisible = false
+//        this.cancelOrderSubmitVisible = true
       },
       handlePaymentConfirm() {
         this.completePaymentVisible = true
@@ -696,6 +788,10 @@
           this.cancelOrderBtnVisible = false
           this.urgeVisible = true
         }
+      },
+      makeUrge() {
+        // 催促通知
+        this.urgeVisible = true
       }
     },
     created() {
@@ -733,49 +829,25 @@
         cartonNo: '043524',
         packingSpecification: 24
       })
-      this.order.replenishmentList.push({
-        startDiscount: 70,
-        orderDiscount: 68,
-        goodsNo: 7534645,
-        goodsChineseName: '美白保湿',
-        specificationChinese: '200 ml',
-        packingUnit: 12,
-        supplyCurrencySymbol: '￥ ',
-        supplyPrice: 40,
-        unitsReplenishment: 10,
-        individualReplenishment: 0,
-        iProdQuantity_inventory: 15,
-        // unitsQuantities: [24, 28, 36, 40, 48],
-        unitsQuantities: [
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 24, inventory: 200 },
-            { unit: 28, inventory: 210 },
-            { unit: 36, inventory: 220 }
-          ],
-          [ // 一个数组为一行，一行最多放三个数据
-            { unit: 40, inventory: 230 },
-            { unit: 48, inventory: 240 }
-          ]
-        ],
-        isAddedRow: false,
-        replenishmentQuantity: 36,
-        replenishmentQuantity_input: 0,
-        shipmentQuantity: 1,
-        cartonNo: '043524',
-        packingSpecification: 24
-      })
       window.setTimeout(() => {
 //        this.$refs['sumTable'].$el.children[3].children['0'].children[1].children['0'].cells[3].children['0'].innerHTML = `<div style="display: flex;justify-content: flex-end"><span>合计:</span></div>`
 
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
 
-        this.rowLength = this.$refs['orderTable'].$el.offsetWidth + window.document.getElementsByClassName('brand-col')[0].offsetWidth
+        this.rowLength = this.$refs['orderTable'].$el.offsetWidth
 
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 2].cells[0].style.textAlign = 'right'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 2].cells[1].style.textAlign = 'center'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[0].style.textAlign = 'left'
-        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 1].cells[1].style.textAlign = 'right'
+//        this.$refs['replenishmentTable'].$el.children[2].children[0].children[1].children[this.order.replenishmentList.length - 2].cells[0].style.textAlign = 'right'
+
+        this.$refs["replenishmentTable"
+          ].$el.children[1].children["0"].children[1].children["0"].children["0"].children["0"].style.textAlign = 'right'
+
+        this.$refs["replenishmentTable"
+          ].$el.children[1].children["0"].children[1].children["1"].children["0"].children["0"].style.textAlign = 'left'
+
+        this.$refs["replenishmentTable"
+          ].$el.children[1].children["0"].children[1].children["1"].children["1"].children["0"].style.textAlign = 'right'
+
       }, 100)
 //      this.recordTime()
     }
@@ -805,53 +877,5 @@
 
   .orderTable .el-col {
     border-right: none;
-  }
-
-  .el-col {
-    border-radius: 0;
-  }
-  .el-col:nth-child(odd) {
-    background: #dff2fc;
-    color: #424242;
-    font-weight: 700;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .el-col:nth-child(odd):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .el-col:nth-child(even) {
-    color: #424242;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-  }
-  .el-col:nth-child(even):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .grid-content {
-    border: none;
-  }
-  .theTopMsgBorder {
-    border: solid #d5d5d5 2px;
-  & .el-row {
-      border-bottom: solid #d5d5d5 1px;
-      margin-bottom: 0;
-  & .el-col:nth-child(even) {
-      padding-left: 1em;
-    }
-  }
-  }
-  .units-wrap .el-col {
-    border: none!important;
-    background-color: transparent;
-    font-weight: normal;
-  }
-  .units-wrap .el-input--medium .el-input__inner {
-    height: 24px;
-    line-height: 24px;
-    max-width: 40px;
   }
 </style>

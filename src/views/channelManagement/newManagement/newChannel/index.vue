@@ -11,9 +11,9 @@
         <el-button type="success" icon="el-icon-plus" @click="showAdd">新增渠道</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" style="width: 100%;" class="border-top2 border-left2">
-      <el-table-column prop="channelNum" label="渠道号" min-width="130" align="center"></el-table-column>
-      <el-table-column prop="channelCode" label="渠道名称" min-width="100" align="center">
+    <el-table border :data="channelTableData" style="width: 100%;border-left-width: 2px;border-top-width: 2px" v-loading="listLoading">
+      <el-table-column prop="channelNum" label="渠道号" min-width="180" align="center"></el-table-column>
+      <el-table-column prop="channelCode" label="渠道名称" min-width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.channelCode }}</span>
         </template>
@@ -22,76 +22,65 @@
         prop="channelStatus"
         label="渠道状态"
         align="center"
-        min-width="100"
+        min-width="130"
         :filters="channelStatusFilters"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ channelStatusMap[scope.row.channelStatus].text }}</span>
+          <span>{{ scope.row.channelStatus | channelStatusFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="cooperationType"
         label="合作类型"
         align="center"
-        min-width="90"
+        min-width="120"
         :filters="cooperationTypeFilters"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+          <span>{{ scope.row.cooperationType | cooperationTypeFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="channelType"
         label="渠道类别"
         align="center"
-        min-width="90"
+        min-width="120"
         :filters="channelTypeFilters"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+          <span>{{ scope.row.channelType | channelTypeFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="channelProp"
         label="渠道属性"
         align="center"
-        min-width="100"
+        min-width="120"
         :filters="channelPropFilters"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
           <div
             style="min-width: 4em;margin: 0 auto"
-          >{{ channelPropMap[scope.row.channelProp].text }}</div>
+          >{{ scope.row.channelProp | channelPropFilter }}</div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="channelLevel"
-        label="渠道级别"
-        align="center"
-        min-width="90"
-        :filters="channelLevelFilters"
-        :filter-method="filterHandler"
-      >
-        <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
-        </template>
-      </el-table-column>
+
       <el-table-column
         prop="createTime"
         label="创建时间"
         align="center"
-        width="120"
+        width="160"
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column label="操作" align="center" fixed="right" min-width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            v-if="scope.row.channelStatus==100"
+            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400"
             @click="showConfirm(scope.row)"
           >去确认</el-button>
           <el-button
@@ -100,7 +89,8 @@
             @click="confirmSecurityAmount(scope.row)"
           >确认付保证金</el-button>
           <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)">强制注销</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制终止</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus==400">终止渠道</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,9 +117,11 @@
     >
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @submitSuccess="confirmSuccess"></to-confirm>
     </el-dialog>
+
     <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案信息">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
+
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
@@ -148,6 +140,7 @@ import request from "@/utils/request";
 export default {
   data() {
     return {
+      listLoading: false,
       filterForm: {
         placeholder: '渠道号/渠道名称',
         searchText: '',
@@ -161,11 +154,6 @@ export default {
         { text: 'DFQD', value: 2 },
         { text: 'FXQD', value: 3 }
       ],
-      channelCodeMap: {
-        1: { text: 'DLQD', value: 1 },
-        2: { text: 'DFQD', value: 2 },
-        3: { text: 'FXQD', value: 3 }
-      },
       channelStatusFilters: [
         { text: '停止合作', value: -1000 },
         { text: '停止签合同', value: -100 },
@@ -185,67 +173,21 @@ export default {
         { text: '待接系统', value: 400 },
         { text: '已开通', value: 1000 },
       ],
-      channelStatusMap: {
-        '-1000': { text: '停止合作', value: -1000 },
-        '-100': { text: '停止签合同', value: -100 },
-        '-200': { text: '停止激活账号', value: -200 },
-        '-300': { text: '停止付保证金', value: -300 },
-        '-350': { text: '不返还保证金', value: -350 },
-        '-400': { text: '停止技术对接', value: -400 },
-        '-50': { text: '停止审核', value: -50 },
-        '-40': { text: '审核不通过', value: -40 },
-        '-950': { text: '待返还保证金', value: -950 },
-        '-900': { text: '已返还保证金', value: -900 },
-        '40': { text: '待提交审核', value: 40 },
-        '50': { text: '待审核', value: 50 },
-        100: { text: '待签合同', value: 100 },
-        200: { text: '待激活账号', value: 200 },
-        300: { text: '待付保证金', value: 300 },
-        400: { text: '待接系统', value: 400 },
-        1000: { text: '已开通', value: 1000 },
-      },
       cooperationTypeFilters: [
         { text: '渠道入驻', value: 1 },
         { text: '渠道变更', value: 2 }
       ],
-      cooperationTypeMap: {
-        1: { text: '渠道入驻', value: 1 },
-        2: { text: '渠道变更', value: 2 }
-      },
       channelTypeFilters: [
         { text: '淘宝C店', value: 1 },
         { text: '淘宝企业店', value: 2 },
         { text: '天猫店', value: 3 },
         { text: 'B2C平台', value: 4 },
       ],
-      channelTypeMap: {
-        1: { text: '淘宝C店', value: 1 },
-        2: { text: '淘宝企业店', value: 2 },
-        3: { text: '天猫店', value: 3 },
-        4: { text: 'B2C平台', value: 4 },
-      },
       channelPropFilters: [
         { text: '独立渠道(DLQD)', value: 1 },
         { text: '代发渠道(DFQD)', value: 2 },
         { text: '分销渠道(FXQD)', value: 3 }
       ],
-      channelPropMap: {
-        1: { text: '独立渠道(DLQD)', value: 1 },
-        2: { text: '代发渠道(DFQD)', value: 2 },
-        3: { text: '分销渠道(FXQD)', value: 3 },
-      },
-      channelLevelFilters: [
-        { text: 'A级渠道', value: 1 },
-        { text: 'B级渠道', value: 2 },
-        { text: 'C级渠道', value: 3 },
-        { text: 'D级渠道', value: 4 }
-      ],
-      channelLevelMap: {
-        0: { text: 'A级渠道', value: 1 },
-        1: { text: 'B级渠道', value: 2 },
-        2: { text: 'C级渠道', value: 3 },
-        3: { text: 'C级渠道', value: 4 },
-      },
       isAddShow: false,
       isConfirmShow: false,
       isCheckShow: false,
@@ -255,6 +197,7 @@ export default {
   },
   methods: {
     channelSearch() {
+      this.listLoading = true
       request({
         url: '/channel/newChannelList.do',
         method: 'post',
@@ -267,12 +210,13 @@ export default {
         if (res.errorCode == 0) {
           this.channelTableData = res.data.items
           this.filterForm.total = res.data.total
-          console.log(res.data.items)
         } else {
           this.$message.error('数据请求失败');
         }
+        this.listLoading = false
       }).catch(() => {
         this.$message.error('数据请求失败');
+        this.listLoading = false
       })
     },
     showAdd() {
@@ -289,7 +233,7 @@ export default {
         type: 'confirm',
         center: true
       }).then((event) => {
-        
+
         request({
           url: '/channel/confirmDeposit.do',
           method: 'post',
@@ -347,18 +291,15 @@ export default {
     },
     confirmSuccess() {
       this.isConfirmShow = false
-      this.$message({
-        message: '确认成功！',
-        type: 'success'
-      })
       this.channelSearch()
     },
     deleteSuccess() {
       this.isDeleteShow = false
       this.$message({
-        message: '删除成功！',
+        message: '注销成功！',
         type: 'success'
       })
+      this.channelSearch()
     },
   },
   components: {

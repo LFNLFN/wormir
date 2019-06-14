@@ -2,7 +2,7 @@
   <div>
     <div style="text-align: center"><h3>订货单</h3></div>
     <div class="rowFlex">
-      <div class="filter-container theTopMsgBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
+      <div class="filter-container theBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
         <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">货单号:</div>
@@ -525,43 +525,5 @@
 
   .qr-col {
     width: 150px;
-  }
-
-  .el-col {
-    border-radius: 0;
-  }
-  .el-col:nth-child(odd) {
-    background: #dff2fc;
-    color: #424242;
-    font-weight: 700;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .el-col:nth-child(odd):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .el-col:nth-child(even) {
-    color: #424242;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-  }
-  .el-col:nth-child(even):not(:last-of-type) {
-    border-right: 1px solid #d5d5d5;
-  }
-  .grid-content {
-    border: none;
-  }
-  .units-wrap .el-col {
-    border: none!important;
-    background-color: transparent;
-    font-weight: normal;
-  }
-  .units-wrap .el-input--medium .el-input__inner {
-    height: 24px;
-    line-height: 24px;
-    max-width: 40px;
   }
 </style>

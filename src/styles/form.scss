@@ -1,0 +1,201 @@
+// 身份证、营业执照的位置调整
+.form-photo-offset {
+  position: relative;
+  top: 4px;
+  left: 5px
+}
+
+// 新增商品
+// 合作渠道-去管理
+.form-error-inside .el-form-item__error {
+  top: 30%;
+  left: 80%;
+}
+
+.form-error-inside.form-error-inside-slot .el-form-item__error {
+  top: 30%;
+  left: 60%;
+}
+
+// 查看商品详情
+.viewDetail .el-form-item__content {
+  padding-top: 3px
+}
+
+.textareaTitleShow .el-form-item__content {
+  padding-top: 0
+}
+
+// 新增品牌中的表单验证
+.form-error-inline .el-form-item__error {
+  top: 30%;
+  left: 90%;
+}
+.setting-management-index-vue .form-error-inline .el-form-item__error, .add-brand-index-vue .form-error-inline .el-form-item__error{
+  top: .5em;
+  left: 90%;
+}
+
+.form-error-inline .few-input-item .el-form-item__error {
+  top: 106%;
+  left: 80%;
+}
+
+// 合作渠道-去管理
+.form-error-beyond .el-form-item__error {
+  top: 30%;
+  left: 100%;
+  width: 20em
+}
+
+// 合作渠道
+.textareaError .el-form-item__error {
+  top: 24%;
+  left: 90%;
+}
+
+
+// 新增渠道的表格的子栏目标题
+.form-part-title {
+  border-bottom: 2px solid #424242;
+  color: #424242
+}
+
+// 新增渠道的表格的表头^
+.addChannelDialog .el-form-item__label {
+  background-color: #dff2fc;
+  border: 1px solid #D5D5D5;
+  border-bottom: none;
+  text-align: center;
+  padding: 0;
+}
+
+.idCardLabel .el-form-item__label {
+  border-bottom: 1px solid #D5D5D5!important;
+  border-left: none!important;
+}
+
+.addChannelDialog .el-form-item__content {
+  padding-left: 1em;
+  border: 1px solid #D5D5D5;
+  border-left: none;
+  border-bottom: none;
+}
+
+.idCardUpload .el-form-item__content {
+  border: none;
+}
+
+.addChannelDialog .el-form-item.el-form-item--medium {
+  margin: 0;
+  &:last-of-type {
+    //border-bottom: 1px solid #D5D5D5;
+  }
+}
+
+.idCardCode.el-form-item.el-form-item--medium {
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.addChannelDialog .idCardUpload .el-form-item.el-form-item--medium {
+  border: none;
+}
+
+// 新增渠道的表格的表头$
+.form-row .el-form-item__content {
+  border: none;
+  padding-left: 1em;
+}
+
+// 新增子渠道-终止渠道-合同信息表格
+.table-row .el-form-item__content {
+  padding-left: 0;
+}
+
+.form-row .el-form-item__label {
+  border: none;
+  border-left: 1px solid #D5D5D5;
+  border-right: 1px solid #D5D5D5;
+  background-color: #dff2fc;
+  text-align: center;
+  padding: 0;
+}
+
+// 新增品牌弹层^
+.add-brand-row.form-row .el-form-item__label {
+  line-height: 35px;
+  height: 35px;
+}
+
+.textareaTitle.add-brand-row.form-row .el-form-item__label {
+  line-height: 55px;
+  height: 55px;
+}
+
+.textareaTitleShow.add-brand-row.form-row .el-form-item__label {
+  line-height: 56px;
+  height: 56px;
+}
+
+// 新增品牌弹层$
+.table-row .el-form-item__label {
+  height: 76px;
+  padding-top: 25px;
+}
+
+.form-row.el-form-item.el-form-item--medium {
+  margin: 0;
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.form-row {
+  border-top: 1px solid #D5D5D5;
+  border-right: 1px solid #D5D5D5;
+}
+
+.few-input-item.add-brand-row .el-form-item__label {
+  height: 107px;
+  line-height: 107px;
+}
+
+.imgTitle.form-row .el-form-item__label {
+  height: 135px;
+  line-height: 135px;
+}
+
+.imgUploadTitle.form-row .el-form-item__label {
+  height: 182px;
+  line-height: 182px;
+}
+
+.clear-border-right.form-row {
+  border-right: none
+}
+
+.select-form-margin {
+  margin: 3px 3px 0;
+}
+
+.select-form-width {
+  width: 98%;
+}
+
+.last-form-row {
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.marginToLeft {
+  margin-left: -1em;
+}
+
+.idCardUpload {
+  border-left: 1px solid #D5D5D5;
+  border-right: 1px solid #D5D5D5;
+}
+
+.to-add-channel-vue .el-form-item__error {
+  top: 30%;
+  left: 80%
+}

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item" placeholder="顾客编号/联系电话/商品码"
-                v-model="listQuery.keyword">
+                v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
@@ -27,7 +27,7 @@
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows"
+                     :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -55,9 +55,9 @@ export default {
   data() {
     return {
       listQuery: {
-        keyword: '',
+        searchText: '',
         page: 1,
-        rows: 20
+        limit: 20
       },
       list: [],
       isBuyingDetailShow: false,
@@ -82,7 +82,11 @@ export default {
       })
       this.listLoading = false
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
+      this.listQuery.page = val
+    },
+    handleSizeChange(val) {
+      this.listQuery.limit = val
     },
     buyingDetail(row) {
       this.isBuyingDetailShow = true
@@ -90,13 +94,10 @@ export default {
     },
     handleFilter() {
     },
-    handleSizeChange(val) {
-      this.listQuery.rows = val
-    },
-
   }
 }
 </script>
+
 <style scoped>
 
 </style>

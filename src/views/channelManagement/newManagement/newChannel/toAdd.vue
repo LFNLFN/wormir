@@ -1,38 +1,43 @@
 <template>
-  <div class="addChannelDialog">
+  <div class="addChannelDialog to-add-channel-vue">
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
         <dd class="border1" style="border-bottom-width: 2px">
           <el-form-item label="合作类型" prop="cooperativeType">
             <el-radio-group v-model="form.cooperativeType">
-              <el-radio label="1">渠道入驻</el-radio>
-              <el-radio label="2">渠道变更</el-radio>
+              <el-radio :label="1">渠道入驻</el-radio>
+              <el-radio :label="2">渠道变更</el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item v-if="form.cooperativeType==2" label="原渠道号"
+                        prop="channelNo">
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelNo"
+                      placeholder="请输入原渠道号" @change="channelChange"></el-input>
           </el-form-item>
           <el-form-item label="渠道属性" prop="channelProp">
             <el-radio-group v-model="form.channelProp" @change="channelPropChange">
-              <el-radio label="1">DLQD</el-radio>
+              <el-radio :label="1">DLQD</el-radio>
               <!--<el-radio label="2">DFQD</el-radio>-->
-              <el-radio label="3">FXQD</el-radio>
+              <el-radio :label="3">FXQD</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item v-if="form.channelProp!=3" label="渠道类别" prop="channelType">
             <el-radio-group v-model="form.channelType">
-              <el-radio label="1">淘宝C店</el-radio>
-              <el-radio label="2">淘宝企业店</el-radio>
-              <el-radio label="3">天猫店</el-radio>
-              <el-radio label="4">B2C平台</el-radio>
+              <el-radio :label="1">淘宝C店</el-radio>
+              <el-radio :label="2">淘宝企业店</el-radio>
+              <el-radio :label="3">天猫店</el-radio>
+              <el-radio :label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">
-            <el-radio-group v-model="form.channelLevel">
-              <el-radio label="1">A级渠道</el-radio>
-              <el-radio label="2">B级渠道</el-radio>
-              <el-radio label="3">C级渠道</el-radio>
-              <el-radio label="4">D级渠道</el-radio>
-            </el-radio-group>
-          </el-form-item>
+          <!--<el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">-->
+            <!--<el-radio-group v-model="form.channelLevel">-->
+              <!--<el-radio label="1">A级渠道</el-radio>-->
+              <!--<el-radio label="2">B级渠道</el-radio>-->
+              <!--<el-radio label="3">C级渠道</el-radio>-->
+              <!--<el-radio label="4">D级渠道</el-radio>-->
+            <!--</el-radio-group>-->
+          <!--</el-form-item>-->
         </dd>
       </dl>
 
@@ -46,92 +51,80 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="100px" prop="personID"
+          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="130px" prop="identityCardNo"
                         class="form-row idCardCode last-form-row">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.personID"
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="100px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司名称" label-width="130px" class="form-row idCardCode"
                         prop="companyName">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
                       placeholder="请输入公司名称"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="100px"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司简介" label-width="130px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==1" label="" style="padding: 10px 0;" class="idCardUpload">
-            <el-col :span="0"></el-col>
-            <el-col :span="11" class="no-border-right">
-              <el-form-item prop="idcardFront" label="身份证正面" label-width="100px" class="form-row idCardLabel"
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadfrontAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.idcardFront" :src="form.idcardFront" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
-            <el-col :span="0"></el-col>
-            <el-col :span="11">
-              <el-form-item prop="idcardBack" label="身份证反面" label-width="100px" class="form-row idCardLabel "
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadBackAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.idcardBack" :src="form.idcardBack" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
+
+
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardFront" label="身份证正面" label-width="129px" class="form-row idCardLabel"
+                        style="border-top: none;border-bottom: solid #D5D5D5 1px;border-left: solid #D5D5D5 1px">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadfrontAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.identityCardFront" :src="form.identityCardFront" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="" style="padding: 10px 0;" class="idCardUpload">
-            <el-col :span="0"></el-col>
-            <el-col :span="11" class="no-border-right">
-              <el-form-item prop="businessLicense" label="营业执照" label-width="100px" class="form-row idCardLabel"
-                            style="border: none">
-                <el-upload
-                  class="avatar-uploader"
-                  action=""
-                  :show-file-list="false"
-                  :http-request="uploadBusinessLicenseAction"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.businessLicense" :src="form.businessLicense" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </el-col>
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardContrary" label="身份证反面" label-width="129px" class="form-row idCardLabel "
+                        style="border-top: none;border-left: solid #D5D5D5 1px">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadBackAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.identityCardContrary" :src="form.identityCardContrary" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="法人" label-width="130px" class="form-row idCardCode"
-                        prop="legalPerson">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.legalPerson"
-                      placeholder="请输入法人"></el-input>
+
+          <el-form-item v-if="form.businessEntity==2 && form.channelType>1 && form.channelProp==1" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
+                        style="border-top: none;border-left: solid #D5D5D5 1px">
+            <el-upload
+              style="padding: 10px 0"
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :http-request="uploadBusinessLicenseAction"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="form.businessLicense" :src="form.businessLicense" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司地址" label-width="130px" class="form-row idCardCode"
                         prop="companyAddress">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
           </el-form-item>
 
 
-          <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="storeName">
+          <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="channelName" v-if="form.channelProp==1">
             <el-col :span="11" class="marginToLeft">
-              <el-form-item label="" prop="storeName">
-                <el-input v-model="form.storeName" class="noBorderInput" style="margin-left: -1em"
+              <el-form-item label="" prop="channelName">
+                <el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
                           placeholder="请输入店铺/平台名称"></el-input>
               </el-form-item>
             </el-col>
             <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item label="PC店铺/平台链接" label-width="130px" class="form-row last-form-row" prop="PCLink">
+          <el-form-item label="PC店铺/平台链接" label-width="130px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
             <el-col :span="11" class="marginToLeft">
               <el-form-item label="" prop="PCLink">
                 <el-input v-model="form.PCLink" class="noBorderInput marginToLeft"
@@ -145,14 +138,14 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right">
+          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right" v-if="form.channelProp==1">
             *由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
           <el-form-item label="经营范围" label-width="130px" prop="businessRange">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
                       placeholder="请输入经营内容（200字以内）"></el-input>
           </el-form-item>
-          <el-form-item label="经营过的类似商品" label-width="130px" prop="similarGoods" class="last-form-row">
-            <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.similarGoods"
+          <el-form-item label="经营过的类似商品" label-width="130px" class="last-form-row">
+            <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessGoods"
                       placeholder="请提供商品名称和销量（200字以内）"></el-input>
           </el-form-item>
         </dd>
@@ -168,11 +161,11 @@
             style="width: 100%;border-right-width: 0">
             <el-table-column
               align="center"
-              prop="position"
+              prop="dutyNo"
               label="职务"
               width="150">
               <template slot-scope="scope">
-                <el-select v-model="form.contactData[scope.$index].position" placeholder="请选择">
+                <el-select v-model="form.contactData[scope.$index].dutyNo" placeholder="请选择">
                   <el-option
                     v-for="item in jobType"
                     :key="item.value"
@@ -245,8 +238,8 @@
         </dd>
         <dt><h3 class="form-part-title">保证金</h3></dt>
         <dd class="border1">
-          <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" prop="depositValue">
-            <el-select class="noBorderInput marginToLeft" v-model="form.depositValue" placeholder="请选择">
+          <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" prop="securityAmount">
+            <el-select class="noBorderInput marginToLeft" v-model="form.securityAmount" placeholder="请选择">
               <el-option
                 v-for="item in depositOptions"
                 :key="item.value"
@@ -295,31 +288,41 @@
         }
       };
 
+      var validateChannelNo = (rule, value, callback) => {
+        request({
+          url: '/channel/changeCooperativeType.do',
+          method: 'post',
+          data: { channelNo: value }
+        }).then(res => {
+          if (res.data.channelNo) {
+            callback()
+          } else { callback(new Error('此渠道号不存在')) }
+        })
+      }
+
   export default {
     data() {
-      
+
       return {
         form: {
           cooperativeType: '',
           channelProp: '',
           channelType: '',
           channelLevel: '',
-          idcardFront: '',
-          idcardBack: '',
+          identityCardFront: '',
+          identityCardContrary: '',
           businessLicense: '',
           businessEntity: '',
-          personID: '',
-          storeName: '',
+          identityCardNo: '',
+          channelName: '',
           PCLink: '',
           appLink: '',
-          similarGoods: '',
+          businessGoods: '',
           companyName: '',
           companySummary: '',
-          legalPerson: '',
           companyAddress: '',
-          
           contactData: [{
-            position: '',
+            dutyNo: '',
             userName: '',
             mobile: '',
             email: '',
@@ -328,14 +331,7 @@
           }]
         },
         isSubmitting: false,
-        contactData: [{
-          position: '技术对接人',
-          name: '王小虎',
-          mobile: 15268172199,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }],
+        contactData: [],
         jobType: [
           { label: '渠道联系人', value: 1 },
           { label: '技术对接人', value: 2 },
@@ -358,6 +354,9 @@
           cooperativeType: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
+          channelNo: [
+            { validator: validateChannelNo, trigger: 'blur' },
+          ],
           channelProp: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
@@ -370,7 +369,7 @@
           businessEntity: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          personID: [
+          identityCardNo: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
           companyName: [
@@ -379,22 +378,19 @@
           companySummary: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          idcardFront: [
+          identityCardFront: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          idcardBack: [
+          identityCardContrary: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
           businessLicense: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          legalPerson: [
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
           companyAddress: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          storeName: [
+          channelName: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
           PCLink: [
@@ -406,13 +402,13 @@
           businessRange: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          similarGoods: [
+          businessGoods: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          depositValue: [
+          securityAmount: [
             { required: true, message: ' ', trigger: 'blur' },
           ],
-          position: [
+          dutyNo: [
             { required: true, message: '不能为空', trigger: 'change' },
           ],
           name: [
@@ -438,16 +434,16 @@
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        this.form.idcardBack = URL.createObjectURL(file.raw)
+        this.form.identityCardContrary = URL.createObjectURL(file.raw)
       },
       uploadfrontAction(options) {
         this.uploadAction(options.file, key => {
-          this.form.idcardFront = `http://asset.wormir.com/${key}`
+          this.form.identityCardFront = `http://asset.wormir.com/${key}`
         })
       },
       uploadBackAction(options) {
         this.uploadAction(options.file, key => {
-          this.form.idcardBack = `http://asset.wormir.com/${key}`
+          this.form.identityCardContrary = `http://asset.wormir.com/${key}`
         })
       },
       uploadBusinessLicenseAction(options) {
@@ -476,11 +472,11 @@
         })
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg'
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
         const isLt2M = file.size / 1024 / 1024 < 10
 
         if (!isJPG) {
-          this.$message.error('上传图片只能是 JPG 格式!')
+          this.$message.error('上传图片只能是 JPG 或 PNG 格式!')
         }
         if (!isLt2M) {
           this.$message.error('上传图片大小不能超过 10MB!')
@@ -489,13 +485,12 @@
       },
 
       submitAction() {
-        
         // 验证渠道联系人和技术对接人
         let channelContactPerson = this.form.contactData.some((item, index, arr) => {
-          return item.position == 1
+          return item.dutyNo == 1
         })
         let technologyConnectPerson = this.form.contactData.some((item, index, arr) => {
-          return item.position == 2
+          return item.dutyNo == 2
         })
         if (!(channelContactPerson && technologyConnectPerson)) {
           this.$message.error('渠道联系人及技术对接人必填!');
@@ -545,16 +540,39 @@
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.isSubmitting = true
-            request({
-              url: '/channel/createChannel.do',
-              method: 'post',
-              data: this.form
-            }).then(() => {
-              this.$emit('submitSuccess')
-            }).catch(() => {
-              this.$message.error('新增失败');
-              this.isSubmitting = false
-            })
+            if (this.form.cooperativeType==2) {
+              request({
+                url: '/channel/makeChannelChange.do',
+                method: 'post',
+                data: this.form
+              }).then(() => {
+                this.$alert('渠道资料完成提交，已进入“待签合同”流程，可在『新增渠道』列表页搜索查看。', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    this.$emit('submitSuccess')
+                  }
+                });
+              }).catch(() => {
+//              this.$message.error('新增失败');
+                this.isSubmitting = false
+              })
+            } else {
+              request({
+                url: '/channel/createChannel.do',
+                method: 'post',
+                data: this.form
+              }).then(() => {
+                this.$alert('渠道资料完成提交，已进入“待签合同”流程，可在『新增渠道』列表页搜索查看。', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    this.$emit('submitSuccess')
+                  }
+                });
+              }).catch(() => {
+                this.$message.error('新增失败');
+                this.isSubmitting = false
+              })
+            }
           } else {
             this.isSubmitting = false
             this.$message.error('请填写全部信息')
@@ -570,7 +588,7 @@
       },
       addContact() {
         this.form.contactData.push({
-          position: '',
+          dutyNo: '',
           userName: '',
           mobile: '',
           email: '',
@@ -582,7 +600,22 @@
         if (this.form.contactData.length > 1) {
           this.form.contactData.splice(index, 1)
         }
+      },
+      channelChange(value) {
+        request({
+          url: '/channel/changeCooperativeType.do',
+          method: 'post',
+          data: { channelNo: value }
+        }).then(res => {
+          if (res.data.channelNo) {
+            if (res.data.formData) {
+              this.form = res.data.formData
+              this.form.cooperativeType = 2
+            }
+          }
+        })
       }
+
     }
   }
 </script>

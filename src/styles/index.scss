@@ -4,6 +4,10 @@
 @import './element-ui.scss';
 @import './sidebar.scss';
 @import './btn.scss';
+@import './border.scss';
+@import './text.scss';
+@import './table.scss';
+@import './form.scss';
 
 body {
   height: 100%;
@@ -140,22 +144,6 @@ code {
   margin-top: 30px;
 }
 
-.text-center {
-  text-align: center
-}
-
-.text-muted {
-  color: #787878 !important;
-}
-
-.text-danger {
-  color: $red;
-}
-
-.text-total {
-  color: orangered
-}
-
 .sub-navbar {
   height: 50px;
   line-height: 50px;
@@ -205,29 +193,6 @@ code {
   z-index: 1000 !important;
 }
 
-// 自己添加的覆盖样式
-.el-table th {
-  background: #DFF2FC !important;
-  font-weight: 700 !important;
-  color: #424242 !important;
-}
-
-td {
-  color: #424242 !important;
-}
-
-.el-table--border, .el-table--group {
-  border: 1px solid #d5d5d5;
-}
-
-.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
-  border-right: 1px solid #d5d5d5;
-}
-
-.el-table td, .el-table th.is-leaf {
-  border-bottom: 1px solid #d5d5d5;
-}
-
 .bg-purple-dark {
   background: transparent
 }
@@ -240,10 +205,7 @@ td {
   background: transparent
 }
 
-// 取消点击表格出现的背景颜色
-.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row > td, .el-table__body tr.hover-row.current-row > td, .el-table__body tr.hover-row.el-table__row--striped.current-row > td, .el-table__body tr.hover-row.el-table__row--striped > td, .el-table__body tr.hover-row > td {
-  background-color: #fff;
-}
+
 
 // 品牌列表的子品类输入框后方的删除按钮
 .subCategories-item .el-input-group__append {
@@ -265,214 +227,13 @@ td {
   vertical-align: middle;
 }
 
-// 边框样式
-.border-top {
-  border-top: solid #d5d5d5 1px;
-}
 
-.border-right {
-  border-right: solid #d5d5d5 1px;
-}
-
-.border-bottom {
-  border-bottom: solid #d5d5d5 1px;
-}
-
-.border-left {
-  border-left: solid #d5d5d5 1px;
-}
-
-.border-top2 {
-  border-top: solid #d5d5d5 2px;
-}
-
-.border-right2 {
-  border-right: solid #d5d5d5 2px;
-}
-
-.border-bottom2 {
-  border-bottom: solid #d5d5d5 2px;
-}
-
-.border-left2 {
-  border-left: solid #d5d5d5 2px;
-}
-
-.no-border-top {
-  border-top: none !important;
-}
-
-.no-border-left {
-  border-left: none !important;
-}
-
-.no-border-bottom {
-  border-bottom: none !important;
-}
-
-.no-border-right {
-  border-right: none !important;
-}
-
-.no-border {
-  border: none;
-}
-
-.border1 {
-  border: solid #d5d5d5 1px;
-}
-
-.border2 {
-  border: solid #d5d5d5 2px;
-}
 
 .dialogBottomButton-wrap {
   text-align: center;
   margin-top: 1em;
 }
 
-// 新增渠道的表格的子栏目标题
-.form-part-title {
-  border-bottom: 2px solid #424242;
-  color: #424242
-}
-
-// 新增渠道的表格的表头^
-.addChannelDialog .el-form-item__label {
-  background-color: #dff2fc;
-  border: 1px solid #D5D5D5;
-  border-bottom: none;
-  text-align: center;
-  padding: 0;
-}
-
-.idCardLabel .el-form-item__label {
-  border-bottom: 1px solid #D5D5D5;
-}
-
-.addChannelDialog .el-form-item__content {
-  padding-left: 1em;
-  border: 1px solid #D5D5D5;
-  border-left: none;
-  border-bottom: none;
-}
-
-.idCardUpload .el-form-item__content {
-  border: none;
-}
-
-.addChannelDialog .el-form-item.el-form-item--medium {
-  margin: 0;
-  &:last-of-type {
-    //border-bottom: 1px solid #D5D5D5;
-  }
-}
-
-.idCardCode.el-form-item.el-form-item--medium {
-  border-bottom: 1px solid #D5D5D5;
-}
-
-.addChannelDialog .idCardUpload .el-form-item.el-form-item--medium {
-  border: none;
-}
-
-// 新增渠道的表格的表头$
-.form-row .el-form-item__content {
-  border: none;
-  padding-left: 1em;
-}
-
-// 新增子渠道-终止渠道-合同信息表格
-.table-row .el-form-item__content {
-  padding-left: 0;
-}
-
-.form-row .el-form-item__label {
-  border: none;
-  border-left: 1px solid #D5D5D5;
-  border-right: 1px solid #D5D5D5;
-  background-color: #dff2fc;
-  text-align: center;
-  padding: 0;
-}
-
-// 新增品牌弹层^
-.add-brand-row.form-row .el-form-item__label {
-  line-height: 35px;
-  height: 35px;
-}
-
-.textareaTitle.add-brand-row.form-row .el-form-item__label {
-  line-height: 55px;
-  height: 55px;
-}
-
-.textareaTitleShow.add-brand-row.form-row .el-form-item__label {
-  line-height: 56px;
-  height: 56px;
-}
-
-// 新增品牌弹层$
-.table-row .el-form-item__label {
-  height: 76px;
-  padding-top: 25px;
-}
-
-.form-row.el-form-item.el-form-item--medium {
-  margin: 0;
-  &:last-of-type {
-    border-bottom: none;
-  }
-}
-
-.form-row {
-  border-top: 1px solid #D5D5D5;
-  border-right: 1px solid #D5D5D5;
-}
-
-.few-input-item.add-brand-row .el-form-item__label {
-  height: 107px;
-  line-height: 107px;
-}
-
-.imgTitle.form-row .el-form-item__label {
-  height: 135px;
-  line-height: 135px;
-}
-
-.imgUploadTitle.form-row .el-form-item__label {
-  height: 182px;
-  line-height: 182px;
-}
-
-.clear-border-right.form-row {
-  border-right: none
-}
-
-.select-form-margin {
-  margin: 3px 3px 0;
-}
-
-.select-form-width {
-  width: 98%;
-}
-
-.last-form-row {
-  border-bottom: 1px solid #D5D5D5;
-}
-
-.marginToLeft {
-  margin-left: -1em;
-}
-
-.idCardUpload {
-  border-left: 1px solid #D5D5D5;
-  border-right: 1px solid #D5D5D5;
-}
-
-.noBorder {
-  border: none
-}
 
 .noBorderTextarea textarea {
   border: none
@@ -484,104 +245,6 @@ td {
 
 .noBorderInput input {
   border: none
-}
-
-// 去除表格底部那条奇怪的伪类线
-.twoTable-wrap .el-table--border::after, .el-table--group::after, .el-table::before {
-  background-color: transparent !important;
-}
-
-.el-table--border::after, .el-table--group::after {
-  width: 0
-}
-
-// 解决表头换行问题
-.el-table .cell {
-  word-break: keep-all;
-  word-wrap: break-word;
-}
-
-// 弹层内部表格最后一列的右空隙去除
-.last-col {
-  border-right-width: 2px !important;
-}
-
-// 级别变化 弹层样式设置
-.noBorder .el-table__header {
-  border-top: 2px solid #D5D5D5;
-}
-
-.noBorder .el-table__body tr:last-of-type td {
-  border-bottom: 1px solid #D5D5D5;
-}
-
-.last-tr2 .el-table__body tr:last-of-type td {
-  border-bottom: 2px solid #D5D5D5;
-}
-
-.last-tr0 .el-table__body tr:last-of-type td {
-  border-bottom: 0 solid #D5D5D5;
-}
-
-.last-col-td0 {
-  border-right-width: 0 !important;
-}
-
-.compareBorder .el-table__header {
-  border-top: none;
-}
-
-.compareBorder .el-table__body tr:last-of-type td {
-  border-bottom: none;
-}
-
-.sumBorder .el-table__header {
-  border-top: 1px solid #D5D5D5;
-}
-
-.sumBorder .el-table__body tr:last-of-type td {
-  border-bottom: 2px solid #D5D5D5;
-}
-
-// 双层表格的上层
-.el-table--border th, .el-table__fixed-right-patch {
-  border-bottom-color: #D5D5D5;
-}
-
-// 表格合计栏
-.el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
-  background-color: #B7E5F9;
-  color: #424242;
-  font-weight: 700;
-  padding: 0;
-}
-
-// 实际库存明细
-.empty-table .el-table__body-wrapper {
-  display: none;
-}
-
-/*伪类补框*/
-td.units-wrap:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  border-left: 1px #d5d5d5 solid;
-  width: 1px;
-  height: 100%;
-}
-
-.units-wrap .el-col {
-  border: none;
-  background-color: transparent;
-  font-weight: normal;
-}
-
-.units-wrap .el-input--medium .el-input__inner {
-  height: 24px;
-  line-height: 24px;
-  max-width: 40px;
 }
 
 .rowFlex {
@@ -638,50 +301,7 @@ td.units-wrap:after {
   border: none !important;
 }
 
-// 新增品牌中的表单验证
-.form-error-inline .el-form-item__error {
-  top: 30%;
-  left: 90%;
-}
 
-.form-error-inline .few-input-item .el-form-item__error {
-  top: 106%;
-  left: 80%;
-}
-
-// 合作渠道-去管理
-.form-error-beyond .el-form-item__error {
-  top: 30%;
-  left: 100%;
-  width: 20em
-}
-
-// 合作渠道
-.textareaError .el-form-item__error {
-  top: 24%;
-  left: 90%;
-}
-
-// 新增商品
-// 合作渠道-去管理
-.form-error-inside .el-form-item__error {
-  top: 30%;
-  left: 80%;
-}
-
-.form-error-inside.form-error-inside-slot .el-form-item__error {
-  top: 30%;
-  left: 60%;
-}
-
-// 查看商品详情
-.viewDetail .el-form-item__content {
-  padding-top: 3px
-}
-
-.textareaTitleShow .el-form-item__content {
-  padding-top: 0
-}
 
 .normal-size-pic {
   width: auto;
@@ -701,9 +321,4 @@ td.units-wrap:after {
   margin-top: -2px;
 }
 
-// 身份证、营业执照的位置调整
-.form-photo-offset {
-  position: relative;
-  top: 4px;
-  left: 5px
-}
+

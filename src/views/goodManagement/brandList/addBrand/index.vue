@@ -902,8 +902,6 @@
             }
           ],
 
-
-
           specificationInput: [
             {
               goodSpecificationChinese: '',
@@ -925,7 +923,6 @@
               boxWeight: ""
             }
           ],
-
 
           discountInput: [
             {

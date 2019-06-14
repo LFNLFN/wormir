@@ -1,119 +1,176 @@
 <template>
   <div class="merge-order-wrap">
-
-    <div class="filter-container theTopMsgBorder" :style="{width: '1417px', padding: 0}">
-      <el-row class="no-border-bottom">
-        <el-col :span="3">
-          <div class="grid-content bg-purple">Merge Payment NO. :</div>
-        </el-col>
-        <el-col :span="21">
-          <div class="grid-content bg-purple">{{ 15633474655 }}</div>
-        </el-col>
-      </el-row>
-    </div>
-
-    <waitPayDeposit :currentRow="currentRow" v-if="waitPayDepositVisible"
-                    @payment_amountChange="paymentAmount += $event"
-                    @cancel="waitPayDepositVisible = false"
-                    style="padding: 0;" class="addGrayBlock"/>
-    <waitPayResidual :currentRow="currentRow" v-if="waitPayResidualVisible" ref="longerTable"
-                     @payment_amountChange="paymentAmount += $event"
-                     @cancel="waitPayResidualVisible = false"
-                     style="padding: 0" class="addGrayBlock"/>
-
-    <div class="filter-container theTopMsgBorder border-bottom2" :style="{width: '1417px', padding: 0}">
-      <el-table key='mergeTotal' :data="mergeTotalList"
-                border fit size="mini"
-                style="width: 100%;border: none"
-                class="orderTable" ref="mergeTotalTable"
-                :span-method="arraySpanMethod_merge"
+    <h2 :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">{{ mergeTitle }}</h2>
+    <!--并单编号那一行-->
+    <div class="wrap1" style="border-bottom: 19px solid #D5D5D5">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;"
                 :show-header="false"
-                :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}">
-
-        <el-table-column align="center" width="85" label="Code" prop="goodsNo"/>
-        <el-table-column align="center" width="130" label="Description" prop="goodsChineseName" show-overflow-tooltip/>
-        <el-table-column align="center" width="190" label="Size" prop="specificationChinese" show-overflow-tooltip/>
-        <el-table-column align="center" label="Replenishment Package">
-          <el-table-column align="center" width="120" class-name="units-wrap" label="Replenishment Quantity"></el-table-column>
-          <el-table-column align="center" width="100" label="Packing Unit"></el-table-column>
-        </el-table-column>
-        <el-table-column align="center" width="90" label="Retail Price"/>
-        <el-table-column align="center" width="120" class-name="units-wrap" label="Replenishment Quantity"/>
-        <el-table-column width="140" align="center" label="Unit Purchase Price"/>
-        <el-table-column width="140" align="center" label="Total Purchase Price"/>
-
-        <el-table-column align="right" width="128" label="30% Deposit">
+      >
+        <el-table-column align="center" label="" width="200" prop="" class-name="fake-table-head">
           <template slot-scope="scope">
-            <span class="text-total">{{ 'Unpaid Payment:' }}</span>
+            <div v-if="orders.length>1">Merge Payment No.</div>
+            <div v-else>Order No.</div>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="170px" label="70% Residual Payment" class-name="last-col-td0">
+        <el-table-column align="left" label="" prop="">
           <template slot-scope="scope">
-            <span v-if="scope.$index===mergeTotalList.length-1" class="text-total">￥ {{ paymentAmount.toFixed(2) }}</span>
-            <span v-else>￥ {{0}}</span>
+            <div>{{orders[0].orderNo}}</div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!--银行账号信息-->
+    <div class="wrap2">
+      <el-table :data="[{},{}]" border fit highlight-current-row
+                style="width: 100%;border-bottom: none"
+                :show-header="false"
+      >
+        <el-table-column align="center" label="" width="200" prop="" class-name="fake-table-head">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">Beneficiary Bank SWIFT Code</div>
+            <div v-if="scope.$index==1">Remitting Bank SWIFT Code</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" prop="">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">{{ brandBankInfo.swiftCode }}</div>
+            <div v-if="scope.$index==1">{{ wormirBankInfo.swiftCodeEn }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="" class-name="fake-table-head">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">Beneficiary Bank Name</div>
+            <div v-if="scope.$index==1">Remitting Bank Name</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" prop="">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">{{ brandBankInfo.bankName }}</div>
+            <div v-if="scope.$index==1">{{ wormirBankInfo.bankNameEn }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="" class-name="fake-table-head">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">Beneficiary Bank Address</div>
+            <div v-if="scope.$index==1">Remitting Bank Address</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="">
+          <template slot-scope="scope">
+            <div v-if="scope.$index==0">{{ brandBankInfo.bankAddress }}</div>
+            <div v-if="scope.$index==1">{{ wormirBankInfo.bankAddressEn }}</div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!--总收款数-->
+    <div class="wrap3">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;border-top: none"
+                :show-header="false"
+      >
+        <el-table-column align="right" label="" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">Total Unpaid Payment：</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">{{ totalPaidPayment }}</div>
           </template>
         </el-table-column>
 
       </el-table>
-      <el-row>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple">Beneficiary Bank SWIFT Code:</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="grid-content bg-purple">453566787469</div>
-        </el-col>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple"> Beneficiary Bank Name:</div>
-        </el-col>
-        <el-col :span="4">
-          <div class="grid-content bg-purple">中国农业银行</div>
-        </el-col>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple">Beneficiary Bank Address:</div>
-        </el-col>
-        <el-col :span="5">
-          <div class="grid-content bg-purple">广州市天河区石牌桥</div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple">Remitting Bank SWIFT Code:</div>
-        </el-col>
-        <el-col :span="3" v-if="currentRow.payWay!==1">
-          <div class="grid-content bg-purple">413266787469</div>
-        </el-col>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple">Remitting Bank Name:</div>
-        </el-col>
-        <el-col :span="4">
-          <div class="grid-content bg-purple">中国工商银行</div>
-        </el-col>
-        <el-col :span="4" align="center">
-          <div class="grid-content bg-purple">Remitting Bank Address:</div>
-        </el-col>
-        <el-col :span="5">
-          <div class="grid-content bg-purple">广州市番禺区市桥</div>
-        </el-col>
-      </el-row>
-      <div class="text-danger" style="margin-top: 20px">温馨提醒：并单一经提交不可更改，但可做取消并单操作。</div>
+    </div>
+    <!--总接收款数-->
+    <div class="wrap4" v-if="currentMergeOrder.paymentStatus==3" style="margin-top: -1px">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;border-top: none"
+                :show-header="false"
+      >
+        <el-table-column align="right" label="" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">Total Received Payment：</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="" width="200" prop="">
+          <template slot-scope="scope">
+            <div class="text-total">{{ totalPaidPayment }}</div>
+          </template>
+        </el-table-column>
+
+      </el-table>
+    </div>
+    <!--时间记录-->
+    <div class="wrap5" style="margin-top: -1px">
+      <el-table :data="[{}]" border fit highlight-current-row
+                style="width: 100%;border-top: none"
+                :show-header="false"
+      >
+        <el-table-column align="left" label="" prop="">
+          <template slot-scope="scope">
+            <div :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-muted">
+              <span v-if="currentMergeOrder.paymentStatus==1">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}</span>
+              <span v-else-if="currentMergeOrder.paymentStatus==2">支付时间（Worrmir）：{{ currentMergeOrder.payTime }}</span>
+              <span v-else-if="currentMergeOrder.paymentStatus==3">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}；  支付时间（Worrmir）：{{ currentMergeOrder.payTime }}； 确认到账时间（Brand）：{{ currentMergeOrder.receivePaymentTime }}</span>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
 
-    <!--<div class="filter-container" :style="{width: '1247px', padding: 0}">-->
-      <!--<div class="dialogBottomButton-wrap">-->
-        <!--<el-button @click="submitMergeOrder" type="primary" style="width: 10em">确认</el-button>-->
-      <!--</div>-->
+    <!--遍历显示订单-->
+    <div v-for="(item,index) in orders">
+      <waitPayDeposit :currentRow="item" v-if="item.order_status==30" ref="thirtyTable"
+                      :hideTile="true"
+                      @payment_amountChange="paymentAmount += $event"
+                      @cancel="waitPayDepositVisible = false"
+                      style="padding: 0;" class="addGrayBlock"/>
+      <waitPayResidual :currentRow="item" v-if="item.order_status==40" ref="seventyTable"
+                       :hideTile="true"
+                       @payment_amountChange="paymentAmount += $event"
+                       @cancel="waitPayResidualVisible = false"
+                       style="padding: 0" class="addGrayBlock"/>
+    </div>
+
+    <!--<div class="text-center" :style="{paddingBottom: 0, width: rowLength+'px'}">-->
+      <!--<el-button @click="submitMergeOrder" type="primary" style="width: 10em" :loading="listLoading">确认提交</el-button>-->
     <!--</div>-->
 
   </div>
 </template>
 
 <script>
-  import waitPayDeposit from '../waitPayDeposit/index.vue'
-  import waitPayResidual from '../waitPayResidual/index.vue'
+  import waitPayDeposit from './waitPayDeposit/index.vue'
+  import waitPayResidual from './waitPayResidual/index.vue'
 
   export default {
     components: {
       waitPayDeposit, waitPayResidual
+    },
+    props: {
+      orders: {
+        type: Array,
+        required: true
+      },
+      mergeTitle: {
+        type: String
+      },
+      currentMergeOrder: {
+        type: Object
+      }
+    },
+    computed: {
+      totalPaidPayment() {
+        let amount = 0
+        this.orders.forEach((e,i,s) => {
+          amount += e.waitPayAmount.substring(1)/1
+        })
+        return  this.orders[0].waitPayAmount.substring(0,1) + amount.toFixed(2)
+      }
     },
     data() {
       return {
@@ -121,50 +178,82 @@
         waitPayDepositVisible: true,
         waitPayResidualVisible: true,
         rowLength: 0,
-        mergeTotalList: [
-          {
-            goodsNo: 123456
-          }
-        ],
         paymentAmount: 0,
+        listLoading: false,
+        wormirBankInfo: {},
+        brandBankInfo: {},
+        orderNos: []
       }
     },
     methods: {
       submitMergeOrder() {
-        const vm = this
-        this.$alert('并单已提交，可到“渠道订货-支付货款”中查看详情，并完成付款。', '', {
-          confirmButtonText: this.$t('table.confirm'),
-          showClose: false,
-          center: true,
-          callback() {
-            vm.$emit('cancel')
-          }
-        })
-      },
-      arraySpanMethod_merge({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === this.mergeTotalList.length - 1) {
-         if (columnIndex === 9) {
-            return {
-              rowspan: 1,
-              colspan: 10
+        this.$confirm('货单一经提交不可取消,确定提交吗？', '', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true
+          this.$request({
+            url: '/order/submitMergeOrder.do',
+            method: 'post',
+            data: {
+              orderNos: this.orderNos,
+              brandBankInfo: this.brandBankInfo,
+              totalPaidPayment: this.totalPaidPayment,
+              brandNo: this.orders[0].brand_no,
+              brandName: this.orders[0].brand_name,
             }
-          } else if (columnIndex === 10) {
-            return {
-              rowspan: 1,
-              colspan: 1
+          }).then((res) => {
+            if (res.errorCode == 0) {
+              this.listLoading = false
+              const vm = this
+              this.$alert('并单已提交，可到“渠道订货-支付货款”中查看详情，并完成付款。', '', {
+                confirmButtonText: this.$t('table.confirm'),
+                showClose: false,
+                center: true,
+                callback() {
+                  vm.$emit('cancel')
+                }
+              })
+            } else {
+              this.$message.error('数据请求失败');
+              this.listLoading = false
             }
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            }
-          }
-        }
+          }).catch((err) => {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          })
+        }).catch(() => {});
       },
     },
     mounted() {
       this.$nextTick(()=>{
-        this.rowLength = this.$refs['longerTable'].$el.offsetWidth
+        if (this.$refs['seventyTable']) {
+          this.rowLength = this.$refs['seventyTable'][0].$el.offsetWidth
+        } else if (this.$refs['thirtyTable']) {
+          this.rowLength = this.$refs['thirtyTable'][0].$el.offsetWidth
+        }
+      })
+    },
+    created() {
+      this.$request({
+        url: '/order/mergeOrderBankInfo.do',
+        method: 'post',
+        data: {
+          brandNo: this.orders[0].brand_no
+        }
+      }).then((res) => {
+        if (res.errorCode == 0) {
+          this.wormirBankInfo = res.data.wormirBankInfo
+          this.brandBankInfo = res.data.brandBankInfo
+        } else {
+          this.$message.error('数据请求失败');
+        }
+      }).catch((err) => {
+        this.$message.error('数据请求失败');
+      })
+      this.orders.forEach((e,i,s) => {
+        this.orderNos.push(e.orderNo)
       })
     }
   }

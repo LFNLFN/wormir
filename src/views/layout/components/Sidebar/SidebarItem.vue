@@ -63,7 +63,7 @@
         return false
       },
       generateTitle
-    }
+    },
   }
 </script>
 

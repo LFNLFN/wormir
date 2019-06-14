@@ -22,8 +22,10 @@ export default {
     orderManagement: '订货管理',
     allOrders: '全部订单',
     billManagement: '货单管理',
-    mergeRefundOrders: '提交并单',
+    domesticReceive: '国内收货',
+    mergeOrders: '提交并单',
     payOrder: '支付货款',
+    orderRefund: '货单退款',
     payRefund: '支付退款',
     compensationManagement: '补款管理',
     receivedCompensation: '收到补款',
@@ -127,7 +129,9 @@ export default {
     abnormalTracking: '异常追踪',
     customerTracking: '顾客追踪',
     verifySetting: '验证设置',
-    stockManagement: '库存管理'
+    stockManagement: '库存管理',
+    accountManagement: '账户管理',
+    settingManagement: '设置管理',
   },
   navbar: {
     logOut: '退出登录',

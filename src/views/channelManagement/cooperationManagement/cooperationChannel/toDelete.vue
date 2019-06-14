@@ -10,7 +10,7 @@
       </el-form-item>
       <el-form-item label="终止类型" class="form-row" prop="terminationType">
         <el-radio-group v-model="form.terminationType">
-          <el-radio :label="-200" >提前终止</el-radio>
+          <!--<el-radio :label="-200" >提前终止</el-radio>-->
           <el-radio :label="-300" >违规终止</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -50,7 +50,7 @@
       return {
         form: {
           reason: null,
-          terminationType: -200,
+          terminationType: -300,
           terminationDate: null,
           depositHandleWay: 1
         },

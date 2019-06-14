@@ -2,7 +2,7 @@
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
       <el-form-item label="">
-        <el-input v-model="filterForm.searchText" placeholder="请输入 品牌编号/品牌名称/产地" style="width: 300px"></el-input>
+        <el-input v-model="filterForm.searchText" placeholder="请输入品牌序列号/品牌名称/产地" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="brandBlurSearch">查询</el-button>
@@ -12,10 +12,10 @@
       </el-form-item>
     </el-form>
     <el-table
-      border
+      border v-loading="tableLoading"
       :data="brandTableData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right1">
+      style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
+      >
       <el-table-column
         prop="brandNo"
         label="品牌序列号"
@@ -24,33 +24,77 @@
         fixed="left">
       </el-table-column>
       <el-table-column
-        prop="chineseName"
-        label="品牌名称（中文）"
-        min-width="100"
-        align="center">
-      </el-table-column>
-      <el-table-column
         prop="englishName"
         label="品牌名称（英文）"
         min-width="120"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="brandStatus"
-        label="品牌状态"
+        prop="chineseName"
+        label="品牌名称（中文）"
         min-width="120"
-        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 0 }]"
-        :filter-method="filterHandler_brandStatus"
         align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.brandStatus? '正常供货' : '停止供货' }}</span>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="brandOrigin"
+        prop="productionPlaceChinese"
         label="原产国/产地"
         min-width="100"
         align="center">
+      </el-table-column>
+      <el-table-column
+        prop="contractStatus"
+        label="合同状态"
+        min-width="120"
+        :filters="[{ text: '自动续签', value: 100 }, { text: '到期终止', value: -100 }, { text: '提前终止', value: -200 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.contractStatus | contractStatus }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="brandStatus"
+        label="品牌状态"
+        min-width="120"
+        :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }, { text: '待定', value: 3 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.brandStatus | brandStatusFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="sublicense"
+        label="品牌授权"
+        min-width="120"
+        :filters="[{ text: '转授权', value: 1 }, { text: '非转授权', value: 2 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sublicense | sublicenseFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="discountTargetObj"
+        label="供货类型"
+        min-width="120"
+        :filters="[{ text: '一般贸易', value: 1 }, { text: '跨境贸易', value: 2 }, { text: '一般贸易+跨境贸易', value: 3 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.discountTargetObj | discountTargetObjFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="flow"
+        label="系统使用"
+        min-width="120"
+        :filters="[{ text: '全部使用常规流程', value: 1 }, { text: '部分使用特殊流程', value: 2 }]"
+        :filter-method="filterHandler"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.flow | flowFilter }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="checkInTime"
@@ -91,19 +135,11 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
-    <el-dialog :visible.sync="isAddBrandShow" width="75%" @close="isAddBrandShow = false" title="新增品牌">
+    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="编辑品牌">
       <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
-    <el-dialog
-      :visible.sync="isEditBrandShow"
-      width="75%"
-      @close="isEditBrandShow = false"
-      title="编辑品牌">
-      <editBrand
-        :brandObj="currentBrand"
-        v-if="isEditBrandShow"
-        @submitSuccess="editSuccess">
-      </editBrand>
+    <el-dialog :visible.sync="isEditBrandShow" width="85%" @close="isEditBrandShow = false" title="编辑品牌">
+      <editBrand :brandNo="currentBrand.brandNo" v-if="isEditBrandShow" @submitSuccess="editSuccess"></editBrand>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
                width="70%"
@@ -162,14 +198,19 @@
 
 <script>
   import { brand_BlurSearch } from '@/api/brand'
-  import addBrand from './addBrand/index.vue'
-  import editBrand from './editBrand/index.vue'
+//  import addBrand from './addBrand/index.vue'
+  import addBrand from './addBrand/newIndex.vue'
+//  import editBrand from './editBrand/index.vue'
+  import editBrand from './addBrand/editIndex.vue'
   import goodManagement from './goodManagement/index.vue'
   import request from "@/utils/request";
+
+  import { brandStatusFilter } from '@/filters/index'
 
   export default {
     data() {
       return {
+        tableLoading: false,
         brandTableData: [],
         filterForm: {
           searchText: '',
@@ -203,6 +244,7 @@
     },
     methods: {
       brandBlurSearch() {
+        this.tableLoading = true
         request({
           url: '/brand/brandList.do',
           method: 'post',
@@ -214,9 +256,11 @@
         }).then((res) => {
           this.brandTableData = res.data.items
           this.filterForm.total = res.data.total
+          this.tableLoading = false
           console.log(res.data.items)
         }).catch(() => {
           this.$message.error('数据请求失败');
+          this.tableLoading = false
         })
       },
       handleSizeChange(val) {
@@ -235,7 +279,7 @@
           })
         this.filterForm.currentPage = val
       },
-      filterHandler_brandStatus(value, row, column) {
+      filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
       },
@@ -252,7 +296,7 @@
       showGoodManagement(row) {
         this.goodName = row.chineseName
         this.selectBrandNo = row.brandNo
-        this.selectBrandName = row.chineseName
+        this.selectBrandName = row.englishName
         this.isGoodManagementShow = true
       },
       submitCooperationTermination() {
@@ -268,10 +312,7 @@
       },
       submitSuccess() {
         this.isAddBrandShow = false
-        this.$message({
-          message: '新增成功！',
-          type: 'success'
-        });
+        this.$confirm(`品牌信息已保存，可在“品牌列表页”点击『编辑』进行修改。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
         this.brandBlurSearch()
       },
       editSuccess() {
@@ -280,6 +321,7 @@
           message: '编辑成功！',
           type: 'success'
         });
+        this.brandBlurSearch()
       },
     },
     mounted() {

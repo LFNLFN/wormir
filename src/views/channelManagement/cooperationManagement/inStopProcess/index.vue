@@ -8,7 +8,7 @@
         <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" class="border2" style="width: 100%">
+    <el-table border :data="channelTableData" class="border2" style="width: 100%;border-width:2px;border-right-width: 1px">
       <el-table-column prop="channelNum" label="渠道号" min-width="180" align="center"></el-table-column>
       <el-table-column prop="channelName" label="渠道名称" min-width="170" align="center"></el-table-column>
       <el-table-column
@@ -20,7 +20,7 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+          <span>{{ scope.row.cooperationType | cooperationTypeFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -32,7 +32,7 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+          <span>{{ scope.row.channelType | channelType }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -46,7 +46,7 @@
         <template slot-scope="scope">
           <div
             style="min-width: 4em;margin: 0 auto"
-          >{{ channelPropMap[scope.row.channelProp].text }}</div>
+          >{{ scope.row.channelProp | channelPropFilter }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -58,17 +58,18 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span>{{ scope.row.channelLevel | channelLevel }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cancellationTime" label="终止日期" min-width="110" align="center"></el-table-column>
-      <el-table-column prop="cancellationTime" label="注销日期" min-width="110" align="center"></el-table-column>
+      <!--<el-table-column prop="cancellationTime" label="注销日期" min-width="110" align="center"></el-table-column>-->
       <el-table-column prop="createTime" label="创建日期" align="center" min-width="110"></el-table-column>
       <el-table-column prop="openedDate" label="开通时间" align="center" min-width="110"></el-table-column>
       <el-table-column label="操作" width="130" fixed="right" align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="detailShow(scope.row)">查看详情</el-button>
-          <el-button size="mini" type="primary" @click="linkingShow(scope.row)">停止对接系统</el-button>
+          <el-button size="mini" type="primary" @click="cancelAccountShow(scope.row)">注销账号</el-button>
+          <!--<el-button size="mini" type="primary" @click="linkingShow(scope.row)">停止对接系统</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -177,54 +178,45 @@ export default {
         1000: { text: '已开通', value: 1000 },
       },
       cooperationTypeFilters: [
-        { text: '渠道入驻', value: 0 },
-        { text: '渠道变更', value: 1 }
+        { text: '渠道入驻', value: 1 },
+        { text: '渠道变更', value: 2 }
       ],
       cooperationTypeMap: {
-        0: { text: '渠道入驻', value: 0 },
-        1: { text: '渠道变更', value: 1 }
+        1: { text: '渠道入驻', value: 1 },
+        2: { text: '渠道变更', value: 2 }
       },
       channelTypeFilters: [
-        { text: '淘宝C店', value: 0 },
-        { text: '淘宝企业店', value: 1 },
-        { text: '天猫店', value: 2 },
-        { text: 'B2C平台', value: 3 },
+        { text: '淘宝C店', value: 1 },
+        { text: '淘宝企业店', value: 2 },
+        { text: '天猫店', value: 3 },
+        { text: 'B2C平台', value: 4 },
       ],
       channelTypeMap: {
-        0: { text: '淘宝C店', value: 0 },
-        1: { text: '淘宝企业店', value: 1 },
-        2: { text: '天猫店', value: 2 },
-        3: { text: 'B2C平台', value: 3 },
+        1: { text: '淘宝C店', value: 1 },
+        2: { text: '淘宝企业店', value: 2 },
+        3: { text: '天猫店', value: 3 },
+        4: { text: 'B2C平台', value: 4 },
       },
       channelPropFilters: [
-        { text: '独立渠道(DLQD)', value: 0 },
-        { text: '代发渠道(DFQD)', value: 1 },
-        { text: '分销渠道(FXQD)', value: 2 }
+        { text: '独立渠道(DLQD)', value: 1 },
+        { text: '代发渠道(DFQD)', value: 2 },
+        { text: '分销渠道(FXQD)', value: 3 },
+        { text: '分销子渠道(FXQD)', value: 4 },
       ],
-      channelPropMap: {
-        0: { text: '独立渠道(DLQD)', value: 0 },
-        1: { text: '代发渠道(DFQD)', value: 1 },
-        2: { text: '分销渠道(FXQD)', value: 2 },
-      },
       channelLevelFilters: [
-        { text: 'A级渠道', value: 0 },
-        { text: 'B级渠道', value: 1 },
-        { text: 'C级渠道', value: 2 },
-        { text: 'D级渠道', value: 3 }
+        { text: 'A级渠道', value: 1 },
+        { text: 'B级渠道', value: 2 },
+        { text: 'C级渠道', value: 3 },
+        { text: 'D级渠道', value: 4 },
+        { text: '--', value: 5 },
       ],
-      channelLevelMap: {
-        0: { text: 'A级渠道', value: 0 },
-        1: { text: 'B级渠道', value: 1 },
-        2: { text: 'C级渠道', value: 2 },
-        3: { text: 'D级渠道', value: 3 },
-      },
     }
   },
   methods: {
     channelBlurSearch() {
-      
+
       this.$request({
-        url: '/channel/terminateList.do',
+        url: '/channel/terminatingList.do',
         method: 'post',
         data: this.filterForm
       }).then(res => {
@@ -248,6 +240,34 @@ export default {
     linkingShow(row) {
       this.currentRow = row
       this.isLinkingShow = true
+    },
+    cancelAccountShow(row) {
+      this.currentRow = row
+      this.$confirm('是否已确认银行款项已处理完毕并注销此账号?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$request({
+          url: '/channel/cancellationStatusChange.do',
+          method: 'post',
+          data: {
+            channelNo: this.currentRow.channelNo,
+            cancellationStatus: 2,
+            historyData: this.currentRow
+          },
+        }).then((res) => {
+          if (res.errorCode==0) {
+            this.$alert('此账号已注销，可前往‘终止渠道页面查看’', '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.channelBlurSearch()
+              }
+            });
+          }
+        })
+
+      })
     },
     filterHandler(value, row, column) {
       const property = column['property']

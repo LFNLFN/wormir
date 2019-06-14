@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item" placeholder="货单号/品牌名称/渠道号/渠道名称/商品编号/商品名称" v-model="listQuery.keyword">
+      <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item" placeholder="货单号/品牌名称/渠道号/渠道名称/商品名称/商品编号" v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
 
     <el-table
-      :key='tableKey' :data="list"
+      :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
       class="border-left2 border-top2 border-bottom2"
@@ -15,7 +15,7 @@
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">
         <template slot-scope="scope">
-          <span class="link-type" @click="viewOrderNoDetail(scope.row)">{{ scope.row.orderNo }}</span>
+          <span class="link-type" @click="showOrder(scope.row)">{{scope.row.orderNo}}</span>
         </template>
       </el-table-column>
 
@@ -25,9 +25,9 @@
         :label="$t('payRefund.brandName')"
         :filters="brandNameFilters"
         :filter-method="filterHandler"
-        prop="brandName">
+        prop="brandNameZh">
         <template slot-scope="scope">
-          <span>{{scope.row.brandName}}</span>
+          <span>{{scope.row.brandNameZh}}</span>
         </template>
       </el-table-column>
 
@@ -35,334 +35,94 @@
         min-width="120px"
         :label="$t('payRefund.retailerCategories')"
         align="center"
-        prop="retailerCategories"
-        :filters="retailerCategoriesFilters"
+        :filters="channelPropFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.retailerCategories | retailerCategoriesFilters}}</span>
+          <span>{{scope.row.channelProp | channelPropFilter}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerNo')">
-        <template slot-scope="scope">
-          <span>{{scope.row.retailerNo}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerNo')" prop="channelNo" />
 
-      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerName')" prop="retailerName">
-        <template slot-scope="scope">
-          <span>{{scope.row.retailerName}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column min-width="120px" align="center" :label="$t('payRefund.retailerName')" prop="channelName"/>
 
-      <el-table-column min-width="120px" align="center" label="商品编号" prop="goodsNo" />
+      <el-table-column min-width="120px" align="center" label="商品编号" prop="code" />
 
-      <el-table-column min-width="120px" align="center" label="商品名称" prop="goodsName" />
+      <el-table-column min-width="120px" align="center" label="商品名称" prop="goodName" />
+      <el-table-column min-width="120px" align="center" label="商品规格" prop="sizeZh" />
+      <el-table-column min-width="130px" align="center" label="商品码" prop="goodNo" />
 
-      <el-table-column min-width="120px" align="center" label="国内售价" prop="inlandPrice">
-        <template slot-scope="scope">
-          <span>￥ {{scope.row.inlandPrice.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column min-width="120px" align="center" label="退款金额" prop="refundMoney" />
 
-      <el-table-column min-width="120px" align="center" label="补款金额" prop="compensationMoney">
-        <template slot-scope="scope">
-          <span>￥ {{scope.row.compensationMoney.toFixed(2)}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="120px" align="center" label="补货状态"
-                       prop="compensationStatus"
-                       :filters="compensationStatusFilters"
+      <el-table-column min-width="120px" align="center" label="退款状态" prop="refundStatus"
+                       :filters="refundStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.compensationStatus | compensationStatusFilters}}</span>
+          <span>{{ scope.row.refundStatus | refundStatusFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="120px" align="center" label="补货类型"
-                       prop="compensationStatus">
+      <el-table-column min-width="120px" align="center" label="退款类型"
+                       prop="refundType"
+                       :filters="refundTypeFilters"
+                       :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.compensationStatus | compensationTypeFilters}}</span>
+          <span>{{scope.row.refundType | refundTypeFilter}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" :label="$t('payRefund.operation')" min-width="150"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <div class="table-btn-wrap">
-            <el-button size="medium" type="primary" @click="viewDetail(scope.row)">
-              查看详情
-            </el-button>
-          </div>
-          <div class="table-btn-wrap">
-            <el-button size="medium" type="primary" @click="viewTurnToBrand(scope.row)">
-              转给品牌
-            </el-button>
-          </div>
+          <!--申请退款 0-1-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==0" @click="viewApplyForReplenishment(scope.row)">
+            查看详情
+          </el-button>
+
+          <!--待审核 1-1-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==1"
+                     @click="viewWaitForApplicationReview(scope.row)">查看详情
+          </el-button>
+
+          <!--待退款状态-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==2"
+                     @click="viewWaitForReplenishment(scope.row)">
+            查看详情
+          </el-button>
+
+          <!--已退款状态-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==3"
+                     @click="viewAlreadyReplenishment(scope.row)">
+            查看详情
+          </el-button>
+
+          <!--驳回状态-->
+          <el-button type="primary" size="mini"
+                     v-if="scope.row.refundStatus==4 || scope.row.refundStatus==7"
+                     @click="viewRejection(scope.row)">
+            {{ scope.row.refundType==1? '查看驳回' : '查看详情' }}
+          </el-button>
+
+          <!--申诉中-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==5"
+                     @click="viewAppealing(scope.row)">
+            查看详情
+          </el-button>
+
+          <!--协商中-->
+          <el-button type="primary" size="mini" v-if="scope.row.refundStatus==6"
+                     @click="viewNegotiating(scope.row)">
+            查看详情
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @current-change="changePageList" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows"
+      <el-pagination background @current-change="changePageList" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
                      layout="total, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
-
-    <!--viweDetail-->
-    <el-dialog :visible.sync="isDetailShow" class="image-view" width="50%">
-      <div v-if="isDetailShow">
-        <el-row>
-          <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.orderNo')}}</div></el-col>
-          <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.orderNo}}</div></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8"><div class="grid-content bg-purple">{{$t('retailer.retailerNo')}}</div></el-col>
-          <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.retailerNo}}</div></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><div class="grid-content bg-purple">{{$t('inventory.boxNo')}}</div></el-col>
-          <el-col :span="8"><div class="grid-content bg-purple-light">{{detail.boxCode || ' '}}</div></el-col>
-          <el-col :span="4"><div class="grid-content bg-purple">{{$t('order.description')}}</div></el-col>
-          <el-col :span="8"><div class="grid-content bg-purple-light">{{detail.description || ' '}}</div></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationReason')}}</div></el-col>
-          <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.applicationReasonContent')}}</div></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.applicationTime') + '  ' + new Date()}}</div></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4"><div class="grid-content bg-purple">{{$t('order.photoEvidence')}}</div></el-col>
-          <el-col :span="20"><div class="grid-content bg-purple-light" @click="viewImage(detail.img)">{{$t('order.clickToLarge')}}</div></el-col>
-        </el-row>
-
-        <!--等待审核-->
-        <template v-if="detail.replenishmentStatus === 0">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.reviewResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">
-              <el-radio v-model="reviewResult" :label="0">{{$t('order.replenishmentApproval')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="1">{{$t('order.applicationRejection')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="2">{{$t('order.changeToCompensation')}}</el-radio>
-            </div></el-col>
-          </el-row>
-          <el-row v-if="reviewResult === 2">
-            <el-col :span="8" :offset="12"><div class="grid-content bg-purple">{{$t('order.compensation')}}</div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple-light">$1243</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24" class="text-center">
-              <el-button type="primary" @click="submitApplicationReview">{{$t('table.submit')}}</el-button>
-            </el-col>
-          </el-row>
-        </template>
-
-        <!--申请后补货-->
-        <template v-if="detail.replenishmentStatus === 1">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentApproved')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentStatus')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentCompleted')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentType')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentAfterApplication')}}</div></el-col>
-          </el-row>
-        </template>
-
-        <!--申诉后补货-->
-        <template v-if="detail.replenishmentStatus === 2">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.applicationDismissed')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.appealReason')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.appealReason}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.appealTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.finalResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentApproved')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentStatus')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentCompleted')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentType')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.replenishmentAfterAppeal')}}</div></el-col>
-          </el-row>
-        </template>
-
-        <!--驳回申诉 applicationDismissed-->
-        <template v-if="detail.replenishmentStatus === 3">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.applicationDismissed')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentType')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.noReplenishment')}}</div></el-col>
-          </el-row>
-        </template>
-
-        <!--pending-Process Request（申请后被审核为驳回申请的情况）-->
-        <template v-if="detail.replenishmentStatus === 4">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.applicationDismissed')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.appealReason')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.appealReason}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.appealTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.reviewResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">
-              <el-radio v-model="reviewResult" :label="0">{{$t('order.replenishmentApproval')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="1">{{$t('order.applicationRejection')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="2">{{$t('order.changeToCompensation')}}</el-radio>
-            </div></el-col>
-          </el-row>
-          <el-row v-if="reviewResult === 2">
-            <el-col :span="8" :offset="12"><div class="grid-content bg-purple">{{$t('order.compensation')}}</div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple-light">$1243</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24" class="text-center">
-              <el-button type="primary" @click="submitApplicationReview">{{$t('table.submit')}}</el-button>
-            </el-col>
-          </el-row>
-        </template>
-
-        <!--pending-Process Request（申请后补审核为破损转补款的情况）-->
-        <template v-if="detail.replenishmentStatus === 4">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.compensationApproval')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.compensation')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">$1243</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.appealReason')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.appealReason}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.appealTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.reviewResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">
-              <el-radio v-model="reviewResult" :label="0">{{$t('order.replenishmentApproval')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="1">{{$t('order.applicationRejection')}}</el-radio>
-              <el-radio v-model="reviewResult" :label="2">{{$t('order.changeToCompensation')}}</el-radio>
-            </div></el-col>
-          </el-row>
-          <el-row v-if="reviewResult === 2">
-            <el-col :span="8" :offset="12"><div class="grid-content bg-purple">{{$t('order.compensation')}}</div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple-light">$1243</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24" class="text-center">
-              <el-button type="primary" @click="submitApplicationReview">{{$t('table.submit')}}</el-button>
-            </el-col>
-          </el-row>
-        </template>
-
-        <!--驳回申请 Request Rejected-review details-->
-        <template v-if="detail.replenishmentStatus === 2">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.compensationApproval')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.compensation')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">$1243</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.appealReason')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.appealReason}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.appealTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.finalResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple">{{$t('order.requestRejected')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.replenishmentType')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.noReplenishment')}}</div></el-col>
-          </el-row>
-        </template>
-
-        <!--协商中-->
-        <template v-if="detail.replenishmentStatus === 4">
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.applicationResult')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{$t('order.applicationDismissed')}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.reviewTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8"><div class="grid-content bg-purple">{{$t('order.appealReason')}}</div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple-light">{{detail.appealReason}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="16" :offset="8"><div class="text-muted">{{$t('order.appealTime') + new Date()}}</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24" class="text-center">
-              <el-button disabled>{{$t('order.inNegotiation')}}</el-button>
-            </el-col>
-          </el-row>
-        </template>
-      </div>
-
-      <!--viewImage-->
-      <el-dialog :visible.sync="isViewImageShow" class="image-view" width="75%" append-to-body>
-        <img :src="imageViewed" alt="" width="100%">
-      </el-dialog>
-    </el-dialog>
 
 
     <!--查看订单详情-->
@@ -375,26 +135,88 @@
       <turnToBrand v-if="turnToBrandVisible" @closeDialog="turnToBrandVisible=false"></turnToBrand>
     </el-dialog>
 
-    <!--货单号详情-->
-    <el-dialog :visible.sync="orderNoDetailVisible" fullscreen style="padding: 20px">
-      <alreadyReceive v-if="orderNoDetailVisible"></alreadyReceive>
+
+    <!--申请退款-->
+    <el-dialog :visible.sync="isApplyForReplenishmentShow" :width="dialogWidth">
+      <applyForReplenishment :currentRow="currentRow" v-if="isApplyForReplenishmentShow"
+                             @closeApplicationDialog="isApplyForReplenishmentShow=false; getList()">
+      </applyForReplenishment>
+    </el-dialog>
+
+    <!--等待审核-->
+    <el-dialog :visible.sync="isWaitForApplicationReviewShow" :width="dialogWidth">
+      <waitForApplicationReview :currentRow="currentRow" v-if="isWaitForApplicationReviewShow">
+      </waitForApplicationReview>
+    </el-dialog>
+
+    <!--待补款-->
+    <el-dialog :visible.sync="isWaitForReplenishmentShow" :width="dialogWidth">
+      <waitForReplenishment :currentRow="currentRow" v-if="isWaitForReplenishmentShow">
+      </waitForReplenishment>
+    </el-dialog>
+
+    <!--已补款-->
+    <el-dialog :visible.sync="isAlreadyReplenishmentShow" :width="dialogWidth">
+      <alreadyReplenishment :currentRow="currentRow" v-if="isAlreadyReplenishmentShow">
+      </alreadyReplenishment>
+    </el-dialog>
+
+    <!--驳回-->
+    <el-dialog :visible.sync="isRejectionShow" :width="dialogWidth">
+      <rejection :currentRow="currentRow" v-if="isRejectionShow" @closeCheckRejection="isRejectionShow=false; getList()">
+      </rejection>
+    </el-dialog>
+
+    <!--申诉中-->
+    <el-dialog :visible.sync="isAppealingShow" :width="dialogWidth">
+      <appealing :currentRow="currentRow" v-if="isAppealingShow">
+      </appealing>
+    </el-dialog>
+
+    <!--协商中-->
+    <el-dialog :visible.sync="isNegotiatingShow" :width="dialogWidth">
+      <negotiating :currentRow="currentRow" v-if="isNegotiatingShow">
+      </negotiating>
+    </el-dialog>
+
+    <!--查看已收货货单-->
+    <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
+      <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { issueGoods } from '@/api/goods'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-import Mock from 'mockjs'
+import * as tableFilters from '@/tableFilters/index.js'
 import orderDetail from './orderDetail/index.vue'
 import turnToBrand from './turnToBrand/index.vue'
-import alreadyReceive from './alreadyReceive/index.vue'
+import alreadyReceive from '../alreadyReceive/index.vue'
+
+import applyForReplenishment from './applyForReplenishment/index.vue'
+import waitForApplicationReview from './waitForApplicationReview/index.vue'
+import waitForReplenishment from './waitForReplenishment/index.vue'
+import alreadyReplenishment from './alreadyReplenishment/index.vue'
+import rejection from './rejection/index.vue'
+import appealing from './appealing/index.vue'
+import negotiating from './negotiating/index.vue'
 
 export default {
-  name: 'defective-product',
-  components: { orderDetail, turnToBrand, alreadyReceive },
+  name: 'damage-product',
+  components: {
+    orderDetail,
+    turnToBrand,
+    alreadyReceive,
+    applyForReplenishment,
+    waitForApplicationReview,
+    waitForReplenishment,
+    alreadyReplenishment,
+    rejection,
+    appealing,
+    negotiating,
+  },
   directives: {
     waves
   },
@@ -405,84 +227,30 @@ export default {
       turnToBrandVisible: false,
       orderNoDetailVisible: false,
 
+      refundTypeFilters: tableFilters.refundTypeFilters,
+      refundStatusFilters: tableFilters.refundStatusFilters,
+      channelPropFilters: tableFilters.channelPropFilters,
 
-      replenishmentStatuses: {
-        0: { status: this.$t('order.pendingApproval'), operation: this.$t('order.reviewApplication') },
-        1: { status: this.$t('order.replenishmentCompleted'), operation: this.$t('order.reviewDetail') },
-        2: { status: this.$t('order.pending'), operation: this.$t('order.processRequest') },
-        3: { status: this.$t('order.applicationDismissed'), operation: this.$t('order.reviewDetail') },
-        4: { status: this.$t('order.negotiating'), operation: this.$t('order.reviewDetail') },
-        5: { status: this.$t('order.requestRejected'), operation: this.$t('order.reviewDetail') }
-      },
-      statusFilter: [
-        { text: this.$t('order.pendingApproval'), value: '0' },
-        { text: this.$t('order.replenishmentCompleted'), value: '1' },
-        { text: this.$t('order.pending'), value: '2' },
-        { text: this.$t('order.applicationDismissed'), value: '3' },
-        { text: this.$t('order.negotiating'), value: '4' },
-        { text: this.$t('order.requestRejected'), value: '5' }
-      ],
-      replenishmentTypeFilter: [
-        { text: '--', value: '0' },
-        { text: 'Replenishment After Application', value: '1' },
-        { text: 'Replenishment After Appeal', value: '2' },
-        { text: 'No Replenishment ', value: '3' }
-      ],
-      list: [
-//        {
-//          orderNo: Mock.Random.natural(20180522001, 20180522100),
-//          dealWay: Mock.Random.natural(0, 1),
-//          brandName: Mock.Random.pick(['LANCOM', 'AESOP']),
-//          retailerCategories: Mock.Random.natural(0, 2),
-//          retailerNo: Mock.Random.natural(2018001, 2018100),
-//          retailerName: 'QWE总店',
-//          compensationType: Mock.Random.natural(0, 3),
-//          compensationStatus: Mock.Random.natural(0, 4),
-//          compensationMoney: Mock.Random.natural(10, 40),
-//          goodsNo: Mock.Random.natural(10000, 30000),
-//          goodsName: '补水面膜',
-//          inlandPrice: Mock.Random.natural(100, 200),
-//        }
-      ],
-      brandNameFilters: [
-        { text: 'LANCOM', value: 'LANCOM' },
-        { text: 'AESOP', value: 'AESOP' }
-      ],
-      retailerCategoriesFilters: [
-        { text: 'DLQD', value: 0 },
-        { text: 'FXQD', value: 1 },
-        { text: 'DFQD', value: 2 }
-      ],
-      compensationStatusFilters: [
-        { text: '待协商', value: 0 },
-        { text: '待审核', value: 1 },
-        { text: '申请后补货', value: 2 },
-        { text: '申诉后补货', value: 3 },
-        { text: '驳回申请', value: 4 },
-        { text: '申诉中', value: 5 },
-        { text: '驳回申诉', value: 6 },
-      ],
-      compensationTypeFilters: [
-        { text: '申请后补款', value: 0 },
-        { text: '申诉后补款', value: 1 },
-        { text: '破损转补款', value: 2 },
-        { text: '--', value: 3 },
-      ],
+
+      isApplyForReplenishmentShow: false,
+      isWaitForReplenishmentShow: false,
+      isWaitForApplicationReviewShow: false,
+      isAlreadyReplenishmentShow: false,
+      isRejectionShow: false,
+      isAppealingShow: false,
+      isNegotiatingShow: false,
+
+
+      list: [],
+      brandNameFilters: [],
       total: null,
       listLoading: false,
       listQuery: {
         page: 1,
-        keyword: undefined,
-        orderNo: undefined,
-        sqlColumn: undefined,
-        rows: 20,
-        issueType: 20
-      },
-      statusOptions: ['published', 'draft', 'deleted'],
-      rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+        searchText: undefined,
+        limit: 10,
+        issueType: 20,
+        propertyOfSale: 1,
       },
       downloadLoading: false,
 
@@ -490,18 +258,33 @@ export default {
       detail: {},
       reviewResult: undefined,
       imageViewed: '',
-      isViewImageShow: false
+      isViewImageShow: false,
+      dialogWidth: '70%',
+      isOrderShow: false,
     }
   },
   created() {
-//    this.getList()
+    this.getList()
   },
   methods: {
     getList() {
       this.listLoading = true
-      issueGoods(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.totalRecords
+      this.$request({
+        url: '/issue/damageProductListManager.do',
+        method: 'post',
+        data: this.listQuery
+      }).then((res) => {
+        if (res.errorCode == 0) {
+          this.list = res.data.items
+          this.total = res.data.total
+          this.brandNameFilters = res.data.brandNameFilters
+          this.listLoading = false
+        } else {
+          this.$message.error('Request failed');
+          this.listLoading = false
+        }
+      }).catch((err) => {
+        this.$message.error('Request failed');
         this.listLoading = false
       })
     },
@@ -534,33 +317,6 @@ export default {
       this.getList()
     },
 
-    statusFilterHandler(value, row, column) {},
-    replenishmentTypeFilterHandler(value, row, column) {},
-
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
-    },
-
     // 按钮弹层
     viewDetail(row) {
       this.orderDetailVisible = true
@@ -573,57 +329,45 @@ export default {
     },
 
 
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
+
+
+    viewApplyForReplenishment(row) {
+      this.isApplyForReplenishmentShow = true
+      this.currentRow = row
     },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
+
+    viewWaitForApplicationReview(row) {
+      this.isWaitForApplicationReviewShow = true
+      this.currentRow = row
     },
-    dealWayFilter(status) {
-      const statusMap = {
-        0: '国内交易',
-        1: '香港交易',
-      }
-      return statusMap[status]
+
+    viewWaitForReplenishment(row) {
+      this.isWaitForReplenishmentShow = true
+      this.currentRow = row
     },
-    retailerCategoriesFilters(status) {
-      const statusMap = {
-        0: 'DLQD',
-        1: 'FXQD',
-        2: 'DFQD',
-      }
-      return statusMap[status]
+
+    viewAlreadyReplenishment(row) {
+      this.isAlreadyReplenishmentShow = true
+      this.currentRow = row
     },
-    compensationStatusFilters(status) {
-      const statusMap = {
-        0: '待协商',
-        1: '待审核',
-        2: '申请后补货',
-        3: '申诉后补货',
-        4: '驳回申请',
-        5: '申诉中',
-        6: '驳回申诉',
-      }
-      return statusMap[status]
+
+    viewRejection(row) {
+      this.isRejectionShow = true
+      this.currentRow = row
     },
-    compensationTypeFilters(status) {
-      const statusMap = {
-        0: '--',
-        1: '--',
-        2: '申请后补货',
-        3: '申诉后补货',
-        4: '不支持补货',
-        5: '--',
-        6: '不支持补货',
-      }
-      return statusMap[status]
+
+    viewAppealing(row) {
+      this.isAppealingShow = true
+      this.currentRow = row
+    },
+
+    viewNegotiating(row) {
+      this.isNegotiatingShow = true
+      this.currentRow = row
+    },
+    showOrder(row) {
+      this.currentRow = row
+      this.isOrderShow = true
     },
   },
 }
@@ -632,7 +376,7 @@ export default {
   .text-muted {
     color: #999;
   }
-  .el-table .cell {
-    word-break: break-word;
+  .el-table .el-button {
+    min-width: 6em;
   }
 </style>

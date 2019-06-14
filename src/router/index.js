@@ -175,10 +175,16 @@ export const asyncRouterMap = [
             meta: { title: 'billManagement' }
           },
           {
-            path: 'mergeRefundOrders',
-            component: () => import('@/views/orderManagement/channelCooperator/mergeRefundOrders/index.vue'),
-            name: 'mergeRefundOrders',
-            meta: { title: 'mergeRefundOrders' }
+            path: 'domesticReceive',
+            component: () => import('@/views/orderManagement/channelCooperator/domesticReceive/index.vue'),
+            name: 'domesticReceive',
+            meta: { title: 'domesticReceive' }
+          },
+          {
+            path: 'mergeOrders',
+            component: () => import('@/views/orderManagement/channelCooperator/mergeOrders/index.vue'),
+            name: 'mergeOrders',
+            meta: { title: 'mergeOrders' }
           },
           {
             path: 'payOrder',
@@ -187,10 +193,10 @@ export const asyncRouterMap = [
             meta: { title: 'payOrder' }
           },
           {
-            path: 'salesPromotion',
-            component: () => import('@/views/orderManagement/channelCooperator/salesPromotion/index.vue'),
-            name: 'salesPromotion',
-            meta: { title: 'salesPromotion' }
+            path: 'orderRefund',
+            component: () => import('@/views/orderManagement/channelCooperator/orderRefund/index.vue'),
+            name: 'orderRefund',
+            meta: { title: 'orderRefund' }
           }
         ]
       },
@@ -260,9 +266,64 @@ export const asyncRouterMap = [
             component: () => import('@/views/orderManagement/problematicProductManagement/lessCargoProduct/index.vue'),
             name: 'lessCargoProduct',
             meta: { title: 'lessCargoProduct' }
-          }
+          },
+          {
+            path: 'compensationAndRefund',
+            component: () => import('@/views/orderManagement/problematicProductManagement/compensationAndRefund/index.vue'),
+            name: 'compensationAndRefund',
+            meta: { title: '赔偿退款' }
+          },
+          {
+            path: 'submitMergeOrder',
+            component: () => import('@/views/orderManagement/problematicProductManagement/submitMergeOrder/index.vue'),
+            name: 'submitMergeOrder',
+            meta: { title: '提交并单' }
+          },
+          {
+            path: 'payRefund',
+            component: () => import('@/views/orderManagement/problematicProductManagement/payRefund/index.vue'),
+            name: 'payRefund',
+            meta: { title: '支付退款' }
+          },
+          {
+            path: 'compensationManagement',
+            component: () => import('@/views/orderManagement/problematicProductManagement/compensationManagement/index.vue'),
+            name: 'compensationManagement',
+            meta: { title: '物流赔保' }
+          },
+
         ]
-      }
+      },
+      {
+        path: 'salesPromotion',
+        component: () => import('@/views/orderManagement/salesPromotion/index.vue'),
+        name: 'salesPromotion',
+        meta: { title: 'salesPromotion' }
+      },
+      {
+        path: 'invoiceManagement',
+        component: () => import('@/views/orderManagement/invoiceManagement/index.vue'),
+        name: 'invoiceManagement',
+        meta: { title: '发票管理' }
+      },
+    ]
+  },
+  {
+    path: '/accountManagement',
+    component: Layout,
+    name: 'accountManagement',
+    meta: {
+      title: 'accountManagement',
+      icon: 'orderManagement'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'settingManagement',
+        component: () => import('@/views/accountManagement/settingManagement/index.vue'),
+        name: 'settingManagement',
+        meta: { title: 'settingManagement' }
+      },
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

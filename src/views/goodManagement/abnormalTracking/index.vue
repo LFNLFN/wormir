@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleSearch" style="width: 400px;" class="filter-item"
                 placeholder="品牌序列号/品牌名称/商品编号/商品名称/商品码/箱码/渠道号"
-                v-model="listQuery.keyword">
+                v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleSearch">
         {{$t('table.search')}}
@@ -75,7 +75,7 @@
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows"
+                     :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -105,9 +105,9 @@
     data() {
       return {
         listQuery: {
-          keyword: '',
+          searchText: '',
           page: 1,
-          rows: 20
+          limit: 10
         },
         currentRow: null,
         isCheckShow: false,
@@ -207,7 +207,6 @@
           3: { text: '未定义', value: 3 },
         },
 
-
         isDetailsShow: false,
         currentProduct: '',
         listLoading: false,
@@ -215,21 +214,35 @@
       }
     },
     created() {
-//      this.getList()
+      // this.getList()
     },
     methods: {
       getList() {
+//        this.listLoading = true
+//        this.$request({
+//          url: '/goods/fetchStockManagement.do',
+//          method: 'post',
+//          data: this.listQuery
+//        }).then((res) => {
+//          this.list = res.data.items
+//          this.total = res.data.total
+//          this.listLoading = false
+//        }).catch((err) => {
+//          this.listLoading = false
+//          this.$message.error('数据请求失败');
+//        })
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.listQuery.page = val
+      },
+      handleSizeChange(val) {
+        this.listQuery.limit = val
       },
       abnormalDetail(row, flag) {
         this.isDetailsShow = true
         this.currentProduct = row
       },
       handleSearch() {
-      },
-      handleSizeChange(val) {
-        this.listQuery.rows = val
       },
       showCheck(row) {
         this.currentRow = row
@@ -242,6 +255,7 @@
     }
   }
 </script>
+
 <style scoped>
 
 </style>

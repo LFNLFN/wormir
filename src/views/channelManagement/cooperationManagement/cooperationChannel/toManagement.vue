@@ -148,7 +148,7 @@
             </div>
           </el-col>
           <el-col :span="19" style="padding-top: 10px">
-            <el-input :rows="1" type="textarea" style="width: 95%;height: 38px;" v-model="form.companySummary"
+            <el-input :rows="1" type="textarea" style="width: 95%;height: 38px;" v-model="form.companyProfile"
                       placeholder="请输入公司简介"></el-input>
           </el-col>
         </el-row>
@@ -721,18 +721,7 @@
       }).catch(() => {
         this.$message.error('渠道详情请求失败');
       })
-      this.form.idcardNo = this.currentRow.idcardNo || ''
-      this.form.idcardFront = this.currentRow.idcardFront || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
-      this.form.idcardBack = this.currentRow.idcardBack || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
-
-      this.form.companyName = this.currentRow.companyName || ''
-      this.form.companySummary = this.currentRow.companySummary || ''
-      this.form.businessAddress = this.currentRow.businessAddress || ''
-      this.form.businessLicense = this.currentRow.businessLicense || 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg'
-
-      this.form.channelName = this.currentRow.channelName || ''
-      this.form.businessRange = this.currentRow.businessRange || ''
-      this.form.businessGoods = this.currentRow.businessGoods || ''
+      this.form = this.currentRow
 
     }
   }
