@@ -675,9 +675,9 @@
         </div>
       </div>
 
-      <div class="dialogBottomButton-wrap">
-        <el-button type="primary" @click="onSubmit" :loading="isSubmitting">保存并提交</el-button>
-      </div>
+      <!--<div class="dialogBottomButton-wrap">-->
+        <!--<el-button type="primary" @click="onSubmit" :loading="isSubmitting">保存并提交</el-button>-->
+      <!--</div>-->
     </el-form>
   </div>
 </template>
@@ -696,6 +696,7 @@
     },
     data() {
       return {
+        userLevel: JSON.parse(window.localStorage.userData).userLevel,
         dialogLoading: false,
         form: {
           brandMsg: [{ brandEnglishName: null, }],

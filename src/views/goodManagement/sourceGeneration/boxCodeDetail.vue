@@ -39,7 +39,7 @@
       >{{$t('table.search')}}</el-button>
     </div>
 
-    <p style="margin-top: 0">已生成发送&nbsp;{{listQuery.total}}&nbsp;个箱码</p>
+    <p style="margin-top: 0">已生成发送&nbsp;{{ codeTotal }}&nbsp;个箱码</p>
 
     <!--清单-->
     <el-table
@@ -59,7 +59,8 @@
       <el-table-column align="center" label="箱码" prop="id" min-width="120px"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px">
         <template slot-scope="scope">
-          <span class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName ? scope.row.fileName : '文件名' }}</span>
+          <span v-if="userLevel==1" class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName }}</span>
+          <span v-else class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作账号" prop="create_user_id" min-width="100px"/>
@@ -105,6 +106,7 @@ export default {
   },
   data() {
     return {
+      userLevel: JSON.parse(window.localStorage.userData).userLevel,
       list: [],
       listQuery: {
         searchText: '',
@@ -116,7 +118,8 @@ export default {
       brandName: 'abcde',
       codeAccumulate: '100',
       listLoading: false,
-      resendLoading: false
+      resendLoading: false,
+      codeTotal: 0
     }
   },
   created() {
@@ -134,6 +137,7 @@ export default {
         this.listLoading = false
         this.list = res.data.items
         this.listQuery.total = res.data.total
+        this.codeTotal = res.data.codeTotal
       })
     },
     downLoadAction(row) {

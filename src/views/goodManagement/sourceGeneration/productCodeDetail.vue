@@ -41,7 +41,7 @@
       >{{$t('table.search')}}</el-button>
     </div>
 
-    <p style="margin-top: 0">已生成发送&nbsp;{{ listQuery.total }}&nbsp;个商品码</p>
+    <p style="margin-top: 0">已生成发送&nbsp;{{ codeTotal }}&nbsp;个商品码</p>
 
     <!--清单-->
     <el-table
@@ -114,7 +114,8 @@ export default {
       brandName: 'abcde',
       codeAccumulate: '100',
       listLoading: false,
-      resendLoading: false
+      resendLoading: false,
+      codeTotal: 0
     }
   },
   created() {
@@ -131,6 +132,7 @@ export default {
         this.listLoading = false
         this.list = res.data.items
         this.listQuery.total = res.data.total
+        this.codeTotal = res.data.codeTotal
       })
     },
     handleCurrentChange(val) {

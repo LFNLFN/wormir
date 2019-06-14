@@ -108,7 +108,7 @@
       ></el-table-column>
       <el-table-column fixed="right" label="操作" min-width="100" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="editGood(scope.row)">编辑</el-button>
+          <el-button size="mini" @click="editGood(scope.row)">{{ scope.row.waitForReview==1&&userLevel==1? '审核' : '编辑' }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -173,7 +173,8 @@ export default {
         3: '新品'
       },
       selectedGoodsNo: undefined,
-      listLoading: false
+      listLoading: false,
+      userLevel: JSON.parse(window.localStorage.userData).userLevel,
     }
   },
   methods: {
@@ -205,8 +206,7 @@ export default {
       const property = column['property'];
       return row[property] === value;
     },
-    goodBlurSearch(val) {
-      this.filterForm.searchText = val
+    goodBlurSearch() {
       this.getList()
     },
     editSuccess() {

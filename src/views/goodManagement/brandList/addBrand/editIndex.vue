@@ -1041,6 +1041,10 @@
       }
     },
     created() {
+      // 高权限用户才拥有修改权限
+      if (JSON.parse(window.localStorage.userData).userLevel==1) {
+          this.submitDisabled = false
+      } else { this.submitDisabled = true }
       this.dialogLoading = true
       this.brandBasicsMsg = JSON.parse(JSON.stringify(brandBasicsMsg))
       this.goodsMsg = JSON.parse(JSON.stringify(goodsMsg))

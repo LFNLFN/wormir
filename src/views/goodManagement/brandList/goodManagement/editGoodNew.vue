@@ -1,6 +1,6 @@
 <template>
   <div class="add-good-index-vue">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" v-loading="dialogLoading">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" >
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="商品品牌" prop="brandMsg" class="border1 border-top no-border-bottom"
@@ -403,7 +403,7 @@
         </el-form-item>
       </div>
 
-      <div class="for-senior-executive" v-if="true">
+      <div class="for-senior-executive" v-if="userLevel==1">
         <h2>合作设置</h2>
         <div class="border1 form-error-inline" style="border-top: 2px solid #d5d5d5">
           <el-form-item v-if="form.makeUpOfGoods" label="商品属性设置" prop="" class="border1 no-border-bottom no-border-top"
@@ -502,8 +502,8 @@
               </el-checkbox-group>
               </div>
             </el-form-item>
-            <el-form-item label="" prop="sublicenseChannelMsg" style="margin-bottom: 0">
-              <el-table v-if="form.sublicense==2"
+            <el-form-item label="" v-if="form.sublicense==2" prop="sublicenseChannelMsg" style="margin-bottom: 0">
+              <el-table
                         border :data="sublicenseChannelMsg"
                         class="no-border-right no-border-bottom"
                         style="width: 80%;margin: 4px">
@@ -605,7 +605,7 @@
                 <template slot-scope="scope">
                   <el-form-item label="" prop="discountArr" style="margin-bottom: 0">
                     <span v-if="scope.$index==0 || scope.$index==13">0%</span>
-                    <el-input v-else v-model.trim.number="discountArr[scope.$index]" placeholder="输入数字" style="width: 100%"
+                    <el-input v-else v-model.number.trim="discountArr[scope.$index]" placeholder="输入数字" style="width: 100%"
                               @change="discountArrChange"
                               :disabled="form.propertyOfSale[0]==2&&form.propertyOfSale.length==1 && (scope.$index>=3 && scope.$index<=6)">
                       <template slot="append">%</template>
@@ -833,7 +833,8 @@
         priceType: [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
         priceArr: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         discountArr: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        dialogGoodImgVisible: false
+        dialogGoodImgVisible: false,
+        userLevel: JSON.parse(window.localStorage.userData).userLevel
       }
     },
     methods: {
@@ -1123,19 +1124,20 @@
           return false
         }
 
+        this.form.waitForReview = this.userLevel==1? 2 : 1
         console.log(this.form)
 
         this.$refs["form"].validate(valid => {
           if (valid) {
             this.$request({
-              url: '/goods/createGood.do',
+              url: '/goods/updateGoodsInfo.do',
               method: "post",
               data: this.form
             })
               .then(res => {
                 if (res.errorCode == 0) {
                   this.$confirm(`新增商品信息已提交审核，可在“商品列表页”中查看详情。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false }).then(() => {
-                    this.$emit('submitSuccesss')
+                    this.$emit('submitSuccess')
                     this.$request({
                       url: '/user/temporarySaveAddingGoodsMsg.do',
                       method: 'post',
@@ -1253,8 +1255,7 @@
           this.subCategoryName = this.form.subCategoryName; this.subCategoryNameChange(this.form.subCategoryName)
           this.priceType = this.form.priceType;
           this.priceArr = this.form.priceArr;
-          this.discountArr = this.form.discountArr;
-          this.dialogLoading = false
+          this.discountArr = this.form.discountArr
         }
       })
 

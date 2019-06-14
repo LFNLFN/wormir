@@ -43,6 +43,7 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
+import { loginByUsername, logout, getUserInfo } from '@/api/login'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
 
@@ -90,8 +91,13 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          this.$store.dispatch('LoginByUsername', this.loginForm).then(async () => {
             this.loading = false
+            await getUserInfo().then(res => {
+              if (res.errorCode == 0) {
+                window.localStorage.userData = JSON.stringify(res.data)
+              }
+            })
             this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false

@@ -407,7 +407,7 @@
         </el-form-item>
       </div>
 
-      <div class="for-senior-executive" v-if="true">
+      <div class="for-senior-executive" v-if="userLevel==1">
         <h2>合作设置</h2>
         <div class="border1 form-error-inline" style="border-top: 2px solid #d5d5d5">
           <el-form-item v-if="form.makeUpOfGoods" label="商品属性设置" prop="" class="border1 no-border-bottom no-border-top"
@@ -755,6 +755,7 @@
           goodStatus: 1,
           cartonParam: null,
         },
+        userLevel: JSON.parse(window.localStorage.userData).userLevel,
         sublicenseChannelMsg: [{channelNo: null, channelName: null, id: null}],
         formRules: {},
         brandNoLoading: false,

@@ -77,8 +77,9 @@ const valiPriceArr = (rule, value, callback) => {
 
 const valiDiscountArr = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
-    let valueType = typeof item
-    if (valueType == 'string') return true
+    if (!(item/1 > -1)) {
+      return true
+    }
   });
   if (valiNull) {
     callback(new Error(" "));

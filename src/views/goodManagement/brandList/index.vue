@@ -198,6 +198,7 @@
 
 <script>
   import { brand_BlurSearch } from '@/api/brand'
+  import { getUserInfo } from '@/api/login'
 //  import addBrand from './addBrand/index.vue'
   import addBrand from './addBrand/newIndex.vue'
 //  import editBrand from './editBrand/index.vue'
