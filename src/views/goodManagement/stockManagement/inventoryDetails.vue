@@ -36,7 +36,7 @@
               style="width: 100%"
               class="no-border-top border-left2"
               :span-method="objectSpanMethod"
-              :max-height="300"
+              :max-height="500"
               >
       <el-table-column align="center" label="已入库" >
         <el-table-column align="center" label="箱码" prop="boxCode"/>

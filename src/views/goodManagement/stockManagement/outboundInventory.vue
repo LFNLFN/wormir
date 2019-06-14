@@ -1,29 +1,7 @@
 <template>
   <div>
     <div style="width: 100%; float: left">
-      <el-table :data="brandList" border fit highlight-current-row
-                v-loading="brandListLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
-                class="border-top2 border-left2 no-border-bottom">
-        <el-table-column align="center" label="品牌序列号" prop="brandNo"/>
-        <el-table-column align="center" label="品牌名称（中文）" prop="brandChineseName"/>
-        <el-table-column align="center" label="品牌名称（英文）" prop="brandEnglishName"/>
-        <el-table-column align="center" label="商品名称（中文）" prop="goodsChineseName"/>
-      </el-table>
-
-      <div style="width: 100%; float: left" class="border-right2">
-        <el-table :data="list" border fit highlight-current-row
-                  v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 50%; float: left"
-                  class="no-border-top border-left2 no-border-right no-border-bottom last-tr0">
-          <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
-          <el-table-column align="center" :label="$t('product.productName')" prop="brandEnglishName"/>
-          <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish"/>
-          <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification">
-            <template slot-scope="scope">{{ scope.row.cartonSpecification }}件/箱</template>
-          </el-table-column>
-          <el-table-column align="center" label="箱型编号" prop="cartonSizeId"/>
-          <el-table-column align="center" label="箱子尺寸" prop="cartonSize"/>
-        </el-table>
-        <div class="filter-container">
+      <div class="filter-container">
           <el-input @keyup.enter.native="handleFilter" style="width: 400px;" class="filter-item"
                     placeholder="箱码/商品码/订货单号/操作账号"
                     v-model="listQuery.keyword">
@@ -31,145 +9,55 @@
           <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
             {{$t('table.search')}}
           </el-button>
-        </div>
       </div>
-    </div>
+      <el-table :data="brandList" border fit highlight-current-row
+                v-loading="brandListLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
+                class="border-top2 border-left2 no-border-bottom">
+        <el-table-column align="center" label="品牌序列号" prop="brandNo"/>
+        <el-table-column align="center" label="品牌名称（中文）" prop="brandChineseName"/>
+        <el-table-column align="center" label="品牌名称（英文）" prop="brandEnglishName"/>
+        <el-table-column align="center" label="商品名称（英文）" prop="goodsEnglishName"/>
+      </el-table>
 
-    <el-table :data="emptyList" border fit highlight-current-row
+        <el-table :data="list" border fit highlight-current-row
+                  v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
+                  class="no-border-top border-left2 no-border-right no-border-bottom last-tr0">
+          <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
+          <el-table-column align="center" :label="$t('product.productName')" prop="brandChineseName"/>
+          <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish"/>
+          <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification">
+            <template slot-scope="scope">{{ scope.row.cartonSpecification }}件/箱</template>
+          </el-table-column>
+          <el-table-column align="center" label="箱型编号" prop="cartonSizeId"/>
+          <el-table-column align="center" label="箱子尺寸" prop="cartonSize"/>
+        </el-table>
+        
+    </div>
+    <el-table :data="fullUnitList" border fit highlight-current-row
               v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
-              :header-cell-style="{padding: 0}"
-              class="empty-table border-left2 no-border-bottom last-tr0">
+              :max-height="500"
+              class="border-left2 last-tr0">
       <el-table-column align="center" label="已入库">
-        <el-table-column align="center" label="箱码"/>
-        <el-table-column width="120" align="center" label="首次装箱的商品码"/>
+        <el-table-column align="center" label="箱码" prop="boxCode"/>
+        <el-table-column width="120" align="center" label="商品码" prop="productCode"/>
         <el-table-column align="center" label="装箱数量">
-          <el-table-column align="center" label="(units)"/>
+          <el-table-column align="center" label="(units)" prop="inStockUnitsQuantity"/>
         </el-table-column>
         <el-table-column align="center" label="商品数量">
-          <el-table-column align="center" label="pcs"/>
+          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="inStockProductQuantity"/>
         </el-table-column>
-        <el-table-column align="center" label="库存状态"/>
-      </el-table-column>
-      <el-table-column align="center" label="已出库">
-        <el-table-column align="center" label="整箱">
-          <el-table-column align="center" label="(units)"/>
-        </el-table-column>
-        <el-table-column align="center" label="拆箱">
-          <el-table-column align="center" label="(units)"/>
-        </el-table-column>
-        <el-table-column align="center" label="散货">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'"/>
-        </el-table-column>
-        <el-table-column align="center" label="出库时间"/>
-        <el-table-column align="center" label="操作账号"/>
-        <el-table-column align="center" label="出库的订货单号"/>
       </el-table-column>
       <el-table-column align="center" label="实际库存">
-        <el-table-column align="center" label="商品数量">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'"/>
-        </el-table-column>
         <el-table-column align="center" label="整箱">
-          <el-table-column align="center" label="(units)"/>
+          <el-table-column align="center" label="(units)" prop="outboundUnitsQuantity"/>
         </el-table-column>
-        <el-table-column align="center" label="散货">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'"/>
+        <el-table-column align="center" label="商品数量">
+          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="outboundDevanningQuantity"/>
         </el-table-column>
-      </el-table-column>
-    </el-table>
-    <el-row style="width: 100%;background-color: #DFF2FC;font-weight: 700;
-    color: #424242;" class="border-left2 border-right2">
-      <el-col align="center">
-        <div class="grid-content bg-purple">整箱</div>
-      </el-col>
-    </el-row>
-    <el-table :data="fullUnitList" border fit highlight-current-row :show-header="false"
-              v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
-              class="border-left2 last-tr0">
-      <el-table-column align="center" :label="$t('product.inStock')">
-        <el-table-column align="center" :label="$t('product.boxCode')" prop="boxCode"/>
-        <el-table-column width="120" align="center" :label="$t('product.productCodeAll')" prop="productCode"/>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="inStockUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="inStockProductQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('product.outbound')">
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.devanningQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundDevanningQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="outboundindividualQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
-        <el-table-column align="center" :label="$t('product.operationID')" prop="operationID"/>
-        <el-table-column align="center" :label="$t('product.outbound')">
-          <el-table-column align="center" :label="$t('order.orderNo')" prop="orderNo"/>
-        </el-table-column>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('product.outboundInventory')">
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="outboundInventoryProductQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundInventoryUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualProductQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="individualProductQuantity"/>
-        </el-table-column>
-      </el-table-column>
-    </el-table>
-    <el-row style="width: 100%;background-color: #DFF2FC;font-weight: 700; color: #424242;"
-            class="border-left2 border-right2">
-      <el-col align="center">
-        <div class="grid-content bg-purple">拆箱</div>
-      </el-col>
-    </el-row>
-    <el-table :data="devanningList" border fit highlight-current-row :summary-method="getSummaries" show-summary
-              :show-header="false" v-loading="listLoading" element-loading-text="给我一点时间" stripe size="mini"
-              style="width: 100%" class="border-left2">
-      <el-table-column align="center" :label="$t('product.inStock')">
-        <el-table-column align="center" :label="$t('product.boxCode')" prop="boxCode"/>
-        <el-table-column width="120" align="center" :label="$t('product.productCodeAll')" prop="productCode"/>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="inStockUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="inStockProductQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('product.outbound')">
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.devanningQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundDevanningQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="outboundindividualQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.inventoryStatus')" prop="inventoryStatus"/>
-        <el-table-column align="center" :label="$t('product.operationID')" prop="operationID"/>
-        <el-table-column align="center" :label="$t('product.outbound')">
-          <el-table-column align="center" :label="$t('order.orderNo')" prop="orderNo"/>
-        </el-table-column>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('product.outboundInventory')">
-        <el-table-column align="center" :label="$t('product.productQuantityAll')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="outboundInventoryProductQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.unitsQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.units') + ')'" prop="outboundInventoryUnitsQuantity"/>
-        </el-table-column>
-        <el-table-column align="center" :label="$t('product.individualProductQuantity')">
-          <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="individualProductQuantity"/>
-        </el-table-column>
+        <el-table-column align="center" label="库存状态" prop="inventoryStatus"/>
+        <el-table-column align="center" label="出库的订货单号" prop="orderNo"/>
+        <el-table-column align="center" label="出库时间"/>
+        <el-table-column align="center" label="操作账号" prop="operationID"/>
       </el-table-column>
     </el-table>
   </div>
@@ -379,7 +267,7 @@
   .filter-container {
     width: 50%;
     float: left;
-    padding-left: 3%;
+    /* padding-left: 3%; */
     padding-top: 1%;
   }
 
