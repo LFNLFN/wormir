@@ -32,6 +32,9 @@
         <el-table-column align="center" label="箱型编号" prop="cartonSizeId"/>
         <el-table-column min-width="140" align="center" label="箱子尺寸" prop="cartonSize"/>
         <el-table-column align="center" label="虚拟库存">
+          <el-table-column align="center" label="整箱">
+            <el-table-column align="center" label="(units)" prop="virtualDevanningInStockCount"/>
+          </el-table-column>
           <el-table-column align="center" label="商品数量">
             <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
               <template slot-scope="scope">
@@ -39,18 +42,13 @@
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column align="center" label="整箱">
-            <el-table-column align="center" label="(units)" prop="virtualDevanningInStockCount"/>
-          </el-table-column>
-          <el-table-column align="center" label="散货">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="virtualIndividualInStockCount"/>
-          </el-table-column>
         </el-table-column>
       </el-table>
 
       <el-table :data="prodcutCodeList" border fit highlight-current-row
                 v-loading="listLoading" element-loading-text="给我一点时间" size="mini" style="width: 100%"
                 :header-cell-style="{padding: 0}"
+                :max-height="500"
                 class="no-border-top border-left2">
         <el-table-column min-width="140" align="center" label="备货订货单号" prop="inventoryOrderNo">
           <template slot-scope="scope">
@@ -61,25 +59,26 @@
           <el-table-column align="center" label="整箱">
             <el-table-column align="center" label="(units)" prop="onHoldUnitsQuantity"/>
           </el-table-column>
-          <el-table-column align="center" label="备货散货">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="onHoldindividualProductQuantity"/>
-          </el-table-column>
-          <el-table-column align="center" label="拆箱">
-            <el-table-column align="center" label="(units)" prop="devanningQuantity"/>
-          </el-table-column>
-          <el-table-column align="center" label="拆箱散货">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'"
-                             prop="devanningIndividualProductQuantity"/>
+          <el-table-column align="center" label="商品数量">
+            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
+              <template slot-scope="scope">
+                <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
+              </template>
+            </el-table-column>
           </el-table-column>
           <el-table-column min-width="120" align="center" label="备货时间" prop="inventoryOnHoldTime"/>
-          <el-table-column align="center" label="操作账号" prop="operationID"/>
+          <el-table-column min-width="120" align="center" label="操作账号" prop="operationID"/>
         </el-table-column>
         <el-table-column align="center" label="取消备货">
           <el-table-column align="center" label="整箱">
             <el-table-column align="center" label="(units)" prop="cancelUnitsQuantity"/>
           </el-table-column>
-          <el-table-column align="center" label="散货">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="cancelIndividualProductQuantity"/>
+          <el-table-column align="center" label="商品数量">
+            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
+              <template slot-scope="scope">
+                <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
+              </template>
+            </el-table-column>
           </el-table-column>
           <el-table-column min-width="120" align="center" label="取消时间" prop="cancelTime"/>
         </el-table-column>

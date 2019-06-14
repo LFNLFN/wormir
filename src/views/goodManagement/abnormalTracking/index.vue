@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div class="trade-category-wrap" style="margin-bottom: 10px">
+      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="propertyOfSaleChange">一般贸易商品</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="2" @change="propertyOfSaleChange">跨境贸易商品</el-radio>
+    </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleSearch" style="width: 400px;" class="filter-item"
                 placeholder="品牌序列号/品牌名称/商品编号/商品名称/商品码/箱码/渠道号"
@@ -13,9 +17,7 @@
     <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row size="mini" style="width: 100%"
               class="border-left2 border-top2">
-      <el-table-column min-width="120" fixed="left" align="center" label="品牌序列号" prop="brandNo"/>
       <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="brandEnglishName"/>
-      <el-table-column min-width="120" align="center" label="品牌名称（中文）" prop="brandChineseName"/>
       <el-table-column min-width="100" align="center" label="商品编号" prop="goodsNo"/>
       <el-table-column min-width="140" align="center" label="商品名称（英文）" prop="goodsEnglishName" show-overflow-tooltip/>
       <el-table-column min-width="140" align="center" label="商品名称（中文）" prop="goodsChineseName" show-overflow-tooltip/>
