@@ -112,10 +112,16 @@
             size="mini"
             @click="showEditBrand(scope.row)">编辑
           </el-button>
-          <el-button
-            size="mini"
-            @click="showGoodManagement(scope.row)">商品管理
-          </el-button>
+
+          <!--style="margin: 1em 0;"-->
+          <el-badge :value="scope.row.unReviewCount==0? '0':scope.row.unReviewCount">
+            <el-button
+              size="mini"
+              @click="showGoodManagement(scope.row)">商品管理
+            </el-button>
+          </el-badge>
+
+
           <el-button
             size="mini"
             type="danger"

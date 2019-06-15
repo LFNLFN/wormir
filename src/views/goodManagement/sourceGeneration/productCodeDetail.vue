@@ -56,7 +56,8 @@
       <el-table-column align="center" label="商品码" min-width="120px" prop="id"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px" prop>
         <template slot-scope="scope">
-          <span class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName ? scope.row.fileName : '文件名' }}</span>
+          <span v-if="userLevel==1" class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName }}</span>
+          <span v-else>{{ scope.row.fileName }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作账号" min-width="100px" prop="create_user_id"/>
@@ -102,6 +103,7 @@ export default {
   },
   data() {
     return {
+      userLevel: JSON.parse(window.localStorage.userData).userLevel,
       list: [],
       listQuery: {
         searchText: '',
