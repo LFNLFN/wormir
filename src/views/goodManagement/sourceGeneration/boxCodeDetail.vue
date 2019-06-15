@@ -56,7 +56,7 @@
       style="width: 100%;border-top-width: 2px;border-left-width: 2px;"
       :max-height="300"
     >
-      <el-table-column align="center" label="箱码" prop="id" min-width="120px"/>
+      <el-table-column align="center" label="箱码" prop="sourceCode" min-width="120px"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px">
         <template slot-scope="scope">
           <span v-if="userLevel==1" class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName }}</span>
@@ -113,7 +113,8 @@ export default {
         total: 0,
         page: 1,
         limit: 10,
-        type: 2
+        type: 2,
+        brandNo: this.brand.brandNo,
       },
       brandName: 'abcde',
       codeAccumulate: '100',

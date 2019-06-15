@@ -53,7 +53,7 @@
       style="width: 100%;border-top-width: 2px;border-left-width: 2px;"
       :max-height="300"
     >
-      <el-table-column align="center" label="商品码" min-width="120px" prop="id"/>
+      <el-table-column align="center" label="商品码" min-width="120px" prop="sourceCode"/>
       <el-table-column align="center" label="下载文件包名称" min-width="150px" prop>
         <template slot-scope="scope">
           <span v-if="userLevel==1" class="link-type" @click="downLoadAction(scope.row)">{{ scope.row.fileName }}</span>
