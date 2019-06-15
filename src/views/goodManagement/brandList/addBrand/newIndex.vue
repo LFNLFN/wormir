@@ -1,6 +1,6 @@
 <template>
   <div class="add-brand-index-vue">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" key="add-brand-index-vue">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
@@ -406,6 +406,11 @@
               </template>
             </el-table-column>
           </el-table>
+        </el-form-item>
+        <el-form-item label="发货并单下限" prop="minMergeShipmentOrderNum" class="border-left border-right"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-input v-model.trim.number="form.minMergeShipmentOrderNum" placeholder="请输入数字"
+                    style="margin: 0 5px;width: 20%"></el-input>
         </el-form-item>
         <el-form-item label="品牌起订/降幅设置" prop="discountTargetObj" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">

@@ -406,6 +406,11 @@
             </el-table-column>
           </el-table>
         </el-form-item>
+        <el-form-item label="发货并单下限" prop="minMergeShipmentOrderNum" class="border-left border-right"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-input v-model.trim.number="form.minMergeShipmentOrderNum" placeholder="请输入数字"
+                    style="margin: 0 5px;width: 20%"></el-input>
+        </el-form-item>
         <el-form-item label="品牌起订/降幅设置" prop="discountTargetObj" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-checkbox-group v-model="discountTargetObj" @change="discountTargetObjChange" style="margin: 0 5px">

@@ -36,6 +36,7 @@ let deliverMsg = {
   discountRange1ForFX: [{ min: 0, max: 0, decreasing: 0, disabled: true }],
   discountRange2ForDL: [{ min: 0, max: 0, decreasing: 0, disabled: true }],
   discountRange2ForFX: [{ min: 0, max: 0, decreasing: 0, disabled: true }],
+  minMergeShipmentOrderNum: 0
 }
 
 export function transportationChange() {
