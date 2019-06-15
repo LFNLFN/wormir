@@ -329,7 +329,7 @@
               <el-table-column align="center" width="140" :label="$t('price.startDiscount')">
                 <template slot-scope="scope">
                   <div v-if="scope.$index===order.replenishmentList.length-1" class="text-total">{{
-                    '已付货款:' }} :
+                    '已付货款:' }}
                   </div>
                   <span v-else>{{scope.row.startDiscount}}%</span>
                 </template>

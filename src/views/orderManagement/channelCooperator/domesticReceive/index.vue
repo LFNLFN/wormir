@@ -46,16 +46,24 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+
+    <el-dialog :visible.sync="mergeOrderDetailVisible" fullscreen style="padding: 20px">
+      <!-- <merge-order-detail :orders="orders" /> -->
+      <element-form />
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import waves from '@/directive/waves' // 水波纹指令
+  import mergeOrderDetail from './mergeOrderDetail'
+  import elementForm from './elementForm'
   import { paymentStatusFilters } from '@/tableFilters/index.js'
 
   export default {
     name: 'order-refund',
     directives: { waves },
+    components: { mergeOrderDetail, elementForm },
     data() {
       return {
         tableKey: 0,
