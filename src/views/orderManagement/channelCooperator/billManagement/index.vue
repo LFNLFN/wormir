@@ -83,7 +83,7 @@
             <!--<el-button type="primary" size="mini" v-if="scope.row.order_status==-110" @click="viewGoPayDeposit(scope.row)">查看货单</el-button>-->
 
             <el-badge value="即将取消" class="item" style="margin: 1em 0;"
-                      v-if="scope.row.nearCancel && (scope.row.order_status==40)">
+                      v-if="scope.row.will_be_cancelled==1 && (scope.row.order_status==40)">
               <el-button type="primary" size="mini" v-if="scope.row.order_status==40"
                          @click="viewWaitReceiveResidual(scope.row)">待收余款
               </el-button>
