@@ -22,20 +22,21 @@
         :label="$t('payOrder.brandName')"
         :filters="brandNameFilters"
         :filter-method="filterHandler"
-        prop="brandName" />
+        prop="brandChineseName" />
 
-      <el-table-column min-width="100px" align="center" label="货单状态" prop="paymentStatus"
-                       :filters="paymentStatusFilters"
+      <el-table-column min-width="100px" align="center" label="货单状态" prop="receiveStatus"
+                       :filters="receiveStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{scope.row.paymentStatus | paymentStatusFilter}}</span>
+          <span>{{scope.row.receiveStatus | receiveStatusFilter}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120"
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看详情</el-button>
+          <el-button v-if="scope.row.receiveStatus==0" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
+          <el-button v-if="scope.row.receiveStatus==1" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,8 +49,8 @@
     </div>
 
     <el-dialog :visible.sync="mergeOrderDetailVisible" fullscreen style="padding: 20px">
-      <!-- <merge-order-detail :orders="orders" /> -->
-      <element-form />
+       <merge-order-detail :mergeOrderNo="mergeOrderNo" :orders="orders" />
+      <!--<element-form />-->
     </el-dialog>
   </div>
 </template>
@@ -77,8 +78,12 @@
           searchText: '',
         },
         brandNameFilters: [],
-        paymentStatusFilters: paymentStatusFilters,
+        receiveStatusFilters: [
+          {value: 0, text: '待发货'},
+          {value: 1, text: '待收货'},
+        ],
         orders: null,
+        mergeOrderNo: null
       }
     },
     computed: {
@@ -110,7 +115,7 @@
       getList() {
         this.listLoading = true
         this.$request({
-          url: '/order/paymentOrderList.do',
+          url: '/order/domesticReceiveList.do',
           method: 'post',
           data: this.listQuery
         }).then((res) => {
@@ -147,8 +152,9 @@
       viewMergeOrder(row) {
         this.listLoading = true
         this.currentOrder = row
+        this.mergeOrderNo = row.mergeOrderNo
         this.$request({
-          url: '/order/mergeOrderDetail.do',
+          url: '/order/mergeShipmentOrderDetail.do',
           method: 'post',
           data: { orderNos: row.orderNos }
         }).then((res) => {
@@ -169,6 +175,15 @@
     created() {
       this.getList()
     },
+    filters: {
+      receiveStatusFilter(value) {
+        const statusMap = {
+          0: '待发货',
+          1: '待收货',
+        }
+        return statusMap[value]
+      }
+    }
   }
 </script>
 

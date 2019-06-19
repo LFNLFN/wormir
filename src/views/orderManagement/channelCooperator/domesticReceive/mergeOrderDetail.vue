@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="21">
           <div class="grid-content bg-purple">
-            <span>"Order No"</span>
+            <span>{{ mergeOrderNo }}</span>
           </div>
         </el-col>
       </el-row>

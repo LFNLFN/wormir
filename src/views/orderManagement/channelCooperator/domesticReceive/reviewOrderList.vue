@@ -14,14 +14,16 @@
           <el-col :span="3">
             <div class="grid-content bg-purple">渠道号</div>
           </el-col>
-          <el-col :span="15">
+          <el-col :span="21">
             <div class="grid-content bg-purple">{{ orderDetail.channelNo }}</div>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">收货地址</div>
           </el-col>
-          <el-col :span="3">
-            <div class="grid-content bg-purple">{{ orderDetail.transportation | transportationFilter }}</div>
+          <el-col :span="21">
+            <div class="grid-content bg-purple">{{ orderDetail.address }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -29,19 +31,19 @@
           <div class="grid-content bg-purple">收货方</div>
         </el-col>
         <el-col :span="9">
-          <div class="grid-content bg-purple"></div>
+          <div class="grid-content bg-purple">{{orderDetail.name}}</div>
         </el-col>
         <el-col :span="2" align="center">
           <div class="grid-content bg-purple">联系人</div>
         </el-col>
         <el-col :span="4">
-          <div class="grid-content bg-purple"></div>
+          <div class="grid-content bg-purple">{{orderDetail.contact}}</div>
         </el-col>
         <el-col :span="2" align="center">
           <div class="grid-content bg-purple">联系电话</div>
         </el-col>
         <el-col :span="4">
-          <div class="grid-content bg-purple"></div>
+          <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
         </el-col>
       </el-row>
       </div>
@@ -68,12 +70,8 @@
                 align="center"
                 width="85"
                 label="商品编号"
-                prop="goodsNo"
-              >
-                <template slot-scope="scope">
-                  <span>{{ scope.row.goodsNoForBrand }}</span>
-                </template>
-              </el-table-column>
+                prop="goodsNoForBrand"
+              />
               <el-table-column
                 align="center"
                 width="130"
@@ -86,7 +84,7 @@
                 align="center"
                 width="90"
                 label="商品规格"
-                prop="specificationEnglish"
+                prop="specificationChinese"
                 show-overflow-tooltip
               />
               <el-table-column
@@ -103,7 +101,7 @@
                       <span>{{scope.row.packingSpecification.replace(/[^0-9]/ig,"")}}</span>
                     </el-col>
                     <el-col :span="12" style="display: flex;justify-content: center">
-                      <span>pcs</span>
+                      <span>{{scope.row.packingSpecification.replace(/[0-9]/ig,"")}}</span>
                     </el-col>
                   </el-row>
                 </template>
@@ -116,6 +114,7 @@
               <el-table-column
                 align="center"
                 class-name="units-wrap"
+                width="140"
                 label="订货数量"
               >
                 <template slot-scope="scope">
@@ -136,49 +135,46 @@
                 prop="goodsNo"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.goodsNoForBrand }}</span>
+                  <span>{{scope.row.initialDiscount}}%</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" width="140" :label="$t('price.orderDiscount')" show-overflow-tooltip>
+                <template slot-scope="scope">
+                  <span>{{scope.row.finalDiscount}}%</span>
                 </template>
               </el-table-column>
               <el-table-column
                 align="center"
-                width="130"
-                label="订货折扣"
-                prop="goodsEnglishName"
-                show-overflow-tooltip
-              >
-              </el-table-column>
-              <el-table-column
-                align="center"
-                width="90"
-                label="订货单价"
-                prop="specificationEnglish"
-                show-overflow-tooltip
-              />
-               <el-table-column
-                align="center"
-                width="85"
-                label="订货金额"
-                prop="goodsNo"
+                width="140"
+                :label="$t('price.orderUnitPrice')"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.goodsNoForBrand }}</span>
+                  <span>{{ scope.row.symbol }} {{(scope.row.unitPrice * scope.row.finalDiscount/100).toFixed(2)}}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 align="center"
-                width="130"
-                label="30%订金"
-                prop="goodsEnglishName"
-                show-overflow-tooltip
+                width="140"
+                :label="$t('order.orderAmount')"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.symbol }} {{scope.row.orderPrice}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                 align="center"
-                width="90"
-                label="70%余款"
-                prop="specificationEnglish"
-                show-overflow-tooltip
-              />
+                :label="$t('order.thirtyPercentDeposit')"
+                width="130"
+              >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.symbol }} {{scope.row.earnestAmount}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('order.residualPayment')" align="center" width="170">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.symbol }} {{ scope.row.surplusAmount }}</span>
+                </template>
+              </el-table-column>
             </el-table>
           </div>
 
@@ -291,9 +287,9 @@
           data: { orderNo: this.currentRow.orderNo }
         }).then(res => {
           this.orderDetail = res.data;
-          this.symbol = this.currentRow.symbol
+//          this.symbol = this.currentRow.symbol
           this.orderDetail.goodList.forEach((e, i) => {
-            e.unitPrice = this.currentRow.unitPrice
+//            e.unitPrice = this.currentRow.unitPrice
           })
         });
       },
