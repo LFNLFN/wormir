@@ -1,6 +1,6 @@
 <template>
   <div class="add-brand-index-vue">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" v-loading="dialogLoading">
+    <el-form ref="form" :model="form" :rules="formRules" label-width="150px" key="edit-brand-index-vue">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">

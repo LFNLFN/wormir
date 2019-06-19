@@ -317,7 +317,7 @@ export function transportationFilterZh(value) {
 export function paymentTypeFilter(value) {
   const statusMap = {
     30: '30%订金',
-    40: '70%余款',
+    60: '70%余款',
   }
   return statusMap[value]
 }

@@ -75,7 +75,7 @@
       </el-table-column>
 
       <el-table-column min-width="100px" align="center" label="已收货款"
-                       prop="paymentReceive" fixed="right">
+                       prop="receivedPayAmount" fixed="right">
         <template slot-scope="scope">
           <span v-if="scope.$index===list.length-1">{{'合计：'}}</span>
           <span v-else>{{ scope.row.receivedPayAmount }}</span>
