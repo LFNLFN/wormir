@@ -32,13 +32,18 @@
           </template>
         </el-table-column>
 
-        <el-table-column min-width="100" align="center" :label="$t('table.brandName')" prop="brandNameZh"
+        <el-table-column min-width="100" align="center" label="品牌名称" prop="brandNameZh"
                          :filters="brandNameFilters"
                          :filter-method="filterHandler"/>
 
         <el-table-column min-width="100" align="center" label="商品编号" prop="code"/>
-        <el-table-column min-width="200" align="center" :label="$t('table.productName')" prop="goodName"/>
-        <el-table-column min-width="100" align="center" :label="$t('table.productSpec')" prop="sizeZh"/>
+        <el-table-column min-width="100" align="center" label="渠道属性" prop="code"/>
+        <el-table-column min-width="100" align="center" label="渠道名称" prop="code"/>
+        <el-table-column min-width="100" align="center" label="商品编号" prop="code"/>
+        <el-table-column min-width="200" align="center" label="商品名称" prop="goodName"/>
+        <el-table-column min-width="100" align="center" label="商品规格" prop="sizeZh"/>
+        <el-table-column min-width="200" align="center" label="物流公司" prop="goodName"/>
+        <el-table-column min-width="200" align="center" label="物流单号" prop="goodName"/>
         <el-table-column align="center" label="取证图片" :min-width="150">
           <template slot-scope="scope">
             <img :src="scope.row.proofImage" style="width:80px;height:80px;" class="link-type"
@@ -46,24 +51,29 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="收货电话" :min-width="150" prop="receivePhone"/>
+        <el-table-column align="center" label="送货人" :min-width="150" prop="receivePhone"/>
+        <el-table-column align="center" label="送货电话" :min-width="150" prop="receivePhone"/>
+        <el-table-column align="center" label="确认收货时间" :min-width="150" prop="receivePhone"/>
         <el-table-column align="center" label="渠道收货时间" :min-width="150" prop="channelReceiveTime"/>
+        <el-table-column align="center" label="商品码" :min-width="150" prop="channelReceiveTime"/>
         <el-table-column min-width="100" align="center" label="订货金额" prop="orderAmount"/>
 
-        <!--<el-table-column min-width="100" align="center" label="赔保类型" prop="logisticCompensationType"-->
-                         <!--:filters="logisticCompensationTypeFilters"-->
-                         <!--:filter-method="filterHandler">-->
-          <!--<template slot-scope="scope">-->
-            <!--{{ scope.row.logisticCompensationType | logisticCompensationTypeFilter }}-->
-          <!--</template>-->
-        <!--</el-table-column>-->
-        <!--<el-table-column min-width="100" align="center" label="赔保状态" prop="logisticCompensationStatus"-->
-                         <!--:filters="logisticCompensationStatusFilters"-->
-                         <!--:filter-method="filterHandler">-->
-          <!--<template slot-scope="scope">-->
-            <!--{{ scope.row.logisticCompensationStatus | logisticCompensationStatusFilter }}-->
-          <!--</template>-->
-        <!--</el-table-column>-->
+        <el-table-column min-width="100" align="center" label="赔保类型" prop="logisticCompensationType" fixed="right"
+                         :filters="logisticCompensationTypeFilters"
+                         :filter-method="filterHandler">
+          <template slot-scope="scope">
+            {{ scope.row.logisticCompensationType | logisticCompensationTypeFilter }}
+          </template>
+        </el-table-column>
+        <el-table-column min-width="100" align="center" label="赔保状态" prop="logisticCompensationStatus" fixed="right"
+                         :filters="logisticCompensationStatusFilters"
+                         :filter-method="filterHandler">
+          <template slot-scope="scope">
+            {{ scope.row.logisticCompensationStatus | logisticCompensationStatusFilter }}
+          </template>
+        </el-table-column>
         <el-table-column width="120" align="center" label="赔保金额" prop="logisticCompensationAmount" fixed="right"/>
+        <el-table-column type="selection" align="center" width="100" fixed="right"></el-table-column>
 
       </el-table>
       <el-table key='0' :data="[{}]" border fit :show-header="false"
@@ -80,6 +90,17 @@
             <span class="text-total">{{ totalAmount }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column align="center" :label="$t('mergeRefundOrders.operation')" width="100"
+                       class-name="small-padding fixed-width" fixed="right">
+        <template slot-scope="scope">
+          <el-button type="primary"
+                     @click="">
+            去支付
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
       </el-table>
     </div>
