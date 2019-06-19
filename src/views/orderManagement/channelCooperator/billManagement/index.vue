@@ -79,7 +79,7 @@
       <el-table-column align="center" label="操作" min-width="180" fixed="right">
         <template slot-scope="scope">
           <div>
-            <el-button type="primary" size="mini" v-if="scope.row.order_status==10" @click="viewGoPayDeposit(scope.row)">去付订金</el-button>
+            <!--<el-button type="primary" size="mini" v-if="scope.row.order_status==10" @click="viewGoPayDeposit(scope.row)">去付订金</el-button>-->
             <!--<el-button type="primary" size="mini" v-if="scope.row.order_status==-110" @click="viewGoPayDeposit(scope.row)">查看货单</el-button>-->
 
             <el-badge value="即将取消" class="item" style="margin: 1em 0;"
@@ -291,8 +291,7 @@
           { text: 'WORMIR', value: 5 },
         ],
         orderStatusFilter: [
-          { text: '待付订金', value: 10 },
-          // { text: '去付订金', value: 1 },
+//          { text: '待付订金', value: 10 },
           { text: '待备货', value: 30 },
 
           { text: '缺货等待', value: 35 },
