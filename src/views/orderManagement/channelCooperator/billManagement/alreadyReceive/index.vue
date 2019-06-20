@@ -52,81 +52,81 @@
             </el-row>
           </div>
           <div v-if="orderDetail.propertyOfSale==2">
-            <el-row>
-              <el-col :span="3" align="center">
-                <div class="grid-content bg-purple">Address:</div>
-              </el-col>
-              <el-col :span="15">
-                <div class="grid-content bg-purple">{{ orderDetail.address}}</div>
-              </el-col>
-              <el-col :span="2" align="center">
-                <div class="grid-content bg-purple">City:</div>
-              </el-col>
-              <el-col :span="2">
-                <div class="grid-content bg-purple">{{orderDetail.city}}</div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="3" align="center">
-                <div class="grid-content bg-purple">Consignee's Name:</div>
-              </el-col>
-              <el-col :span="9">
-                <div class="grid-content bg-purple">{{orderDetail.name}}</div>
-              </el-col>
-              <el-col :span="2" align="center">
-                <div class="grid-content bg-purple">Contact:</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">{{orderDetail.contact}}</div>
-              </el-col>
-              <el-col :span="2" align="center">
-                <div class="grid-content bg-purple">Tel:</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="3" v-if="orderDetail.payWay==10">
-                <div class="grid-content bg-purple">收款SWFIT Code</div>
-              </el-col>
-              <el-col :span="3" v-if="orderDetail.payWay==10">
-                <div class="grid-content bg-purple">453566787469</div>
-              </el-col>
-              <el-col :span="3">
-                <div class="grid-content bg-purple">收款银行</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">中国农业银行</div>
-              </el-col>
-              <el-col :span="2" align="center">
-                <div class="grid-content bg-purple">银行地址</div>
-              </el-col>
-              <el-col :span="9">
-                <div class="grid-content bg-purple">广州市天河区石牌桥</div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="3" align="center" v-if="orderDetail.payWay==10">
-                <div class="grid-content bg-purple">汇款SWFIT Code</div>
-              </el-col>
-              <el-col :span="3" v-if="orderDetail.payWay==10">
-                <div class="grid-content bg-purple">{{orderDetail.bankSwift}}</div>
-              </el-col>
-              <el-col :span="3" align="center">
-                <div class="grid-content bg-purple">汇款银行</div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple">{{orderDetail.bankName}}</div>
-              </el-col>
-              <el-col :span="2" align="center">
-                <div class="grid-content bg-purple">银行地址</div>
-              </el-col>
-              <el-col :span="9">
-                <div class="grid-content bg-purple">{{orderDetail.bankAddress}}</div>
-              </el-col>
-            </el-row>
-          </div>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">Address:</div>
+            </el-col>
+            <el-col :span="15">
+              <div class="grid-content bg-purple">{{ orderDetail.address}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">City:</div>
+            </el-col>
+            <el-col :span="2">
+              <div class="grid-content bg-purple">{{orderDetail.city}}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">Consignee's Name:</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{orderDetail.name}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">Contact:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.contact}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">Tel:</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">收款SWFIT Code</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">{{ orderDetail.wormirSwiftCode }}</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">收款银行</div>
+            </el-col>
+            <el-col :span="4">
+             <div class="grid-content bg-purple">{{ orderDetail.wormirBankName }}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">银行地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{ orderDetail.wormirBankAddress }}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">汇款SWFIT Code</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">{{orderDetail.channelSwiftCode}}</div>
+            </el-col>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">汇款银行</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple">{{orderDetail.channelBankName}}</div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">银行地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple">{{orderDetail.channelBankAddress}}</div>
+            </el-col>
+          </el-row>
+        </div>
         </div>
 
         <div style="display: flex">
