@@ -25,22 +25,24 @@
                 class="no-border-bottom no-border-top border-left2">
         <el-table-column align="center" :label="$t('product.productCode')" prop="goodsNo"/>
         <el-table-column align="center" :label="$t('product.productName')" prop="brandEnglishName"/>
-        <el-table-column align="center" label="商品规格" prop="goodsSpecificationEnglish"/>
-        <el-table-column align="center" :label="$t('order.packageSpecification')" prop="cartonSpecification">
-          <template slot-scope="scope">{{ scope.row.cartonSpecification }}pcs/ctn</template>
-        </el-table-column>
+        <el-table-column align="center" label="商品规格" prop="specificationChinese"/>
+        <el-table-column align="center" :label="$t('order.packageSpecification')" prop="packageSpecificationZh"/>
         <el-table-column align="center" label="箱型编号" prop="cartonSizeId"/>
-        <el-table-column min-width="140" align="center" label="箱子尺寸" prop="cartonSize"/>
+        <el-table-column width="140" align="center" label="箱子尺寸">
+          <template slot-scope="scope">
+            {{ cartonSize(scope.row.cartonParam) }}
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="虚拟库存">
           <el-table-column align="center" label="整箱">
-            <el-table-column align="center" label="(units)" prop="virtualDevanningInStockCount"/>
-          </el-table-column>
-          <el-table-column align="center" label="商品数量">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
-              <template slot-scope="scope">
-                <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
+            <el-table-column align="center" label="(units)">
+               <template slot-scope="scope">
+                {{ scope.row.holdInventoryQuantity / scope.row.packageSpecificationZh.replace(/[^0-9]/ig, '') }}
               </template>
             </el-table-column>
+          </el-table-column>
+          <el-table-column align="center" label="商品数量">
+            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="holdInventoryQuantity" />
           </el-table-column>
         </el-table-column>
       </el-table>
@@ -52,33 +54,25 @@
                 class="no-border-top border-left2">
         <el-table-column min-width="140" align="center" label="备货订货单号" prop="inventoryOrderNo">
           <template slot-scope="scope">
-            <span class="link-type">{{ scope.row.inventoryOrderNo }}</span>
+            <span>{{ scope.row.order }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="虚拟备货">
           <el-table-column align="center" label="整箱">
-            <el-table-column align="center" label="(units)" prop="onHoldUnitsQuantity"/>
+            <el-table-column align="center" label="(units)" prop="unitsQuantity"/>
           </el-table-column>
           <el-table-column align="center" label="商品数量">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
-              <template slot-scope="scope">
-                <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
-              </template>
-            </el-table-column>
+            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity"/>
           </el-table-column>
-          <el-table-column min-width="120" align="center" label="备货时间" prop="inventoryOnHoldTime"/>
-          <el-table-column min-width="120" align="center" label="操作账号" prop="operationID"/>
+          <el-table-column min-width="120" align="center" label="备货时间" prop="recordTime"/>
+          <el-table-column min-width="120" align="center" label="操作账号" prop="operationId"/>
         </el-table-column>
         <el-table-column align="center" label="取消备货">
           <el-table-column align="center" label="整箱">
             <el-table-column align="center" label="(units)" prop="cancelUnitsQuantity"/>
           </el-table-column>
           <el-table-column align="center" label="商品数量">
-            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="productQuantity">
-              <template slot-scope="scope">
-                <span>{{ scope.row.virtualDevanningInStockCount * scope.row.cartonSpecification + scope.row.virtualIndividualInStockCount }}</span>
-              </template>
-            </el-table-column>
+            <el-table-column align="center" :label="'(' + $t('order.pcs') + ')'" prop="cancelProductQuantity"/>
           </el-table-column>
           <el-table-column min-width="120" align="center" label="取消时间" prop="cancelTime"/>
         </el-table-column>
@@ -107,38 +101,14 @@
     created() {
       this.list[0] = this.product
       this.brandList[0] = this.product
+      this.getList()
 
     },
     data() {
       return {
         brandList: [],
         list: [],
-        prodcutCodeList: [
-//          {
-//            inventoryOrderNo: 'sdf1234123412341',
-//            operationID: 'a123',
-//            onHoldUnitsQuantity: 10,
-//            onHoldindividualProductQuantity: 20,
-//            devanningQuantity: 2,
-//            devanningIndividualProductQuantity: 1,
-//            inventoryOnHoldTime: '2018-08-01 10:00:00',
-//            cancelUnitsQuantity: 0,
-//            cancelIndividualProductQuantity: 2,
-//            cancelTime: '2018-08-01 09:00:00'
-//          },
-//          {
-//            inventoryOrderNo: 'sdf1234asdf2341',
-//            operationID: 'a123',
-//            onHoldUnitsQuantity: 10,
-//            onHoldindividualProductQuantity: 20,
-//            devanningQuantity: 3,
-//            devanningIndividualProductQuantity: 2,
-//            inventoryOnHoldTime: '2018-08-01 10:00:00',
-//            cancelUnitsQuantity: 1,
-//            cancelIndividualProductQuantity: 2,
-//            cancelTime: '2018-08-01 09:00:00'
-//          }
-        ],
+        prodcutCodeList: [],
         listQuery: {
           keyword: ''
         },
@@ -149,7 +119,38 @@
       }
     },
     methods: {
+      cartonSize(cartonParam) {
+        let cartonSizeStr = ''
+        for (let key in cartonParam) {
+          if (key == 'id' || key == 'cartonNo') {
+            continue
+          }
+          if (key != 'weight') {
+            cartonSizeStr += [key] + ':' + cartonParam[key] + 'cm' + '\n'
+          } else {
+            cartonSizeStr += [key] + ':' + cartonParam[key] + 'kg'
+          }
+        }
+        return cartonSizeStr
+      },
+      getList() {
+      this.listLoading = true
+      this.$request({
+        url: '/order/holdInventoryList.do',
+        method: 'post',
+        data: {
+          goodsNo: this.list[0].goodsNoForBrand,
+        }
+      }).then((res) => {
+        this.prodcutCodeList = res.data.items
+        this.listLoading = false
+      }).catch(() => {
+        this.$message.error('Error');
+        this.listLoading = false
+      })
+    },
       handleFilter() {
+        this.getList()
       },
     }
   }

@@ -31,9 +31,9 @@
       <el-table-column min-width="100" align="center" label="箱型编号" prop="cartonSizeId"/>
       <el-table-column align="center" label="虚拟库存">
         <el-table-column align="center" label="整箱">
-          <el-table-column min-width="100" align="center" label="(units)" prop="virtualDevanningInStockCount">
+          <el-table-column min-width="100" align="center" label="(units)" prop="">
             <template slot-scope="scope">
-              {{ scope.row.holdInventoryQuantity / scope.row.packageSpecificationZh }}
+              {{ scope.row.holdInventoryQuantity / scope.row.packageSpecificationZh.replace(/[^0-9]/ig, '') }}
             </template>
           </el-table-column>
         </el-table-column>
@@ -44,9 +44,9 @@
       </el-table-column>
       <el-table-column align="center" label="实际库存">
         <el-table-column align="center" label="整箱" prop="devanningOutStockCount">
-          <el-table-column min-width="100" align="center" label="(units)" prop="devanningOutStockCount">
+          <el-table-column min-width="100" align="center" label="(units)" prop="">
             <template slot-scope="scope">
-              {{ scope.row.currentInventoryQuantity / scope.row.packageSpecificationZh }}
+              {{ scope.row.currentInventoryQuantity / scope.row.packageSpecificationZh.replace(/[^0-9]/ig, '') }}
             </template>
           </el-table-column>
         </el-table-column>
@@ -77,11 +77,11 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="isInventoryDetailsShow" title="入库明细" fullscreen>
+    <el-dialog :visible.sync="isInventoryDetailsShow" title="入库明细" fullscreen style="padding: 20px 10px">
       <inventory-details :product="currentProduct" v-if="isInventoryDetailsShow"></inventory-details>
     </el-dialog>
 
-    <el-dialog :visible.sync="isHoldInventoryShow" title="虚拟库存明细" fullscreen>
+    <el-dialog :visible.sync="isHoldInventoryShow" title="虚拟库存明细" fullscreen style="padding: 20px 10px">
       <hold-inventory :product="currentProduct" v-if="isHoldInventoryShow"></hold-inventory>
     </el-dialog>
 
