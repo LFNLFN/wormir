@@ -1,6 +1,6 @@
 <template>
   <div class="merge-order-wrap">
-    <h2 :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">{{ mergeTitle }}</h2>
+    <h2 :style="{paddingBottom: 0}" class="text-center">{{ mergeTitle }}</h2>
     <!--并单编号那一行-->
     <div class="wrap1" style="border-bottom: 19px solid #D5D5D5">
       <el-table :data="[{}]" border fit highlight-current-row
@@ -105,14 +105,14 @@
       </el-table>
     </div>
     <!--时间记录-->
-    <div class="wrap5" style="margin-top: -1px">
+    <div class="wrap5" style="margin-top: -1px;">
       <el-table :data="[{}]" border fit highlight-current-row
                 style="width: 100%;border-top: none"
                 :show-header="false"
       >
         <el-table-column align="left" label="" prop="">
           <template slot-scope="scope">
-            <div :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-muted">
+            <div :style="{paddingBottom: 0}" class="text-muted">
               <span v-if="currentMergeOrder.paymentStatus==1">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}</span>
               <span v-else-if="currentMergeOrder.paymentStatus==2">支付时间（Worrmir）：{{ currentMergeOrder.payTime }}</span>
               <span v-else-if="currentMergeOrder.paymentStatus==3">提交并单时间（Wormir）：{{ currentMergeOrder.createTime }}；  支付时间（Worrmir）：{{ currentMergeOrder.payTime }}； 确认到账时间（Brand）：{{ currentMergeOrder.receivePaymentTime }}</span>
@@ -227,13 +227,13 @@
       },
     },
     mounted() {
-      this.$nextTick(()=>{
-        if (this.$refs['seventyTable']) {
-          this.rowLength = this.$refs['seventyTable'][0].$el.offsetWidth
-        } else if (this.$refs['thirtyTable']) {
-          this.rowLength = this.$refs['thirtyTable'][0].$el.offsetWidth
-        }
-      })
+      // this.$nextTick(()=>{
+      //   if (this.$refs['seventyTable']) {
+      //     this.rowLength = this.$refs['seventyTable'][0].$el.offsetWidth
+      //   } else if (this.$refs['thirtyTable']) {
+      //     this.rowLength = this.$refs['thirtyTable'][0].$el.offsetWidth
+      //   }
+      // })
     },
     created() {
       this.$request({

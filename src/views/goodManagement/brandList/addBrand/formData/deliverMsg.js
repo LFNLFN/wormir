@@ -3,6 +3,7 @@ let deliverMsg = {
   seaDeliverDays: null,
   compensationRate: null,
   minMergeCounts: null,
+  goodCompensationRate: null,
   minBySea: [
     {
       oneChannelminBySea1: null,

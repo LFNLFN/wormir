@@ -22,21 +22,18 @@
         :label="$t('payOrder.brandName')"
         :filters="brandNameFilters"
         :filter-method="filterHandler"
-        prop="brandChineseName" />
+        prop="brandChineseName"
+      />
 
-      <el-table-column min-width="100px" align="center" label="货单状态" prop="receiveStatus"
-                       :filters="receiveStatusFilters"
-                       :filter-method="filterHandler">
-        <template slot-scope="scope">
-          <span>{{scope.row.receiveStatus | receiveStatusFilter}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column min-width="100px" align="center" label="货单状态" prop="orderStatus"
+                       :filters="orderStatusFilters"
+                       :filter-method="filterHandler"/>
 
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120"
-                       class-name="small-padding fixed-width" fixed="right">
+                       class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.receiveStatus==0" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
-          <el-button v-if="scope.row.receiveStatus==1" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
+          <el-button v-if="scope.row.shipmentStatusDetail<4" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
+          <el-button v-if="scope.row.shipmentStatusDetail>=4" size="medium" type="primary" @click="viewMergeOrder(scope.row)">查看货单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,7 +46,7 @@
     </div>
 
     <el-dialog :visible.sync="mergeOrderDetailVisible" fullscreen style="padding: 20px">
-       <merge-order-detail :mergeOrderNo="mergeOrderNo" :orders="orders" />
+       <merge-order-detail :mergeOrderNo="mergeOrderNo" :orders="orders" :currentOrder="currentOrder" />
       <!--<element-form />-->
     </el-dialog>
   </div>
@@ -78,9 +75,9 @@
           searchText: '',
         },
         brandNameFilters: [],
-        receiveStatusFilters: [
-          {value: 0, text: '待发货'},
-          {value: 1, text: '待收货'},
+        orderStatusFilters: [
+          {value: '待发货', text: '待发货'},
+          {value: '待收货', text: '待收货'},
         ],
         orders: null,
         mergeOrderNo: null
@@ -123,6 +120,14 @@
             this.list = res.data.items
             this.total = res.data.total
             this.brandNameFilters = res.data.brandNameFilters
+            // 处理货单状态显示
+            this.list.forEach((e,i,s) => {
+              if (e.shipmentStatusDetail==1) {
+                s[i].orderStatus = '待发货'
+              } else if (e.shipmentStatusDetail>1) {
+                s[i].orderStatus = '待收货'
+              }
+            })
             this.listLoading = false
           } else {
             this.$message.error('数据请求失败');

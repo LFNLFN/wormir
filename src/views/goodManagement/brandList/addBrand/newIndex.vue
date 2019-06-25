@@ -260,7 +260,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="border-bottom">
+        <el-row class="">
           <el-col :span="12">
             <el-form-item label="中断订货补偿率" prop="compensationRate" class="form-row add-brand-row no-border-right">
               <el-input v-model.trim="form.compensationRate" placeholder="请输入数字" style="width: 160px">
@@ -274,6 +274,11 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="商品补款率" prop="goodCompensationRate" class="form-row add-brand-row border-bottom">
+          <el-input v-model.trim.number="form.goodCompensationRate" placeholder="请输入商品补款率" style="width: 260px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-form-item>
         <el-form-item label="转海运起订标准" prop="minBySea" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table

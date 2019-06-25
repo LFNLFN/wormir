@@ -862,7 +862,7 @@
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
 
-        this.rowLength = this.$refs['orderTable'].$el.offsetWidth
+        this.rowLength = 1000 || this.$refs['orderTable'].$el.offsetWidth
 
         this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells["0"].style.textAlign = 'left'
         this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells[1].style.textAlign = 'right'

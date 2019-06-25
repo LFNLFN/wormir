@@ -55,7 +55,7 @@
       <reviewOrderList :currentRow="item" :ref="orderItem + item"
                        style="padding: 0;"/>
     </div>
-    <div class="text-center">
+    <div class="text-center" v-if="currentOrder.shipmentStatusDetail>3">
       <el-button type="primary" @click="submitShipment" :loading="submitLoading">发送货单</el-button>
     </div>
   </div>
@@ -76,7 +76,8 @@ export default {
     mergeOrderNo: [String, Number],
     mergeProductTotal: {
       type: Number
-    }
+    },
+    currentOrder: Object,
   },
   data() {
     return {
