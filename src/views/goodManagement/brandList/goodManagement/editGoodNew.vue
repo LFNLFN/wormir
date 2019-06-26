@@ -1230,7 +1230,7 @@
         return this.form.propertyOfSale.length==1 && this.form.propertyOfSale.findIndex(x => x == 1)==0
       }
     },
-    created() {
+    async created() {
       this.dialogLoading = true
       Object.assign(this.formRules, formDataRules)
       this.$request({
@@ -1242,7 +1242,7 @@
           }
         })
       // 初始化渲染
-      this.$request({
+      await this.$request({
         url: '/goods/goodDetail.do',
         method: "post",
         data: { goodsNo: this.goodsNo }
@@ -1256,6 +1256,20 @@
           this.priceType = this.form.priceType;
           this.priceArr = this.form.priceArr;
           this.discountArr = this.form.discountArr
+        }
+      })
+
+      // 同步商品的commitment
+      await this.$request({
+        url: '/brand/getCommitment.do',
+        method: "post",
+        data: {
+          brandNo: this.form.brandNo,
+        }
+      }).then(res => {
+        if (res.errorCode==0) {
+          this.form.commitment = [res.data]
+          // this.form.commitment = JSON.stringify(this.form.commitment)
         }
       })
 

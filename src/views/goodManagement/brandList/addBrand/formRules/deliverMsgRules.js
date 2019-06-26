@@ -113,12 +113,12 @@ const deliverMsgRules = {
   compensationRate: [{ required: true, message: "必填", trigger: "blur" }],
   minMergeCounts: [{ required: true, message: "必填", trigger: "blur" }],
   minMergeShipmentOrderNum: [
-    { required: true, message: "必填", min: 0, trigger: "blur" },
-    { min: 0, max: 999999999, message: '请填入正确数字', trigger: 'blur' }
+    { required: true, message: "必填", trigger: "blur" },
+    { type: 'number', min: 0, message: '请填入正确数字', trigger: 'blur' }
   ],
   goodCompensationRate: [
-    { required: true, message: "必填", min: 0, trigger: "blur" },
-    { min: 0, max: 999999999, message: '请填入正确数字', trigger: 'blur' }
+    { required: true, message: "必填", trigger: "blur" },
+    { type: 'number', min: 0, message: '请填入正确数字', trigger: 'blur' }
   ],
   minBySea: [{ required: true, validator: validateMinBySea, trigger: "blur" }],
   transportation: [{ required: true, validator: validateTransportation, trigger: "blur" }],

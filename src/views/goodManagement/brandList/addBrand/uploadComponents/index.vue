@@ -350,6 +350,8 @@
 <script>
   const qiniu = require('qiniu-js')
   import request from "@/utils/request"
+  // createNumWithRange
+  import { createNumWithRange } from "@/utils/index.js"
 
   export default {
     computed: {
@@ -541,17 +543,21 @@
 
             let targetArr = []
             function uploadAction(file, index, callback) {
+              let customedKey = createNumWithRange(6)+'.'+file.name.replace(/^.+\./,'')
               request({
                 url: '/getToken',
                 method: 'get'
               }).then(res => {
-                let observable = qiniu.upload(file, null, res.data, null, null)
+                let observable = qiniu.upload(file, customedKey, res.data, null, null)
                 observable.subscribe({
                   next(res) {
 
                   },
                   error(err) {
-
+                    console.log(err);
+                    
+                    
+                    
                   },
                   complete(res) {
                     if (index+1 == targetArr.length) {
@@ -600,7 +606,7 @@
                   _this.hazFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.hazFileListStr = _this.hazFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -621,7 +627,7 @@
                   _this.tagFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.tagFileListStr = _this.tagFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -642,7 +648,7 @@
                   _this.offiFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.offiFileListStr = _this.offiFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -663,7 +669,7 @@
                   _this.MEnFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.MEnFileListStr = _this.MEnFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -684,7 +690,7 @@
                   _this.MZhFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.MZhFileListStr = _this.MZhFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -705,7 +711,7 @@
                   _this.comFileKeyList.push(`http://asset.wormir.com/${key}^_^${item.raw.name}`)
                   _this.comFileListStr = _this.comFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
-                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr,)
+                    _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
