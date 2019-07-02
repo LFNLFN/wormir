@@ -129,7 +129,7 @@
                       @payment_amountChange="paymentAmount += $event"
                       @cancel="waitPayDepositVisible = false"
                       style="padding: 0;" class="addGrayBlock"/>
-      <waitPayResidual :currentRow="item" v-if="item.order_status==40" ref="seventyTable"
+      <waitPayResidual :currentRow="item" v-if="item.order_status==60" ref="seventyTable"
                        :hideTile="true"
                        @payment_amountChange="paymentAmount += $event"
                        @cancel="waitPayResidualVisible = false"

@@ -201,8 +201,8 @@
         listQuery: {
           page: 1,
           limit: 20,
-          importance: undefined,
           searchText: undefined,
+          importance: undefined,
           type: undefined,
           sort: '+id'
         },
