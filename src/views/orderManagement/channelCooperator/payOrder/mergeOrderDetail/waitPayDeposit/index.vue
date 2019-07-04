@@ -91,46 +91,6 @@
               <div class="grid-content bg-purple">{{orderDetail.tel}}</div>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="3" v-if="orderDetail.payWay==10">
-              <div class="grid-content bg-purple">收款SWFIT Code</div>
-            </el-col>
-            <el-col :span="3" v-if="orderDetail.payWay==10">
-              <div class="grid-content bg-purple">453566787469</div>
-            </el-col>
-            <el-col :span="3">
-              <div class="grid-content bg-purple">收款银行</div>
-            </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple">中国农业银行</div>
-            </el-col>
-            <el-col :span="2" align="center">
-              <div class="grid-content bg-purple">银行地址</div>
-            </el-col>
-            <el-col :span="9">
-              <div class="grid-content bg-purple">广州市天河区石牌桥</div>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="3" align="center" v-if="orderDetail.payWay==10">
-              <div class="grid-content bg-purple">汇款SWFIT Code</div>
-            </el-col>
-            <el-col :span="3" v-if="orderDetail.payWay==10">
-              <div class="grid-content bg-purple">{{orderDetail.bankSwift}}</div>
-            </el-col>
-            <el-col :span="3" align="center">
-              <div class="grid-content bg-purple">汇款银行</div>
-            </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple">{{orderDetail.bankName}}</div>
-            </el-col>
-            <el-col :span="2" align="center">
-              <div class="grid-content bg-purple">银行地址</div>
-            </el-col>
-            <el-col :span="9">
-              <div class="grid-content bg-purple">{{orderDetail.bankAddress}}</div>
-            </el-col>
-          </el-row>
         </div>
       </div>
 
@@ -351,7 +311,7 @@
             </el-col>
           </el-row>
 
-          <div v-if="orderDetail.propertyOfSale==1">
+          <!-- <div v-if="orderDetail.propertyOfSale==1">
             <el-row>
               <el-col :span="3" align="center">
                 <div class="grid-content bg-purple">收货地址:</div>
@@ -456,7 +416,7 @@
                 <div class="grid-content bg-purple">{{orderDetail.bankAddress}}</div>
               </el-col>
             </el-row>
-          </div>
+          </div> -->
         </div>
 
         <div style="display: flex">
@@ -862,7 +822,7 @@
         this.tableHeight += this.$refs['orderTable'].$el.offsetHeight
         this.tableHeight += this.$refs['replenishmentTable'].$el.offsetHeight
 
-        this.rowLength = 1000 || this.$refs['orderTable'].$el.offsetWidth
+        this.rowLength = this.$refs['orderTable'].$el.offsetWidth
 
         this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells["0"].style.textAlign = 'left'
         this.$refs["replenishmentTable"].$el.children[1].children["0"].children[1].children["0"].cells[1].style.textAlign = 'right'
