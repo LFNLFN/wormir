@@ -324,6 +324,46 @@ export const asyncRouterMap = [
         name: 'settingManagement',
         meta: { title: 'settingManagement' }
       },
+      {
+        path: 'modifyPassword',
+        component: () => import('@/views/accountManagement/modifyPassword.vue'),
+        name: 'modifyPassword',
+        meta: {
+          title: '修改密码',
+        }
+      },
+      {
+        path: 'accountActivation',
+        component: () => import('@/views/accountManagement/accountActivation.vue'),
+        name: 'accountActivation',
+        meta: {
+          title: '账户激活',
+        }
+      },
+      {
+        path: 'payDeposit',
+        component: () => import('@/views/accountManagement/payDeposit.vue'),
+        name: 'payDeposit',
+        meta: {
+          title: '支付保证金',
+        }
+      },
+      {
+        path: 'withdrawMoney',
+        component: () => import('@/views/accountManagement/withdrawMoney.vue'),
+        name: 'withdrawMoney',
+        meta: {
+          title: '金额提现',
+        }
+      },
+      {
+        path: 'rechargeAndWithdraw',
+        component: () => import('@/views/accountManagement/rechargeAndWithdraw.vue'),
+        name: 'rechargeAndWithdraw',
+        meta: {
+          title: '充值与提现',
+        }
+      },
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
