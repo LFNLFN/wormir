@@ -66,8 +66,9 @@
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款将退回到您的帐户余额，完成补款后可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款将原路退回，完成补款后可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -103,8 +104,9 @@
         <el-row>
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14">
-            <div class="text-muted">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款将退回到您的帐户余额，完成补款后可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款将原路退回，完成补款后可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -141,8 +143,9 @@
         <el-row>
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14">
-            <div class="text-muted">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -171,8 +174,9 @@
         <el-row>
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14">
-            <div class="text-muted">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -207,8 +211,9 @@
         <el-row>
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14">
-            <div class="text-muted">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -243,8 +248,9 @@
         <el-row>
           <el-col :span="0"></el-col>
           <el-col :offset="4" :span="14">
-            <div class="text-muted">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -272,8 +278,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -292,8 +299,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -322,8 +330,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -342,8 +351,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -371,8 +381,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
@@ -391,8 +402,9 @@
         <el-row>
           <el-col :offset="4" :span="14"
                   style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
-            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              '补款将退回到您的帐户，可在完成补款后自行前往“我的帐户-钱包管理-交易记录”查看明细。' }}
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款已退回到您的帐户余额，可查看您账户余额的变化情况。' }}</span>
+          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款已原路退回，可查看您支付货款账户的金额变化情况。' }}</span>
             </div>
           </el-col>
         </el-row>
