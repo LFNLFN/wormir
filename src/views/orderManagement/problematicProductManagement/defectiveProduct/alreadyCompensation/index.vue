@@ -156,20 +156,20 @@
       </template>
 
       <!--破损转补款-申请后要补款-->
-      <template v-if="currentRow.compensationType===20">
+      <template v-if="currentRow.compensationType==5&&!currentRow.appealReason">
         <el-row>
           <el-col :span="4"><span>审核结果: </span></el-col>
           <el-col :span="14"><span>破损转补款</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6">
             <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              $t('order.reviewTime') }}: {{ currentRow.applicationReviewTime }}
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ currentRow.compensationAmount.toFixed(2) }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :span="0"></el-col>
@@ -191,7 +191,7 @@
       </template>
 
       <!--破损转补款-驳回申请要补货-->
-      <template v-if="currentRow.compensationType===21">
+      <template v-if="currentRow.compensationType==5&&currentRow.appealReason">
         <el-row>
           <el-col :span="4"><span>审核结果: </span></el-col>
           <el-col :span="4"><span>驳回申请</span></el-col>
@@ -206,7 +206,7 @@
         </el-row>
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ currentRow.compensationAmount.toFixed(2) }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :span="0"></el-col>

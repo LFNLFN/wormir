@@ -148,8 +148,7 @@
       <template v-if="currentRow.compensationType==11">
         <el-row>
           <el-col :span="4"><span>补款金额: </span></el-col>
-          <!--<el-col :span="4"><span>￥ {{ 100 }}</span></el-col>-->
-          <el-col :span="4"><span>￥ 100</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
 
         <el-row>
@@ -204,20 +203,20 @@
         </el-row>
       </template>
       <!--商品破损-申请后补款-->
-      <template v-if="currentRow.compensationType===20">
+      <template v-if="currentRow.compensationType==5&&!currentRow.appealReason">
         <el-row>
           <el-col :span="4"><span>审核结果: </span></el-col>
           <el-col :span="14"><span>破损转补款</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6" style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
             <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              $t('order.applicationTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              $t('order.reviewTime') }}: {{ currentRow.applicationReviewTime }}
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14"
@@ -239,25 +238,25 @@
         </el-row>
       </template>
       <!--商品破损-申请补货被驳回后再申诉补货，结果是转为补款-->
-      <template v-if="currentRow.compensationType===21">
+      <template v-if="currentRow.compensationType==5&&currentRow.appealReason">
         <el-row>
           <el-col :span="4"><span>审核结果: </span></el-col>
           <el-col :span="14"><span>驳回申请</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6">
             <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              $t('order.reviewTime') }}: {{ currentRow.applicationReviewTime }}
             </div>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="4"><span>申诉理由: </span></el-col>
-          <el-col :span="14"><span>商品破损严重，只能接受补货</span></el-col>
+          <el-col :span="14"><span>{{ currentRow.appealReason | appealReasonFilter }}</span></el-col>
           <el-col :span="0"></el-col>
           <el-col :span="6">
             <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">{{
-              $t('order.appealTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              $t('order.appealTime') }}: {{ currentRow.appealTime }}
             </div>
           </el-col>
         </el-row>
@@ -268,14 +267,14 @@
           <el-col :span="0"></el-col>
           <el-col :span="6">
             <div class="text-muted">{{
-              $t('order.reviewTime') }}: {{ new Date() | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+              $t('order.reviewTime') }}: {{ currentRow.appealReviewTime }}
             </div>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14"
@@ -333,7 +332,7 @@
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14"
@@ -391,7 +390,7 @@
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14"
@@ -449,7 +448,7 @@
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14"
@@ -481,7 +480,7 @@
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
           <el-col :offset="4" :span="14" style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start"><div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
@@ -506,11 +505,15 @@
 
         <el-row>
           <el-col :offset="4" :span="4" class="border-left"><span>补款金额: </span></el-col>
-          <el-col :span="4"><span>￥ {{ 100 }}</span></el-col>
+          <el-col :span="4"><span>{{ currentRow.compensationMoney }}</span></el-col>
         </el-row>
         <el-row>
-          <el-col :offset="4" :span="14" style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start"><div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999"><span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款将退回到您的帐户余额，完成补款后可查看您账户余额的变化情况。' }}</span>
-          <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款将原路退回，完成补款后可查看您支付货款账户的金额变化情况。' }}</span></div></el-col>
+          <el-col :offset="4" :span="14" style="background: #fff;font-weight: normal;border-bottom: none;justify-content: flex-start">
+            <div class="text-muted" style="background-color: #fff;font-weight: normal;color: #999">
+              <span class="text-muted" v-if="currentRow.propertyOfSale==1">{{'补款将退回到您的帐户余额，完成补款后可查看您账户余额的变化情况。' }}</span>
+              <span class="text-muted" v-if="currentRow.propertyOfSale==2">{{'补款将原路退回，完成补款后可查看您支付货款账户的金额变化情况。' }}</span>
+            </div>
+          </el-col>
         </el-row>
 
         <el-row>
