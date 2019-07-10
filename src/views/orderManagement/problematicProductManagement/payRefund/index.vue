@@ -6,7 +6,6 @@
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
     </div>
-
     <el-table :key='0' :data="list"
               v-loading="listLoading" element-loading-text="给我一点时间"
               border fit

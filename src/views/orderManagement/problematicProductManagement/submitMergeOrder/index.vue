@@ -5,7 +5,7 @@
         @keyup.enter.native="handleFilter"
         style="width: 400px;"
         class="filter-item"
-        placeholder="Order No./Code/Description"
+        placeholder="货单号/品牌名称/渠道号/渠道名称/商品名称/商品编号"
         v-model="listQuery.searchText"
       ></el-input>
       <el-button
