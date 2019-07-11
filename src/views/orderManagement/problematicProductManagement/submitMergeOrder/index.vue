@@ -39,7 +39,20 @@
         fixed="left"
       >
         <template slot-scope="scope">
-          <span class="link-type" @click="viewDetail(scope.row)">{{scope.row.orderNo}}</span>
+          <!-- <span class="link-type" @click="viewDetail(scope.row)">{{scope.row.orderNo}}</span> -->
+          <span>{{scope.row.orderNo}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        min-width="120px"
+        align="center"
+        :label="$t('payRefund.brandName')"
+        :filters="brandNameFilters"
+        :filter-method="filterHandler"
+        prop="brandNameZh"
+      >
+        <template slot-scope="scope">
+          <span>{{scope.row.brandNameZh}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -47,7 +60,7 @@
         width="170"
         :label="$t('retailer.retailerCategories')"
         prop="channelProp"
-        :filters="[{text: 'DLQD', value: 1}, {text: 'FXQD', value: 3}, {text: 'DFQD', value: 2}]"
+        :filters="[{text: 'DLQD', value: 1}, {text: 'FXQD', value: 3}]"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
@@ -60,19 +73,21 @@
         :label="$t('retailer.retailerNo')"
         prop="channelNo"
       />
-      <el-table-column align="center" width="120" label="Code" prop="code"/>
-      <el-table-column
-        align="center"
-        width="150"
-        :label="$t('order.description')"
-        prop="goodNameEn"
-      />
+      <el-table-column align="center" width="170" label="渠道名称" prop="channelName">
+        <template slot-scope="scope">
+          <span>{{ scope.row.channelName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" width="120" label="商品编号" prop="code"/>
+      <el-table-column align="center" width="150" label="商品名称" prop="goodName"/>
+      <el-table-column align="center" label="商品规格" prop="sizeZh"/>
+      <el-table-column align="center" label="商品码" width="160" prop="goodNo"/>
       <el-table-column
         align="center"
         width="170"
-        label="Refund Status"
+        label="补/退款状态"
         prop="refundStatusFront"
-        :filters="[{text: 'Pending Compensation', value: 1}, {text: 'Pending Refund', value: 2}]"
+        :filters="[{text: '待补款', value: 1}, {text: '待退款', value: 2}]"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
@@ -82,7 +97,7 @@
       <el-table-column
         align="center"
         width="170"
-        label="Refund Type"
+        label="补/退款类型"
         prop="refundTypeFront"
         :filters="refundTypeFrontFilters"
         :filter-method="filterHandler"
@@ -91,29 +106,25 @@
           <span>{{ refundTypeFrontMap[scope.row.refundTypeFront] }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" min-width="120" label="Refund">
+      <el-table-column align="center" min-width="120" label="补/退款金额">
         <template slot-scope="scope">
           <span
             v-if="scope.row.refundStatusFront==1"
-          >{{ scope.row.brandCompensationAmountSymbol }} {{ scope.row.brandCompensationAmount }}</span>
+          >{{ scope.row.managerCompensationAmountSymbol }} {{ scope.row.managerCompensationAmount }}</span>
           <span
             v-if="scope.row.refundStatusFront==2"
-          >{{ scope.row.brandRefundAmountSymbol }} {{ scope.row.brandRefundAmount }}</span>
+          >{{ scope.row.managerRefundAmountSymbol }} {{ scope.row.managerRefundAmount }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" type="selection" fixed="right"/>
+      <el-table-column align="center" type="selection"/>
     </el-table>
-    <p
-      class="warn-notice"
-      style="text-align: right"
-    >Warm Notice：Single refund or compensation cannot be merged，please be careful.</p>
     <div class="pagination-container" style="margin-top: 10px">
       <el-button
         type="primary"
         style="float: right;"
         @click="mergeCompensationOrders"
-        :disabled="ordersSelected.length === 0"
-      >{{$t('order.mergeCompensationOrders')}}</el-button>
+        :disabled="ordersSelected.length < 2"
+      >提交并单</el-button>
       <el-pagination
         background=""
         @size-change="handleSizeChange"
@@ -129,14 +140,14 @@
       <div
         v-if="isMergeOrderShow"
         class="dialog-wrap"
-        style="border-width: 2px 1px 1px 2px;width: 747px"
+        style="border-width: 2px 2px 1px 2px;width: 747px"
       >
         <el-row>
           <el-col :span="8">
             <div class="grid-content bg-purple">{{$t('order.mergePaymentNo')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">Automatic generated</div>
+            <div class="grid-content bg-purple-light">自动生成</div>
           </el-col>
         </el-row>
         <el-row style="background-color: grey;line-height: 24px;height: 24px"></el-row>
@@ -145,7 +156,7 @@
             <div class="grid-content bg-purple">{{$t('order.beneficiaryBankSWIFITCode')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ wormirBankMsg.swiftCodeEn }}</div>
+            <div class="grid-content bg-purple-light">{{ channelBankMsg.bankCardNo }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -153,7 +164,7 @@
             <div class="grid-content bg-purple">{{$t('order.beneficiaryBankName')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankNameEn }}</div>
+            <div class="grid-content bg-purple-light">{{ channelBankMsg.bankName }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -161,7 +172,7 @@
             <div class="grid-content bg-purple">{{$t('order.beneficiaryBankAddress')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankAddressEn }}</div>
+            <div class="grid-content bg-purple-light">{{ channelBankMsg.bankAddress }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -169,7 +180,7 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankSWIFITCode')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ brandBankMsg.bankCardNo }}</div>
+            <div class="grid-content bg-purple-light">{{ wormirBankMsg.swiftCodeZh }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -177,7 +188,7 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankName')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ brandBankMsg.bankName }}</div>
+            <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankNameZh }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -185,7 +196,7 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankAddress')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ brandBankMsg.bankAddress }}</div>
+            <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankAddressZh }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -196,27 +207,23 @@
             <div class="grid-content bg-purple-light">{{ paymentAmount }}</div>
           </el-col>
         </el-row>
-        <el-row style="border-right: 1px #d5d5d5 solid;">
+        <el-row style="border-right: 0px #d5d5d5 solid;">
           <compensation-order-detail
-            v-for="order in ordersSelected"
+            v-for="(order,index) in ordersSelected"
             :detail="order"
-            :key="order.orderNo"
+            :key="index"
             @image-view="viewImage($event)"
           />
         </el-row>
         <div
-          style="font-size: 12px;border: 1px solid #d5d5d5;border-left:none;"
+          style="font-size: 12px;border: 1px solid #d5d5d5;border-left:none;border-right:none;"
           class="warn-notice"
         >
-          <div>Warm Notice: Merge payment is an unalterable operation, please be careful to the operation.</div>
+          <div>温馨提醒：货单一经提交不可取消，请谨慎操作。</div>
         </div>
       </div>
       <div style="text-align: center;margin-top: 20px">
-        <el-button
-          type="primary"
-          @click="submitMergeOrder"
-          :loading="submitLoading"
-        >{{$t('table.submit')}}</el-button>
+        <el-button type="primary" @click="submitMergeOrder" :loading="submitLoading">确认提交</el-button>
       </div>
     </el-dialog>
     <!-- <el-dialog :visible.sync="isDetailShow" fullscreen style="padding: 20px"> -->
@@ -251,35 +258,36 @@ export default {
   },
   components: {
     // alreadyReceive,
-    CompensationOrderDetail,
+    CompensationOrderDetail
     // receivedPackageDetail
   },
   data() {
     return {
+      brandNameFilters: [],
       compensationTypesMap: {
         10: this.$t("order.compensationAfterApplication"),
         20: this.$t("order.compensationAfterAppeal"),
         30: this.$t("order.compensationForDamageApproval")
       },
       refundStatusFrontMap: {
-        1: "Pending Compensation",
-        2: "Pending Refund"
+        1: "待补款",
+        2: "待退款"
       },
       refundTypeFrontMap: {
-        1: "Compensation After Application",
-        2: "Compensation After Appeal",
-        3: "Change to Compensation",
-        4: "Refund After Application",
-        5: "Refund After Appeal",
-        6: "Shortage Refund"
+        1: "申请后补款",
+        2: "申诉后补款",
+        3: "破损转补款",
+        4: "申请后退款",
+        5: "申诉后退款",
+        6: "少货退款"
       },
       refundTypeFrontFilters: [
-        { text: "Compensation After Application", value: 1 },
-        { text: "Compensation After Appeal", value: 2 },
-        { text: "Change to Compensation", value: 3 },
-        { text: "Refund After Application", value: 4 },
-        { text: "Refund After Appeal", value: 5 },
-        { text: "Shortage Refund", value: 6 }
+        { text: "申请后补款", value: 1 },
+        { text: "申诉后补款", value: 2 },
+        { text: "破损转补款", value: 3 },
+        { text: "申请后退款", value: 4 },
+        { text: "申诉后退款", value: 5 },
+        { text: "少货退款", value: 6 }
       ],
       list: null,
       total: null,
@@ -311,7 +319,7 @@ export default {
       currentOrder: {},
       ordersSelected: [],
       isDetailShow: false,
-      mergePaymentNo: "9567755433",
+      mergePaymentNo: "0",
       isViewImageShow: false,
       imageViewed: "",
       channelTypeMap: {
@@ -319,7 +327,7 @@ export default {
         2: "DFQD",
         3: "FXQD"
       },
-      brandBankMsg: {},
+      channelBankMsg: {},
       paymentAmount: "",
       wormirBankMsg: {},
       submitLoading: false
@@ -342,41 +350,63 @@ export default {
 
     mergeCompensationOrders() {
       this.isMergeOrderShow = true;
+      // 获取已绑定的银行账户信息
+      this.$request({
+        url: "/user/getChannelBindingBankInfo.do",
+        method: "post",
+        data: {
+          channelNo: this.ordersSelected[0].channelNo
+        }
+      }).then(res => {
+        if (res.errorCode == 0) {
+          this.channelBankMsg = res.data;
+        }
+      });
     },
 
     submitMergeOrder() {
-      let orderNos = []
-      let codes = []
+      let orderNos = [];
+      let codes = [];
       this.submitLoading = true;
-      this.ordersSelected.forEach((e,i,s) => {
-        orderNos.push(e.orderNo)
-        codes.push(e.code)
-      })
+      this.ordersSelected.forEach((e, i, s) => {
+        orderNos.push(e.orderNo);
+        codes.push(e.code);
+      });
+      let channelMsg = {
+        channelNo: this.ordersSelected[0].channelNo,
+        channelName: this.ordersSelected[0].channelName,
+        channelProp: this.ordersSelected[0].channelProp,
+      }
       this.$request({
-        url: "/issue/submitBrandRefundMergeOrder.do",
+        url: "/issue/submitManagerRefundMergeOrder.do",
         method: "post",
         data: {
           orderNos: orderNos,
           codes: codes,
+          symbol: '￥',
+          paymentAmount: this.paymentAmount,
+          channelBankMsg: this.channelBankMsg,
+          wormirBankMsg: this.wormirBankMsg,
+          channelMsg
         }
       }).then(res => {
         if (res.errorCode == 0) {
           const vm = this;
           this.$alert(
-            "Refund payment have been merged, please check “Compensation Refund – Pay Refund” and complete the payment.",
+            "支付并单已提交，可到#问题商品管理-支付退款#中查看详情，并完成付款。",
             "",
             {
-              confirmButtonText: this.$t("table.confirm"),
+              confirmButtonText: "知道了",
               callback() {
                 vm.isMergeOrderShow = false;
-                vm.getList()
+                vm.getList();
               },
               showClose: false,
               type: "success"
             }
           );
         } else {
-          this.$message.error("Request error");
+          this.$message.error("请求出错");
           this.submitLoading = false;
         }
       });
@@ -390,13 +420,14 @@ export default {
     getList() {
       this.listLoading = true;
       this.$request({
-        url: "/issue/brandSubmitRefundMergeOrder.do",
+        url: "/issue/managerSubmitRefundMergeOrder.do",
         method: "post",
         data: this.listQuery
       }).then(res => {
         if (res.errorCode == 0) {
           this.list = res.data.items;
           this.total = res.data.total;
+          this.brandNameFilters = res.data.brandNameFilters;
           this.listLoading = false;
         } else {
           this.$message.error("Request error");
@@ -429,25 +460,26 @@ export default {
     getSummaries(param) {
       const { columns, data } = param;
       const sums = [];
-      sums[6] = "Total:";
-      sums[7] = 0;
+      sums[10] = "合计:";
+      let totalTb = 0;
       if (this.ordersSelected.length > 0) {
         this.ordersSelected.forEach((e, i, s) => {
           if (e.refundStatusFront == 1) {
-            sums[7] += Number(e.brandCompensationAmount);
+            totalTb += Number(e.managerCompensationAmount);
           } else if (e.refundStatusFront == 2) {
-            sums[7] += Number(e.brandRefundAmount);
+            totalTb += Number(e.managerRefundAmount);
           }
           let symbol =
-            e.brandRefundAmountSymbol || e.brandCompensationAmountSymbol;
+            e.managerRefundAmountSymbol || e.managerCompensationAmountSymbol;
           if (i == s.length - 1) {
-            sums[7] = symbol + " " + sums[7].toFixed(2);
+            this.paymentAmount = totalTb;
+            totalTb = symbol + " " + totalTb.toFixed(2);
           }
         });
       } else {
-        sums[7] = "--";
+        totalTb = "--";
       }
-      this.paymentAmount = sums[7];
+      sums[11] = totalTb;
       return sums;
     },
 
@@ -494,18 +526,6 @@ export default {
     this.getList();
     // 获取已绑定的银行账户信息
     this.$request({
-      url: "/user/getBrandBindingBankInfo.do",
-      method: "post",
-      data: {
-        relevanceNo: window.localStorage.relevanceNo
-      }
-    }).then(res => {
-      if (res.errorCode == 0) {
-        this.brandBankMsg = res.data;
-      }
-    });
-    // 获取已绑定的银行账户信息
-    this.$request({
       url: "/user/getWormirBankInfo.do",
       method: "post",
       data: {}
@@ -550,5 +570,60 @@ export default {
 
 .el-col:nth-child(even) div {
   padding-left: 1em;
+}
+
+/*  */
+.el-row {
+  margin: 0;
+}
+.el-col:nth-of-type(odd):not(.text-muted) div {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.el-col:nth-of-type(even) div {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  font-weight: normal;
+}
+.el-col:nth-child(odd) {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-right: 1px #d5d5d5 solid;
+  border-bottom: 1px #d5d5d5 solid;
+}
+.el-col:nth-child(even) {
+  color: #424242;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  border-right: none;
+  border-bottom: 1px #d5d5d5 solid;
+}
+.el-col:only-of-type {
+  border-right: none;
+}
+.el-col:nth-child(even) div {
+  padding-left: 1em;
+}
+.el-col.el-col-16.el-col-offset-8 {
+  padding-left: 1em;
+}
+.dialog-wrap {
+  border: solid 2px #d5d5d5;
+  overflow: hidden;
+  width: 1152px;
+  margin: 0 auto;
 }
 </style>
