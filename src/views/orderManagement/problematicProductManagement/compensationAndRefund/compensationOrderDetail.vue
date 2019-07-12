@@ -3,29 +3,29 @@
     <el-row style="background-color: grey;line-height: 24px;height: 24px"></el-row>
     <el-row>
       <el-col :span="8">
-        <div class="grid-content bg-purple">{{$t('order.orderNo')}}</div>
+        <div class="grid-content bg-purple">Order No.</div>
       </el-col>
       <el-col :span="16">
-        <div class="grid-content bg-purple-light">{{detail.orderNo}}</div>
+        <div class="grid-content bg-purple-light">{{ detail.orderNo }}</div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <div class="grid-content bg-purple">{{$t('retailer.retailerNo')}}</div>
+        <div class="grid-content bg-purple">Retailer No.</div>
       </el-col>
       <el-col :span="16">
-        <div class="grid-content bg-purple-light">{{detail.channelNo}}</div>
+        <div class="grid-content bg-purple-light">{{ detail.channelNo }}</div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <div class="grid-content bg-purple">{{$t('inventory.boxNo')}}</div>
+        <div class="grid-content bg-purple">Code</div>
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-light">{{detail.code || ' '}}</div>
       </el-col>
       <el-col :span="4" style="border-left: 1px solid #d5d5d5">
-        <div class="grid-content bg-purple">{{$t('order.description')}}</div>
+        <div class="grid-content bg-purple">Description</div>
       </el-col>
       <el-col :span="8">
         <div class="grid-content bg-purple-light">{{detail.brandNameEn || ' '}}</div>
@@ -33,7 +33,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <div class="grid-content bg-purple">{{$t('order.applicationReason')}}</div>
+        <div class="grid-content bg-purple">Application Reasons</div>
       </el-col>
       <el-col :span="16">
         <div
@@ -59,7 +59,7 @@
     </el-row>
     <el-row style="border-top:1px solid #d5d5d5">
       <el-col :span="8">
-        <div class="grid-content bg-purple" style="line-height: 48px">{{$t('order.photoEvidence')}}</div>
+        <div class="grid-content bg-purple" style="line-height: 48px">Photo Evidences</div>
       </el-col>
       <el-col :span="16">
         <div class="grid-content bg-purple-light" @click="viewImage(detail.proofImage)">

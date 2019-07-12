@@ -10,11 +10,11 @@
     </div>
 
     <div class="time-filter-wrap" style="margin-bottom: 20px">
-      <el-date-picker
+      <!-- <el-date-picker
         v-model="yearValue"
         type="year"
         placeholder="选择年">
-      </el-date-picker>
+      </el-date-picker> -->
       <el-date-picker
         v-model="monthValue"
         type="month"

@@ -147,7 +147,7 @@
             <div class="grid-content bg-purple">{{$t('order.mergePaymentNo')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{currentOrder.mergePaymentNo}}</div>
+            <div class="grid-content bg-purple-light">{{currentOrder.mergeOrderNo}}</div>
           </el-col>
         </el-row>
         <el-row style="background-color: grey;line-height: 24px;height: 24px"></el-row>
@@ -157,7 +157,7 @@
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light"></div>
-            {{ currentOrder.r_bankAccount }}
+            {{ currentOrder.swifitCode }}
           </el-col>
         </el-row>
         <el-row>
@@ -165,7 +165,7 @@
             <div class="grid-content bg-purple">{{$t('order.beneficiaryBankName')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ currentOrder.r_bankName }}</div>
+            <div class="grid-content bg-purple-light">{{ currentOrder.bankName }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -173,7 +173,7 @@
             <div class="grid-content bg-purple">{{$t('order.beneficiaryBankAddress')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ currentOrder.r_bankAddress }}</div>
+            <div class="grid-content bg-purple-light">{{ currentOrder.bankAddress }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -181,7 +181,7 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankSWIFITCode')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ currentOrder.b_bankAccount }}</div>
+            <div class="grid-content bg-purple-light">{{ currentOrder.remittingSwifitCode }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -189,7 +189,7 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankName')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ currentOrder.r_bankName }}</div>
+            <div class="grid-content bg-purple-light">{{ currentOrder.remittingBankName }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -197,28 +197,25 @@
             <div class="grid-content bg-purple">{{$t('order.remittingBankAddress')}}</div>
           </el-col>
           <el-col :span="16">
-            <div class="grid-content bg-purple-light">{{ currentOrder.r_bankAddress }}</div>
+            <div class="grid-content bg-purple-light">{{ currentOrder.remittingBankAddress }}</div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.totalPendingCompensation')}}</div>
+            <div v-if="currentOrder.refundStatusFront==1" class="grid-content bg-purple">待退款合计：</div>
+            <div v-if="currentOrder.refundStatusFront==2" class="grid-content bg-purple">已退款合计：</div>
           </el-col>
-          <!-- <el-col :span="16"><div class="grid-content bg-purple-light">€ {{ currentOrder.compensation.toFixed(2) }}</div></el-col> -->
+          <el-col :span="16"><div class="grid-content bg-purple-light">{{ currentOrder.managerPaymentAmountSymbol }} {{ Number(currentOrder.managerPaymentAmount).toFixed(2) }}</div></el-col>
         </el-row>
-        <!--<compensation-order-detail v-for="order in orders" :detail="order"-->
-        <!--:key="order.orderNo" @image-view="viewImage" />-->
-        <compensation-order-detail
-          :detail="currentOrder"
-          :key="currentOrder.orderNo"
-          @image-view="viewImage"
-        />
+        <compensation-order-detail v-for="(order,index) in orders" :detail="order"
+        :key="index" @image-view="viewImage" />
       </div>
       <div
         style="text-align: center;margin-top: 20px"
-        v-if="currentOrder.compensationStatus==10 && !currentOrder.confirmCompensationPayment"
+        v-if="currentOrder.refundStatusFront==1"
       >
-        <el-button type="primary" @click="confirmAction(currentOrder)">Confirm Transfer</el-button>
+        <!-- <el-button type="primary" @click="confirmAction(currentOrder)">待付退款</el-button> -->
+        <el-button type="primary" plain>待付退款</el-button>
       </div>
     </el-dialog>
     <el-dialog :visible.sync="isViewImageShow" width="75%">
@@ -241,6 +238,9 @@ export default {
   },
   data() {
     return {
+      channelBankMsg: {},
+      paymentAmount: "",
+      wormirBankMsg: {},
       channelTypeMap: {
         1: "DLQD",
         2: "DFQD",
@@ -257,7 +257,6 @@ export default {
         page: 1,
         limit: 20,
         searchText: undefined,
-        orderNo: undefined
       },
       isDialogDetailShow: false,
       dialogStatus: "",
@@ -294,6 +293,16 @@ export default {
 
   created() {
     this.getList();
+    // 获取已绑定的银行账户信息
+    this.$request({
+      url: "/user/getWormirBankInfo.do",
+      method: "post",
+      data: {}
+    }).then(res => {
+      if (res.errorCode == 0) {
+        this.wormirBankMsg = res.data;
+      }
+    });
   },
   methods: {
     filterHandler,
@@ -301,6 +310,17 @@ export default {
     viewDetail(row) {
       this.currentOrder = row;
       this.isDialogDetailShow = true;
+      this.$request({
+        url: "/issue/managerRefundMergeOrderDetail.do",
+        method: "post",
+        data: {
+          mergeOrderNo: this.currentOrder.mergeOrderNo
+        }
+      }).then(res => {
+        if (res.errorCode == 0) {
+          this.orders = res.data.items;
+        }
+      });
     },
 
     toPayRefund(row) {
@@ -442,5 +462,59 @@ export default {
 }
 .el-col:nth-child(even) div {
   padding-left: 1em;
+}
+/*  */
+.el-row {
+  margin: 0;
+}
+.el-col:nth-of-type(odd):not(.text-muted) div {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.el-col:nth-of-type(even) div {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  font-weight: normal;
+}
+.el-col:nth-child(odd) {
+  background: #dff2fc;
+  color: #424242;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-right: 1px #d5d5d5 solid;
+  border-bottom: 1px #d5d5d5 solid;
+}
+.el-col:nth-child(even) {
+  color: #424242;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  border-right: none;
+  border-bottom: 1px #d5d5d5 solid;
+}
+.el-col:only-of-type {
+  border-right: none;
+}
+.el-col:nth-child(even) div {
+  padding-left: 1em;
+}
+.el-col.el-col-16.el-col-offset-8 {
+  padding-left: 1em;
+}
+.dialog-wrap {
+  border: solid 2px #d5d5d5;
+  overflow: hidden;
+  width: 1152px;
+  margin: 0 auto;
 }
 </style>

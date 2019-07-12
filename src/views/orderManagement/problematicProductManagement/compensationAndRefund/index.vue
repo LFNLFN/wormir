@@ -101,7 +101,7 @@
       >
         <el-row>
           <el-col :span="8">
-            <div class="grid-content bg-purple">{{$t('order.mergePaymentNo')}}</div>
+            <div class="grid-content bg-purple">Merge Payment No.</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ currentOrder.mergeOrderNo }}</div>
@@ -110,7 +110,7 @@
         <el-row style="background-color: grey;line-height: 24px;height: 24px"></el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.beneficiaryBankSWIFITCode')}}</div>
+            <div class="grid-content bg-purple">Beneficiary Bank SWIFT Code</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ wormirBankMsg.swiftCodeEn }}</div>
@@ -118,7 +118,7 @@
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.beneficiaryBankName')}}</div>
+            <div class="grid-content bg-purple">Beneficiary Bank Name</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankNameEn }}</div>
@@ -126,7 +126,7 @@
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.beneficiaryBankAddress')}}</div>
+            <div class="grid-content bg-purple">Beneficiary Bank Address</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ wormirBankMsg.bankAddressEn }}</div>
@@ -134,7 +134,7 @@
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.remittingBankSWIFITCode')}}</div>
+            <div class="grid-content bg-purple">Remitting Bank SWIFT Code</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ brandBankMsg.bankCardNo }}</div>
@@ -142,7 +142,7 @@
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.remittingBankName')}}</div>
+            <div class="grid-content bg-purple">Remitting Bank Name</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ brandBankMsg.bankName }}</div>
@@ -150,7 +150,7 @@
         </el-row>
         <el-row>
           <el-col :span="8" align="right">
-            <div class="grid-content bg-purple">{{$t('order.remittingBankAddress')}}</div>
+            <div class="grid-content bg-purple">Remitting Bank Address</div>
           </el-col>
           <el-col :span="16">
             <div class="grid-content bg-purple-light">{{ brandBankMsg.bankAddress }}</div>

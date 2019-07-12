@@ -13,22 +13,36 @@
       <el-col :span="8">
         <div class="grid-content bg-purple">{{$t('retailer.retailerNo')}}</div>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="4">
         <div class="grid-content bg-purple-light">{{detail.channelNo}}</div>
+      </el-col>
+      <el-col :span="4" style="border-left: 1px solid #d5d5d5">
+        <div class="grid-content bg-purple">{{$t('retailer.retailerName')}}</div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light">{{detail.channelName}}</div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <div class="grid-content bg-purple">{{$t('inventory.boxNo')}}</div>
+        <div class="grid-content bg-purple">商品编号</div>
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-light">{{detail.code || ' '}}</div>
       </el-col>
       <el-col :span="4" style="border-left: 1px solid #d5d5d5">
-        <div class="grid-content bg-purple">{{$t('order.description')}}</div>
+        <div class="grid-content bg-purple">商品名称</div>
       </el-col>
       <el-col :span="8">
-        <div class="grid-content bg-purple-light">{{detail.brandNameEn || ' '}}</div>
+        <div class="grid-content bg-purple-light">{{detail.goodName || ' '}}</div>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">商品码</div>
+      </el-col>
+      <el-col :span="16">
+        <div class="grid-content bg-purple-light">{{detail.goodNo || ' '}}</div>
       </el-col>
     </el-row>
     <el-row>
@@ -39,9 +53,9 @@
         <div
           class="grid-content bg-purple-light"
         >
-          <span v-if="detail.issueType==10">Apply offset compensation for customer on the account of defective appearance.</span>
-          <span v-if="detail.issueType==20">Too damaged to be sold to customers.</span>
-          <span v-if="detail.issueType==30">Products lost in transit , need refund.</span>
+          <span v-if="detail.issueType==10">商品外观有瑕疵，申请补款补偿顾客。</span>
+          <span v-if="detail.issueType==20">商品破损严重，不能销售给顾客。</span>
+          <span v-if="detail.issueType==30">运输中丢失商品，需要退款。</span>
         </div>
       </el-col>
     </el-row>
@@ -64,7 +78,7 @@
       <el-col :span="16">
         <div class="grid-content bg-purple-light" @click="viewImage(detail.proofImage)">
           <img :src="detail.proofImage" alt="" height="48px" width="48px" class="link-type">
-          <span class="link-type">Click to enlarge</span>
+          <span class="link-type">点击放大</span>
         </div>
       </el-col>
     </el-row>
