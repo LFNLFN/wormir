@@ -36,14 +36,25 @@
                          :filters="brandNameFilters"
                          :filter-method="filterHandler"/>
 
-        <el-table-column min-width="100" align="center" label="商品编号" prop="code"/>
-        <el-table-column min-width="100" align="center" label="渠道属性" prop="code"/>
-        <el-table-column min-width="100" align="center" label="渠道名称" prop="code"/>
+        <el-table-column
+        align="center"
+        width="170"
+        :label="$t('retailer.retailerCategories')"
+        prop="channelProp"
+        :filters="[{text: 'DLQD', value: 1}, {text: 'FXQD', value: 3}]"
+        :filter-method="filterHandler"
+      >
+        <template slot-scope="scope">
+          <span>{{ channelTypeMap[scope.row.channelProp] }}</span>
+        </template>
+      </el-table-column>
+        <el-table-column min-width="100" align="center" label="渠道号" prop="channelNo"/>
+        <el-table-column min-width="100" align="center" label="渠道名称" prop="channelName"/>
         <el-table-column min-width="100" align="center" label="商品编号" prop="code"/>
         <el-table-column min-width="200" align="center" label="商品名称" prop="goodName"/>
         <el-table-column min-width="100" align="center" label="商品规格" prop="sizeZh"/>
-        <el-table-column min-width="200" align="center" label="物流公司" prop="goodName"/>
-        <el-table-column min-width="200" align="center" label="物流单号" prop="goodName"/>
+        <el-table-column min-width="200" align="center" label="物流公司" prop="logisticCompanyName"/>
+        <el-table-column min-width="200" align="center" label="物流单号" prop="logisticOrderNo"/>
         <el-table-column align="center" label="取证图片" :min-width="150">
           <template slot-scope="scope">
             <img :src="scope.row.proofImage" style="width:80px;height:80px;" class="link-type"
@@ -51,28 +62,35 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="收货电话" :min-width="150" prop="receivePhone"/>
-        <el-table-column align="center" label="送货人" :min-width="150" prop="receivePhone"/>
-        <el-table-column align="center" label="送货电话" :min-width="150" prop="receivePhone"/>
-        <el-table-column align="center" label="确认收货时间" :min-width="150" prop="receivePhone"/>
-        <el-table-column align="center" label="渠道收货时间" :min-width="150" prop="channelReceiveTime"/>
-        <el-table-column align="center" label="商品码" :min-width="150" prop="channelReceiveTime"/>
-        <el-table-column min-width="100" align="center" label="订货金额" prop="orderAmount"/>
+        <el-table-column align="center" label="送货人" :min-width="150" prop="sendProductPerson"/>
+        <el-table-column align="center" label="送货电话" :min-width="150" prop="sendProductTel"/>
+        <el-table-column align="center" label="确认收货时间" :min-width="150" prop="channelReceiveTime"/>
+        <el-table-column align="center" label="商品码" :min-width="150" prop="goodsNo"/>
+        <el-table-column min-width="100" align="center" label="订货金额">
+          <template slot-scope="scope">
+            {{ scope.row.orderTotalAmountSymbol }} {{ Number(scope.row.orderTotalAmount).toFixed(2) }}
+          </template>
+        </el-table-column>
 
         <el-table-column min-width="100" align="center" label="赔保类型" prop="logisticCompensationType" fixed="right"
                          :filters="logisticCompensationTypeFilters"
                          :filter-method="filterHandler">
           <template slot-scope="scope">
-            {{ scope.row.logisticCompensationType | logisticCompensationTypeFilter }}
+            {{ logisticCompensationTypeFilter(scope.row.logisticCompensationType) }}
           </template>
         </el-table-column>
         <el-table-column min-width="100" align="center" label="赔保状态" prop="logisticCompensationStatus" fixed="right"
                          :filters="logisticCompensationStatusFilters"
                          :filter-method="filterHandler">
           <template slot-scope="scope">
-            {{ scope.row.logisticCompensationStatus | logisticCompensationStatusFilter }}
+            {{ logisticCompensationStatusFilter(scope.row.logisticCompensationStatus) }}
           </template>
         </el-table-column>
-        <el-table-column width="120" align="center" label="赔保金额" prop="logisticCompensationAmount" fixed="right"/>
+        <el-table-column width="120" align="center" label="赔保金额" prop="logisticCompensationAmount" fixed="right">
+          <template slot-scope="scope">
+            {{ scope.row.logisticCompensationAmountSymbol }} {{ Number(scope.row.logisticCompensationAmount).toFixed(2) }}
+          </template>
+        </el-table-column>
         <el-table-column type="selection" align="center" width="100" fixed="right"></el-table-column>
 
       </el-table>
@@ -145,25 +163,30 @@
     },
     data() {
       return {
+        channelTypeMap: {
+        1: "DLQD",
+        2: "DFQD",
+        3: "FXQD"
+      },
         list: null,
         total: null,
         listLoading: true,
         listQuery: {
           page: 1,
           searchText: undefined,
-          orderNo: undefined,
           limit: 20,
+          openedDate: this.monthValue,
         },
         isViewImageShow: false,
         imageViewed: '',
         brandNameFilters: [],
         logisticCompensationTypeFilters: [
-          {text: '少货赔保', value: '1'},
-          {text: '破损赔保', value: '2'},
+          {text: '少货赔保', value: 1},
+          {text: '破损赔保', value: 2},
         ],
         logisticCompensationStatusFilters: [
-          {text: '待赔保', value: '1'},
-          {text: '已赔保', value: '2'},
+          {text: '待赔保', value: 1},
+          {text: '已赔保', value: 2},
         ],
         yearValue: null,
         monthValue: null,
@@ -173,6 +196,20 @@
       }
     },
     methods: {
+      logisticCompensationTypeFilter(value) {
+        const statusMap = {
+          1: '少货赔保',
+          2: '破损赔保',
+        }
+        return statusMap[value]
+      },
+      logisticCompensationStatusFilter(value) {
+        const statusMap = {
+          1: '待赔保',
+          2: '已赔保',
+        }
+        return statusMap[value]
+      },
       handleFilter() {
         this.listQuery.page = 1
         this.getList()
@@ -184,7 +221,7 @@
       getList() {
         this.listLoading = true
         this.$request({
-          url: '/issue/logisticCompensationListChannel.do',
+          url: '/issue/logisticCompensationListManager.do',
           method: 'post',
           data: this.listQuery
         }).then((res) => {
