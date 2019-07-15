@@ -17,14 +17,18 @@
       </el-date-picker> -->
       <el-date-picker
         v-model="monthValue"
+        @change="(val) => {listQuery.openedDate = val}"
         type="month"
         placeholder="选择月">
       </el-date-picker>
     </div>
 
     <div class="table-wrap" style="border: 1px solid #d5d5d5;border-right-width: 0">
-      <el-table key='1' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-                highlight-current-row size="mini" style="width: 100%">
+      <el-table key='1' :data="list" 
+      v-loading="listLoading" element-loading-text="给我一点时间" 
+      border fit
+      @selection-change="handleSelectionChange"
+      highlight-current-row size="mini" style="width: 100%">
 
         <el-table-column width="130" align="center" label="货单号" prop="orderNo" fixed="left">
           <template slot-scope="scope">
@@ -140,11 +144,6 @@
       <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
 
-    <!--查看已收货货单-->
-    <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
-      <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
-    </el-dialog>
-
   </div>
 </template>
 
@@ -164,10 +163,10 @@
     data() {
       return {
         channelTypeMap: {
-        1: "DLQD",
-        2: "DFQD",
-        3: "FXQD"
-      },
+          1: "DLQD",
+          2: "DFQD",
+          3: "FXQD"
+        },
         list: null,
         total: null,
         listLoading: true,
@@ -175,7 +174,7 @@
           page: 1,
           searchText: undefined,
           limit: 20,
-          openedDate: this.monthValue,
+          openedDate: null,
         },
         isViewImageShow: false,
         imageViewed: '',
@@ -193,9 +192,25 @@
         totalAmount: 0,
         isOrderShow: false,
         currentRow: {},
+        orderSelected: [],
       }
     },
     methods: {
+      handleSelectionChange(val) {
+        this.orderSelected = val;
+        this.totalAmount = 0
+        this.orderSelected.forEach((e,i,s) => {
+          this.totalAmount += Number(e.logisticCompensationAmount)
+        })
+        this.totalAmount = '￥' + this.totalAmount.toFixed(2)
+        if (this.orderSelected.length==0) {
+          this.totalAmount = 0
+          this.list.forEach((e,i,s) => {
+            this.totalAmount += Number(e.logisticCompensationAmount)
+          })
+          this.totalAmount = '￥' + this.totalAmount.toFixed(2)
+        }
+      }, 
       logisticCompensationTypeFilter(value) {
         const statusMap = {
           1: '少货赔保',
@@ -229,18 +244,18 @@
             this.list = res.data.items
             this.totalAmount = 0
             this.list.forEach((e,i,s) => {
-              this.totalAmount += e.logisticCompensationAmount.substring(1)/1
+              this.totalAmount += Number(e.logisticCompensationAmount)
             })
-            this.totalAmount = this.list[0].logisticCompensationAmount.substring(0,1) + ' ' + this.totalAmount.toFixed(2)
+            this.totalAmount = '￥' + this.totalAmount.toFixed(2)
             this.total = res.data.total
             this.brandNameFilters = res.data.brandNameFilters
             this.listLoading = false
           } else {
-            this.$message.error('Request failed');
+            this.$message.error('没有找到匹配结果');
             this.listLoading = false
           }
         }).catch((err) => {
-          this.$message.error('Request failed');
+          this.$message.error('没有找到匹配结果');
           this.listLoading = false
         })
       },

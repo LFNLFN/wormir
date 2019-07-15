@@ -641,4 +641,29 @@
   .theBorder .el-col:nth-child(even) {
     padding-left: 1em;
   }
+  .theBorder .el-row {
+    border-bottom: solid #d5d5d5 1px;
+    margin-bottom: 0;
+  }
+  .theBorder {
+    border: solid #d5d5d5 2px;
+  }
+  .el-col:nth-child(odd):not(:last-of-type) {
+    border-right: 1px solid #d5d5d5;
+}
+.el-col:nth-child(odd) {
+    background: #dff2fc;
+    color: #424242;
+    font-weight: 700;
+    font-size: 12px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
 </style>
