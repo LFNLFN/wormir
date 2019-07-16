@@ -6,50 +6,50 @@
     <div class="border1">
       <el-row class="border-top">
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
+          <div class="grid-content bg-purple">{{ '渠道号' }}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{ currentRow.FXQDbelongCode }}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.channelNo }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple">{{'所属FXQD名称'}}</div>
+          <div class="grid-content bg-purple">{{'渠道名称'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{currentRow.FXQDbelongName}}</div>
+          <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'合作类型'}}</div>
+          <div class="grid-content bg-purple">{{'合作类型'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
+          <div class="grid-content bg-purple-light">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道属性'}}</div>
+          <div class="grid-content bg-purple">{{'渠道属性'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'分销子渠道（FXZQD）'}}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.channelProp | channelPropFilter }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道类别'}}</div>
+          <div class="grid-content bg-purple">{{'渠道类别'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{channelTypeMap[currentRow.channelType].text}}</div>
+          <div class="grid-content bg-purple-light">{{channelTypeMap[currentRow.channelType].text}}</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.channelProp==4">
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道级别'}}</div>
+          <div class="grid-content bg-purple">{{'渠道级别'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{channelLevelMap[currentRow.channelLevel].text }}</div>
+          <div class="grid-content bg-purple-light">{{channelLevelMap[currentRow.channelLevel].text }}</div>
         </el-col>
       </el-row>
     </div>
@@ -57,61 +57,53 @@
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
     <!--content-->
-    <div class="border1">
-      <el-row class="border-top">
-        <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'渠道号'}}</div>
-        </el-col>
-        <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{currentRow.channelNo}}</div>
-        </el-col>
-      </el-row>
+    <div class="border1" style="border-top-width: 2px">
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'经营主体'}}</div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===0">{{'个人'}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'企业'}}</span>
+            <span v-if="currentRow.businessEntity==1">{{'个人'}}</span>
+            <span v-if="currentRow.businessEntity==2">{{'企业'}}</span>
           </div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">
-            <span v-if="currentRow.businessEntity===0">{{'身份证号'}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'公司名称'}}</span>
+            <span v-if="currentRow.businessEntity==1">{{'身份证号'}}</span>
+            <span v-if="currentRow.businessEntity==2">{{'公司名称'}}</span>
           </div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple-light ">
-            <span v-if="currentRow.businessEntity===0">{{440682199406776021}}</span>
-            <span v-if="currentRow.businessEntity===1">{{'jkl公司'}}</span>
+            <span v-if="currentRow.businessEntity==1">{{ currentRow.idcardNo || '暂无数据' }}</span>
+            <span v-if="currentRow.businessEntity==2">{{ currentRow.companyName || '暂无数据' }}</span>
           </div>
         </el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===0">
+      <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5" style="min-height: 57px">
-          <div class="grid-content bg-purple ">{{'身份证正面'}}</div>
+          <div class="grid-content bg-purple">{{'身份证正面'}}</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+        <el-col :span="7"><span @click="viewImage(currentRow.idcardFront)"><img :src="currentRow.idcardFront" alt="无图"
                                                                                height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+                                                                               class="link-type form-photo-offset"></span></el-col>
         <el-col :span="5" style="min-height: 57px">
-          <div class="grid-content bg-purple ">{{'身份证背面'}}</div>
+          <div class="grid-content bg-purple">{{'身份证背面'}}</div>
         </el-col>
-        <el-col :span="7"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+        <el-col :span="7"><span @click="viewImage(currentRow.idcardBack)"><img :src="currentRow.idcardBack" alt="无图"
                                                                                height="48px" width="48px"
-                                                                               class="link-type"></span></el-col>
+                                                                               class="link-type form-photo-offset"></span></el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity===1">
+      <el-row v-if="currentRow.businessEntity==2">
         <el-col :span="5" style="min-height: 57px">
           <div class="grid-content bg-purple ">{{'营业执照'}}</div>
         </el-col>
-        <el-col :span="19"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
+        <el-col :span="19"><span @click="viewImage(currentRow.businessLicense)"><img :src="currentRow.businessLicense" alt="无图"
                                                                                 height="48px" width="48px"
-                                                                                class="link-type"></span></el-col>
+                                                                                class="link-type form-photo-offset"></span></el-col>
       </el-row>
     </div>
     <p style="margin: .5em"></p>
@@ -121,7 +113,7 @@
           <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'asd专卖店'}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.channelName || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -129,31 +121,31 @@
           <div class="grid-content bg-purple ">{{'PC店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'www.baidu.com'}}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.PCLink || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'手机店铺/平台链接'}}</div>
+          <div class="grid-content bg-purple">{{'手机店铺/平台链接'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'123456'}}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.appLink || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'经营范围'}}</div>
+          <div class="grid-content bg-purple">{{'经营范围'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'化妆品'}}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.businessRange || '暂无数据' }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="5">
-          <div class="grid-content bg-purple ">{{'经营过的类似商品'}}</div>
+          <div class="grid-content bg-purple">{{'经营过的类似商品'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light " @click="">{{'面膜'}}</div>
+          <div class="grid-content bg-purple-light">{{ currentRow.businessGoods || '暂无数据' }}</div>
         </el-col>
       </el-row>
     </div>
@@ -162,16 +154,20 @@
     <el-table
       border
       :data="contactData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+      >
       <el-table-column
-        prop="job"
+        prop="position"
         label="职务"
         align="center"
         min-width="90">
+        <template slot-scope="scope">
+          <span v-if="scope.row.position">{{ scope.row.position | job  }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="userName"
         label="姓名"
         align="center"
         min-width="80">
@@ -193,12 +189,20 @@
         label="地址"
         align="center"
         min-width="140">
+        <template slot-scope="scope">
+          <span v-if="scope.row.address">{{ scope.row.address }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="remark"
         label="备注"
         align="center"
         min-width="100">
+        <template slot-scope="scope">
+          <span v-if="scope.row.remark">{{ scope.row.remark }}</span>
+          <span v-else>{{ '暂无数据' }}</span>
+        </template>
       </el-table-column>
     </el-table>
 
@@ -209,7 +213,7 @@
           <div class="grid-content bg-purple ">{{'申请时间'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.openedDate }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -217,7 +221,7 @@
           <div class="grid-content bg-purple ">{{'审核结果'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{'通过申请'}}</div>
+          <div class="grid-content bg-purple-light ">{{'已通过'}}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -225,7 +229,7 @@
           <div class="grid-content bg-purple ">{{'通过时间'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">{{Mock.Random.now('yyyy-MM-dd HH:mm:ss')}}</div>
+          <div class="grid-content bg-purple-light ">{{ currentRow.openedDate }}</div>
         </el-col>
       </el-row>
     </div>
@@ -234,10 +238,10 @@
     <el-table
       border
       :data="contractData"
-      style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+      >
       <el-table-column
-        prop="contractID"
+        prop="contractNo"
         label="合同编号"
         align="center"
         min-width="100">
@@ -247,6 +251,9 @@
         label="合同属性"
         align="center"
         min-width="90">
+        <template slot-scope="scope">
+          <span>{{ scope.row.contractProp | contractProp }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="startTime"
@@ -261,13 +268,12 @@
         min-width="110">
       </el-table-column>
       <el-table-column
-        prop="channelStatus"
-        label="渠道状态"
+        prop="status"
+        label="合同状态"
         align="center"
         min-width="140">
         <template slot-scope="scope">
-          <span v-if="">{{'正常合作'}}</span>
-          <!--<span v-if="currentRow.channelStatus===0">{{'待审核'}}</span>-->
+          <span>{{ scope.row.status | contractStatus }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -278,15 +284,24 @@
           <div class="grid-content bg-purple ">{{'保证金金额'}}</div>
         </el-col>
         <el-col :span="19">
-          <div class="grid-content bg-purple-light ">￥ {{10000.00}} - 已支付</div>
+          <div class="grid-content bg-purple-light ">￥ {{ currentRow.securityAmount }} - {{
+            currentRow.securityAmountStatus==1? '已缴纳' : '未缴纳' }}
+          </div>
         </el-col>
       </el-row>
     </div>
+
+    <!--viewImage-->
+    <el-dialog :visible.sync="isViewImageShow" class="image-view" width="75%" append-to-body>
+      <img :src="imageViewed" alt="" width="100%">
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import Mock from 'mockjs'
+  import request from "@/utils/request";
+  import { channelProp, channelType, channelLevel, cooperationType, contractStatus, securityAmountStatus, job } from "@/filters/index.js";
 
   export default {
     props: {
@@ -297,22 +312,8 @@
     },
     data() {
       return {
-        Mock,
-        contactData: [{
-          job: '技术对接人',
-          name: '王小虎',
-          mobile: 15268172199,
-          email: '315889743@qq.com',
-          address: '上海市普陀区金沙江路 1518 弄',
-          remark: '此人非常重要'
-        }],
-        contractData: [{
-          contractID: 201805000002,
-          contractProp: '首次签订',
-          startTime: '2018-05-26',
-          endTime: '2018-05-29',
-          channelStatus: '待激活账号'
-        }],
+        contactData: [],
+        contractData: [],
         cooperationTypeMap: {
           0: { text: '渠道入驻', value: 0 },
           1: { text: '渠道变更', value: 1 }
@@ -330,15 +331,6 @@
           3: { text: 'D级渠道', value: 3 },
           99: { text: '----', value: 99 },
         },
-        terminationData: [
-          {
-            terminationType: '强制终止',
-            terminationDate: Mock.Random.now('yyyy-MM-dd'),
-            techConnect: '未对接系统',
-            terminationReason: '渠道重复',
-            terminationTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
-          }
-        ],
         isViewImageShow: false,
         imageViewed: null
       }
@@ -348,7 +340,26 @@
         this.imageViewed = src
         this.isViewImageShow = true
       },
-    }
+    },
+    mounted() {
+      request({
+        url: '/channel/channelDetail.do',
+        method: 'post',
+        data: {
+          channelNo: this.currentRow.channelNo,
+        }
+      }).then((res) => {
+        if (res.errorCode == 0) {
+          this.contactData = res.data.contactData
+          this.contractData = res.data.contract
+          console.log(this.contractData)
+        } else {
+          this.$message.error('渠道详情请求失败');
+        }
+      }).catch(() => {
+        this.$message.error('渠道详情请求失败');
+      })
+    },
   }
 </script>
 
