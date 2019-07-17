@@ -17,12 +17,12 @@
       <el-table-column min-width="120" align="center" label="品牌序列号" prop="brandNo"/>
       <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="englishName"/>
       <el-table-column min-width="120" align="center" label="品牌名称（中文）" prop="chineseName"/>
-      <el-table-column min-width="120" align="center" label="原产国/产地" prop="provenance"/>
+      <el-table-column min-width="120" align="center" label="原产国/产地" prop="productionPlaceChinese"/>
       <el-table-column min-width="120" align="center" label="品牌状态" prop="status"
                        :filters="statusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ statusMap[scope.row.status].text }}</span>
+          <span>{{ statusMap[scope.row.brandStatus].text }}</span>
         </template>
       </el-table-column>
       <el-table-column width="150" align="center" :label="$t('order.operation')" class-name="small-padding">
@@ -63,7 +63,6 @@
 
 <script>
   import waves from '@/directive/waves'
-  import Mock from 'mockjs'
   import firstPage from './firstPage/index.vue'
   import secondPage from './secondPage/index.vue'
   import thirdPage from './thirdPage/index.vue'
@@ -92,12 +91,12 @@
         listLoading: false,
         total: 0,
         statusFilters: [
-          { text: '停止供货', value: 0 },
-          { text: '正常供货', value: 1 }
+          { text: '正常供货', value: 1 },
+          { text: '停止供货', value: 2 },
         ],
         statusMap: {
-          0: { text: '停止供货', value: 0 },
           1: { text: '正常供货', value: 1 },
+          2: { text: '停止供货', value: 2 },
         },
       }
     },
@@ -107,16 +106,21 @@
     methods: {
       getList() {
         this.listLoading = true
-        this.list.push({
-          brandNo: 123456,
-          chineseName: '兰蔻',
-          englishName: 'LANCOM',
-          provenance: '法国',
-          status: Mock.Random.natural(0, 1)
-        })
-        this.listLoading = false
+        this.$request({
+         url: '/brand/brandList.do',
+         method: 'post',
+         data: this.listQuery
+       }).then((res) => {
+         this.list = res.data.items
+         this.total = res.data.total
+         this.listLoading = false
+       }).catch((err) => {
+         this.listLoading = false
+         this.$message.error('数据请求失败');
+       })
       },
       handleFilter() {
+        this.getList()
       },
       handleSizeChange(val) {
         this.listQuery.limit = val

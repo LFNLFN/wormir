@@ -73,7 +73,7 @@
       ></el-pagination>
     </div>
     <el-dialog :visible.sync="isBuyingDetailShow" width="1200px">
-      <buying-detail :brand="currentCustomer" v-if="isBuyingDetailShow"></buying-detail>
+      <buying-detail :currentCustomer="currentCustomer" v-if="isBuyingDetailShow"></buying-detail>
     </el-dialog>
   </div>
 </template>

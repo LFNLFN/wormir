@@ -17,19 +17,19 @@
         <div class="grid-content bg-purple">渠道级别</div>
       </el-col>
       <el-col :span="2">
-        <div class="grid-content bg-purple">{{ currentRow.channelLevel }}</div>
+        <div class="grid-content bg-purple">{{ currentRow.channelLevel || '/' }}</div>
       </el-col>
       <el-col :span="2" align="left">
         <div class="grid-content bg-purple">联系人</div>
       </el-col>
       <el-col :span="3">
-        <div class="grid-content bg-purple">{{ currentRow.contactPerson }}</div>
+        <div class="grid-content bg-purple">{{ currentRow.channelUserName }}</div>
       </el-col>
       <el-col :span="2" align="left">
         <div class="grid-content bg-purple">联系电话</div>
       </el-col>
       <el-col :span="3">
-        <div class="grid-content bg-purple">{{ currentRow.contactTel }}</div>
+        <div class="grid-content bg-purple">{{ currentRow.channelMobile }}</div>
       </el-col>
     </el-row>
     <el-table :data="list" border fit highlight-current-row

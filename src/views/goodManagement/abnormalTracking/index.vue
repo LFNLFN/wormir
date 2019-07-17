@@ -18,12 +18,16 @@
               border fit highlight-current-row size="mini" style="width: 100%"
               class="border-left2 border-top2">
       <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="brandNameEn"/>
-      <el-table-column min-width="100" align="center" label="商品编号" prop="code"/>
+      <el-table-column min-width="100" align="center" label="商品编号" prop="goodNoForBrand"/>
       <el-table-column min-width="140" align="center" label="商品名称（英文）" prop="goodNameEn" show-overflow-tooltip/>
-      <el-table-column min-width="140" align="center" label="商品名称（中文）" prop="goodName" show-overflow-tooltip/>
-      <el-table-column min-width="100" align="center" label="商品规格" prop="sizeZh"/>
-      <el-table-column min-width="140" align="center" label="商品码" prop="goodNo"/>
-      <el-table-column min-width="100" align="center" label="箱码" prop="boxCode"/>
+      <el-table-column min-width="140" align="center" label="商品名称（中文）" prop="goodNameZh" show-overflow-tooltip/>
+      <el-table-column min-width="100" align="center" label="商品规格" prop="goodSpecification">
+        <template slot-scope="scope">
+          <span>{{ scope.row.goodSpecification + scope.row.goodSpecificationUnit }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column min-width="140" align="center" label="商品码" prop="sourceCode"/>
+      <el-table-column min-width="100" align="center" label="箱码" prop="cartonCode"/>
       <el-table-column min-width="170" align="center" label="订货渠道号" prop="channelNo">
         <template slot-scope="scope">
           <span class="link-type" @click="showCheck(scope.row)">{{ scope.row.channelNo }}</span>
@@ -51,15 +55,15 @@
                        :filters="transferStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <!-- <span>{{ transferStatusMap[scope.row.transferStatus].text }}</span> -->
+          <span>{{ transferStatusMap[scope.row.transferStatus].text }}</span>
         </template>
       </el-table-column>
       <el-table-column width="120" align="center" label="流转时间" prop="transferTime"/>
-      <el-table-column min-width="100" align="center" label="激活状态" prop="activeStatus"
+      <el-table-column min-width="100" align="center" label="激活状态" prop="activationState"
                        :filters="activeStatusFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <!-- <span>{{ activeStatusMap[scope.row.activeStatus].text }}</span> -->
+          <span>{{ activeStatusMap[scope.row.activationState].text }}</span>
         </template>
       </el-table-column>
 
@@ -67,14 +71,14 @@
                        :filters="transferSituationFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <!-- <span>{{ transferSituationMap[scope.row.transferSituation].text }}</span> -->
+          <span>{{ transferSituationMap[scope.row.transferSituation].text }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" width="200" align="center" :label="$t('order.operation')"
                        class-name="small-padding">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="abnormalDetail(scope.row, 0)">异常明细</el-button>
-          <el-button type="primary" size="mini" @click="abnormalDetail(scope.row, 1)">同箱明细</el-button>
+          <el-button v-if="scope.row.transferSituation==0" type="primary" size="mini" @click="abnormalDetail(scope.row, 0)">异常明细</el-button>
+          <el-button v-if="scope.row.transferSituation==1" type="primary" size="mini" @click="abnormalDetail(scope.row, 1)">同箱明细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -213,6 +217,24 @@
       abnormalDetail(row, flag) {
         this.isDetailsShow = true
         this.currentProduct = row
+        this.$request({
+          url: '/channel/viewChannelDetail.do',
+          method: 'post',
+          data: {
+            channelNo: row.channelNo
+          }
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            Object.assign(this.currentProduct, res.data.channelObj)
+            this.isDetailsShow = true
+          } else {
+            this.$message.error('没有找到匹配结果');
+            
+          }
+        }).catch((err) => {
+          this.$message.error('没有找到匹配结果');
+         
+        })
       },
       handleSearch() {
         this.getList()
