@@ -86,20 +86,21 @@
               v-if="city.value==1"
               type="primary"
               size="mini"
-              @click="previewInvoice(city)"
+              @click="previewInvoice(city.value)"
               style="margin-left: 5px;width: 3em;padding: 0"
             >{{ '下载' }}</el-button>
             <el-button
               v-if="city.value==1"
               type="primary"
               size="mini"
-              @click="previewInvoice(city)"
+              @click="previewInvoice(city.value)"
               style="margin-left: 5px;width: 3em;padding: 0"
             >{{ '上传' }}</el-button>
             <el-button
               type="primary"
               size="mini"
-              @click="previewInvoice(city)"
+              :key="city.value"
+              @click="previewInvoice(city.value)"
               style="margin-left: 5px;width: 3em;padding: 0"
             >{{ '查看' }}</el-button>
           </el-checkbox>
@@ -113,7 +114,7 @@
             <el-button
               type="primary"
               size="mini"
-              @click="previewInvoice(city)"
+              @click="previewInvoice(14)"
               style="margin-left: 5px;width: 3em;padding: 0"
             >{{ '查看' }}</el-button>
           </el-checkbox>
@@ -121,7 +122,7 @@
             <el-button
               type="primary"
               size="mini"
-              @click="previewInvoice(city)"
+              @click="previewInvoice(15)"
               style="margin-left: 5px;width: 3em;padding: 0"
             >{{ '查看' }}</el-button>
           </el-checkbox>
@@ -134,6 +135,12 @@
       @cancelSending="isSendBoxShow = false" :parentPage="docType" :orders="orders"></sendEmail>
     </el-dialog>
 
+    <!-- 购货合同 -->
+    <el-dialog :visible.sync="isSalesContractShow" append-to-body fullscreen style="padding: 20px">
+      <salesContract v-if="isSalesContractShow" :currentOrder="currentOrder" 
+      @cancelSending="isSendBoxShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></salesContract>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -144,6 +151,7 @@ import request from "@/utils/request";
 import { createNumWithRange } from "@/utils/index";
 import reviewOrderList from "./reviewOrderList.vue";
 import sendEmail from "./sendEmail.vue";
+import salesContract from "./salesContract.vue";
 const cityOptions = [
   { text: "并货单号+购货合同", value: 1 },
   { text: "并货单号+商业发票", value: 2 },
@@ -157,15 +165,20 @@ const cityOptions = [
   { text: "品名+成分配比表", value: 10 },
   { text: "品名+危害识别表", value: 11 },
   { text: "品名+MSDS", value: 12 },
-  { text: "品名+化妆品备案批文", value: 13 }
-  // { text: "并货单号+并货单", value: 14 },
-  // { text: "货单号+发货单", value: 15 },
+  { text: "品名+化妆品备案批文", value: 13 },
+  { text: "并货单号+并货单", value: 14 },
+  { text: "货单号+发货单", value: 15 },
 ];
 const _cityOptions = [
   1,2,3,4,5,6,7,8,9,10,11,12,13
 ]
+
 export default {
-  components: { reviewOrderList, sendEmail },
+  components: { 
+    reviewOrderList, 
+    sendEmail, 
+    salesContract,
+  },
   name: "merge-order-detail",
   props: {
     orders: Array,
@@ -190,7 +203,8 @@ export default {
       checkedCities1: [],
       cities: cityOptions,
       isIndeterminate: true,
-      isSendBoxShow: false
+      isSendBoxShow: false,
+      isSalesContractShow: false,
     };
   },
   computed: {
@@ -221,6 +235,13 @@ export default {
     }
   },
   methods: {
+    // 查看要发送的货单
+    previewInvoice(val) {
+      if (val==1) {
+        // 看到购货合同
+        this.isSalesContractShow = true
+      }
+    },
     // 发送货单多选框
     handleCheckAllChange(val) {
       this.checkedCities = val ? _cityOptions : [];
