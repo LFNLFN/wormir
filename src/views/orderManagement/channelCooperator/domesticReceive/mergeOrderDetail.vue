@@ -137,8 +137,32 @@
 
     <!-- 购货合同 -->
     <el-dialog :visible.sync="isSalesContractShow" append-to-body fullscreen style="padding: 20px">
-      <salesContract v-if="isSalesContractShow" :currentOrder="currentOrder" 
+      <salesContract v-if="isSalesContractShow" :currentOrder="currentOrder"
       @cancelSending="isSendBoxShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></salesContract>
+    </el-dialog>
+
+    <!-- 商业发票 -->
+    <el-dialog :visible.sync="isCommercialInvoiceShow" append-to-body fullscreen style="padding: 20px">
+      <commercialInvoice v-if="isCommercialInvoiceShow" :currentOrder="currentOrder"
+      @cancelSending="isCommercialInvoiceShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></commercialInvoice>
+    </el-dialog>
+
+    <!-- 生产日期证明 -->
+    <el-dialog :visible.sync="isDateCertificationShow" append-to-body fullscreen style="padding: 20px">
+      <dateCertification v-if="isDateCertificationShow" :currentOrder="currentOrder"
+      @cancelSending="isDateCertificationShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></dateCertification>
+    </el-dialog>
+
+    <!-- 装箱单 -->
+    <el-dialog :visible.sync="isPackingListShow" append-to-body fullscreen style="padding: 20px">
+      <packingList v-if="isPackingListShow" :currentOrder="currentOrder"
+      @cancelSending="isPackingListShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></packingList>
+    </el-dialog>
+
+    <!-- 申报要素表 -->
+    <el-dialog :visible.sync="isElementFormShow" append-to-body fullscreen style="padding: 20px">
+      <elementForm v-if="isElementFormShow" :currentOrder="currentOrder"
+      @cancelSending="isElementFormShow = false" :mergeOrderNo="mergeOrderNo" :orders="orders"></elementForm>
     </el-dialog>
 
   </div>
@@ -152,6 +176,11 @@ import { createNumWithRange } from "@/utils/index";
 import reviewOrderList from "./reviewOrderList.vue";
 import sendEmail from "./sendEmail.vue";
 import salesContract from "./salesContract.vue";
+import commercialInvoice from "./commercialInvoice.vue";
+import dateCertification from "./dateCertification.vue";
+import packingList from "./packingList.vue";
+import elementForm from "./elementForm.vue";
+
 const cityOptions = [
   { text: "并货单号+购货合同", value: 1 },
   { text: "并货单号+商业发票", value: 2 },
@@ -178,6 +207,10 @@ export default {
     reviewOrderList, 
     sendEmail, 
     salesContract,
+    commercialInvoice,
+    dateCertification,
+    packingList,
+    elementForm,
   },
   name: "merge-order-detail",
   props: {
@@ -190,6 +223,10 @@ export default {
   },
   data() {
     return {
+      isSalesContractShow: false,
+      isCommercialInvoiceShow: false,
+      isDateCertificationShow: false,
+      isPackingListShow: false,
       replenishmentList: [],
       listLoading: false,
       totalMergeQuantity_arr: [],
@@ -204,7 +241,7 @@ export default {
       cities: cityOptions,
       isIndeterminate: true,
       isSendBoxShow: false,
-      isSalesContractShow: false,
+      isElementFormShow: false,
     };
   },
   computed: {
@@ -241,6 +278,23 @@ export default {
         // 看到购货合同
         this.isSalesContractShow = true
       }
+      if (val==2) {
+        // 看到购买发票
+        this.isCommercialInvoiceShow = true
+      }
+      if (val==3) {
+        // 看到生产日期证明
+        this.isDateCertificationShow = true
+      }
+      if (val==4) {
+        // 看到装箱单
+        this.isPackingListShow = true
+      }
+      if (val==5) {
+        // 看到申报要素
+        this.isElementFormShow = true
+      }
+      
     },
     // 发送货单多选框
     handleCheckAllChange(val) {

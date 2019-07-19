@@ -17,7 +17,7 @@
           <div class="grid-content bg-purple">{{ mergeOrderNo }}</div>
         </el-col>
         <el-col :span="7" align="center">
-          <div class="grid-content bg-purple">{{ '2018-12-12' }}</div>
+          <div class="grid-content bg-purple">{{ currentOrder.generateSaleContractTime }}</div>
         </el-col>
       </el-row>
       <el-row>
@@ -124,7 +124,7 @@
         fit
         size="mini"
         style="width: 100%"
-        class="theBorder orderTable border-left2 border-bottom border-right2 border-top2"
+        class="theBorder orderTable border-left2 no-border-bottom border-right2 no-border-top"
         ref="invoiceTable"
         :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}"
       >
@@ -180,7 +180,7 @@
         />
         <el-table-column
           align="center"
-          min-width="100"
+          width="100"
           label="金额（€） Amount（€）"
           prop="goodSpec"
           :render-header="renderHeader"
@@ -189,14 +189,60 @@
             <span>{{ (Number(scope.row.unitPrice) * scope.row.order_goods_num).toFixed(2) }}</span>
           </template>
         </el-table-column>
-      </el-table>//TODO: 合计/Total
-      <div class="bottomTable theBorder" style="margin: -4px 0 0 0">
+      </el-table>
+      <el-table
+        :data="[{}]"
+        border=""
+        fit
+        size="mini"
+        style="width: 100%;"
+        class="theBorder orderTable border-left2 no-border-bottom border-right2 no-border-top"
+        :show-header="false"
+      >
+        <el-table-column
+          align="right"
+          min-width="100"
+          label=""
+          prop=""
+          :render-header="renderHeader"
+        >
+          <template slot-scope="scope">
+            <span class="text-total" style="font-weight:bold">{{ '合计/Total：' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          width="100"
+          label=""
+          prop=""
+          :render-header="renderHeader"
+        >
+          <template slot-scope="scope">
+            <span class="text-total" style="font-weight:bold">{{ goodPriceAmount }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="bottomTable theBorder">
+        <el-row>
+          <el-col :span="6" align="left">
+            <div class="grid-content bg-purple">{{ '原产国Country of origin:' }}</div>
+          </el-col>
+          <el-col :span="6" v-if="brandInfo.brandDetail">
+            <div class="grid-content bg-purple">{{ brandInfo.brandDetail.productionPlaceEnglish }}</div>
+          </el-col>
+          <el-col :span="4" align="left">
+            <div class="grid-content bg-purple">{{ 'CIF' }}</div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content bg-purple">{{ domesticAuthorityCompanyMsg.city }}</div>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="4" align="left">
             <div class="grid-content bg-purple">{{ '2.包装/Packing：' }}</div>
           </el-col>
           <el-col :span="13">
-            <div class="grid-content bg-purple">{{ 'WanMing' }}</div>
+            <div class="grid-content bg-purple">{{ 'Standard Packing' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -204,7 +250,7 @@
             <div class="grid-content bg-purple">{{ '3.装运/Shipping：' }}</div>
           </el-col>
           <el-col :span="13">
-            <div class="grid-content bg-purple">{{ 'WanMing' }}</div>
+            <div class="grid-content bg-purple">{{ currentOrder.transportation==1? 'By Air' : 'By Sea' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -212,9 +258,9 @@
             <div class="grid-content bg-purple">{{ '4.运输起讫/Shipment from：' }}</div>
           </el-col>
           <el-col :span="13">
-            <div class="grid-content bg-purple">{{ 'WanMing' }}</div>
+            <div class="grid-content bg-purple" v-if="brandInfo.brandDetail">{{ brandInfo.brandDetail.productionPlaceEnglish }}</div>
             <div class="grid-content bg-purple">{{ 'to' }}</div>
-            <div class="grid-content bg-purple">{{ 'WanMing' }}</div>
+            <div class="grid-content bg-purple">{{ domesticAuthorityCompanyMsg.city }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -223,7 +269,7 @@
           </el-col>
           <el-col :span="13">
             <div class="grid-content bg-purple">{{ 'before' }}</div>
-            <div class="grid-content bg-purple">{{ '2019-06-15' }}</div>
+            <div class="grid-content bg-purple">{{ currentOrder.outboundTime }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -231,7 +277,7 @@
             <div class="grid-content bg-purple">{{ '6.付款条件/Terms of payment：' }}</div>
           </el-col>
           <el-col :span="13">
-            <div class="grid-content bg-purple">{{ 'By T/T（固定内容）' }}</div>
+            <div class="grid-content bg-purple">{{ 'By T/T' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -248,18 +294,25 @@
             <div
               style="text-align: center; background: #fff; width: 100%; padding: 100px 10px 10px 10px; font-weight: 1;"
             >卖方/Seller：
-              <br>读取取香港公司英文名称
+              <br>{{externalAuthorityCompanyMsg.name}}
             </div>
           </el-col>
           <el-col class="no-border-left" style="width:50%">
             <div
               style="text-align: center; background: #fff; width: 100%; padding: 100px 10px 10px 10px"
             >买方/Buyer：
-              <br>读取广州吾蜜公司英文名称
+              <br>{{domesticAuthorityCompanyMsg.english_name}}
             </div>
           </el-col>
         </el-row>
       </div>
+    </div>
+    <div style="text-align: center; margin: 10px">
+      <el-button
+        style='width: 200px'
+        type="primary"
+        @click="handleDownload"
+      >下载</el-button>
     </div>
   </div>
 </template>
@@ -490,6 +543,7 @@ export default {
       domesticAuthorityCompanyMsg: {},
       externalAuthorityCompanyMsg: {},
       brandInfo: {},
+      goodPriceAmount: 0,
     };
   },
   methods: {
@@ -613,13 +667,16 @@ export default {
             this.invoiceTableList.forEach((e,i,s) => {
               e.price_arr = JSON.parse(e.price_arr)
               e.unitPrice = e.price_arr[3]
+              this.goodPriceAmount += Number(e.unitPrice) * e.order_goods_num
             })
+            this.goodPriceAmount = this.goodPriceAmount.toFixed(2)
           }
         })
         .catch(err => {
           this.$message.error("数据请求失败");
         });
-    }
+    },
+    handleDownload() {},
   },
   computed: {
     cartonTotal() {
