@@ -1,5 +1,6 @@
 <template>
   <div class="addChannelDialog to-add-channel-vue">
+    <h2 class="text-center">新增渠道</h2>
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
@@ -17,12 +18,12 @@
           </el-form-item>
           <el-form-item label="渠道属性" prop="channelProp">
             <el-radio-group v-model="form.channelProp" @change="channelPropChange">
-              <el-radio :label="1">DLQD</el-radio>
+              <el-radio :label="1">独立渠道（DLQD）</el-radio>
               <!--<el-radio label="2">DFQD</el-radio>-->
-              <el-radio :label="3">FXQD</el-radio>
+              <el-radio :label="3">分销渠道（FXQD）</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="form.channelProp!=3" label="渠道类别" prop="channelType">
+          <el-form-item label="渠道类别" prop="channelType">
             <el-radio-group v-model="form.channelType">
               <el-radio :label="1">淘宝C店</el-radio>
               <el-radio :label="2">淘宝企业店</el-radio>
@@ -30,14 +31,14 @@
               <el-radio :label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <!--<el-form-item v-if="form.channelProp!=3" label="渠道级别" prop="channelLevel">-->
-            <!--<el-radio-group v-model="form.channelLevel">-->
-              <!--<el-radio label="1">A级渠道</el-radio>-->
-              <!--<el-radio label="2">B级渠道</el-radio>-->
-              <!--<el-radio label="3">C级渠道</el-radio>-->
-              <!--<el-radio label="4">D级渠道</el-radio>-->
-            <!--</el-radio-group>-->
-          <!--</el-form-item>-->
+          <el-form-item label="渠道级别" prop="channelLevel">
+            <el-radio-group v-model="form.channelLevel">
+              <el-radio label="1">A级渠道</el-radio>
+              <el-radio label="2">B级渠道</el-radio>
+              <el-radio label="3">C级渠道</el-radio>
+              <el-radio label="4">D级渠道</el-radio>
+            </el-radio-group>
+          </el-form-item>
         </dd>
       </dl>
 
@@ -56,12 +57,18 @@
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司名称" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="130px" class="form-row idCardCode"
                         prop="companyName">
+                        <el-col :span="22" class="">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
-                      placeholder="请输入公司名称"></el-input>
+                      placeholder="请输入公司名称" v-if="form.channelProp==1"></el-input>
+                      <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
+                      placeholder="请输入公司名称" v-if="form.channelProp==3">
+                      </el-input>
+                        </el-col>
+                      <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司简介" label-width="130px"
+          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="130px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
@@ -95,7 +102,7 @@
             </el-upload>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==2 && form.channelType>1 && form.channelProp==1" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
+          <el-form-item v-if="form.businessEntity==2" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
                         style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -108,7 +115,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2 && form.channelProp==1" label="公司地址" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="130px" class="form-row idCardCode"
                         prop="companyAddress">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
@@ -116,7 +123,7 @@
 
 
           <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="channelName" v-if="form.channelProp==1">
-            <el-col :span="11" class="marginToLeft">
+            <el-col :span="22" class="marginToLeft">
               <el-form-item label="" prop="channelName">
                 <el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
                           placeholder="请输入店铺/平台名称"></el-input>
@@ -124,17 +131,17 @@
             </el-col>
             <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item label="PC店铺/平台链接" label-width="130px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
-            <el-col :span="11" class="marginToLeft">
+          <el-form-item label="PC店铺/平台链接" label-width="170px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
+            <el-col :span="8" class="marginToLeft">
               <el-form-item label="" prop="PCLink">
                 <el-input v-model="form.PCLink" class="noBorderInput marginToLeft"
-                          placeholder="请输入PC店铺/平台链接"></el-input>
+                          placeholder="请粘贴PC店铺/平台链接"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
-              <el-form-item label="手机店铺/平台链接" label-width="130px" prop="appLink">
+              <el-form-item label="手机店铺/平台链接" label-width="170px" prop="appLink">
                 <el-input v-model="form.appLink" class="noBorderInput marginToLeft"
-                          placeholder="请输入手机店铺/平台链接"></el-input>
+                          placeholder="请粘贴手机店铺/平台链接"></el-input>
               </el-form-item>
             </el-col>
           </el-form-item>
@@ -151,7 +158,6 @@
         </dd>
         <dt><h3 class="form-part-title">联系方式</h3></dt>
         <dd>
-        <dt>联系方式 <span style="color: red">(温馨提示：渠道联系人及技术对接人必填哦！)</span></dt>
         <dd class="border1 no-border-bottom">
           <el-table
             border

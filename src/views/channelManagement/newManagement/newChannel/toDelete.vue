@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="currentRow.channelStatus<400">终止说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
+    <p v-if="currentRow.channelStatus<400">注销说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
     <h3 v-if="currentRow.channelStatus>=200" class="form-part-title">合同信息</h3>
     <el-table
       v-if="currentRow.channelStatus>=200"

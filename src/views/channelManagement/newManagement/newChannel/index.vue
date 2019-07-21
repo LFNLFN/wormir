@@ -89,8 +89,8 @@
             @click="confirmSecurityAmount(scope.row)"
           >确认付保证金</el-button>
           <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制终止</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus==400">终止渠道</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制注销</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus==400">注销渠道</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,7 +106,7 @@
       ></el-pagination>
     </div>
 
-    <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="添加渠道">
+    <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="">
       <to-add v-if="isAddShow" @submitSuccess="addSuccess"></to-add>
     </el-dialog>
     <el-dialog
@@ -122,7 +122,7 @@
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
 
-    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
+    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="注销渠道">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
   </div>
