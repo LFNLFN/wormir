@@ -31,33 +31,33 @@
               <el-radio :label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="渠道级别" prop="channelLevel">
+          <!-- <el-form-item label="渠道级别" prop="channelLevel">
             <el-radio-group v-model="form.channelLevel">
               <el-radio label="1">A级渠道</el-radio>
               <el-radio label="2">B级渠道</el-radio>
               <el-radio label="3">C级渠道</el-radio>
               <el-radio label="4">D级渠道</el-radio>
             </el-radio-group>
-          </el-form-item>
+          </el-form-item> -->
         </dd>
       </dl>
 
       <dl>
         <dt><h3 class="form-part-title">基本信息</h3></dt>
         <dd class="border1">
-          <el-form-item label="经营主体" label-width="130px" prop="businessEntity">
+          <el-form-item label="经营主体" label-width="170px" prop="businessEntity">
             <el-radio-group v-model="form.businessEntity">
               <el-radio :label="1" v-show="form.channelProp!=3">个人</el-radio>
               <el-radio :label="2">企业</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="130px" prop="identityCardNo"
+          <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="170px" prop="identityCardNo"
                         class="form-row idCardCode last-form-row">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="170px" class="form-row idCardCode"
                         prop="companyName">
                         <el-col :span="22" class="">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
@@ -68,14 +68,14 @@
                         </el-col>
                       <el-col class="line" :span="2"><span>渠道名称</span></el-col>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="130px"
+          <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="170px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
                       placeholder="请输入公司简介"></el-input>
           </el-form-item>
 
 
-          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardFront" label="身份证正面" label-width="129px" class="form-row idCardLabel"
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardFront" label="身份证正面" label-width="169px" class="form-row idCardLabel"
                         style="border-top: none;border-bottom: solid #D5D5D5 1px;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -88,7 +88,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardContrary" label="身份证反面" label-width="129px" class="form-row idCardLabel "
+          <el-form-item v-if="form.businessEntity==1 && form.channelProp==1" prop="identityCardContrary" label="身份证反面" label-width="169px" class="form-row idCardLabel "
                         style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -102,7 +102,7 @@
             </el-upload>
           </el-form-item>
 
-          <el-form-item v-if="form.businessEntity==2" prop="businessLicense" label="营业执照" label-width="130px" class="form-row idCardLabel"
+          <el-form-item v-if="form.businessEntity==2" prop="businessLicense" label="营业执照" label-width="170px" class="form-row idCardLabel"
                         style="border-top: none;border-left: solid #D5D5D5 1px">
             <el-upload
               style="padding: 10px 0"
@@ -115,14 +115,14 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="130px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="170px" class="form-row idCardCode"
                         prop="companyAddress">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
           </el-form-item>
 
 
-          <el-form-item label="店铺/平台名称" label-width="130px" class="form-row" prop="channelName" v-if="form.channelProp==1">
+          <el-form-item label="店铺/平台名称" label-width="170px" class="form-row" prop="channelName" v-if="form.channelProp==1">
             <el-col :span="22" class="marginToLeft">
               <el-form-item label="" prop="channelName">
                 <el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
@@ -145,13 +145,15 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <p style="color: red;margin: 0;padding: 10px 0" class="border-left border-right" v-if="form.channelProp==1">
+        </dd>
+        <p style="margin: 0;padding: 0;text-indent: 2em" class="warn-notice" v-if="form.channelProp==1">
             *由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
-          <el-form-item label="经营范围" label-width="130px" prop="businessRange">
+        <dd class="border1">
+          <el-form-item label="经营范围" label-width="170px" prop="businessRange">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
                       placeholder="请输入经营内容（200字以内）"></el-input>
           </el-form-item>
-          <el-form-item label="经营过的类似商品" label-width="130px" class="last-form-row">
+          <el-form-item label="经营过的类似商品" label-width="170px" class="last-form-row">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessGoods"
                       placeholder="请提供商品名称和销量（200字以内）"></el-input>
           </el-form-item>
@@ -171,14 +173,17 @@
               label="职务"
               width="150">
               <template slot-scope="scope">
-                <el-select v-model="form.contactData[scope.$index].dutyNo" placeholder="请选择">
+                <span v-if="scope.$index==0">渠道联系人</span>
+                <span v-else-if="scope.$index==1">技术对接人</span>
+                 <el-input v-else v-model="form.contactData[scope.$index].dutyName" placeholder=""></el-input>
+                <!-- <el-select v-model="form.contactData[scope.$index].dutyNo" placeholder="请选择">
                   <el-option
                     v-for="item in jobType"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
               </template>
             </el-table-column>
             <el-table-column
@@ -236,7 +241,7 @@
               label="操作" width="170">
               <template slot-scope="scope">
                 <el-button type="success" icon="el-icon-plus" @click="addContact()"></el-button>
-                <el-button type="danger" icon="el-icon-delete" @click="deleteContact(scope.$index)"></el-button>
+                <el-button v-if="scope.$index>1" type="danger" icon="el-icon-delete" @click="deleteContact(scope.$index)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -328,7 +333,16 @@
           companySummary: '',
           companyAddress: '',
           contactData: [{
-            dutyNo: '',
+            // dutyNo: '',
+            dutyName: '渠道联系人',
+            userName: '',
+            mobile: '',
+            email: '',
+            address: '',
+            remark: ''
+          },{
+            // dutyNo: '',
+            dutyName: '技术对接人',
             userName: '',
             mobile: '',
             email: '',
@@ -347,6 +361,10 @@
           { label: '财务', value: 6 },
           { label: '其他', value: 7 }
         ],
+        jobTypeMap: {
+          1: '渠道联系人',
+          2: '技术对接人',
+        },
         depositOptions: [
           { label: '¥2000', value: 2000 },
           { label: '¥4000', value: 4000 },
@@ -400,10 +418,10 @@
             { required: true, message: ' ', trigger: 'blur' },
           ],
           PCLink: [
-            { required: true, message: ' ', trigger: 'blur' },
+            { required: false, message: ' ', trigger: 'blur' },
           ],
           appLink: [
-            { required: true, message: ' ', trigger: 'blur' },
+            { required: false, message: ' ', trigger: 'blur' },
           ],
           businessRange: [
             { required: true, message: ' ', trigger: 'blur' },
@@ -491,24 +509,30 @@
       },
 
       submitAction() {
+        // 验证pc链接和app链接
+        // if ((!this.form.PCLink) && (!this.form.appLink)) {
+        //   this.$message.error('请填写PC或手机店铺/平台的其中一项!');
+        //   this.isSubmitting = false
+        //   return false
+        // }
         // 验证渠道联系人和技术对接人
-        let channelContactPerson = this.form.contactData.some((item, index, arr) => {
-          return item.dutyNo == 1
-        })
-        let technologyConnectPerson = this.form.contactData.some((item, index, arr) => {
-          return item.dutyNo == 2
-        })
-        if (!(channelContactPerson && technologyConnectPerson)) {
-          this.$message.error('渠道联系人及技术对接人必填!');
-          this.isSubmitting = false
-          return false
-        }
+        // let channelContactPerson = this.form.contactData.some((item, index, arr) => {
+        //   return item.dutyNo == 1
+        // })
+        // let technologyConnectPerson = this.form.contactData.some((item, index, arr) => {
+        //   return item.dutyNo == 2
+        // })
+        // if (!(channelContactPerson && technologyConnectPerson)) {
+        //   this.$message.error('渠道联系人及技术对接人必填!');
+        //   this.isSubmitting = false
+        //   return false
+        // }
 
         // 验证联系表格是否为空
         let contactTableValidate = this.form.contactData.some((item, index, arr) => {
           let wrongValue = false
           for (var a in item) {
-            if( (!item[a]) && a!= 'remark' ) {
+            if( (!item[a]) && a!= 'remark' && a!='dutyNo' && a!='address' ) {
               console.log(a)
               console.log(item[a])
               wrongValue = true
@@ -595,6 +619,7 @@
       addContact() {
         this.form.contactData.push({
           dutyNo: '',
+          dutyName: '',
           userName: '',
           mobile: '',
           email: '',
@@ -658,5 +683,8 @@
     margin-bottom: 0;
   }
 
+  .form-part-title dd {
+  -webkit-margin-start: 0!important
+}
 
 </style>

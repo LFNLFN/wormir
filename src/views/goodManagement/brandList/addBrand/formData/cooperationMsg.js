@@ -1,5 +1,6 @@
 let cooperationMsg = {
   flow: 1,
+  proviceGift: 2,
   specialProject: [],
   cooperationManagementData: [
     {

@@ -777,6 +777,13 @@
 
       <h2>合作信息</h2>
       <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
+        <el-form-item label="赠品提供设置" class="border-left border-right"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-radio-group v-model="form.proviceGift">
+            <el-radio :label="1" border>提供赠品</el-radio>
+            <el-radio :label="2" border>不提供赠品</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="OCC系统使用设置" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-radio-group v-model="flow" @change="flowChange">

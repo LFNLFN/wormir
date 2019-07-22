@@ -129,7 +129,6 @@
 </template>
 
 <script>
-import Mock from 'mockjs'
 import toAdd from './toAdd.vue'
 import toConfirm from './toConfirm.vue'
 import toCheck from './toCheck.vue'

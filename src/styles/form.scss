@@ -57,8 +57,12 @@
 
 // 新增渠道的表格的子栏目标题
 .form-part-title {
-  border-bottom: 2px solid #424242;
-  color: #424242
+  // border-bottom: 2px solid #424242;
+  // color: #424242
+}
+dd.border1 {
+  -webkit-margin-start: 0;
+  margin-start: 0;
 }
 
 // 新增渠道的表格的表头^
