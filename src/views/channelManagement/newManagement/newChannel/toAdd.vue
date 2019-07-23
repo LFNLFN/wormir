@@ -1,6 +1,6 @@
 <template>
   <div class="addChannelDialog to-add-channel-vue">
-    <h2 class="text-center">新增渠道</h2>
+    <!-- <h2 class="text-center">新增渠道</h2> -->
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>

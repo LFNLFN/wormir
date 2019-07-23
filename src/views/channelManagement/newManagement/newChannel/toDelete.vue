@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="currentRow.channelStatus<400">注销说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
+    <p v-if="currentRow.channelStatus<400&&currentRow.channelStatus>=100">注销说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
     <h3 v-if="currentRow.channelStatus>=200" class="form-part-title">合同信息</h3>
     <el-table
       v-if="currentRow.channelStatus>=200"
@@ -47,11 +47,17 @@
       </el-table-column>
     </el-table>
     <p></p>
-    <el-form ref="form" :model="form" label-width="80px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
-      <el-form-item label="终止理由" class="form-row">
-        <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
-                  placeholder="请输入终止理由" style="margin-left: -1em"></el-input>
+    <el-form ref="reasonForm" :model="reasonForm" label-width="80px" style="height: 100px">
+      <el-form-item label="注销原因">
+        <el-input type="textarea" class="" :rows="3" v-model="reasonForm.reason"
+                  placeholder="请输入注销原因"></el-input>
       </el-form-item>
+    </el-form>
+    <el-form v-if="currentRow.channelStatus!=100" ref="form" :model="form" label-width="120px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
+      <!-- <el-form-item label="注销原因" class="form-row">
+        <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
+                  placeholder="请输入注销原因" style="margin-left: -1em"></el-input>
+      </el-form-item> -->
       <el-form-item label="终止类型" class="form-row" v-if="currentRow.channelStatus==400">
         <el-radio-group v-model="form.terminationType">
           <el-radio :label="-200" >提前终止</el-radio>
@@ -61,7 +67,7 @@
       <el-form-item label="终止日期" class="form-row" v-if="currentRow.channelStatus==400">
         <el-date-picker v-model="form.terminationDate" type="date" placeholder="请输入终止日期" style="margin-left: -1em" class="noBorderInput"></el-date-picker>
       </el-form-item>
-      <el-form-item label="保证金处理" class="form-row border-bottom" v-if="currentRow.channelStatus==4" style="height: 30px">
+      <el-form-item label="保证金处理" class="form-row border-bottom" v-if="currentRow.channelStatus==400" style="height: 30px">
         <el-radio-group v-model="form.depositHandleWay">
           <el-radio :label="1" >返还</el-radio>
           <el-radio :label="2" >不返还</el-radio>
@@ -90,6 +96,9 @@
           terminationDate: null,
           depositHandleWay: 1
         },
+        reasonForm: {
+          reason: null,
+        },
         contractData: [],
         tableHeight: 0,
         isSubmitting: false,
@@ -99,7 +108,7 @@
     methods: {
       onSubmit() {
         this.isSubmitting = true
-        if (!this.form.reason || (!this.form.terminationDate && this.currentRow.channelStatus == 400 )) {
+        if (!this.reasonForm.reason || (!this.form.terminationDate && this.currentRow.channelStatus == 400 )) {
           this.isSubmitting = false
           const vm = this
           this.$alert('请完整填写终止信息。', '', {
@@ -117,6 +126,9 @@
           case 100:
             this.cancelStatus = -100 // 停止签合同
             break;
+          case 200:
+            this.cancelStatus = -200 // 停止激活账号
+            break;
           case 300:
             this.cancelStatus = -300 // 停止付保证金
             break;
@@ -133,7 +145,7 @@
           data: {
             channelNo: this.currentRow.channelNo,
             status: this.cancelStatus,
-            reason: this.form.reason,
+            reason: this.reasonForm.reason,
             depositHandleWay: this.form.depositHandleWay,
             terminationDate: this.form.terminationDate,
           }

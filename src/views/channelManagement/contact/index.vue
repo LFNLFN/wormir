@@ -6,6 +6,7 @@
           style="min-width: 300px;"
           v-model="filterForm.searchText"
           placeholder="渠道号/渠道名称/联系人/手机"
+          @keyup.enter.native="channelBlurSearch"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -67,15 +68,16 @@
       </el-table-column>
       <el-table-column prop="userName" label="联系人" align="center" min-width="100"></el-table-column>
       <el-table-column
-        prop="job"
+        prop="dutyName"
         label="职务"
         align="center"
         min-width="130"
-        :filters="jobFilters"
+        :filters="dutyNameFilters"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.position | job  }}</span>
+          <!-- <span>{{ scope.row.position | job  }}</span> -->
+          <span>{{ scope.row.dutyName }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="email" label="联系邮箱" min-width="180" align="center"></el-table-column>
@@ -142,6 +144,7 @@ export default {
       jobFilters: [
         { text: 'A级渠道', value: 1 },
       ],
+      dutyNameFilters: [],
       listLoading: false
     }
   },
@@ -156,6 +159,7 @@ export default {
         .then((res) => {
           this.channelTableData = res.data.items;
           this.filterForm.total = res.data.total
+          this.dutyNameFilters = res.data.dutyNameFilters
           this.listLoading = false
         })
        .catch(() => { this.$message.error('表格加载失败') })

@@ -80,7 +80,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400"
+            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400" || scope.row.cancellationStatus<1
             @click="showConfirm(scope.row)"
           >去确认</el-button>
           <el-button
@@ -106,14 +106,14 @@
       ></el-pagination>
     </div>
 
-    <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="">
+    <el-dialog :visible.sync="isAddShow" width="75%" @close="isAddShow = false" title="新增渠道">
       <to-add v-if="isAddShow" @submitSuccess="addSuccess"></to-add>
     </el-dialog>
     <el-dialog
       :visible.sync="isConfirmShow"
       width="75%"
       @close="isConfirmShow = false"
-      title="签订合同"
+      title=""
     >
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @submitSuccess="confirmSuccess"></to-confirm>
     </el-dialog>
@@ -149,28 +149,28 @@ export default {
       },
       channelTableData: [],
       channelCodeFilters: [
-        { text: 'DLQD', value: 1 },
-        { text: 'DFQD', value: 2 },
-        { text: 'FXQD', value: 3 }
+        { text: '（独立渠道）DLQD', value: 1 },
+        // { text: 'DFQD', value: 2 },
+        { text: '（分销渠道）FXQD', value: 3 }
       ],
       channelStatusFilters: [
-        { text: '停止合作', value: -1000 },
-        { text: '停止签合同', value: -100 },
-        { text: '停止激活账号', value: -200 },
-        { text: '停止付保证金', value: -300 },
-        { text: '不返还保证金', value: -350 },
-        { text: '停止技术对接', value: -400 },
-        { text: '停止审核', value: -50 },
-        { text: '审核不通过', value: -40 },
-        { text: '待返还保证金', value: -950 },
-        { text: '已返还保证金', value: -900 },
-        { text: '待提交审核', value: 40 },
-        { text: '待审核', value: 50 },
         { text: '待签合同', value: 100 },
         { text: '待激活账号', value: 200 },
         { text: '待付保证金', value: 300 },
         { text: '待接系统', value: 400 },
-        { text: '已开通', value: 1000 },
+        { text: '停止签合同', value: -100 },
+        { text: '停止激活账号', value: -200 },
+        { text: '停止付保证金', value: -300 },
+        // { text: '不返还保证金', value: -350 },
+        // { text: '停止技术对接', value: -400 },
+        // { text: '停止审核', value: -50 },
+        // { text: '审核不通过', value: -40 },
+        // { text: '待返还保证金', value: -950 },
+        // { text: '已返还保证金', value: -900 },
+        // { text: '待提交审核', value: 40 },
+        // { text: '待审核', value: 50 },
+        // { text: '已开通', value: 1000 },
+        // { text: '停止合作', value: -1000 },
       ],
       cooperationTypeFilters: [
         { text: '渠道入驻', value: 1 },
@@ -184,7 +184,7 @@ export default {
       ],
       channelPropFilters: [
         { text: '独立渠道(DLQD)', value: 1 },
-        { text: '代发渠道(DFQD)', value: 2 },
+        // { text: '代发渠道(DFQD)', value: 2 },
         { text: '分销渠道(FXQD)', value: 3 }
       ],
       isAddShow: false,
