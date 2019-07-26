@@ -80,7 +80,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400" || scope.row.cancellationStatus<1
+            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400 || scope.row.cancellationStatus<1"
             @click="showConfirm(scope.row)"
           >去确认</el-button>
           <el-button
@@ -89,8 +89,9 @@
             @click="confirmSecurityAmount(scope.row)"
           >确认付保证金</el-button>
           <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制注销</el-button>
-          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus==400">注销渠道</el-button>
+          <el-button size="mini" type="danger" @click="showReviewCancel(scope.row)" v-if="scope.row.cancellationStatus==1&&scope.row.cancellationOperateType==2">注销审核</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-else-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制注销</el-button>
+          <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-else-if="scope.row.channelStatus==400">注销渠道</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -125,6 +126,11 @@
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="注销渠道">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
+
+    <el-dialog :visible.sync="isReviewCancelShow" width="75%" @close="isReviewCancelShow = false" title="注销审核">
+      <reviewCancel :currentRow="currentRow" v-if="isReviewCancelShow" @submitSuccess="cancelReviewSuccess"></reviewCancel>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -133,6 +139,7 @@ import toAdd from './toAdd.vue'
 import toConfirm from './toConfirm.vue'
 import toCheck from './toCheck.vue'
 import toDelete from './toDelete.vue'
+import reviewCancel from './reviewCancel.vue'
 import { channel_BlurSearch } from '@/api/channel'
 import request from "@/utils/request";
 
@@ -191,6 +198,7 @@ export default {
       isConfirmShow: false,
       isCheckShow: false,
       isDeleteShow: false,
+      isReviewCancelShow: false,
       currentRow: null
     }
   },
@@ -260,6 +268,10 @@ export default {
       this.currentRow = row
       this.isDeleteShow = true
     },
+    showReviewCancel(row) {
+      this.currentRow = row
+      this.isReviewCancelShow = true
+    },
     handleSizeChange(val) {
       //        channel_BlurSearch(this.filterForm.searchText, 1, val)
       //          .then((res) => {
@@ -300,12 +312,21 @@ export default {
       })
       this.channelSearch()
     },
+    cancelReviewSuccess() {
+      this.isReviewCancelShow = false
+      this.$message({
+        message: '审核成功！',
+        type: 'success'
+      })
+      this.channelSearch()
+    },
   },
   components: {
     toAdd,
     toCheck,
     toConfirm,
-    toDelete
+    toDelete,
+    reviewCancel,
   },
   mounted() {
     this.channelSearch()
