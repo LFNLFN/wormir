@@ -123,7 +123,7 @@
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
 
-    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="注销渠道">
+    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false;channelSearch()" title="注销渠道">
       <to-delete :currentRow="currentRow" v-if="isDeleteShow" @submitSuccess="deleteSuccess"></to-delete>
     </el-dialog>
 

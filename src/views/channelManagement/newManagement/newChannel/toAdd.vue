@@ -31,14 +31,14 @@
               <el-radio :label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <!-- <el-form-item label="渠道级别" prop="channelLevel">
+          <el-form-item label="渠道级别" prop="channelLevel">
             <el-radio-group v-model="form.channelLevel">
               <el-radio label="1">A级渠道</el-radio>
               <el-radio label="2">B级渠道</el-radio>
               <el-radio label="3">C级渠道</el-radio>
               <el-radio label="4">D级渠道</el-radio>
             </el-radio-group>
-          </el-form-item> -->
+          </el-form-item>
         </dd>
       </dl>
 

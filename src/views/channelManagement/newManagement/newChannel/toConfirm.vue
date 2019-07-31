@@ -200,7 +200,10 @@
         class="demo-form-inline"
       >
         <el-form-item label="">
-          <!--<el-button type="warning">纸质合同签订完毕<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
+          <div>
+              <el-switch v-model="paperContactSignActive" active-text="纸质合同签订完毕" inactive-text=""></el-switch>
+              <el-switch v-model="autoSignActive" active-text="自动续签" inactive-text=""></el-switch>
+          </div>
           <el-date-picker
             v-model="form.dateRange"
             type="daterange"
@@ -211,7 +214,10 @@
         </el-form-item>
         <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
         <div class="dialogBottomButton-wrap">
-          <el-button type="primary" @click="onSubmit" :loading="isSubmitting">确认提交</el-button>
+          <el-button type="primary" 
+          @click="onSubmit"
+          :loading="isSubmitting"
+          :disabled="!autoSignActive || !paperContactSignActive">确认提交</el-button>
         </div>
       </el-form>
     </div>
@@ -227,9 +233,14 @@
         :rules="formRules"
         class="demo-form-inline"
       >
-        <el-switch v-model="finishLinking" active-text="完成对接系统" ></el-switch>
+        <el-switch v-model="finishLinking" active-text="完成对接系统"></el-switch>
         <div class="dialogBottomButton-wrap">
-          <el-button type="primary" @click="completeConnect" :loading="isSubmitting" :disabled="!finishLinking">确认开通订货</el-button>
+          <el-button
+            type="primary"
+            @click="completeConnect"
+            :loading="isSubmitting"
+            :disabled="!finishLinking"
+          >确认开通订货</el-button>
         </div>
       </el-form>
     </div>
@@ -254,6 +265,8 @@ export default {
   data() {
     return {
       finishLinking: false,
+      paperContactSignActive: true,
+      autoSignActive: true,
       form: {
         name: "",
         region: "",

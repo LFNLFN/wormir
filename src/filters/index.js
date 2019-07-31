@@ -52,11 +52,11 @@ export function businessEntity(value) {
 // 渠道属性
 export function channelPropFilter(value) {
   const statusMap = {
-    1: '（独立渠道）DLQD',
+    1: '独立渠道（DLQD）',
     // 2: 'DFQD',
-    3: '（分销渠道）FXQD',
-    4: '（分销子渠道）FXZQD',
-    5: '（吾蜜）WORMIR'
+    3: '分销渠道（FXQD）',
+    4: '分销子渠道（FXZQD）',
+    5: '吾蜜（WORMIR）'
   }
   return statusMap[value]
 }
