@@ -207,14 +207,14 @@
           <el-date-picker
             v-model="form.dateRange"
             type="daterange"
-            range-separator="至"
             start-placeholder="开始日期"
+            range-separator="至"
             end-placeholder="结束日期"
           ></el-date-picker>
         </el-form-item>
-        <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
         <div class="dialogBottomButton-wrap">
-          <el-button type="primary" 
+          <el-button 
+          type="primary" 
           @click="onSubmit"
           :loading="isSubmitting"
           :disabled="!autoSignActive || !paperContactSignActive">确认提交</el-button>
@@ -324,6 +324,8 @@ export default {
                 }
               }
             );
+          } else {
+            this.$message.error(res.errorMessage);
           }
         })
         .catch(() => {
