@@ -1,9 +1,9 @@
 <template>
   <div>
     <p v-if="currentRow.channelStatus<400&&currentRow.channelStatus>=100" style="padding-left: 1em">注销说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
-    <h3 v-if="currentRow.channelStatus>200" class="form-part-title">合同信息</h3>
+    <h3 v-if="currentRow.channelStatus>300" class="form-part-title">合同信息</h3>
     <el-table
-      v-if="currentRow.channelStatus>200"
+      v-if="currentRow.channelStatus>300"
       border
       :data="contractData"
       ref="contractTable"
@@ -53,7 +53,7 @@
                   placeholder="请输入注销原因"></el-input>
       </el-form-item>
     </el-form>
-    <el-form v-if="currentRow.channelStatus>200" ref="form" :model="form" label-width="120px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
+    <el-form v-if="currentRow.channelStatus>300" ref="form" :model="form" label-width="120px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
       <!-- <el-form-item label="注销原因" class="form-row">
         <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
                   placeholder="请输入注销原因" style="margin-left: -1em"></el-input>
@@ -94,7 +94,7 @@
           reason: null,
           terminationType: -200,
           terminationDate: null,
-          depositHandleWay: 1
+          depositHandleWay: 0
         },
         reasonForm: {
           reason: null,
@@ -139,6 +139,16 @@
 //            n 与 case 1 和 case 2 不同时执行的代码
         }
 
+        let terminationType = -400
+        if (this.currentRow.channelStatus==400) {
+          terminationType = this.form.terminationType
+          if (this.form.depositHandleWay==1) {
+            this.cancelStatus = -950 // 待返还保证金
+          }
+          if (this.form.depositHandleWay==2) {
+            this.cancelStatus = -350 // 不返还保证金
+          }
+        }
         this.$request({
           url: '/channel/channelCancel.do',
           method: 'post',
@@ -148,6 +158,7 @@
             reason: this.reasonForm.reason,
             depositHandleWay: this.form.depositHandleWay,
             terminationDate: this.form.terminationDate,
+            terminationType: terminationType,
             cancellationStatus: 2,
           }
         }).then((res) => {

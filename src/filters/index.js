@@ -216,6 +216,8 @@ export function channelStatusFilter(value) {
     '-300': '停止付保证金',
     400: '待接系统',
     '-400': '停止接系统',
+    '-950': '待返还保证金',
+    '-350': '不返还保证金',
   }
   return statusMap[value]
 }
