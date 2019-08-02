@@ -1,9 +1,9 @@
 <template>
   <div>
     <p v-if="currentRow.channelStatus<400&&currentRow.channelStatus>=100" style="padding-left: 1em">注销说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
-    <h3 v-if="currentRow.channelStatus>=200" class="form-part-title">合同信息</h3>
+    <h3 v-if="currentRow.channelStatus>200" class="form-part-title">合同信息</h3>
     <el-table
-      v-if="currentRow.channelStatus>=200"
+      v-if="currentRow.channelStatus>200"
       border
       :data="contractData"
       ref="contractTable"
@@ -53,7 +53,7 @@
                   placeholder="请输入注销原因"></el-input>
       </el-form-item>
     </el-form>
-    <el-form v-if="currentRow.channelStatus!=100" ref="form" :model="form" label-width="120px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
+    <el-form v-if="currentRow.channelStatus>200" ref="form" :model="form" label-width="120px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
       <!-- <el-form-item label="注销原因" class="form-row">
         <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
                   placeholder="请输入注销原因" style="margin-left: -1em"></el-input>
@@ -158,7 +158,7 @@
               showClose: false,
               center: true,
               callback() {
-                vm.$emit('close')
+                vm.$emit('submitSuccess')
               }
             })
           }

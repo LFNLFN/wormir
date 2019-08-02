@@ -578,44 +578,48 @@
       <div class="border1">
         <el-row class="border-top">
           <el-col :span="5">
-            <div class="grid-content bg-purple">{{ '渠道号' }}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{ currentRow.channelNo }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'渠道名称'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
-          </el-col>
-        </el-row>
-        <!--<el-row>-->
-        <!--<el-col :span="5">-->
-        <!--<div class="grid-content bg-purple ">{{'合作类型'}}</div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="19">-->
-        <!--<div class="grid-content bg-purple-light ">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
-        <el-row>
-          <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <!--<el-row>-->
-        <!--<el-col :span="5">-->
-        <!--<div class="grid-content bg-purple ">{{'渠道类别'}}</div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="19">-->
-        <!--<div class="grid-content bg-purple-light ">{{channelTypeMap[currentRow.channelType].text}}</div>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'合作类型'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div
+              class="grid-content bg-purple-light"
+            >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'渠道类别'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div
+              class="grid-content bg-purple-light"
+            >{{channelTypeMap[currentRow.channelType].text}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{ channelLevelMap[currentRow.channelLevel].text }}</div>
+          </el-col>
+        </el-row>
+        <!-- <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'渠道名称'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
+          </el-col>
+        </el-row> -->
       </div>
       <h3 class="form-part-title">基本信息</h3>
       <div class="border1">
@@ -785,7 +789,8 @@
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.dutyNo | job }}</span>
+            <!-- <span>{{ scope.row.dutyNo | job }}</span> -->
+            <span>{{ scope.row.dutyName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
@@ -794,7 +799,7 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <h3 class="form-part-title">开通审核</h3>
+      <!-- <h3 class="form-part-title">开通审核</h3>
       <div class="border1">
         <el-row class="border-top">
           <el-col :span="5">
@@ -824,7 +829,30 @@
             >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
           </el-col>
         </el-row>
-      </div>
+      </div> -->
+      <h3 class="form-part-title">合同信息</h3>
+      <el-table
+        border=""
+        :data="contractData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
+        <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
+          <template slot-scope="scope">{{ scope.row.contractSigningType==1? '首次签订' : '再次签订' }}</template>
+        </el-table-column>
+        <el-table-column prop="startTime" label="开始时间" align="center" min-width="110">
+          <template slot-scope="scope">{{ $moment(scope.row.startTime).format('YYYY-MM-DD') }}</template>
+        </el-table-column>
+        <el-table-column prop="endTime" label="结束时间" align="center" min-width="110">
+          <template slot-scope="scope">{{ $moment(scope.row.endTime).format('YYYY-MM-DD') }}</template>
+        </el-table-column>
+        <el-table-column prop="" label="渠道状态" align="center" min-width="140">
+          <template slot-scope="scope">
+            <span>待激活帐号</span>
+          </template>
+        </el-table-column>
+      </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -843,16 +871,8 @@
     <!--停止激活账号-->
     <template v-if="currentRow.channelStatus==-200">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1" style="border-top-width: 2px">
-        <!--<el-row>-->
-        <!--<el-col :span="5">-->
-        <!--<div class="grid-content bg-purple ">{{'合作类型'}}</div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="19">-->
-        <!--<div class="grid-content bg-purple-light ">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
-        <el-row>
+      <div class="border1">
+        <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
           </el-col>
@@ -860,7 +880,17 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row v-if="currentRow.channelProp==1">
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'合作类型'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div
+              class="grid-content bg-purple-light"
+            >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -870,6 +900,22 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{ channelLevelMap[currentRow.channelLevel].text }}</div>
+          </el-col>
+        </el-row>
+        <!-- <el-row>
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'渠道名称'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
+          </el-col>
+        </el-row> -->
       </div>
       <h3 class="form-part-title">基本信息</h3>
       <div class="border1">
@@ -889,16 +935,6 @@
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{'个人'}}</span>
               <span v-if="currentRow.businessEntity==2">{{'企业'}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row v-if="currentRow.businessEntity==2">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'公司简介'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">
-              <span>{{currentRow.companyProfile}}</span>
             </div>
           </el-col>
         </el-row>
@@ -1040,7 +1076,7 @@
           </el-col>
         </el-row>
       </div>
-      <h3 class="form-part-title">联系方式</h3>
+        <h3 class="form-part-title">联系方式</h3>
       <el-table
         border=""
         :data="contactData"
@@ -1049,7 +1085,8 @@
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.dutyNo | job }}</span>
+            <!-- <span>{{ scope.row.dutyNo | job }}</span> -->
+            <span>{{ scope.row.dutyName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
@@ -1058,7 +1095,7 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <h3 class="form-part-title">开通审核</h3>
+      <!-- <h3 class="form-part-title">开通审核</h3>
       <div class="border1">
         <el-row class="border-top">
           <el-col :span="5">
@@ -1088,21 +1125,30 @@
             >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
           </el-col>
         </el-row>
-      </div>
-      <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'保证金金额'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">
-              ￥ {{currentRow.securityAmount}} - {{
-              currentRow.securityAmountStatus==1? '已支付' : '待支付' }}
-            </div>
-          </el-col>
-        </el-row>
-      </div>
+      </div> -->
+      <h3 class="form-part-title">合同信息</h3>
+      <el-table
+        border=""
+        :data="contractData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
+        <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
+          <template slot-scope="scope">{{ scope.row.contractSigningType==1? '首次签订' : '再次签订' }}</template>
+        </el-table-column>
+        <el-table-column prop="startTime" label="开始时间" align="center" min-width="110">
+          <template slot-scope="scope">{{ $moment(scope.row.startTime).format('YYYY-MM-DD') }}</template>
+        </el-table-column>
+        <el-table-column prop="endTime" label="结束时间" align="center" min-width="110">
+          <template slot-scope="scope">{{ $moment(scope.row.endTime).format('YYYY-MM-DD') }}</template>
+        </el-table-column>
+        <el-table-column prop="" label="渠道状态" align="center" min-width="140">
+          <template slot-scope="scope">
+            <span>停止激活帐号</span>
+          </template>
+        </el-table-column>
+      </el-table>
       <h3 class="form-part-title">终止情况</h3>
       <el-table
         border=""
@@ -1129,6 +1175,20 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <h3 class="form-part-title">保证金</h3>
+      <div class="border1">
+        <el-row class="border-top">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'保证金金额'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              ￥ {{currentRow.securityAmount}} - {{
+              currentRow.securityAmountStatus==1? '已支付' : '待支付' }}
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </template>
     <!--待付保证金-->
     <template v-if="currentRow.channelStatus==300">

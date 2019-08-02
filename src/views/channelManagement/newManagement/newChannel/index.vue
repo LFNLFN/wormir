@@ -80,7 +80,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400 || scope.row.cancellationStatus<1"
+            v-if="scope.row.channelStatus==100 || scope.row.channelStatus==400 || scope.row.cancellationStatus<1&&scope.row.channelStatus!=200"
             @click="showConfirm(scope.row)"
           >去确认</el-button>
           <el-button
