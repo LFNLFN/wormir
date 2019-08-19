@@ -401,12 +401,15 @@ export default {
 <style lang="scss" scoped>
 .el-table .el-button {
   width: 9em;
-  margin-left: 1px;
+  // margin-left: 1px;
   margin-bottom: 10px;
 
   &:last-of-type {
     margin-bottom: 0;
   }
+}
+.el-button+.el-button {
+    margin-left: 0px;
 }
 // 表格按钮列
 .button-wrap {

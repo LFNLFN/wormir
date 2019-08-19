@@ -139,7 +139,8 @@
 //            n 与 case 1 和 case 2 不同时执行的代码
         }
 
-        let terminationType = -400
+        let terminationType = -400 // 待接系统之前的流程执行注销操作的话，终止类型定义为-400（强制终止）
+        // 待接系统流程执行注销操作的话，终止类型定义则有不同的选择：-200提前终止，-300违规终止
         if (this.currentRow.channelStatus==400) {
           terminationType = this.form.terminationType
           if (this.form.depositHandleWay==1) {
@@ -154,12 +155,11 @@
           method: 'post',
           data: {
             channelNo: this.currentRow.channelNo,
-            status: this.cancelStatus,
+            status: this.cancelStatus, // 渠道状态
             reason: this.reasonForm.reason,
             depositHandleWay: this.form.depositHandleWay,
             terminationDate: this.form.terminationDate,
             terminationType: terminationType,
-            cancellationStatus: 2,
           }
         }).then((res) => {
           if (res.errorCode == 0) {
