@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="review-cancel-vue">
     <h3 v-if="currentRow.channelStatus>=200" class="form-part-title">合同信息</h3>
     <el-table
       v-if="currentRow.channelStatus>=200"
@@ -114,10 +114,11 @@
           reason: null,
           applyCancelTime: null,
           terminationTime: null,
-          terminationType: undefined,
+          terminationType: null,
           terminationDate: null,
           depositHandleWay: 1,
           rejectReason: '',
+          reviewResult: '',
         },
         contractData: [],
         tableHeight: 0,
@@ -129,10 +130,18 @@
         },
       }
     },
+    computed: {
+      submitVali () {
+        return (!this.form.rejectReason && this.currentRow.channelStatus == 400 && this.form.reviewResult == 1 )
+         || 
+         (!this.form.terminationDate && this.currentRow.channelStatus == 400 && this.form.reviewResult == 2 )
+      }
+    },
     methods: {
       onSubmit() {
         this.isSubmitting = true
-        if (!this.reasonForm.reason || (!this.form.terminationDate && this.currentRow.channelStatus == 400 )) {
+        
+        if (this.submitVali) {
           this.isSubmitting = false
           const vm = this
           this.$alert('请完整填写终止信息。', '', {
@@ -157,31 +166,45 @@
             this.cancelStatus = -300 // 停止付保证金
             break;
           case 400:
-            this.cancelStatus = -400 // 停止对接系统
+            if (this.form.depositHandleWay==1) {
+              this.cancelStatus = -950 // 待返还保证金
+            } else if (this.form.depositHandleWay==2) {
+              this.cancelStatus = -350 // 不返还保证金
+            } else {
+              this.cancelStatus = -400 // 停止对接系统
+            }
             break;
 //          default:
 //            n 与 case 1 和 case 2 不同时执行的代码
         }
 
         this.$request({
-          url: '/channel/channelCancel.do',
+          url: '/channel/managerReviewChannelCancel.do',
           method: 'post',
           data: {
+            reviewResult: this.form.reviewResult,
             channelNo: this.currentRow.channelNo,
             status: this.cancelStatus,
-            reason: this.reasonForm.reason,
+            rejectReason: this.form.rejectReason,
             depositHandleWay: this.form.depositHandleWay,
             terminationDate: this.form.terminationDate,
+            terminationReason: this.form.reason,
           }
         }).then((res) => {
           if (res.errorCode == 0) {
+            let alertText = ''
+            if (this.form.reviewResult==1) {
+              alertText = '注销申请已被驳回，该渠道将继续走完原定流程。'
+            } else if (this.form.reviewResult==2) {
+              alertText = '已完成审核，可在“新增渠道”页面自行搜索渠道查看动态，后续的终止流程将由系统自动完成。'
+            }
             const vm = this
-            this.$alert('提交成功', '', {
+            this.$alert(alertText, '', {
               confirmButtonText: this.$t('table.confirm'),
               showClose: false,
               center: true,
               callback() {
-                vm.$emit('closeOutDialog')
+                vm.$emit('cancelReviewSuccess')
               }
             })
           }
@@ -218,6 +241,7 @@
             this.form.applyCancelTime = res.data.applyTime
             this.form.terminationType = res.data.terminationType
             this.form.terminationTime = res.data.terminationTime
+            this.form.terminationDate = res.data.terminationTime
           }
         })
     }
@@ -233,5 +257,4 @@
     margin: 0;
     height: 29px;
   }
-
 </style>

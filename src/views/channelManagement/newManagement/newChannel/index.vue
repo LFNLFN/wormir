@@ -108,6 +108,14 @@
           <div v-else-if="scope.row.channelStatus==-300" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
+          <!-- 待接系统-待审核渠道申请注销（首次） -->
+          <div
+            v-else-if="scope.row.channelStatus==400&&scope.row.cancellationStatus==1&&scope.row.cancellationOperateType==2"
+            class="button-wrap"
+          >
+            <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
+            <el-button size="mini" type="danger" @click="showReviewCancel(scope.row)">注销审核</el-button>
+          </div>
           <!-- 待接系统 -->
           <div v-else-if="scope.row.channelStatus==400" class="button-wrap">
             <el-button size="mini" @click="showConfirm(scope.row)">去确认</el-button>
@@ -119,35 +127,12 @@
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
           <div v-else>
-             <el-button
-            size="mini"
-            v-if="scope.row.channelStatus==400 || scope.row.cancellationStatus<1&&scope.row.channelStatus!=200"
-            @click="showConfirm(scope.row)"
-          >去确认</el-button>
-          <el-button
-            size="mini"
-            v-if="scope.row.channelStatus==300"
-            @click="confirmSecurityAmount(scope.row)"
-          >确认付保证金</el-button>
-          <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="showReviewCancel(scope.row)"
-            v-if="scope.row.cancellationStatus==1&&scope.row.cancellationOperateType==2"
-          >注销审核</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="showDelete(scope.row)"
-            v-else-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0"
-          >强制注销</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="showDelete(scope.row)"
-            v-else-if="scope.row.channelStatus==400"
-          >注销渠道</el-button>
+            <el-button
+              size="mini"
+              v-if="scope.row.channelStatus==300"
+              @click="confirmSecurityAmount(scope.row)"
+            >确认付保证金</el-button>
+            <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
         </template>
       </el-table-column>
@@ -189,7 +174,7 @@
       <reviewCancel
         :currentRow="currentRow"
         v-if="isReviewCancelShow"
-        @submitSuccess="cancelReviewSuccess"
+        @cancelReviewSuccess="cancelReviewSuccess"
       ></reviewCancel>
     </el-dialog>
   </div>
@@ -229,15 +214,15 @@ export default {
         { text: "停止签合同", value: -100 },
         { text: "停止激活账号", value: -200 },
         { text: "停止付保证金", value: -300 },
-        { text: '不返还保证金', value: -350 },
-        { text: '停止技术对接', value: -400 },
+        { text: "不返还保证金", value: -350 },
+        { text: "停止技术对接", value: -400 },
         // { text: '停止审核', value: -50 },
         // { text: '审核不通过', value: -40 },
-        { text: '待返还保证金', value: -950 },
-        { text: '已返还保证金', value: -900 },
+        { text: "待返还保证金", value: -950 },
+        { text: "已返还保证金", value: -900 },
         // { text: '待提交审核', value: 40 },
         // { text: '待审核', value: 50 },
-        { text: '已开通', value: 1000 },
+        { text: "已开通", value: 1000 }
         // { text: '停止合作', value: -1000 },
       ],
       cooperationTypeFilters: [
@@ -408,8 +393,8 @@ export default {
     margin-bottom: 0;
   }
 }
-.el-button+.el-button {
-    margin-left: 0px;
+.el-button + .el-button {
+  margin-left: 0px;
 }
 // 表格按钮列
 .button-wrap {
