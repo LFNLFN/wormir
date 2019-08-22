@@ -12,7 +12,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -22,7 +22,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -32,7 +32,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -82,7 +82,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -114,6 +114,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -190,7 +200,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -287,7 +297,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -297,7 +307,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -307,7 +317,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -357,7 +367,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -389,6 +399,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -465,7 +485,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -544,7 +564,8 @@
       >
         <el-table-column prop="terminationType" label="终止类型" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span>
+            <!-- <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span> -->
+            <span>强制注销</span>
           </template>
         </el-table-column>
         <!--<el-table-column-->
@@ -559,7 +580,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
@@ -588,7 +609,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -598,7 +619,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -608,7 +629,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -658,7 +679,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -690,6 +711,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -766,7 +797,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -886,7 +917,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -896,7 +927,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -906,7 +937,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -956,7 +987,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -988,6 +1019,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -1064,7 +1105,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -1166,7 +1207,8 @@
       >
         <el-table-column prop="terminationType" label="终止类型" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span>
+            <!-- <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span> -->
+            <span>强制注销</span>
           </template>
         </el-table-column>
         <!--<el-table-column-->
@@ -1181,7 +1223,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
@@ -1210,7 +1252,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -1220,7 +1262,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -1230,7 +1272,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -1280,7 +1322,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -1312,6 +1354,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -1388,7 +1440,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -1508,7 +1560,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -1518,7 +1570,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -1528,7 +1580,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -1578,7 +1630,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -1610,6 +1662,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -1686,7 +1748,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -1803,7 +1865,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
@@ -1832,7 +1894,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -1842,7 +1904,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -1852,7 +1914,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -1902,7 +1964,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -1934,6 +1996,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -2010,7 +2082,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -2194,7 +2266,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -2226,6 +2298,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -2302,7 +2384,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -2409,7 +2491,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">合同信息</h3>
       <el-table
@@ -2447,7 +2529,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -2457,7 +2539,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -2467,7 +2549,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -2517,7 +2599,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -2549,6 +2631,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -2625,7 +2717,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -2742,7 +2834,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
@@ -2770,7 +2862,7 @@
             <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
@@ -2780,7 +2872,7 @@
             >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道类别'}}</div>
           </el-col>
@@ -2790,7 +2882,7 @@
             >{{channelTypeMap[currentRow.channelType].text}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道级别' }}</div>
           </el-col>
@@ -2840,7 +2932,7 @@
           <el-col :span="19">
             <div class="grid-content bg-purple-light">
               <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-              <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+              <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
             </div>
           </el-col>
         </el-row>
@@ -2872,6 +2964,16 @@
                 class="link-type form-photo-offset"
               >
             </span>
+          </el-col>
+        </el-row>
+        <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'公司简介'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">
+              <span>{{currentRow.companyProfile}}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.businessEntity==2">
@@ -2948,7 +3050,7 @@
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{0}}</div>
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -3065,7 +3167,7 @@
           >{{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }}</template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">

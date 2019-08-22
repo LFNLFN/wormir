@@ -56,7 +56,8 @@
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.channelType | channelTypeFilter }}</span>
+          <span v-if="scope.row.channelType>0">{{ scope.row.channelType | channelTypeFilter }}</span>
+          <span v-else>——</span>
         </template>
       </el-table-column>
       <el-table-column

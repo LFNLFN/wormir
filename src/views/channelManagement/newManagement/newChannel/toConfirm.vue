@@ -84,18 +84,10 @@
           </span>
         </el-col>
       </el-row>
-      <el-row v-if="currentRow.businessEntity==2">
-        <el-col :span="5">
-          <div class="grid-content bg-purple">{{'公司地址'}}</div>
-        </el-col>
-        <el-col :span="19">
-          <div class="grid-content bg-purple-light">{{ currentRow.businessAddress || '暂无数据' }}</div>
-        </el-col>
-      </el-row>
     </div>
     <p style="margin: 1em"></p>
     <div class="border1" style="border-top:solid 2px #D5D5D5">
-      <el-row>
+      <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'店铺/平台名称'}}</div>
         </el-col>
@@ -103,7 +95,7 @@
           <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'PC店铺/平台链接'}}</div>
         </el-col>
@@ -111,7 +103,7 @@
           <div class="grid-content bg-purple-light">{{currentRow.PCLink || '暂无数据'}}</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{ '手机店铺/平台链接'}}</div>
         </el-col>
@@ -119,6 +111,22 @@
           <div class="grid-content bg-purple-light">{{ currentRow.appLink || '暂无数据' }}</div>
         </el-col>
       </el-row>
+       <el-row v-if="currentRow.businessEntity==2">
+        <el-col :span="5">
+          <div class="grid-content bg-purple">{{'公司地址'}}</div>
+        </el-col>
+        <el-col :span="19">
+          <div class="grid-content bg-purple-light">{{ currentRow.businessAddress || '暂无数据' }}</div>
+        </el-col>
+      </el-row>
+      <el-row v-if="currentRow.businessEntity==2">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
+          </el-col>
+        </el-row>
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'经营范围'}}</div>

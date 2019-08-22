@@ -23,7 +23,7 @@
               <el-radio :label="3">分销渠道（FXQD）</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="渠道类别" prop="channelType">
+          <el-form-item label="渠道类别" prop="channelType" v-if="form.channelProp!=3">
             <el-radio-group v-model="form.channelType">
               <el-radio :label="1">淘宝C店</el-radio>
               <el-radio :label="2">淘宝企业店</el-radio>
@@ -31,7 +31,7 @@
               <el-radio :label="4">B2C平台</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="渠道级别" prop="channelLevel">
+          <el-form-item label="渠道级别" prop="channelLevel" v-if="form.channelProp!=3">
             <el-radio-group v-model="form.channelLevel">
               <el-radio label="1">A级渠道</el-radio>
               <el-radio label="2">B级渠道</el-radio>
@@ -58,11 +58,11 @@
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="170px" class="form-row idCardCode"
-                        prop="companyName">
+                        prop="channelName">
                         <el-col :span="22" class="">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
+            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==1"></el-input>
-                      <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyName"
+                      <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==3">
                       </el-input>
                         </el-col>
@@ -71,7 +71,7 @@
           <el-form-item v-if="form.businessEntity==2" label="公司简介" label-width="170px"
                         class="form-row idCardCode last-form-row" prop="companySummary">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.companySummary"
-                      placeholder="请输入公司简介"></el-input>
+                      placeholder="请重点介绍公司拥有的销售渠道情况和数量"></el-input>
           </el-form-item>
 
 
@@ -115,7 +115,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="170px" class="form-row idCardCode"
+          <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="170px" class="form-row idCardCode" 
                         prop="companyAddress">
             <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
