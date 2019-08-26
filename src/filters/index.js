@@ -207,17 +207,12 @@ export function goodsStatusFilter(value) {
 export function channelStatusFilter(value) {
   const statusMap = {
     50: '待审核',
-    '-50': '待审核',
+    '-50': '停止审核',
+    '-40': '驳回申请',
     100: '待签合同',
     '-100': '停止签合同',
-    200: '待激活账号',
-    '-200': '停止激活账号',
     300: '待付保证金',
-    '-300': '停止付保证金',
     400: '待接系统',
-    '-400': '停止接系统',
-    '-950': '待返还保证金',
-    '-350': '不返还保证金',
   }
   return statusMap[value]
 }

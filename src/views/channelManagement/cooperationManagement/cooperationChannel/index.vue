@@ -232,6 +232,7 @@ export default {
         { text: "B2C平台", value: 4 }
       ],
       channelTypeMap: {
+        0: { text: "——", value: 0 },
         1: { text: "淘宝C店", value: 1 },
         2: { text: "淘宝企业店", value: 2 },
         3: { text: "天猫店", value: 3 },
