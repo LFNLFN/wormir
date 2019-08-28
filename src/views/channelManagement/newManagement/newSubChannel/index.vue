@@ -329,7 +329,6 @@
           if (res.errorCode == 0) {
             this.channelTableData = res.data.items
             this.filterForm.total = res.data.total
-            console.log(res.data.items)
           } else {
             this.$message.error('数据请求失败');
           }
@@ -373,11 +372,10 @@
         this.isDeleteShow = true
       }
       ,
-    }
-    ,
+    },
     mounted() {
       this.channelBlurSearch()
-    }
+    },
   }
 </script>
 

@@ -86,6 +86,7 @@ export function channelLevel(value) {
     3: 'C级渠道',
     4: 'D级渠道',
     5: '--',
+    0: '--',
   }
   return statusMap[value]
 }
