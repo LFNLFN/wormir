@@ -126,12 +126,14 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     salesPromotion: '审批促销',
+    applyPromotion: '申请促销',
     abnormalTracking: '异常追踪',
     customerTracking: '会员追踪',
     verifySetting: '验证设置',
     stockManagement: '库存管理',
     accountManagement: '账户管理',
     settingManagement: '设置管理',
+    hongKongPayment: '香港收付',
   },
   navbar: {
     logOut: '退出登录',
@@ -746,7 +748,20 @@ export default {
     cancel: '取 消',
     confirm: '确 定',
     yes: '是',
-    no: '否'
+    no: '否',
+    brandName: '品牌名称',
+    productImg: '商品图片',
+    produdctNo: '商品编号',
+    productName: '商品名称',
+    productProperty: '商品属性',
+    productSeries: '商品系列',
+    productMain: '商品主品类',
+    productSub: '商品子品类',
+    productSpec: '商品规格',
+    boxSpec: '装箱规格',
+    retailPrice: '国内零售价',
+    operation: '操作',
+    submit: '提交'
   },
 
   product: {
@@ -830,5 +845,6 @@ export default {
     close: '关闭',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
-  }
+  },
+
 }

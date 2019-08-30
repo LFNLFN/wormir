@@ -17,15 +17,16 @@
       </el-date-picker> -->
       <el-date-picker
         v-model="monthValue"
-        @change="(val) => {listQuery.openedDate = val}"
+        @change="(val) => {listQuery.openedDate = val; getList()}"
         type="month"
         placeholder="选择月">
       </el-date-picker>
     </div>
 
     <div class="table-wrap" style="border: 1px solid #d5d5d5;border-right-width: 0">
-      <el-table key='1' :data="list" 
-      v-loading="listLoading" element-loading-text="给我一点时间" 
+      <el-table key='1' :data="list"
+      ref="multipleTable"
+      v-loading="listLoading" element-loading-text="给我一点时间"
       border fit
       @selection-change="handleSelectionChange"
       highlight-current-row size="mini" style="width: 100%">
@@ -117,14 +118,14 @@
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary"
-                     @click="">
-            去支付
+                     @click="sendMess(list)">
+            {{send ? "发送数据": "去支付"}}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-      </el-table>
+
     </div>
 
     <div class="pagination-container">
@@ -143,7 +144,34 @@
     <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
       <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
+    <el-dialog :visible.sync="isStopCooperationShow"
+               width="70%"
+               v-if="isStopCooperationShow"
+               @close="isStopCooperationShow = false">
+      <el-table
 
+        v-loading="listLoading" element-loading-text="给我一点时间"
+        border fit highlight-current-row
+        class="border2" :data="orderSelected"
+        style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
+        <el-table-column min-width="120px" align="center" label="邮箱通讯录">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="150px" align="center" label="邮件命题" property="emailTitle">
+
+        </el-table-column>
+        <el-table-column min-width="150px" align="center" label="文档" >
+
+        </el-table-column>
+      </el-table>
+      <div class="dialogBottomButton-wrap">
+        <el-button type="danger" @click="isStopCooperationShow = false">取消</el-button>
+        <el-button type="primary" @click="sendPdf">发送</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -193,14 +221,18 @@
         isOrderShow: false,
         currentRow: {},
         orderSelected: [],
+        send: true,
+        isStopCooperationShow: false
       }
     },
     methods: {
       handleSelectionChange(val) {
         this.orderSelected = val;
         this.totalAmount = 0
+        console.log(this.orderSelected)
         this.orderSelected.forEach((e,i,s) => {
           this.totalAmount += Number(e.logisticCompensationAmount)
+          e.emailTitle = e.orderNo + '珠海吾蜜公司赔保数据'
         })
         this.totalAmount = '￥' + this.totalAmount.toFixed(2)
         if (this.orderSelected.length==0) {
@@ -210,7 +242,7 @@
           })
           this.totalAmount = '￥' + this.totalAmount.toFixed(2)
         }
-      }, 
+      },
       logisticCompensationTypeFilter(value) {
         const statusMap = {
           1: '少货赔保',
@@ -266,9 +298,28 @@
       viewReceive(row) {
         this.currentRow = row
         this.isOrderShow = true
+      },
+      sendMess () {
+        if (this.orderSelected.length ==0) {
+          this.$message('请选择要发送的货单');
+        } else {
+          this.isStopCooperationShow = true;
+        }
+      },
+      sendPdf () {
+        this.isStopCooperationShow = false;
+        this.$message({
+          message: '文件已发送至您的所选的邮箱!',
+          type: 'success'
+        });
       }
     },
     created() {
+      var date = new Date();
+      var day = date.getDate();
+      if (day == 1) {
+        this.send = true
+      }
       this.getList()
     },
   }

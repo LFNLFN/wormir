@@ -295,17 +295,30 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: 'applyPromotion',
+        component: () => import('@/views/orderManagement/applyPromotion/index.vue'),
+        name: 'applyPromotion',
+        meta: { title: 'applyPromotion' }
+      },
+      {
         path: 'salesPromotion',
         component: () => import('@/views/orderManagement/salesPromotion/index.vue'),
         name: 'salesPromotion',
         meta: { title: 'salesPromotion' }
       },
+
+      // {
+      //   path: 'invoiceManagement',
+      //   component: () => import('@/views/orderManagement/invoiceManagement/index.vue'),
+      //   name: 'invoiceManagement',
+      //   meta: { title: '发票管理' }
+      // },
       {
-        path: 'invoiceManagement',
-        component: () => import('@/views/orderManagement/invoiceManagement/index.vue'),
-        name: 'invoiceManagement',
-        meta: { title: '发票管理' }
-      },
+        path: 'hongKongPayment',
+        component: () => import('@/views/orderManagement/hongkongPayment/index.vue'),
+        name: 'hongkongPayment',
+        meta: {title: 'hongKongPayment'}
+      }
     ]
   },
   {

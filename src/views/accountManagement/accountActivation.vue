@@ -138,6 +138,7 @@ export default {
           })
             .then(res => {
               if (res.errorCode == 0) {
+                this.wormirBankAccount = this.ruleForm.bankCardNo;
                 const str = `为激活您的账户，请使用已绑定的${
                   this.ruleForm.bankName
                 }银行账号${
@@ -249,6 +250,7 @@ export default {
     }).then(res => {
       if (res.errorCode == 0) {
         this.ruleForm = res.data;
+
       }
     });
   }

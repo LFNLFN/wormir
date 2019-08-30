@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div class="trade-category-wrap" style="margin-bottom: 10px">
+      <el-radio v-model="listQuery.propertyOfSale" :label="0" @change="propertyOfSaleChange">一般贸易促销商品</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="propertyOfSaleChange">跨境贸易促销商品</el-radio>
+    </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
                 placeholder="品牌名称/商品编号/商品名称/商品系列/商品主品类/商品子品类" v-model="listQuery.title">
@@ -207,7 +211,8 @@
           importance: undefined,
           title: undefined,
           type: undefined,
-          sort: '+id'
+          sort: '+id',
+          propertyOfSale: 0
         },
         importanceOptions: [1, 2, 3],
         sortOptions: [
@@ -425,7 +430,11 @@
       firstTimeReviewSuccess() {
         this.isDialogDetailShow = false
         this.$message.success('审核成功')
-      }
+      },
+      propertyOfSaleChange () {
+        !this.listQuery.propertyOfSale;
+        // this.getList()
+      },
     },
     filters: {
       applicationTypeFilter(status) {

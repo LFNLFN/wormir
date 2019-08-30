@@ -123,11 +123,13 @@ export default {
     theme: 'Theme',
     clipboardDemo: 'Clipboard',
     i18n: 'I18n',
+    applyPromotion: 'Apply Promotion',
     abnormalTracking: 'Abnormal Tracking',
     customerTracking: 'Customer Tracking',
     verifySetting: 'Verify Setting',
     stockManagement: 'Stock Management',
     settingManagement: 'Setting Management',
+    hongKongPayment: 'Hong kong Payment',
   },
   navbar: {
     logOut: 'Log Out',
@@ -416,7 +418,8 @@ export default {
     draft: 'Draft',
     delete: 'Delete',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',
