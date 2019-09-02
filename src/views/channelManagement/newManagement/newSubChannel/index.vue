@@ -120,7 +120,7 @@
     <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="子渠道查看">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
-    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="操作信息">
+    <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="强制终止">
       <to-delete v-if="isDeleteShow" :currentRow="currentRow"  @closeOutDialog="isDeleteShow = false;channelBlurSearch()"></to-delete>
     </el-dialog>
   </div>

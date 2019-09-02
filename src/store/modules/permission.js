@@ -52,6 +52,9 @@ const permission = {
         } else {
           accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         }
+        if (JSON.parse(window.localStorage.userData).userLevel>1) {
+          accessedRouters[1].children.splice(2,1)
+        }
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

@@ -25,9 +25,7 @@
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
           <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >渠道入驻</div>
+            <div class="grid-content bg-purple-light">渠道入驻</div>
           </el-col>
         </el-row>
         <el-row>
@@ -427,7 +425,8 @@
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.dutyNo | job }}</span>
+            <!-- <span>{{ scope.row.dutyNo | job }}</span> -->
+            <span>{{ scope.row.dutyName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
@@ -451,7 +450,10 @@
         class="demo-form-inline"
       >
         <el-form-item label="">
-          <!--<el-button type="warning">纸质合同签订完毕<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
+          <div>
+            <el-switch v-model="paperContactSignActive" active-text="纸质合同签订完毕" inactive-text></el-switch>
+            <el-switch v-model="autoSignActive" active-text="自动续签" inactive-text></el-switch>
+          </div>
           <el-date-picker
             v-model="form.dateRange"
             type="daterange"
@@ -462,7 +464,12 @@
         </el-form-item>
         <!--<el-button type="warning">自动续签<i class="el-icon-success el-icon&#45;&#45;right"></i></el-button>-->
         <div class="dialogBottomButton-wrap">
-          <el-button type="primary" @click="onSubmit100" :loading="isSubmitting">确认提交</el-button>
+          <el-button
+            type="primary"
+            @click="onSubmit100"
+            :loading="isSubmitting"
+            :disabled="!autoSignActive || !paperContactSignActive"
+          >确认提交</el-button>
         </div>
       </el-form>
     </template>
@@ -753,7 +760,6 @@
 </template>
 
 <script>
-import Mock from "mockjs";
 import {
   channelProp,
   channelType,
@@ -773,7 +779,8 @@ export default {
   },
   data() {
     return {
-      Mock,
+      paperContactSignActive: true,
+      autoSignActive: true,
       isSystemConnectComplete: false,
       contactData: [],
       contractData: [

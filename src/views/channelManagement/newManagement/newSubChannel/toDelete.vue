@@ -1,9 +1,9 @@
 <template>
   <div>
     <p v-if="currentRow.channelStatus<400">终止说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
-    <h3 v-if="currentRow.channelStatus>=200" class="form-part-title">合同信息</h3>
+    <h3 v-if="currentRow.channelStatus>300" class="form-part-title">合同信息</h3>
     <el-table
-      v-if="currentRow.channelStatus>=200"
+      v-if="currentRow.channelStatus>300"
       border
       :data="contractData"
       ref="contractTable"
@@ -128,7 +128,7 @@
         }
 
         this.$request({
-          url: '/channel/channelCancel.do',
+          url: '/channel/subChannelCancelByWormir.do',
           method: 'post',
           data: {
             channelNo: this.currentRow.channelNo,
@@ -136,6 +136,7 @@
             reason: this.form.reason,
             depositHandleWay: this.form.depositHandleWay,
             terminationDate: this.form.terminationDate,
+            terminationType: this.form.terminationType,
           }
         }).then((res) => {
           if (res.errorCode == 0) {
