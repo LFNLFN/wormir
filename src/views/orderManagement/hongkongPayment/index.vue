@@ -23,7 +23,7 @@
 
       <el-table-column min-width="150px" align="center" label="金额" prop="total_surplus_amount"/>
 
-      <el-table-column min-width="120px" align="center" label="收款类型" prop="property_of_sale"  >
+      <el-table-column min-width="120px" align="center" label="收款类型" prop="order_status_mes"  >
 
       </el-table-column>
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120" class-name="small-padding">
@@ -126,9 +126,17 @@
               method: 'post',
               data: this.listQuery
             }).then((res) => {
+              console.log(res)
               if (res.errorCode == 0) {
+                res.data.rows.map((item) => {
+                  let property_of_sale = "";
+                  if (item.property_of_sale == 1) property_of_sale = "(一般贸易)";
+                  if (item.property_of_sale == 2) property_of_sale = "(跨境贸易)";
+                  return item.order_status_mes = item.order_status + property_of_sale;
+                })
                 this.list = res.data.rows;
                 this.total = res.data.count
+
                 // this.brandNameFilters = res.data.brandNameFilters
                 this.listLoading = false
               } else {
@@ -164,7 +172,7 @@
             let self = this;
             let choice_order = self.choice_order;
             if (choice_order.order_no == mes.order_no && choice_order.total_surplus_amount == mes.total_surplus_amount) {
-              self.open2();
+              self.open2(mes);
               this.isStopCooperationShow = false;
             } else {
               self.open();
@@ -178,14 +186,27 @@
               }
             });
           },
-          open2() {
+          open2(mes) {
+            var payment_status = 0;
+            switch (mes.pay_num) {
+              case 0:
+              case 2:
+                payment_status = 2;
+                break;
+              case 1:
+              case 3:
+              case 4:
+                payment_status = 3;
+                break;
+            }
             let that = this;
             this.$request({
               url: "/order/changePayment.do",
               method: 'post',
               data: {
                 orderNo: that.input_mes.order_no,
-                payment_status: this.listQuery.propertyOfSale? 3:2
+                pay_num: mes.pay_num,
+                payment_status: payment_status
               }
             }).then((res) => {
               if (res.errorCode == 0) {
