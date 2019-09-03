@@ -126,8 +126,15 @@
     </el-table>
 
 
+
     </div>
 
+    <p>
+      <span class="grid-content bg-purple">{{month}}珠海吾蜜公司赔保金额明细表</span>
+      <el-button type="primary" plain>查看</el-button>
+      <el-button type="primary" plain>发送赔保明明细表</el-button>
+      <el-button type="primary" plain>确认到账</el-button>
+    </p>
     <div class="pagination-container">
       <el-pagination background @current-change="changePageList" :current-page="listQuery.page"
                      :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
@@ -151,19 +158,27 @@
       <el-table
 
         v-loading="listLoading" element-loading-text="给我一点时间"
-        border fit highlight-current-row
+        border fit highlight-current-row current-row-key="indexkey"
         class="border2" :data="orderSelected"
         style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
         <el-table-column min-width="120px" align="center" label="邮箱通讯录">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <p><el-button style="width: 20%" type="text" @click="addEmail(scope.$index)">新增</el-button>
+              <el-input style="width: 80%;"
+                        placeholder="请输入邮箱账号"
+                        v-model="scope.row.input"
+                        clearable>
+              </el-input></p>
+            <ul  v-for="item in orderSelected.inputList" :key="index">
+              <li>{{item}}</li>
+            </ul>
           </template>
         </el-table-column>
 
         <el-table-column min-width="150px" align="center" label="邮件命题" property="emailTitle">
 
         </el-table-column>
-        <el-table-column min-width="150px" align="center" label="文档" >
+        <el-table-column min-width="150px" align="center" label="文档" property="pdf">
 
         </el-table-column>
       </el-table>
@@ -206,7 +221,7 @@
         },
         isViewImageShow: false,
         imageViewed: '',
-        brandNameFilters: [],
+          brandNameFilters: [],
         logisticCompensationTypeFilters: [
           {text: '少货赔保', value: 1},
           {text: '破损赔保', value: 2},
@@ -222,7 +237,9 @@
         currentRow: {},
         orderSelected: [],
         send: true,
-        isStopCooperationShow: false
+        isStopCooperationShow: false,
+        input: '',
+        month: ''
       }
     },
     methods: {
@@ -233,7 +250,9 @@
         this.orderSelected.forEach((e,i,s) => {
           this.totalAmount += Number(e.logisticCompensationAmount)
           e.emailTitle = e.orderNo + '珠海吾蜜公司赔保数据'
+          e.pdf = e.orderNo + '珠海吾蜜公司赔保数据.pdf';
         })
+
         this.totalAmount = '￥' + this.totalAmount.toFixed(2)
         if (this.orderSelected.length==0) {
           this.totalAmount = 0
@@ -277,6 +296,8 @@
             this.totalAmount = 0
             this.list.forEach((e,i,s) => {
               this.totalAmount += Number(e.logisticCompensationAmount)
+              e.input = "";
+              e.inputList = [];
             })
             this.totalAmount = '￥' + this.totalAmount.toFixed(2)
             this.total = res.data.total
@@ -312,11 +333,28 @@
           message: '文件已发送至您的所选的邮箱!',
           type: 'success'
         });
+      },
+      addEmail (index) {
+        var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
+        var email = this.orderSelected[index].input;
+        if (email == "" || !reg.test(email)) {
+          this.$message({
+            message: '请输入正确的邮箱账号',
+            type: 'warning'
+          });
+        } else {
+          this.orderSelected[index].inputList.push(email);
+        }
       }
     },
     created() {
       var date = new Date();
       var day = date.getDate();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      this.month = year + "年" + month + "月";
+      this.monthValue = year + "-" + month
+      this.listQuery.openedDate = year + "-" + month;
       if (day == 1) {
         this.send = true
       }

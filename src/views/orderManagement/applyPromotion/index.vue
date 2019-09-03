@@ -479,8 +479,11 @@
       getList() {
         this.listLoading = true
         requestOrderGenerate(this.listQuery).then(response => {
-          this.list = response.data.items
-          this.total = response.data.totalRecords
+          console.log(response)
+          if (response.errorCode == 0) {
+            this.list = response.data.items
+            this.total = response.data.totalRecords
+          }
           this.listLoading = false
         })
       },
