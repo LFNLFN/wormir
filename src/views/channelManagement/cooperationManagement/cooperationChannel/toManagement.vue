@@ -51,7 +51,7 @@
             <div class="grid-content bg-purple ">{{'渠道属性'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light ">{{ currentRow.channelProp | channelProp }}</div>
+            <div class="grid-content bg-purple-light ">{{ currentRow.channelProp | channelPropFilter }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -102,7 +102,7 @@
               </el-form-item>
             </span>
               <span v-if="currentRow.businessEntity===2">
-               <el-input style="height: 27px;" v-model="form.companyName"
+               <el-input style="height: 27px;" v-model="form.channelName"
                          placeholder="请输入公司名称"></el-input>
             </span>
             </div>
@@ -495,20 +495,22 @@
         IDbackImageUrl: 'http://img14.360buyimg.com/n0/jfs/t2947/207/116269887/42946/55627782/574beb9dN25ec971b.jpg',
 
         cooperationTypeMap: {
-          0: { text: '渠道入驻', value: 0 },
-          1: { text: '渠道变更', value: 1 }
+          1: { text: '渠道入驻', value: 1 },
+          2: { text: '渠道变更', value: 2 }
         },
         channelTypeMap: {
-          0: { text: '淘宝C店', value: 0 },
-          1: { text: '淘宝企业店', value: 1 },
-          2: { text: '天猫店', value: 2 },
-          3: { text: 'B2C平台', value: 3 },
+          0: { text: '----', value: 0 },
+          1: { text: '淘宝C店', value: 1 },
+          2: { text: '淘宝企业店', value: 2 },
+          3: { text: '天猫店', value: 3 },
+          4: { text: 'B2C平台', value: 4 },
         },
         channelLevelMap: {
-          0: { text: 'A级渠道', value: 0 },
-          1: { text: 'B级渠道', value: 1 },
-          2: { text: 'C级渠道', value: 2 },
+          0: { text: '----', value: 0 },
+          1: { text: 'A级渠道', value: 1 },
+          2: { text: 'B级渠道', value: 2 },
           3: { text: 'C级渠道', value: 3 },
+          4: { text: 'C级渠道', value: 4 },
           99: { text: '----', value: 99 },
         },
         isViewImageShow: false,

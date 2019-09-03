@@ -187,6 +187,9 @@
             status: this.cancelStatus,
             rejectReason: this.form.rejectReason,
             depositHandleWay: this.form.depositHandleWay,
+            applyterminationTime: this.form.terminationTime,
+            applyReason: this.form.reason,
+            applyCancelTime: this.form.applyCancelTime,
             terminationDate: this.form.terminationDate,
             terminationReason: this.form.reason,
           }

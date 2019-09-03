@@ -78,7 +78,7 @@
         <el-col :span="19">
           <div class="grid-content bg-purple-light">
             <span v-if="currentRow.businessEntity==1">{{currentRow.identityCardNo}}</span>
-            <span v-if="currentRow.businessEntity==2">{{currentRow.companyName}}</span>
+            <span v-if="currentRow.businessEntity==2">{{currentRow.channelName}}</span>
           </div>
         </el-col>
       </el-row>
@@ -331,17 +331,18 @@ export default {
         2: { text: "渠道变更", value: 2 }
       },
       channelTypeMap: {
+        0: { text: "--", value: 0 },
         1: { text: "淘宝C店", value: 1 },
         2: { text: "淘宝企业店", value: 2 },
         3: { text: "天猫店", value: 3 },
         4: { text: "B2C平台", value: 4 }
       },
       channelLevelMap: {
+        0: { text: "--", value: 0 },
         1: { text: "A级渠道", value: 1 },
         2: { text: "B级渠道", value: 2 },
         3: { text: "C级渠道", value: 3 },
         4: { text: "D级渠道", value: 4 },
-        99: { text: "----", value: 99 }
       },
       isViewImageShow: false,
       imageViewed: null

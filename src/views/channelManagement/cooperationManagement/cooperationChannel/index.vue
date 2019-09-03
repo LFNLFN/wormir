@@ -91,7 +91,7 @@
       <el-table-column label="操作" align="center" min-width="140" fixed="right">
         <template slot-scope="scope">
           <div class="table-button-wrap">
-            <!--<el-button size="mini" @click="showManagement(scope.row)">去管理</el-button>-->
+            <el-button size="mini" @click="showManagement(scope.row)">去管理</el-button>
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showDelete(scope.row)">终止渠道</el-button>
           </div>
@@ -241,12 +241,14 @@ export default {
       channelPropFilters: [
         { text: "独立渠道(DLQD)", value: 1 },
         { text: "代发渠道(DFQD)", value: 2 },
-        { text: "分销渠道(FXQD)", value: 3 }
+        { text: "分销渠道(FXQD)", value: 3 },
+        { text: "分销子渠道(FXZQD)", value: 4 },
       ],
       channelPropMap: {
         1: { text: "独立渠道(DLQD)", value: 1 },
         2: { text: "代发渠道(DFQD)", value: 2 },
-        3: { text: "分销渠道(FXQD)", value: 3 }
+        3: { text: "分销渠道(FXQD)", value: 3 },
+        4: { text: "分销子渠道(FXZQD)", value: 4 },
       },
       channelLevelFilters: [
         { text: "A级渠道", value: 1 },

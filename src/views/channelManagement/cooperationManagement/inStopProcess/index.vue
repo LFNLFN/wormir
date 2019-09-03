@@ -130,14 +130,16 @@ export default {
       isDetailShow: false,
       isLinkingShow: false,
       channelCodeFilters: [
-        { text: 'DLQD', value: 0 },
-        { text: 'DFQD', value: 1 },
-        { text: 'FXQD', value: 2 }
+        { text: 'DLQD', value: 1 },
+        { text: 'DFQD', value: 2 },
+        { text: 'FXQD', value: 3 },
+        { text: 'FXZQD', value: 4 },
       ],
       channelCodeMap: {
-        0: { text: 'DLQD', value: 0 },
-        1: { text: 'DFQD', value: 1 },
-        2: { text: 'FXQD', value: 2 }
+        1: { text: 'DLQD', value: 1 },
+        2: { text: 'DFQD', value: 2 },
+        3: { text: 'FXQD', value: 3 },
+        4: { text: 'FXZQD', value: 4 },
       },
       channelStatusFilters: [
         { text: '停止合作', value: -1000 },
