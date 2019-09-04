@@ -214,6 +214,8 @@ export function channelStatusFilter(value) {
     '-100': '停止签合同',
     300: '待付保证金',
     400: '待接系统',
+    '-300': '停止付保证金',
+    '-400': '停止接系统',
   }
   return statusMap[value]
 }

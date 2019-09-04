@@ -270,6 +270,8 @@
           { text: '驳回申请', value: -40 },
           { text: '停止审核', value: -50 },
           { text: '停止签合同', value: -100 },
+          { text: '停止付保证金', value: -300 },
+          { text: '停止接系统', value: -400 },
         ],
         channelPropFilters: [
           { text: '分销子渠道(FXZQD)', value: 4 },

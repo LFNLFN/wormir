@@ -61,7 +61,7 @@
       <el-form-item label="终止日期" class="form-row" v-if="currentRow.channelStatus==400">
         <el-date-picker v-model="form.terminationDate" type="date" placeholder="请输入终止日期" style="margin-left: -1em" class="noBorderInput"></el-date-picker>
       </el-form-item>
-      <el-form-item label="保证金处理" class="form-row border-bottom" v-if="currentRow.channelStatus==4" style="height: 30px">
+      <el-form-item label="保证金处理" class="form-row border-bottom" v-if="currentRow.channelStatus==400" style="height: 30px">
         <el-radio-group v-model="form.depositHandleWay">
           <el-radio :label="1" >返还</el-radio>
           <el-radio :label="2" >不返还</el-radio>

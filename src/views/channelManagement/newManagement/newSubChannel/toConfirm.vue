@@ -475,51 +475,6 @@
     </template>
     <!--待对接系统-->
     <template v-if="currentRow.channelStatus==400">
-      <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{ currentRow.parentChannelNo }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'所属FXQD名称'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{currentRow.parentChannelName}}</div>
-          </el-col>
-        </el-row>
-        <!--<el-row>-->
-        <!--<el-col :span="5">-->
-        <!--<div class="grid-content bg-purple ">{{'合作类型'}}</div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="19">-->
-        <!--<div class="grid-content bg-purple-light ">{{cooperationTypeMap[currentRow.cooperationType].text}}</div>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'渠道属性'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'分销子渠道（FXZQD）'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'渠道类别'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{channelTypeMap[currentRow.channelType].text}}</div>
-          </el-col>
-        </el-row>
-      </div>
       <h3 class="form-part-title">基本信息</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -645,93 +600,6 @@
           </el-col>
         </el-row>
       </div>
-      <h3 class="form-part-title">联系方式</h3>
-      <el-table
-        border=""
-        :data="contactData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
-        class="border-top2 border-left2 border-right2"
-      >
-        <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
-          <template slot-scope="scope">
-            <span>{{ scope.row.dutyNo | job }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
-        <el-table-column prop="mobile" label="电话" align="center" min-width="90"></el-table-column>
-        <el-table-column prop="email" label="邮箱" align="center" min-width="110"></el-table-column>
-        <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
-        <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
-      </el-table>
-      <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-      </div>
-      <h3 class="form-part-title">合同信息</h3>
-      <el-table
-        border=""
-        :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
-      >
-        <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
-        <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
-          <template slot-scope="scope">{{ scope.row.contractSigningType==1? '首次签订' : '再次签订' }}</template>
-        </el-table-column>
-        <el-table-column prop="startTime" label="开始时间" align="center" min-width="110">
-          <template slot-scope="scope">{{ $moment(scope.row.startTime).format('YYYY-MM-DD') }}</template>
-        </el-table-column>
-        <el-table-column prop="endTime" label="结束时间" align="center" min-width="110">
-          <template slot-scope="scope">{{ $moment(scope.row.endTime).format('YYYY-MM-DD') }}</template>
-        </el-table-column>
-        <el-table-column prop="contractStatus" label="合同状态" align="center" min-width="140">
-          <template slot-scope="scope">
-            <span v-if="scope.row.contractStatus==100">{{'生效中'}}</span>
-            <!--<span v-if="currentRow.channelStatus===3">{{'待接系统'}}</span>-->
-          </template>
-        </el-table-column>
-      </el-table>
-      <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'保证金金额'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">
-              ￥ {{currentRow.securityAmount}} - {{
-              currentRow.securityAmountStatus==1? '已支付' : '未支付' }}
-            </div>
-          </el-col>
-        </el-row>
-      </div>
       <h3 class="form-part-title">技术对接</h3>
       <el-form
         ref="form"
@@ -742,7 +610,10 @@
         class="demo-form-inline"
       >
         <div class="dialogBottomButton-wrap">
-          <el-button type="primary" @click="onSubmit400" :loading="isSubmitting">确认完成技术对接</el-button>
+          <div style="margin: 5px">
+            <el-switch v-model="isSystemConnectComplete" active-text="完成对接系统" inactive-text></el-switch>
+          </div>
+          <el-button type="primary" @click="onSubmit400" :loading="isSubmitting" :disabled="!isSystemConnectComplete">确认完成对接</el-button>
         </div>
       </el-form>
     </template>
@@ -781,7 +652,7 @@ export default {
     return {
       paperContactSignActive: true,
       autoSignActive: true,
-      isSystemConnectComplete: false,
+      isSystemConnectComplete: true,
       contactData: [],
       contractData: [
         {
