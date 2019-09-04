@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="email">未确认邮件: <span>{{emailNumber}}</span></div>
     <div class="trade-category-wrap" style="margin-bottom: 10px">
-      <el-radio v-model="listQuery.propertyOfSale" :label="0" @change="propertyOfSaleChange">香港收款</el-radio>
-      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="propertyOfSaleChange">香港付款</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="0" @change="getList">香港收款</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="getList">香港付款</el-radio>
     </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
@@ -147,10 +147,6 @@
               this.$message.error('数据请求失败');
               this.listLoading = false
             })
-          },
-          propertyOfSaleChange () {
-            !this.listQuery.propertyOfSale;
-            this.getList();
           },
           handleSizeChange(val) {
             this.listQuery.limit = val

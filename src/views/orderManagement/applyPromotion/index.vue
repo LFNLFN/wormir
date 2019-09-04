@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div class="trade-category-wrap" style="margin-bottom: 10px">
+      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="getList">一般贸易促销商品</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="2" @change="getList">跨境贸易促销商品</el-radio>
+    </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
                 placeholder="品牌名称/商品编号/商品名称/商品系列/商品主品类/商品子品类" v-model="listQuery.title">
@@ -53,7 +57,7 @@
         </el-table-column>
         <el-table-column align="center" :min-width="140" :label="$t('table.retailPrice')">
           <template slot-scope="scope">
-            <span>￥{{scope.row.unitPrice}}</span>
+            <span>{{scope.row.symbol}}{{scope.row.unitPrice}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$t('table.operation')" :min-width="520" fixed="right" class-name="buttonMarginLeft">
@@ -132,75 +136,92 @@
             <!--v-else-if="FXQDsecondApplicationStatus[scope.$index]&&FXQDsecondResult">-->
             <!--再次结果-->
             <!--</el-button>-->
-            <el-button type="primary" size="mini"
+            <el-button
+              v-if="scope.row.applyPromotionStatus == 1"
+              type="primary" size="mini"
                        @click="showDLDFfirstApplicationForm(scope.row, scope.$index)"
             >首次申请（DL/DF）
             </el-button>
-            <el-button type="primary" size="mini"
-                       @click="showDLDFfirstApplicationResultProcessing(scope.row, scope.$index)"
+            <el-button
+              v-if="scope.row.applyPromotionStatus == 2"
+              type="primary" size="mini"
+               @click="showDLDFfirstApplicationResultProcessing(scope.row, scope.$index)"
             >
               首次结果（DL/DF审核中）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 3"
                        @click="showDLDFfirstResultNotChangeNumber(scope.row, scope.$index)"
             >首次结果（DL/DF同意不改数量）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 4"
                        @click="showDLDFfirstResultButChangeNumber(scope.row, scope.$index)"
             >首次结果（DL/DF同意改数量）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 5"
                        @click="showDLDFfirstResultRejectApplication(scope.row, scope.$index)"
             >首次结果（DL/DF驳回）
             </el-button>
 
 
             <el-button type="primary" size="mini" style="margin-left:0"
+                       v-if="scope.row.applyPromotionStatus == 3 || scope.row.applyPromotionStatus == 4 || scope.row.applyPromotionStatus == 5"
                        @click="showDLDFsecondApplicationForm(scope.row, scope.$index)"
             >再次申请（DL/DF）</el-button>
             <el-button type="primary" size="mini" style="margin-left:0"
+                       v-if="scope.row.applyPromotionStatus == 6"
                        @click="showDLDFsecondApplicationResultProcessing(scope.row, scope.$index)"
             >再次结果（DL/DF审核中）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 7"
                        @click="showDLDFsecondResultNotChangeNumber(scope.row, scope.$index)"
             >再次结果（DL/DF同意不改数量）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 8"
                        @click="showDLDFsecondResultButChangeNumber(scope.row, scope.$index)"
             >再次结果（DL/DF同意改数量）
             </el-button>
             <el-button type="primary" size="mini"
+                       v-if="scope.row.applyPromotionStatus == 9"
                        @click="showDLDFsecondResultRejectApplication(scope.row, scope.$index)"
             >再次结果（DL/DF驳回申请）
             </el-button>
 
 
 
-            <el-button type="primary" size="mini"
-                       @click="showFXQDfirstApplicationForm(scope.row, scope.$index)"
-            >首次申请（FX提交申请）
-            </el-button>
-            <el-button type="primary" size="mini"
-                       @click="showFXQDfirstApplicationResultProcessing(scope.row, scope.$index)"
-            >
-              首次结果(FX申请审核中)
-            </el-button>
-            <el-button type="primary" size="mini"
-                       @click="showFXQDfirstApplicationResult(scope.row, scope.$index)"
-            >
-              首次结果(FX申请结果)
-            </el-button>
+            <!--<el-button type="primary" size="mini"-->
 
-            <el-button type="primary" size="mini" style="margin-left:0"
-                       @click="showFXQDsecondApplicationForm(scope.row, scope.$index)">再次申请（FX提交申请）</el-button>
-            <el-button type="primary" size="mini" style="margin-left:0"
-                       @click="showFXQDsecondApplicationResultProcessing(scope.row, scope.$index)">再次结果(FX申请审核中)
-            </el-button>
-            <el-button type="primary" size="mini"
-                       @click="showFXQDsecondApplicationResult(scope.row, scope.$index)">
-              再次结果(FX申请结果)
-            </el-button>
+                       <!--@click="showFXQDfirstApplicationForm(scope.row, scope.$index)"-->
+            <!--&gt;首次申请（FX提交申请）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+
+                       <!--@click="showFXQDfirstApplicationResultProcessing(scope.row, scope.$index)"-->
+            <!--&gt;-->
+              <!--首次结果(FX申请审核中)-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+
+                       <!--@click="showFXQDfirstApplicationResult(scope.row, scope.$index)"-->
+            <!--&gt;-->
+              <!--首次结果(FX申请结果)-->
+            <!--</el-button>-->
+
+            <!--<el-button type="primary" size="mini" style="margin-left:0"-->
+
+                       <!--@click="showFXQDsecondApplicationForm(scope.row, scope.$index)">再次申请（FX提交申请）</el-button>-->
+            <!--<el-button type="primary" size="mini" style="margin-left:0"-->
+                       <!--@click="showFXQDsecondApplicationResultProcessing(scope.row, scope.$index)">再次结果(FX申请审核中)-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+
+                       <!--@click="showFXQDsecondApplicationResult(scope.row, scope.$index)">-->
+              <!--再次结果(FX申请结果)-->
+            <!--</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -392,6 +413,7 @@
           limit: 20,
           title: undefined,
           type: undefined,
+          propertyOfSale: undefined,
           sort: '+id',
         },
         goodsCategory: {
@@ -482,7 +504,7 @@
           console.log(response)
           if (response.errorCode == 0) {
             this.list = response.data.items
-            this.total = response.data.totalRecords
+            this.total = response.data.total
           }
           this.listLoading = false
         })
@@ -499,19 +521,38 @@
         this.listQuery.page = val
         this.getList()
       },
+      getMessage (goodsNo) {
+        var data = {
+          goodsNo: goodsNo
+        }
+        this.$request({
+          url: "/goodsInfo/DLQDApplyPromotionGoodList.do",
+          method: "post",
+          data: data
+        }).then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
+          this.listLoading = false
+        })
+      },
       showDLDFfirstApplicationForm(data, index) {
+        console.log(data)
         this.DLDFfirstApplicationShow = true
         this.goodsObject = data
         this.operationIndex = index
+        this.getMessage()
       },
       closeDLDFfirstApplicationForm() {
         this.DLDFfirstApplicationShow = false
       },
 
       showDLDFfirstApplicationResultProcessing(data, index) {
+        console.log(data)
         this.DLDFfirstApplicationResultProcessingShow = true
         this.goodsObject = data
         this.operationIndex = index
+        this.getMessage(data.goodsNo)
       },
       closeDLDFfirstApplicationResultProcessing() {
         this.DLDFfirstApplicationResultProcessingShow = false
