@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="trade-category-wrap" style="margin-bottom: 10px">
-      <el-radio v-model="listQuery.propertyOfSale" :label="0" @change="propertyOfSaleChange">一般贸易促销商品</el-radio>
-      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="propertyOfSaleChange">跨境贸易促销商品</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="1" @change="getList">一般贸易促销商品</el-radio>
+      <el-radio v-model="listQuery.propertyOfSale" :label="2" @change="getList">跨境贸易促销商品</el-radio>
     </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
@@ -160,6 +160,7 @@
     createArticle,
     updateArticle
   } from '@/api/article'
+  import { requestOrderGenerate } from '@/api/order'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
   import Mock from 'mockjs'
@@ -176,22 +177,7 @@
     data() {
       return {
         tableKey: 0,
-        list: [
-          {
-            channelNo: Mock.Random.natural(20180522001, 20180522100),
-            channelName: 'ASD总店',
-            applicationType: Mock.Random.natural(0, 1),
-            channelProp: 3,
-            channelLevel: 1,
-            // 商品表格数据
-            brandChineseName: '兰蔻',
-            goodsNo: '12345',
-            goodsName: '面霜',
-            goodsSpecification: '50ml',
-            packingSpecification: '4瓶/箱',
-            applicationReason: '吸引客流'
-          }
-        ],
+        list: null,
         applicationTypeFilters: [
           { text: '首次申请', value: 0 },
           { text: '再次申请', value: 1 }
@@ -212,7 +198,7 @@
           title: undefined,
           type: undefined,
           sort: '+id',
-          propertyOfSale: 0
+          propertyOfSale: undefined
         },
         importanceOptions: [1, 2, 3],
         sortOptions: [
@@ -259,7 +245,7 @@
       }
     },
     created() {
-//    this.getList()
+      this.getList()
     },
     methods: {
       filterHandler(value, row, column) {
@@ -290,9 +276,26 @@
 
       getList() {
         this.listLoading = true
-        fetchList(this.listQuery).then(response => {
-          this.list = response.items
-          this.total = response.total
+
+        this.$request({
+          url: "/goodsInfo/promotionDLQDGoodList.do",
+          method: 'post',
+          data: this.listQuery
+        }).then((res) => {
+          console.log(res)
+          if (res.errorCode == 0) {
+
+            this.list = res.data.rows;
+            this.total = res.data.count
+
+            // this.brandNameFilters = res.data.brandNameFilters
+            this.listLoading = false
+          } else {
+            this.$message.error('数据请求失败');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('数据请求失败');
           this.listLoading = false
         })
       },

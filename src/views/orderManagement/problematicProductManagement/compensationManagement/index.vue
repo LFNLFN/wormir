@@ -17,7 +17,7 @@
       </el-date-picker> -->
       <el-date-picker
         v-model="monthValue"
-        @change="(val) => {listQuery.openedDate = val; getList()}"
+        @change="(val) => {listQuery.openedDate = val; getList(); }"
         type="month"
         placeholder="选择月">
       </el-date-picker>
@@ -118,7 +118,7 @@
                        class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary"
-                     @click="sendMess(list)">
+                     @click="sendMess(list, 0)">
             {{send ? "发送数据": "去支付"}}
           </el-button>
         </template>
@@ -129,10 +129,10 @@
 
     </div>
 
-    <p>
+    <p v-show="list && list.length > 0">
       <span class="grid-content bg-purple">{{month}}珠海吾蜜公司赔保金额明细表</span>
-      <el-button type="primary" plain>查看</el-button>
-      <el-button type="primary" plain>发送赔保明明细表</el-button>
+      <el-button type="primary" plain @click="search">查看</el-button>
+      <el-button type="primary" plain @click="sendMess(null, 1)">发送赔保明明细表</el-button>
       <el-button type="primary" plain>确认到账</el-button>
     </p>
     <div class="pagination-container">
@@ -151,6 +151,9 @@
     <el-dialog :visible.sync="isOrderShow" fullscreen style="padding: 20px">
       <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
+    <el-dialog :visible.sync="showSearch" fullscreen style="padding: 20px">
+      <Search v-if="showSearch"></Search>
+    </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
                width="70%"
                v-if="isStopCooperationShow"
@@ -163,15 +166,13 @@
         style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
         <el-table-column min-width="120px" align="center" label="邮箱通讯录">
           <template slot-scope="scope">
-            <p><el-button style="width: 20%" type="text" @click="addEmail(scope.$index)">新增</el-button>
-              <el-input style="width: 80%;"
-                        placeholder="请输入邮箱账号"
-                        v-model="scope.row.input"
+            <p style="display: flex;">
+              <el-button style="width: 20%" type="text" @click="addEmail(scope.$index)">新增</el-button>
+              <el-input style="width: 80%;" placeholder="请输入邮箱账号" v-model="scope.row.input"
                         clearable>
-              </el-input></p>
-            <ul  v-for="item in orderSelected.inputList" :key="index">
-              <li>{{item}}</li>
-            </ul>
+              </el-input>
+            </p>
+            <p v-for="item in scope.row.inputList" :key="index">{{item}}</p>
           </template>
         </el-table-column>
 
@@ -187,6 +188,7 @@
         <el-button type="primary" @click="sendPdf">发送</el-button>
       </div>
     </el-dialog>
+    <!--查看-->
   </div>
 </template>
 
@@ -194,6 +196,7 @@
   import { issueGoods } from '@/api/goods'
   import waves from '@/directive/waves' // 水波纹指令
   import alreadyReceive from '../alreadyReceive/index.vue'
+  import Search from './search'
 
   export default {
     name: 'compensation-page',
@@ -201,7 +204,8 @@
       waves
     },
     components: {
-      alreadyReceive
+      alreadyReceive,
+      Search
     },
     data() {
       return {
@@ -210,6 +214,7 @@
           2: "DFQD",
           3: "FXQD"
         },
+        showSearch: false,
         list: null,
         total: null,
         listLoading: true,
@@ -343,19 +348,34 @@
             type: 'warning'
           });
         } else {
-          this.orderSelected[index].inputList.push(email);
+          if (!this.orderSelected[index].inputList.some(item => {return item == email})) {
+            this.orderSelected[index].inputList.push(email);
+          }
         }
+      },
+      changeMonth (val) {
+        console.log(val)
+        this.listQuery.openedDate = val;
+        this.getList()
+      },
+      getTime () {
+        var date = new Date();
+        var day = date.getDate();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        this.month = year + "年" + month + "月";
+        this.monthValue = year + "-" + month;
+        this.listQuery.openedDate = year + "-" + month;
+        return day;
+      },
+      search () {
+        this.showSearch = true;
       }
     },
+
     created() {
-      var date = new Date();
-      var day = date.getDate();
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      this.month = year + "年" + month + "月";
-      this.monthValue = year + "-" + month
-      this.listQuery.openedDate = year + "-" + month;
-      if (day == 1) {
+      this.getTime();
+      if (this.getTime() == 1) {
         this.send = true
       }
       this.getList()
