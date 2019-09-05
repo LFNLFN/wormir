@@ -239,37 +239,26 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-      </div>-->
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -582,6 +571,26 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -890,6 +899,26 @@
           </template>
         </el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -1144,37 +1173,6 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-      </div>-->
       <h3 class="form-part-title">合同信息</h3>
       <el-table
         border=""
@@ -1225,6 +1223,26 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -1533,6 +1551,26 @@
           </template>
         </el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -1867,6 +1905,26 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -2121,37 +2179,6 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-      </div>-->
       <h3 class="form-part-title">合同信息</h3>
       <el-table
         border=""
@@ -2175,6 +2202,26 @@
           </template>
         </el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -2452,6 +2499,26 @@
             >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
           </el-col>
         </el-row>
+      </div>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
@@ -2836,6 +2903,26 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -3089,37 +3176,6 @@
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
-      <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-      </div>-->
       <h3 class="form-part-title">合同信息</h3>
       <el-table
         border=""
@@ -3169,6 +3225,26 @@
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
         <el-table-column prop="cancellationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
+      <div v-if="channelRejectRecordData.length>0">
+        <h3 class="form-part-title">驳回注销情况</h3>
+        <el-table
+        border=""
+        :data="channelRejectRecordData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="申请终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>提前终止</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTerminationTime" label="申请终止日期" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="applyReason" label="申请理由" align="center" min-width="90"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="rejectReason" label="驳回理由" align="center" min-width="140"></el-table-column>
+        <el-table-column prop="rejectTime" label="驳回时间" align="center" min-width="100"></el-table-column>
+      </el-table>
+      </div>
       <h3 class="form-part-title">保证金</h3>
       <div class="border1">
         <el-row class="border-top">
@@ -3202,6 +3278,7 @@ export default {
     return {
       contactData: [],
       contractData: [],
+      channelRejectRecordData: [],
       cooperationTypeMap: {
         1: { text: "渠道入驻", value: 1 },
         2: { text: "渠道变更", value: 2 }
@@ -3234,6 +3311,7 @@ export default {
     this.contactData = this.currentRow.contactData;
     this.contractData = this.currentRow.contractData;
     this.terminationData = this.currentRow.terminationData;
+    this.channelRejectRecordData = this.currentRow.channelRejectRecordData
   }
 };
 </script>
