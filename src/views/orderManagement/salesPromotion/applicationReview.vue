@@ -40,7 +40,7 @@
             <div class="grid-content bg-purple">渠道级别</div>
           </el-col>
           <el-col :span="3">
-            <div class="grid-content bg-purple">{{ goodsObject.channelLevel | channelLevel }}</div>
+            <div class="grid-content bg-purple">{{ goodsObject.channelLevel  }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -48,7 +48,9 @@
             <div class="grid-content bg-purple">申请理由</div>
           </el-col>
           <el-col :span="21">
-            <div>{{ goodsObject.applicationReason }}</div>
+
+            <div v-if="applyStatus == 0">{{ goodsObject.goodPromotionApplication.firstApplyReason }}</div>
+            <div v-else>{{ goodsObject.goodPromotionApplication.againApplyReason }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -70,25 +72,28 @@
             <div class="grid-content bg-purple">促销活动日期</div>
           </el-col>
           <el-col :span="8">
-            <div>{{ promotion_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ promotion_end_time
+            <div v-if="applyStatus == 0">{{ goodsObject.goodPromotionApplication.firstPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.firstPromotionEndTime
               |
               parseTime('{y}年{m}月{d}日') }}
             </div>
+            <div v-else>{{ goodsObject.goodPromotionApplication.againPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.againPromotionEndTime
+              |
+              parseTime('{y}年{m}月{d}日') }}</div>
           </el-col>
         </el-row>
 
-        <template v-if="isFirstReview">
+        <template v-if="applyStatus == 0">
           <el-row>
             <el-col :span="3">申请数量</el-col>
             <el-col :span="3">
-              <div class="grid-content bg-purple">{{ application_num }}</div>
+              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.firstPromotionQuantities}}</div>
             </el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="2">&nbsp;</el-col>
             <el-col :span="3">库存数量</el-col>
-            <el-col :span="3"><span>1000</span></el-col>
+            <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
           </el-row>
         </template>
@@ -96,7 +101,7 @@
           <el-row>
             <el-col :span="3">已申请数量</el-col>
             <el-col :span="3">
-              <div class="grid-content bg-purple">{{ already_application_num }}</div>
+              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.firstPromotionQuantities}}</div>
             </el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
@@ -104,14 +109,14 @@
           <el-row>
             <el-col :span="3">再申请数量</el-col>
             <el-col :span="3">
-              <div class="grid-content bg-purple">{{ second_application_num }}</div>
+              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.againApprovedQuantities}}</div>
             </el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="2">&nbsp;</el-col>
             <el-col :span="3">库存数量</el-col>
-            <el-col :span="3"><span>1000</span></el-col>
+            <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
           </el-row>
@@ -176,14 +181,14 @@
           </el-col>
         </el-row>
         <!--遍历生成多个子渠道申请-->
-        <template v-for="(item, index) in FXZQD_msg">
+        <template v-for="(item, index) in goodsObject.goodPromotionApplication">
           <div style="border-top: solid 10px #D5D5D5"></div>
           <el-row>
             <el-col :span="3" align="center">
               <div class="grid-content bg-purple">子渠道号</div>
             </el-col>
             <el-col :span="6">
-              <div class="grid-content bg-purple">{{ item.channelNo }}</div>
+              <div class="grid-content bg-purple">{{ item.channelCode }}</div>
             </el-col>
             <el-col :span="3" align="center">
               <div class="grid-content bg-purple">子渠道名称</div>
@@ -203,7 +208,8 @@
               <div class="grid-content bg-purple">申请理由</div>
             </el-col>
             <el-col :span="21">
-              <div>{{ item.applicationReason }}</div>
+              <div v-if="applyStatus == 0">{{ item.firstApplyReason }}</div>
+              <div v-else>{{ item.againApplyReason }}</div>
             </el-col>
           </el-row>
           <el-row>
@@ -225,24 +231,29 @@
               <div class="grid-content bg-purple">促销活动日期</div>
             </el-col>
             <el-col :span="8">
-              <div>{{ item.promotion_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{
-                item.promotion_end_time |
+              <div v-if="applyStatus == 0">{{ item.firstPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{
+                item.firstPromotionEndTime |
+                parseTime('{y}年{m}月{d}日') }}
+              </div>
+              <div v-else>
+                {{ item.againPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{
+                item.againPromotionEndTime |
                 parseTime('{y}年{m}月{d}日') }}
               </div>
             </el-col>
           </el-row>
-          <template v-if="item.isFirstReview">
+          <template v-if="applyStatus == 0">
             <el-row>
               <el-col :span="3">申请数量</el-col>
               <el-col :span="3">
-                <div class="grid-content bg-purple">{{ item.application_num }}</div>
+                <div class="grid-content bg-purple">{{ item.firstPromotionQuantities }}</div>
               </el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
               <el-col :span="0"></el-col>
               <el-col :span="0"></el-col>
               <el-col :span="2">&nbsp;</el-col>
               <el-col :span="3">库存数量</el-col>
-              <el-col :span="3"><span>1000</span></el-col>
+              <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
             </el-row>
             <el-row>
@@ -258,7 +269,7 @@
             <el-row>
               <el-col :span="3">已申请数量</el-col>
               <el-col :span="3">
-                <div class="grid-content bg-purple">{{ item.already_application_num }}</div>
+                <div class="grid-content bg-purple">{{ item.firstPromotionQuantities }}</div>
               </el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
               <el-col :span="0"></el-col>
@@ -266,14 +277,14 @@
             <el-row>
               <el-col :span="3">再申请数量</el-col>
               <el-col :span="3">
-                <div class="grid-content bg-purple">{{ item.second_application_num }}</div>
+                <div class="grid-content bg-purple">{{ item.againPromotionQuantities }}</div>
               </el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
               <el-col :span="0"></el-col>
               <el-col :span="0"></el-col>
               <el-col :span="2">&nbsp;</el-col>
               <el-col :span="3">库存数量</el-col>
-              <el-col :span="3"><span>1000</span></el-col>
+              <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
               <el-col :span="0"></el-col>
             </el-row>
@@ -353,15 +364,20 @@
       channelProp: {
         type: Number,
         required: true
+      },
+      applyStatus: {
+        type: Number,
+        required: true,
+        value: 0
       }
     },
     computed: {
       goodslist() {
         return [
           {
-            brandChineseName: this.goodsObject.brandChineseName,
+            brandChineseName: this.goodsObject.brands.brandChineseName,
             goodsNo: this.goodsObject.goodsNo,
-            goodsName: this.goodsObject.goodsName,
+            goodsName: this.goodsObject.goodsChineseName,
             goodsSpecification: this.goodsObject.goodsSpecification,
             packingSpecification: this.goodsObject.packingSpecification,
           }
@@ -458,6 +474,7 @@
       subApplicationIsAgree(val) {
         let currentIndex = val.split('-')[0]
         let currentResult = val.split('-')[1]
+
         if (currentResult == 1) {
           this.FXZQD_msg[currentIndex].noApproveNum = false;
           this.FXZQD_msg[currentIndex].approve_num = null
@@ -470,6 +487,25 @@
         }
       },
       onSubmit() {
+        var data = {
+          channelCode: this.goodsObject.channelNo,
+
+          goods_no: this.goodsObject.goodsNo
+        }
+        if (this.channelProp != 3) {
+          data.checkTime = new Date()
+          data.applyPromotionStatus = this.applyStatus == 0?3:7
+          if (this.isAgree) {
+            if (this.approve_num) {
+              data.ApprovedQuantities = this.approve_num;
+              data.applyPromotionStatus = this.applyStatus == 0?4:8
+            }
+          } else {
+            data.reason = this.reject_explain;
+            data.applyPromotionStatus = this.applyStatus == 0?5:9
+            data.orderDeadLine = this.goodsObject.goodPromotionApplication.againPromotionEndTime
+          }
+        }
         if (this.channelProp != 3 && this.isAgree == null) {
           this.$message.error('必须填写审核结果！');
           return false
@@ -479,14 +515,20 @@
           return false
         }
         if (this.channelProp == 3) {
-          let isResultNull = this.FXZQD_msg.some((item, index, arr)=>{
+          data.childChannelCode = []
+          data.applyPromotionStatus = []
+          data.checkTime = []
+          data.orderDeadLine = []
+          data.ApprovedQuantities = []
+          data.reason = []
+          let isResultNull = this.goodsObject.goodPromotionApplication.some((item, index, arr)=>{
             return item.isAgree == null
           })
           if(isResultNull) {
             this.$message.error('必须填写全部审核结果！');
             return false
           }
-          let isReasonNull = this.FXZQD_msg.some((item, index, arr)=>{
+          let isReasonNull = this.goodsObject.goodPromotionApplication.some((item, index, arr)=>{
             if(item.isAgree == false) { return item.reject_explain == '' }
             else { return false }
           })
@@ -494,13 +536,25 @@
             this.$message.error('必须填写全部驳回理由！');
             return false
           }
+          this.goodsObject.goodPromotionApplication.forEach((item) => {
+            data.childChannelCode.push(item.ChannelCode)
+            data.applyPromotionStatus.push(this.applyStatus == 0?3:7)
+            data.checkTime.push(item.firstPromotionStartTime)
+            data.orderDeadLine.push(item.againPromotionEndTime)
+            data.ApprovedQuantities.push(item.approve_num? item.approve_num : '')
+            data.reason.push(item.isAgree? '': item.reject_explain)
+          })
+
         }
-        this.$emit('submit-success')
+
+        // this.submitSuccess()
+        console.log(data)
+        this.$emit('submit-success', data)
       }
     },
     mounted() {
       this.$nextTick(() => {
-        this.tableHeight += this.$refs['goodsTable'].$el.offsetHeight
+        // this.tableHeight += this.$refs['goodsTable'].$el.offsetHeight
       })
     }
   }

@@ -6,7 +6,7 @@
     </div>
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 500px;" class="filter-item"
-                placeholder="品牌名称/商品编号/商品名称/商品系列/商品主品类/商品子品类" v-model="listQuery.title">
+                placeholder="品牌名称/商品编号/商品名称/商品系列/商品主品类/商品子品类" v-model="listQuery.searchText">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -19,14 +19,14 @@
       border fit highlight-current-row
       class="border2"
       style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
-      <el-table-column min-width="120px" align="center" label="渠道号" prop="channelNo"/>
+      <el-table-column min-width="120px" align="center" label="渠道号" prop="channelCode"/>
 
       <el-table-column min-width="150px" align="center" label="渠道名称" prop="channelName"/>
 
-      <el-table-column min-width="120px" align="center" label="申请类型" prop="applicationType"  :filters="applicationTypeFilters"
+      <el-table-column min-width="120px" align="center" label="申请类型" prop="applyStatus"  :filters="applicationTypeFilters"
                        :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ scope.row.applicationType | applicationTypeFilter }}</span>
+          <span>{{ scope.row.applyStatus | applicationTypeFilter }}</span>
         </template>
       </el-table-column>
 
@@ -147,7 +147,7 @@
 
     <!--审核弹层-->
     <el-dialog :visible.sync="isDialogDetailShow" width="70%">
-      <applicationReview v-if="isDialogDetailShow" :goodsObject="currentRow" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></applicationReview>
+      <applicationReview :applyStatus="applyStatus" v-if="isDialogDetailShow" :goodsObject="goodsObject" :channelProp="currentRow.channelProp" @submit-success="firstTimeReviewSuccess"></applicationReview>
     </el-dialog>
 
   </div>
@@ -195,7 +195,7 @@
           page: 1,
           limit: 20,
           importance: undefined,
-          title: undefined,
+          searchText: undefined,
           type: undefined,
           sort: '+id',
           propertyOfSale: undefined
@@ -241,7 +241,9 @@
           ]
         },
         downloadLoading: false,
-        currentRow: {}
+        currentRow: {},
+        goodsObject: null,
+        applyStatus: 0
       }
     },
     created() {
@@ -249,6 +251,9 @@
     },
     methods: {
       filterHandler(value, row, column) {
+        console.log(value)
+        console.log(row)
+        console.log(column)
         const property = column['property']
         return row[property] === value
       },
@@ -270,22 +275,78 @@
       },
       // 审核促销
       reviewDialog(row) {
+        console.log(row);
         this.currentRow = row
-        this.isDialogDetailShow = true
+
+        var url  = "/goodsInfo/DLQDApplyPromotionGoodList.do"
+        console.log(row.channelCode.indexOf('FXQD'))
+        if (row.channelCode.indexOf('FXQD') == 0) {
+          this.currentRow.channelProp = 3;
+          url = "/goodsInfo/FXQDApplyPromotionGoodList.do";
+        }
+        var data = {
+          channelCode: row.channelCode,
+          // channelCode: "DLQD20180411001",
+          goodsNo: row.goodsNo
+        }
+        this.$request({
+          url: url,
+          method: "post",
+          data: data
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            console.log(row.applyStatus)
+            this.applyStatus = row.applyStatus;
+            this.goodsObject = res.data.goodInfo;
+            this.goodsObject.channelNo = res.data.channelInfo.channelCode;
+            this.goodsObject.channelLevel = res.data.channelInfo.channelLevel;
+            this.goodsObject.channelName = res.data.channelInfo.channelName;
+            this.goodsObject.goodsNo = row.goodsNo;
+            this.goodsObject.goodPromotionApplication = res.data.goodPromotionApplication;
+            this.goodsObject.goodPromotionApplication.forEach((item) => {
+              if (typeof item=='object' && item.constructor==Array) {
+                item.isAgree = null;
+                item.reject_explain = '';
+                item.isAgreeTitle = null;
+                item.approve_num = null;
+              }
+            })
+            this.goodsObject.brands = res.data.brands;
+            // this.goodsObject.goodPromotionApplication = res.data.goodPromotionApplication
+            // console.log(JSON.parse(this.goodsObject.declarationSpecification))
+            // console.log(JSON.parse(this.goodsObject.packageSpecificationData))
+            console.log(this.goodsObject)
+          } else {
+            this.$message.error('数据请求失败');
+          }
+          this.listLoading = false
+
+        }).catch((err) => {
+          console.log(err)
+          // this.$message.error('数据请求失败');
+          this.listLoading = false
+        })
+        this.isDialogDetailShow = true;
       },
 
       getList() {
         this.listLoading = true
 
         this.$request({
-          url: "/goodsInfo/promotionDLQDGoodList.do",
+          url: "/goodsInfo/approvalGoodList.do",
           method: 'post',
           data: this.listQuery
         }).then((res) => {
           console.log(res)
           if (res.errorCode == 0) {
-
-            this.list = res.data.rows;
+            res.data.forEach((item) => {
+              if (item.applyPromotionStatus == 2) {
+                item.applyStatus = 0;
+              } else {
+                item.applyStatus = 1;
+              }
+            })
+            this.list = res.data;
             this.total = res.data.count
 
             // this.brandNameFilters = res.data.brandNameFilters
@@ -430,13 +491,31 @@
         )
       },
 
-      firstTimeReviewSuccess() {
+      firstTimeReviewSuccess(data) {
         this.isDialogDetailShow = false
-        this.$message.success('审核成功')
+        var url = "/goodsInfo/approvalDLQD.do"
+        if (this.currentRow.channelProp == 3) {
+          url = "/goodsInfo/approvalFXQD.do";
+        }
+        this.$request({
+          url: url,
+          method: 'post',
+          data: data
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.$message.success('审核成功')
+            this.getList();
+          } else {
+            this.$message.success('提交失败')
+          }
+        }).catch((err) => {
+          this.$message.success('提交失败')
+        })
+
       },
       propertyOfSaleChange () {
         !this.listQuery.propertyOfSale;
-        // this.getList()
+        this.getList()
       },
     },
     filters: {
