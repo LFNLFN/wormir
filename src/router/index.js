@@ -294,12 +294,12 @@ export const asyncRouterMap = [
 
         ]
       },
-      {
-        path: 'applyPromotion',
-        component: () => import('@/views/orderManagement/applyPromotion/index.vue'),
-        name: 'applyPromotion',
-        meta: { title: 'applyPromotion' }
-      },
+      // {
+      //   path: 'applyPromotion',
+      //   component: () => import('@/views/orderManagement/applyPromotion/index.vue'),
+      //   name: 'applyPromotion',
+      //   meta: { title: 'applyPromotion' }
+      // },
       {
         path: 'salesPromotion',
         component: () => import('@/views/orderManagement/salesPromotion/index.vue'),
