@@ -764,12 +764,14 @@ export default {
             channelNo: this.currentRow.channelNo,
             channelLevel: this.form.channelLevel,
             securityAmount: this.form.securityAmount,
-            channelStatus: 100 // 待签合同
+            // channelStatus: 100 // 待签合同
+            channelStatus: 200 // 待激活
           }
         }).then(res => {
           if (res.errorCode == 0) {
             const vm = this;
-            this.$alert("子渠道已通过审核，将进入待签合同状态。", "", {
+            // this.$alert("子渠道已通过审核，将进入待签合同状态。", "", {
+            this.$alert("子渠道已通过审核，将进入待激活状态。", "", {
               confirmButtonText: this.$t("table.confirm"),
               showClose: false,
               center: true,
