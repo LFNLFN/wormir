@@ -32,7 +32,7 @@
 
       <el-table-column align="center" :label="$t('payOrder.operation')" min-width="120" class-name="small-padding">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="reviewDialog(scope.row)">
+          <el-button size="mini" v-if="scope.row.applyPromotionStatus == 2 || scope.row.applyPromotionStatus == 6" type="primary" @click="reviewDialog(scope.row)">
             审批促销
           </el-button>
         </template>
@@ -317,7 +317,7 @@
             // console.log(JSON.parse(this.goodsObject.packageSpecificationData))
             console.log(this.goodsObject)
           } else {
-            this.$message.error('数据请求失败');
+            // this.$message.error('数据请求失败');
           }
           this.listLoading = false
 
@@ -339,15 +339,16 @@
         }).then((res) => {
           console.log(res)
           if (res.errorCode == 0) {
-            res.data.forEach((item) => {
-              if (item.applyPromotionStatus == 2) {
+            res.data.items.forEach((item) => {
+              if (item.applyPromotionStatus <= 5) {
                 item.applyStatus = 0;
-              } else {
+              } else   {
                 item.applyStatus = 1;
               }
             })
-            this.list = res.data;
-            this.total = res.data.count
+            console.log(res.data)
+            this.list = res.data.items;
+            this.total = res.data.total
 
             // this.brandNameFilters = res.data.brandNameFilters
             this.listLoading = false
