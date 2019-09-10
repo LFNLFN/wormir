@@ -53,20 +53,19 @@
           <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
         </template>
       </el-table-column>
-      <!--<el-table-column-->
-      <!--prop="channelProp"-->
-      <!--label="渠道属性"-->
-      <!--align="center"-->
-      <!--min-width="100"-->
-      <!--:filters="channelPropFilters"-->
-      <!--:filter-method="filterHandler"-->
-      <!--&gt;-->
-      <!--<template slot-scope="scope">-->
-      <!--<div-->
-      <!--style="min-width: 4em;margin: 0 auto"-->
-      <!--&gt;{{ channelPropMap[scope.row.channelProp].text }}</div>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
+      <el-table-column
+        prop="channelProp"
+        label="渠道属性"
+        align="center"
+        min-width="100"
+        :filters="channelPropFilters"
+        :filter-method="filterHandler">
+        <template slot-scope="scope">
+          <div
+          style="min-width: 4em;margin: 0 auto">
+          {{ channelPropMap[scope.row.channelProp].text }}</div>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
@@ -86,7 +85,7 @@
           <div>{{ scope.row.contractEndTime }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建日期" align="center" min-width="110"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" min-width="110"></el-table-column>
       <el-table-column prop="openedDate" label="开通时间" align="center" min-width="110"></el-table-column>
       <el-table-column label="操作" align="center" min-width="140" fixed="right">
         <template slot-scope="scope">

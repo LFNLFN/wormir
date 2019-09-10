@@ -61,9 +61,9 @@
           <span>{{ scope.row.channelLevel | channelLevel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cancellationTime" label="终止日期" min-width="110" align="center"></el-table-column>
-      <!--<el-table-column prop="cancellationTime" label="注销日期" min-width="110" align="center"></el-table-column>-->
-      <el-table-column prop="createTime" label="创建日期" align="center" min-width="110"></el-table-column>
+      <el-table-column prop="cancellationTime" label="终止时间" min-width="110" align="center"></el-table-column>
+      <el-table-column prop="cancellationTime" label="注销时间" min-width="110" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" min-width="110"></el-table-column>
       <el-table-column prop="openedDate" label="开通时间" align="center" min-width="110"></el-table-column>
       <el-table-column label="操作" width="130" fixed="right" align="center">
         <template slot-scope="scope">
@@ -201,22 +201,21 @@ export default {
       },
       channelPropFilters: [
         { text: '独立渠道(DLQD)', value: 1 },
-        { text: '代发渠道(DFQD)', value: 2 },
+        // { text: '代发渠道(DFQD)', value: 2 },
         { text: '分销渠道(FXQD)', value: 3 },
-        { text: '分销子渠道(FXQD)', value: 4 },
+        { text: '分销子渠道(FXZQD)', value: 4 },
       ],
       channelLevelFilters: [
         { text: 'A级渠道', value: 1 },
         { text: 'B级渠道', value: 2 },
         { text: 'C级渠道', value: 3 },
         { text: 'D级渠道', value: 4 },
-        { text: '--', value: 5 },
+        // { text: '--', value: 5 },
       ],
     }
   },
   methods: {
     channelBlurSearch() {
-
       this.$request({
         url: '/channel/terminatingList.do',
         method: 'post',
