@@ -71,8 +71,12 @@
 </template>
 
 <script>
+  import waves from '@/directive/waves' // 水波纹指令
     export default {
         name: "index.vue",
+        directives: {
+          waves
+        },
         data () {
           return {
             emailNumber: 0,
@@ -95,7 +99,8 @@
             input_list: [{}],
             input_mes: {
               total_surplus_amount: '',
-              order_no: ''
+              order_no: '',
+              pay_num: null
             },
             choice_order: undefined
           }
@@ -110,7 +115,7 @@
               url: "/email/getEamilNum.do",
               method: 'get'
             }).then((res) => {
-              if (res.errorCode == 0) {
+              if (res.errorCode == 0 && res.data) {
                 this.emailNumber = res.data.results.length;
               }
             }).catch((err) => {
@@ -161,7 +166,8 @@
             this.choice_order = row;
             this.input_mes = {
               order_no: row.order_no,
-              total_surplus_amount: row.total_surplus_amount
+              total_surplus_amount: row.total_surplus_amount,
+              pay_num: row.pay_num
             }
           },
           submitCooperationTermination (mes) {
@@ -184,6 +190,7 @@
           },
           open2(mes) {
             var payment_status = 0;
+            console.log(mes)
             switch (mes.pay_num) {
               case 0:
               case 2:
@@ -201,8 +208,8 @@
               method: 'post',
               data: {
                 orderNo: that.input_mes.order_no,
-                pay_num: mes.pay_num,
-                payment_status: payment_status
+                payment_status: payment_status,
+                pay_num: mes.pay_num
               }
             }).then((res) => {
               if (res.errorCode == 0) {

@@ -93,7 +93,7 @@
         min-width="130">
         <template slot-scope="scope">
           <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
-          <el-button size="mini" @click="showConfirm(scope.row)" v-if="scope.row.channelStatus!=300 && scope.row.channelStatus > 0">去确认</el-button>
+          <el-button size="mini" @click="showConfirm(scope.row)" v-if="(scope.row.channelStatus!=300 && scope.row.channelStatus != 200) && scope.row.channelStatus > 0">去确认</el-button>
           <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus!=400 && scope.row.channelStatus > 0">强制终止</el-button>
           <el-button size="mini" type="danger" @click="showDelete(scope.row)" v-if="scope.row.channelStatus==400">终止渠道</el-button>
         </template>

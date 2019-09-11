@@ -333,11 +333,21 @@
         }
       },
       sendPdf () {
-        this.isStopCooperationShow = false;
-        this.$message({
-          message: '文件已发送至您的所选的邮箱!',
-          type: 'success'
-        });
+        var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
+
+        if (this.orderSelected.some(item => {return !reg.test(item.input)})) {
+          this.$message({
+            message: '请输入正确的邮箱账号',
+            type: 'warning'
+          });
+        } else {
+          this.isStopCooperationShow = false;
+          this.$message({
+            message: '文件已发送至您的所选的邮箱!',
+            type: 'success'
+          });
+        }
+
       },
       addEmail (index) {
         var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");

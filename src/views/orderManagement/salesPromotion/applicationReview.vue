@@ -72,13 +72,9 @@
             <div class="grid-content bg-purple">促销活动日期</div>
           </el-col>
           <el-col :span="8">
-            <div v-if="applyStatus == 0">{{ goodsObject.goodPromotionApplication.firstPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.firstPromotionEndTime
-              |
-              parseTime('{y}年{m}月{d}日') }}
+            <div v-if="applyStatus == 0">{{ goodsObject.goodPromotionApplication.firstPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.firstPromotionEndTime | parseTime('{y}年{m}月{d}日') }}
             </div>
-            <div v-else>{{ goodsObject.goodPromotionApplication.againPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.againPromotionEndTime
-              |
-              parseTime('{y}年{m}月{d}日') }}</div>
+            <div v-else>{{ goodsObject.goodPromotionApplication.againPromotionStartTime | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ goodsObject.goodPromotionApplication.againPromotionEndTime | parseTime('{y}年{m}月{d}日') }}</div>
           </el-col>
         </el-row>
 
