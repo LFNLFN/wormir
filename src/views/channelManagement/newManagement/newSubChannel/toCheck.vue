@@ -670,7 +670,7 @@
       </div>
     </template>
     <!--待签合同-->
-    <template v-if="currentRow.channelStatus==100">
+    <template v-if="currentRow.channelStatus==100 || currentRow.channelStatus == 200">
       <h3 class="form-part-title">渠道特点</h3>
       <div class="border1">
         <el-row class="border-top">

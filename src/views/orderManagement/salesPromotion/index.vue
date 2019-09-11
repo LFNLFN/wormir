@@ -198,7 +198,7 @@
           searchText: undefined,
           type: undefined,
           sort: '+id',
-          propertyOfSale: undefined
+          propertyOfSale: 1
         },
         importanceOptions: [1, 2, 3],
         sortOptions: [
@@ -283,6 +283,8 @@
         if (row.channelCode.indexOf('FXQD') == 0) {
           this.currentRow.channelProp = 3;
           url = "/goodsInfo/FXQDApplyPromotionGoodList.do";
+        } else {
+          this.currentRow.channelProp = 1
         }
         var data = {
           channelCode: row.channelCode,
@@ -295,27 +297,31 @@
           data: data
         }).then((res) => {
           if (res.errorCode == 0) {
-            console.log(row.applyStatus)
+            console.log(res)
             this.applyStatus = row.applyStatus;
             this.goodsObject = res.data.goodInfo;
+            this.goodsObject.brands = res.data.brands;
             this.goodsObject.channelNo = res.data.channelInfo.channelCode;
             this.goodsObject.channelLevel = res.data.channelInfo.channelLevel;
             this.goodsObject.channelName = res.data.channelInfo.channelName;
             this.goodsObject.goodsNo = row.goodsNo;
             this.goodsObject.goodPromotionApplication = res.data.goodPromotionApplication;
-            this.goodsObject.goodPromotionApplication.forEach((item) => {
-              if (typeof item=='object' && item.constructor==Array) {
-                item.isAgree = null;
-                item.reject_explain = '';
-                item.isAgreeTitle = null;
-                item.approve_num = null;
-              }
-            })
-            this.goodsObject.brands = res.data.brands;
+            if (this.currentRow.channelProp == 3) {
+              this.goodsObject.goodPromotionApplication.map((item) => {
+                if (typeof item=='object' && item.constructor==Array) {
+                  item.isAgree = null;
+                  item.reject_explain = '';
+                  item.isAgreeTitle = null;
+                  item.approve_num = null;
+                }
+              })
+            }
+            this.isDialogDetailShow = true;
+            // this.goodsObject.brands = res.data.brands;
             // this.goodsObject.goodPromotionApplication = res.data.goodPromotionApplication
             // console.log(JSON.parse(this.goodsObject.declarationSpecification))
             // console.log(JSON.parse(this.goodsObject.packageSpecificationData))
-            console.log(this.goodsObject)
+            // console.log(this.goodsObject)
           } else {
             // this.$message.error('数据请求失败');
           }
@@ -326,7 +332,7 @@
           // this.$message.error('数据请求失败');
           this.listLoading = false
         })
-        this.isDialogDetailShow = true;
+
       },
 
       getList() {
