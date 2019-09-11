@@ -212,7 +212,7 @@
             <div class="grid-content bg-purple">{{'PC店铺/平台链接'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{ currentRow.PCLink }}</div>
+            <div class="grid-content bg-purple-light">{{ currentRow.PCLink || '--' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -220,7 +220,7 @@
             <div class="grid-content bg-purple">{{'手机店铺/平台链接'}}</div>
           </el-col>
           <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{ currentRow.appLink }}</div>
+            <div class="grid-content bg-purple-light">{{ currentRow.appLink || '--' }}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -264,7 +264,8 @@
             label="职务"
             width="150">
             <template slot-scope="scope">
-              <el-select v-model="form.contactData[scope.$index].position" placeholder="请选择">
+              <span v-if="scope.$index<2">{{ scope.row.dutyName }}</span>
+              <el-select v-else v-model="form.contactData[scope.$index].position" placeholder="请选择">
                 <el-option
                   v-for="item in jobType"
                   :key="item.value"
@@ -378,7 +379,7 @@
           align="center"
           min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.contractProp | contractProp }}</span>
+            <span>{{ scope.row.contractSigningType | contractProp }}</span>
           </template>
         </el-table-column>
         <el-table-column

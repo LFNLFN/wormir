@@ -102,7 +102,7 @@
       :visible.sync="isDetailShow"
       width="75%"
       @close="isDetailShow = false"
-      title="渠道档案信息"
+      title="渠道档案"
     >
       <check-detail v-if="isDetailShow" :currentRow="currentRow"></check-detail>
     </el-dialog>

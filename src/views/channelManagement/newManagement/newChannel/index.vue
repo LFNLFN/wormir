@@ -155,7 +155,7 @@
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="">
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @submitSuccess="confirmSuccess"></to-confirm>
     </el-dialog>
-    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案信息">
+    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="渠道档案">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
     <el-dialog
