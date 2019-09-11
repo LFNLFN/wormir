@@ -110,7 +110,7 @@
               url: "/email/getEamilNum.do",
               method: 'get'
             }).then((res) => {
-              if (res.errorCode == 0) {
+              if (res.errorCode == 0 && res.data) {
                 this.emailNumber = res.data.results.length;
               }
             }).catch((err) => {
