@@ -3311,7 +3311,7 @@ export default {
     this.contactData = this.currentRow.contactData;
     this.contractData = this.currentRow.contractData;
     this.terminationData = this.currentRow.terminationData;
-    this.channelRejectRecordData = this.currentRow.channelRejectRecordData
+    this.channelRejectRecordData = this.currentRow.channelRejectRecordData? this.currentRow.channelRejectRecordData : []
   }
 };
 </script>

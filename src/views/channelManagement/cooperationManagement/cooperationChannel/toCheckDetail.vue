@@ -225,37 +225,35 @@
       <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
       <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
     </el-table>
-    <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'申请时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'审核结果'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{'通过申请'}}</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'通过时间'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div
-              class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
-          </el-col>
-        </el-row>
-    </div>-->
+    <div v-if="currentRow.terminationData.length">
+      <h3 class="form-part-title">终止情况</h3>
+      <el-table
+        border=""
+        :data="currentRow.terminationData"
+        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
+        class="border-top2 border-left2 border-right2"
+      >
+        <el-table-column prop="terminationType" label="终止类型" align="center" min-width="90">
+          <template slot-scope="scope">
+            <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <!--<el-table-column-->
+        <!--prop="terminationTime"-->
+        <!--label="终止时间"-->
+        <!--align="center"-->
+        <!--min-width="80">-->
+        <!--</el-table-column>-->
+        <el-table-column prop="technologyTransferStatus" label="技术对接" align="center" min-width="90">
+          <template slot-scope="scope">
+            <!-- {{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }} -->
+            {{ '完成对接系统' }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="cancellationTime" :label="currentRow.channelProp<4 ? '注销时间' : '终止时间'" align="center" min-width="140"></el-table-column>
+      </el-table>
+    </div>
     <h3 class="form-part-title">合同信息</h3>
     <el-table
       border=""
@@ -275,7 +273,8 @@
       </el-table-column>
       <el-table-column prop label="渠道状态" align="center">
         <template slot-scope="scope">
-          <span>正常合作</span>
+          <span v-if="currentRow.cancellationStatus==1&&currentRow.channelStatus==1000">停止订货</span>
+          <span v-else>正常合作</span>
         </template>
       </el-table-column>
       <el-table-column prop label="订货状态" align="center">
@@ -342,10 +341,10 @@ export default {
         1: { text: "A级渠道", value: 1 },
         2: { text: "B级渠道", value: 2 },
         3: { text: "C级渠道", value: 3 },
-        4: { text: "D级渠道", value: 4 },
+        4: { text: "D级渠道", value: 4 }
       },
       isViewImageShow: false,
-      imageViewed: null
+      imageViewed: null,
     };
   },
   methods: {
