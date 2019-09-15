@@ -632,6 +632,7 @@
           this.form.contactData.splice(index, 1)
         }
       },
+      // 渠道变更
       channelChange(value) {
         request({
           url: '/channel/changeCooperativeType.do',
@@ -640,13 +641,15 @@
         }).then(res => {
           if (res.data.channelNo) {
             if (res.data.formData) {
-              this.form = res.data.formData
-              this.form.cooperativeType = 2
+              let keyArr = Object.keys(res.data.formData)
+              keyArr.forEach((e,i,s) => {
+                this.$set(this.form,e,res.data.formData[e])
+              })
+              this.$set(this.form, 'cooperativeType', 2)
             }
           }
         })
       }
-
     }
   }
 </script>
