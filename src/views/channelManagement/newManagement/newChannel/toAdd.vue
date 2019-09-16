@@ -13,7 +13,7 @@
           </el-form-item>
           <el-form-item v-if="form.cooperativeType==2" label="原渠道号"
                         prop="channelNo">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelNo"
+            <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelNo"
                       placeholder="请输入原渠道号" @change="channelChange"></el-input>
           </el-form-item>
           <el-form-item label="渠道属性" prop="channelProp">
@@ -54,15 +54,15 @@
 
           <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="170px" prop="identityCardNo"
                         class="form-row idCardCode last-form-row">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.identityCardNo"
+            <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input>
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="170px" class="form-row idCardCode"
                         prop="channelName">
                         <el-col :span="22" class="">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelName"
+            <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==1"></el-input>
-                      <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.channelName"
+                      <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==3">
                       </el-input>
                         </el-col>
@@ -117,7 +117,7 @@
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="170px" class="form-row idCardCode" 
                         prop="companyAddress">
-            <el-input style="margin-left: -1em;height: 27px;" class="noBorderInput" v-model="form.companyAddress"
+            <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input>
           </el-form-item>
 
