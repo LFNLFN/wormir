@@ -96,7 +96,8 @@
             {{ scope.row.logisticCompensationAmountSymbol }} {{ Number(scope.row.logisticCompensationAmount).toFixed(2) }}
           </template>
         </el-table-column>
-        <el-table-column type="selection" align="center" width="100" fixed="right"></el-table-column>
+        <el-table-column type="selection"  align="center" width="100" fixed="right"></el-table-column>
+        <!--<el-table-column type="selection" v-else  disabled align="center" width="100" fixed="right"></el-table-column>-->
 
       </el-table>
       <el-table key='0' :data="[{}]" border fit :show-header="false"

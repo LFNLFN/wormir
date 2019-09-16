@@ -365,6 +365,7 @@
       }
       ,
       showCheck(row) {
+        console.log(row)
         this.currentRow = row
         this.isCheckShow = true
       }

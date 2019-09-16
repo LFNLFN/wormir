@@ -112,7 +112,7 @@
         methods: {
           getMailNum () {
             this.$request({
-              url: "/email/getEamilNum.do",
+              url: "/email/getEmailNum.do",
               method: 'get'
             }).then((res) => {
               if (res.errorCode == 0 && res.data) {
