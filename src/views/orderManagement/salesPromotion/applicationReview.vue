@@ -105,14 +105,14 @@
           <el-row>
             <el-col :span="3">再申请数量</el-col>
             <el-col :span="3">
-              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.againApprovedQuantities}}</div>
+              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.againPromotionQuantities}}</div>
             </el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="0"></el-col>
             <el-col :span="2">&nbsp;</el-col>
             <el-col :span="3">库存数量</el-col>
-            <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
+            <el-col :span="3"><span>{{goodsObject.currentInventoryQuantity}}</span></el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
           </el-row>
@@ -249,7 +249,7 @@
               <el-col :span="0"></el-col>
               <el-col :span="2">&nbsp;</el-col>
               <el-col :span="3">库存数量</el-col>
-              <el-col :span="3"><span>{{goodsObject.holdInventoryQuantity}}</span></el-col>
+              <el-col :span="3"><span>{{goodsObject.currentInventoryQuantity}}</span></el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
             </el-row>
             <el-row>
@@ -486,7 +486,7 @@
         var data = {
           channelCode: this.goodsObject.channelNo,
 
-          goods_no: this.goodsObject.goodsNo
+          goodsNo: this.goodsObject.goodsNo
         }
         if (this.channelProp != 3) {
           data.checkTime = new Date()
