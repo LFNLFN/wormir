@@ -662,7 +662,7 @@
       },
       connectComplete() {
         const vm = this
-        this.$alert('已完成对接系统，该渠道订货功能已开通。', '', {
+        this.$alert('已完成系统对接，该渠道订货功能已开通。', '', {
           confirmButtonText: this.$t('table.confirm'),
           showClose: false,
           center: true,

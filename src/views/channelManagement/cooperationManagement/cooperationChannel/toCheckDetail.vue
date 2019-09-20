@@ -247,7 +247,7 @@
         <el-table-column prop="technologyTransferStatus" label="技术对接" align="center" min-width="90">
           <template slot-scope="scope">
             <!-- {{ scope.row.technologyTransferStatus | technologyTransferStatusFilter }} -->
-            {{ '完成对接系统' }}
+            {{ '完成系统对接' }}
           </template>
         </el-table-column>
         <el-table-column prop="terminationReason" label="终止原因" align="center" min-width="110"></el-table-column>

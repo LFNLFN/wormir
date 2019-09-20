@@ -171,7 +171,7 @@
             } else if (this.form.depositHandleWay==2) {
               this.cancelStatus = -350 // 不返还保证金
             } else {
-              this.cancelStatus = -400 // 停止对接系统
+              this.cancelStatus = -400 // 停止系统对接
             }
             break;
 //          default:

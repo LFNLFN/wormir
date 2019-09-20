@@ -133,7 +133,7 @@
             this.cancelStatus = -300 // 停止付保证金
             break;
           case 400:
-            this.cancelStatus = -400 // 停止对接系统
+            this.cancelStatus = -400 // 停止系统对接
             break;
 //          default:
 //            n 与 case 1 和 case 2 不同时执行的代码
