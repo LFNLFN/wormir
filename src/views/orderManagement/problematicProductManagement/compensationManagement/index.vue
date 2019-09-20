@@ -96,7 +96,7 @@
             {{ scope.row.logisticCompensationAmountSymbol }} {{ Number(scope.row.logisticCompensationAmount).toFixed(2) }}
           </template>
         </el-table-column>
-        <el-table-column type="selection"  align="center" width="100" fixed="right"></el-table-column>
+        <el-table-column type="selection" :selectable="couldSendMes"  align="center" width="100" fixed="right"></el-table-column>
         <!--<el-table-column type="selection" v-else  disabled align="center" width="100" fixed="right"></el-table-column>-->
 
       </el-table>
@@ -130,7 +130,7 @@
 
     </div>
 
-    <p v-show="list && list.length > 0">
+    <p v-show="list && list.length > 0">`
       <span class="grid-content bg-purple" v-if="monthValue != null">{{monthValue | month}}珠海吾蜜公司赔保金额明细表</span>
       <el-button type="primary" plain @click="search">查看</el-button>
       <el-button type="primary" plain @click="sendMess(null, 1)"  :disabled="showSendButton">发送赔保明明细表</el-button>
@@ -257,6 +257,9 @@
       }
     },
     methods: {
+      couldSendMes (row) {
+        return !Number(row.send_mes);
+      },
       handleSelectionChange(val) {
         this.orderSelected = val;
         this.totalAmount = 0
@@ -365,6 +368,7 @@
                 message: '文件已发送至您的所选的邮箱!',
                 type: 'success'
               });
+              this.getList();
             } else {
               this.$message.error('没有找到匹配结果');
               this.listLoading = false
