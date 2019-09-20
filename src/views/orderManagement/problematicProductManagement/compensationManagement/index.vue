@@ -131,10 +131,10 @@
     </div>
 
     <p v-show="list && list.length > 0">
-      <span class="grid-content bg-purple">{{month}}珠海吾蜜公司赔保金额明细表</span>
+      <span class="grid-content bg-purple" v-if="monthValue != null">{{monthValue | month}}珠海吾蜜公司赔保金额明细表</span>
       <el-button type="primary" plain @click="search">查看</el-button>
-      <el-button type="primary" plain @click="sendMess(null, 1)">发送赔保明明细表</el-button>
-      <el-button type="primary" plain>确认到账</el-button>
+      <el-button type="primary" plain @click="sendMess(null, 1)"  :disabled="showSendButton">发送赔保明明细表</el-button>
+      <el-button type="primary" @click="comfirmArrial" plain>确认到账</el-button>
     </p>
     <div class="pagination-container">
       <el-pagination background @current-change="changePageList" :current-page="listQuery.page"
@@ -153,7 +153,7 @@
       <alreadyReceive :currentRow="currentRow" v-if="isOrderShow"></alreadyReceive>
     </el-dialog>
     <el-dialog :visible.sync="showSearch" fullscreen style="padding: 20px">
-      <Search v-if="showSearch"></Search>
+      <Search v-if="showSearch" :list="list" :totalMoney="totalMoney" :monthValue="monthValue"></Search>
     </el-dialog>
     <el-dialog :visible.sync="isStopCooperationShow"
                width="70%"
@@ -245,7 +245,15 @@
         send: true,
         isStopCooperationShow: false,
         input: '',
-        month: ''
+        month: '',
+        totalMoney: 0,
+        showSendButton: false
+      }
+    },
+    filters: {
+      month: function (val) {
+        console.log(val)
+        return val.getFullYear() + '年' + (val.getMonth() + 1) + '月'
       }
     },
     methods: {
@@ -303,9 +311,13 @@
             this.list.forEach((e,i,s) => {
               this.totalAmount += Number(e.logisticCompensationAmount)
               e.input = "";
+              if (e.logisticCompensationStatus == 2) {
+                this.showSendButton = true
+              }
               e.inputList = [];
             })
             this.totalAmount = '￥' + this.totalAmount.toFixed(2)
+            this.totalMoney = this.totalAmount
             this.total = res.data.total
             this.brandNameFilters = res.data.brandNameFilters
             this.listLoading = false
@@ -342,11 +354,26 @@
             type: 'warning'
           });
         } else {
-          this.isStopCooperationShow = false;
-          this.$message({
-            message: '文件已发送至您的所选的邮箱!',
-            type: 'success'
-          });
+          this.$request({
+            url: '/issue/sendlogisticCompensationListManagerEmail.do',
+            method: 'post',
+            data: this.orderSelected
+          }).then((res) => {
+            if (res.errorCode == 0) {
+              this.isStopCooperationShow = false;
+              this.$message({
+                message: '文件已发送至您的所选的邮箱!',
+                type: 'success'
+              });
+            } else {
+              this.$message.error('没有找到匹配结果');
+              this.listLoading = false
+            }
+          }).catch((err) => {
+            this.$message.error('没有找到匹配结果');
+            this.listLoading = false
+          })
+
         }
 
       },
@@ -375,12 +402,35 @@
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
         this.month = year + "年" + month + "月";
-        this.monthValue = year + "-" + month;
+        // this.monthValue = year + "-" + month;
         this.listQuery.openedDate = year + "-" + month;
         return day;
       },
       search () {
         this.showSearch = true;
+      },
+      comfirmArrial () {
+
+        let data = this.listQuery;
+        data.toStatus = 2
+        console.log(data)
+        this.$request({
+          url: '/issue/comfirAmrrial.do',
+          method: 'post',
+          data: data
+        }).then((res) => {
+          if (res.errorCode == 0) {
+            this.$message.success('确认到账成功')
+            this.getList()
+            // this.showSendButton = 'disabled'
+          } else {
+            this.$message.error('没有找到匹配结果');
+            this.listLoading = false
+          }
+        }).catch((err) => {
+          this.$message.error('没有找到匹配结果');
+          this.listLoading = false
+        })
       }
     },
 
