@@ -1737,7 +1737,7 @@
         </el-row>
       </div>
     </template>
-    <!--待对接系统 400-->
+    <!--待系统对接 400-->
     <template v-if="currentRow.channelStatus==400">
       <h3 class="form-part-title">渠道特点</h3>
       <div class="border1">
@@ -2009,7 +2009,7 @@
         </el-row>
       </div>
     </template>
-    <!--停止对接系统-->
+    <!--停止系统对接-->
     <template v-if="currentRow.channelStatus==-400">
       <!-- <h3 class="form-part-title">渠道特点</h3>
       <div class="border1">

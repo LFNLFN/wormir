@@ -473,7 +473,7 @@
         </div>
       </el-form>
     </template>
-    <!--待对接系统-->
+    <!--待系统对接-->
     <template v-if="currentRow.channelStatus==400">
       <h3 class="form-part-title">基本信息</h3>
       <div class="border1">
@@ -611,7 +611,7 @@
       >
         <div class="dialogBottomButton-wrap">
           <div style="margin: 5px">
-            <el-switch v-model="isSystemConnectComplete" active-text="完成对接系统" inactive-text></el-switch>
+            <el-switch v-model="isSystemConnectComplete" active-text="完成系统对接" inactive-text></el-switch>
           </div>
           <el-button type="primary" @click="onSubmit400" :loading="isSubmitting" :disabled="!isSystemConnectComplete">确认完成对接</el-button>
         </div>
@@ -838,7 +838,7 @@ export default {
       }).then(res => {
         if (res.errorCode == 0) {
           const vm = this;
-          this.$alert("已完成对接系统，该渠道订货功能已开通。", "", {
+          this.$alert("已完成系统对接，该渠道订货功能已开通。", "", {
             confirmButtonText: this.$t("table.confirm"),
             showClose: false,
             center: true,

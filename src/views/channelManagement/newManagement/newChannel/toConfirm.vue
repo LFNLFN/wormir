@@ -241,7 +241,7 @@
         :rules="formRules"
         class="demo-form-inline"
       >
-        <el-switch v-model="finishLinking" active-text="完成对接系统"></el-switch>
+        <el-switch v-model="finishLinking" active-text="完成系统对接"></el-switch>
         <div class="dialogBottomButton-wrap">
           <el-button
             type="primary"

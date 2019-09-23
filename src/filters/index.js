@@ -239,10 +239,10 @@ export function channelTerminationTypeFilter(value) {
 // 技术对接类型
 export function technologyTransferStatusFilter(value) {
   const statusMap = {
-    '-1': '未对接系统',
-    1: '完成对接系统',
-    2: '继续对接系统',
-    3: '停止对接系统',
+    '-1': '未系统对接',
+    1: '完成系统对接',
+    2: '继续系统对接',
+    3: '停止系统对接',
   }
   return statusMap[value]
 }

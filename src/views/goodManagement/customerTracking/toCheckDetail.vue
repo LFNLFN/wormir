@@ -334,7 +334,7 @@
           {
             terminationType: '强制终止',
             terminationDate: Mock.Random.now('yyyy-MM-dd'),
-            techConnect: '未对接系统',
+            techConnect: '未系统对接',
             terminationReason: '渠道重复',
             terminationTime: Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
           }
