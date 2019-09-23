@@ -291,7 +291,7 @@
         }
       };
       var validateMobile = (rule, value, callback) => {
-        const reg = /^1[3|4|5|8]\d{9}$/
+        const reg = /^1[3|4|5|6|7|8]\d{9}$/
         if (!reg.test(value)) {
           callback(new Error('请输入正确电话'));
         } else {
@@ -554,7 +554,7 @@
         })
         // 验证联系表格邮箱和电话
         let contactMobile = this.form.contactData.some((item, index, arr) => {
-          const regMobile = /^1[3|4|5|8]\d{9}$/
+          const regMobile = /^1[3|4|5|6|7|8]\d{9}$/
           return !regMobile.test(item.mobile)
         })
         if (contactMobile) {
