@@ -247,7 +247,7 @@ export default {
       },
       channelPropFilters: [
         { text: "独立渠道(DLQD)", value: 1 },
-        { text: "代发渠道(DFQD)", value: 2 },
+        // { text: "代发渠道(DFQD)", value: 2 },
         { text: "分销渠道(FXQD)", value: 3 },
         { text: "分销子渠道(FXZQD)", value: 4 }
       ],

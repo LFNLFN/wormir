@@ -68,7 +68,7 @@
       <el-table-column label="操作" width="130" fixed="right" align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="detailShow(scope.row)">查看详情</el-button>
-          <el-button size="mini" type="primary" @click="cancelAccountShow(scope.row)">注销账号</el-button>
+          <el-button size="mini" type="primary" @click="cancelAccountShow(scope.row)">停止系统对接</el-button>
           <!--<el-button size="mini" type="primary" @click="linkingShow(scope.row)">停止系统对接</el-button>-->
         </template>
       </el-table-column>

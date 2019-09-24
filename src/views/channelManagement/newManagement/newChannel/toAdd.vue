@@ -129,7 +129,7 @@
                           placeholder="请输入店铺/平台名称"></el-input></div>
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="4"><span>渠道名称</span></el-col>
+            <el-col class="line" style="align: right" :span="4"><span>渠道名称</span></el-col>
           </el-form-item>
           <el-form-item label="PC店铺/平台链接" label-width="170px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
             <el-col :span="8" class="marginToLeft">

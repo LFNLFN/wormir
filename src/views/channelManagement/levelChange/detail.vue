@@ -285,7 +285,7 @@
         },
         channelPropMap: {
           0: { text: '独立渠道(DLQD)', value: 0 },
-          1: { text: '代发渠道(DFQD)', value: 1 },
+          // 1: { text: '代发渠道(DFQD)', value: 1 },
           2: { text: '分销渠道(FXQD)', value: 2 },
         },
         channelLevelMap: {
