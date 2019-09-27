@@ -1,6 +1,6 @@
 let cooperationMsg = {
   flow: 1,
-  proviceGift: 2,
+  proviceGift: 1,
   specialProject: [],
   cooperationManagementData: [
     {
@@ -18,6 +18,7 @@ let cooperationMsg = {
 
 export function getCooperationData() {
   this.form.flow = this.flow
+  this.form.proviceGift = this.proviceGift
   this.form.specialProject = JSON.stringify(this.specialProject)
   this.form.terminationReason = this.terminationReason
 }

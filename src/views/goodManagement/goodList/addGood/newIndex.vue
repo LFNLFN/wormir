@@ -716,6 +716,7 @@
           packageUnitEnglish: null,
           netWeight: null,
           grossWeight: null,
+          availableSalesChannel: [],
           ingredientArr: [{}],
           hazardArr: [{}],
           tagArr: [{}],

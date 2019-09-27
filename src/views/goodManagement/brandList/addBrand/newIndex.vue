@@ -779,7 +779,7 @@
       <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
         <el-form-item label="赠品提供设置" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
-          <el-radio-group v-model="form.proviceGift">
+          <el-radio-group v-model="proviceGift">
             <el-radio :label="1" border>提供赠品</el-radio>
             <el-radio :label="2" border>不提供赠品</el-radio>
           </el-radio-group>
@@ -939,6 +939,7 @@
         procurementCurrency: 6, // 用于交易信息的交易币种表格
         supplyCurrency: 6, // 用于交易信息的交易币种表格
         flow: 1, // 用于合作信息的流程radio
+        proviceGift: 1, // 用于赠品radio
         useSpecialFlow: false, // 用于合作信息的流程checkbox
         specialProject: [], // 用于合作信息的被选中的特殊项目
         contractStatus: [], // 用于合作信息的合同状态
