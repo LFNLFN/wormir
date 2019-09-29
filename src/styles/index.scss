@@ -321,4 +321,22 @@ code {
   margin-top: -2px;
 }
 
+// 二级页面标题、表格、表头名样式
+#app .el-dialog__title, .form-part-title, #app .el-form h2{
+  color:#353638;
+}
+.form-part-title{
+  font-weight: normal;
+}
+#app .el-row .el-col:nth-child(odd), #app .el-form-item__label{
+  font-weight: normal;
+  color:#0C0B0B;
+  font-size: 12px;
+}
+
+#app .el-form h2{
+  font-weight: normal;
+
+}
+
 
