@@ -300,20 +300,25 @@
             console.log(res)
             this.applyStatus = row.applyStatus;
             this.goodsObject = res.data.goodInfo;
+
             this.goodsObject.brands = res.data.brands;
             this.goodsObject.channelNo = res.data.channelInfo.channelCode;
             this.goodsObject.channelLevel = res.data.channelInfo.channelLevel;
             this.goodsObject.channelName = res.data.channelInfo.channelName;
             this.goodsObject.goodsNo = row.goodsNo;
             this.goodsObject.goodPromotionApplication = res.data.goodPromotionApplication;
+            this.goodsObject.order_start_time = new Date();
             if (this.currentRow.channelProp == 3) {
               this.goodsObject.goodPromotionApplication.map((item) => {
-                if (typeof item=='object' && item.constructor==Array) {
-                  item.isAgree = null;
-                  item.reject_explain = '';
-                  item.isAgreeTitle = null;
-                  item.approve_num = null;
-                }
+                // if (typeof item=='object' && item.constructor==Array) {
+                //
+                // }
+                item.isAgree = null;
+                item.reject_explain = '';
+                item.isAgreeTitle = null;
+                item.approve_num = null;
+                item.noApproveNum = true;
+
               })
             }
             this.isDialogDetailShow = true;

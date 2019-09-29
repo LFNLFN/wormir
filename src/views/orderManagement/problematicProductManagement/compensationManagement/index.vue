@@ -137,7 +137,7 @@
       <el-button type="primary" @click="comfirmArrial" plain>确认到账</el-button>
     </p>
     <div class="pagination-container">
-      <el-pagination background @current-change="changePageList" :current-page="listQuery.page"
+      <el-pagination background @size-change="handleSizeChange" @current-change="changePageList" :current-page="listQuery.page"
                      :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -298,8 +298,13 @@
         this.getList()
       },
       changePageList(val) {
+        console.log(val)
         this.listQuery.page = val
         this.getList()
+      },
+      handleSizeChange(val) {
+        this.listQuery.limit = val
+        this.getList();
       },
       getList() {
         this.listLoading = true

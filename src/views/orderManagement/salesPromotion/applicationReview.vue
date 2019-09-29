@@ -1,10 +1,12 @@
 <template>
   <div class="app-container">
+    <h4>促销商品</h4>
     <div class="theBorder theTopMsgBorder">
+
       <el-row>
-        <el-col :span="3" align="center" :style="{ height: tableHeight + 'px' }">
-          <div class="grid-content bg-purple">促销商品</div>
-        </el-col>
+        <!--<el-col :span="3" align="center" :style="{ height: tableHeight + 'px' }">-->
+          <!--<div class="grid-content bg-purple">促销商品</div>-->
+        <!--</el-col>-->
         <el-col :span="21" style="padding-left: 0">
           <el-table :key="'product'" :data="goodslist" ref="goodsTable"
                     border fit highlight-current-row
@@ -97,7 +99,7 @@
           <el-row>
             <el-col :span="3">已申请数量</el-col>
             <el-col :span="3">
-              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.firstPromotionQuantities}}</div>
+              <div class="grid-content bg-purple">{{ goodsObject.goodPromotionApplication.firstApprovedQuantities}}</div>
             </el-col>
             <el-col :span="1" class="noBackground"><span>套</span></el-col>
             <el-col :span="0"></el-col>
@@ -123,7 +125,7 @@
           <el-col :span="0"></el-col>
           <el-col :span="6" :offset="3">
           <span class="text-muted">{{
-            $t('order.applicationTime') }}: {{ promotion_application_Time | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+            $t('order.applicationTime') }}: {{ goodsObject.goodPromotionApplication.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
           </span>
           </el-col>
         </el-row>
@@ -132,7 +134,7 @@
           <el-col :span="10" style="padding-top: 5px">
             <el-radio-group v-model="isAgree" @change="applicationIsAgree">
               <el-radio :label="true" size="mini">同意申请</el-radio>
-              <el-radio :label="false" size="mini" @change="applicationIsAgree">驳回申请</el-radio>
+              <el-radio :label="false" size="mini">驳回申请</el-radio>
             </el-radio-group>
           </el-col>
         </el-row>
@@ -154,8 +156,8 @@
         <el-row class="no-border-bottom">
           <el-col :span="3" class="border-left">订货时间</el-col>
           <el-col :span="16">
-            <div>{{ order_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ order_end_time |
-              parseTime('{y}年{m}月{d}日') }}
+            <div>{{ goodsObject.order_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;
+              <!--至&nbsp;&nbsp; {{ order_end_time | parseTime('{y}年{m}月{d}日') }}-->
             </div>
           </el-col>
         </el-row>
@@ -256,7 +258,7 @@
               <el-col :span="0"></el-col>
               <el-col :span="6" :offset="3">
           <span class="text-muted">{{
-            $t('order.applicationTime') }}: {{ item.promotion_application_Time | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+            $t('order.applicationTime') }}: {{ item.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
           </span>
               </el-col>
             </el-row>
@@ -265,7 +267,7 @@
             <el-row>
               <el-col :span="3">已申请数量</el-col>
               <el-col :span="3">
-                <div class="grid-content bg-purple">{{ item.firstPromotionQuantities }}</div>
+                <div class="grid-content bg-purple">{{ item.firstApprovedQuantities }}</div>
               </el-col>
               <el-col :span="1" class="noBackground"><span>套</span></el-col>
               <el-col :span="0"></el-col>
@@ -296,9 +298,9 @@
           <el-row>
             <el-col :span="3">审核结果</el-col>
             <el-col :span="10" style="padding-top: 5px">
-              <el-radio-group v-model="item.isAgreeTitle" @change="subApplicationIsAgree">
-                <el-radio :label="index+'-1'" size="mini">同意申请</el-radio>
-                <el-radio :label="index+'-0'" size="mini" @change="subApplicationIsAgree">驳回申请</el-radio>
+              <el-radio-group v-model="item.isAgree" @change="subApplicationIsAgree(item.isAgree , index)">
+                <el-radio :label="true" size="mini">同意申请</el-radio>
+                <el-radio :label="false" size="mini">驳回申请</el-radio>
               </el-radio-group>
             </el-col>
           </el-row>
@@ -320,8 +322,8 @@
           <el-row class="no-border-bottom">
             <el-col :span="3" class="border-left">订货时间</el-col>
             <el-col :span="16">
-              <div>{{ item.order_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;&nbsp;至&nbsp;&nbsp; {{ item.order_end_time |
-                parseTime('{y}年{m}月{d}日') }}
+              <div>{{ goodsObject.order_start_time | parseTime('{y}年{m}月{d}日') }} &nbsp;
+                <!--&nbsp;至&nbsp;&nbsp; {{ item.order_end_time | parseTime('{y}年{m}月{d}日') }}-->
               </div>
             </el-col>
           </el-row>
@@ -393,7 +395,7 @@
         isAgree: null,
         approve_num: null,
         noApproveNum: true,
-        order_start_time: new Date('2018-12-12'),
+        order_start_time: new Date(),
         order_end_time: new Date('2019-03-22'),
         reject_explain: '',
         isFirstReview: false,
@@ -467,28 +469,36 @@
           this.approve_num = null
         }
       },
-      subApplicationIsAgree(val) {
-        let currentIndex = val.split('-')[0]
-        let currentResult = val.split('-')[1]
+      subApplicationIsAgree(val, index) {
+        console.log(val, index)
+        // let currentIndex = val.split('-')[0]
+        // let currentResult = val.split('-')[1]
 
-        if (currentResult == 1) {
-          this.FXZQD_msg[currentIndex].noApproveNum = false;
-          this.FXZQD_msg[currentIndex].approve_num = null
-          this.FXZQD_msg[currentIndex].isAgree = true
+        if (val == true) {
+          this.goodsObject.goodPromotionApplication[index].noApproveNum = false;
+          this.goodsObject.goodPromotionApplication[index].approve_num = null
+          // this.goodsObject.goodPromotionApplication[index].isAgree = true
         }
         else {
-          this.FXZQD_msg[currentIndex].noApproveNum = true;
-          this.FXZQD_msg[currentIndex].approve_num = null
-          this.FXZQD_msg[currentIndex].isAgree = false
+          this.goodsObject.goodPromotionApplication[index].noApproveNum = true;
+          this.goodsObject.goodPromotionApplication[index].approve_num = null
+          // this.goodsObject.goodPromotionApplication[index].isAgree = false
         }
+        console.log(this.goodsObject.goodPromotionApplication[index])
       },
       onSubmit() {
+        console.log('xoxoxo')
         var data = {
           channelCode: this.goodsObject.channelNo,
 
           goodsNo: this.goodsObject.goodsNo
         }
+
         if (this.channelProp != 3) {
+            if ((parseInt(this.goodsObject.goodPromotionApplication.firstPromotionQuantities) < this.approve_num && this.applyStatus == 0) || (this.applyStatus == 1 && parseInt(this.goodsObject.goodPromotionApplication.againPromotionQuantities) < this.approve_num)) {
+            this.$message.error('同意的数量不能超过申请的数量');
+            return false;
+          }
           data.checkTime = new Date()
           data.applyPromotionStatus = this.applyStatus == 0?3:7
           if (this.isAgree) {
@@ -501,7 +511,9 @@
             data.applyPromotionStatus = this.applyStatus == 0?5:9
             data.orderDeadLine = this.goodsObject.goodPromotionApplication.againPromotionEndTime
           }
+          data.checkTime = this.goodsObject.order_start_time;
         }
+
         if (this.channelProp != 3 && this.isAgree == null) {
           this.$message.error('必须填写审核结果！');
           return false
@@ -513,7 +525,7 @@
         if (this.channelProp == 3) {
           data.childChannelCode = []
           data.applyPromotionStatus = []
-          data.checkTime = []
+          data.checkTime = this.goodsObject.order_start_time
           data.orderDeadLine = []
           data.ApprovedQuantities = []
           data.reason = []
@@ -533,9 +545,13 @@
             return false
           }
           this.goodsObject.goodPromotionApplication.forEach((item) => {
+            if ((this.applyStatus == 0 && parseInt(item.firstPromotionQuantities) < item.approve_num) || (this.applyStatus == 1 && parseInt(item.againPromotionQuantities) < item.approve_num)) {
+              this.$message.error('同意的数量不能超过申请的数量');
+              return false;
+            }
             data.childChannelCode.push(item.ChannelCode)
             data.applyPromotionStatus.push(this.applyStatus == 0?3:7)
-            data.checkTime.push(item.firstPromotionStartTime)
+            // data.checkTime.push(item.firstPromotionStartTime)
             data.orderDeadLine.push(item.againPromotionEndTime)
             data.ApprovedQuantities.push(item.approve_num? item.approve_num : '')
             data.reason.push(item.isAgree? '': item.reject_explain)
@@ -550,6 +566,7 @@
     },
     mounted() {
       this.$nextTick(() => {
+        console.log(this.goodsObject)
         // this.tableHeight += this.$refs['goodsTable'].$el.offsetHeight
       })
     }
