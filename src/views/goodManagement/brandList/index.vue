@@ -122,11 +122,11 @@
           </el-badge>
 
 
-          <el-button
+          <!-- <el-button
             size="mini"
             type="danger"
             @click="stopCooperationShow(scope.$index, scope.row)">终止合作
-          </el-button>
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>

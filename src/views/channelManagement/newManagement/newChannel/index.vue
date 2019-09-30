@@ -329,6 +329,7 @@ export default {
       //            this.filterForm.total = res.data.length
       //          })
       this.filterForm.pageSize = val;
+      this.channelSearch();
     },
     handleCurrentChange(val) {
       //        channel_BlurSearch(this.filterForm.searchText, val)
@@ -337,6 +338,7 @@ export default {
       //            this.filterForm.total = res.data.length
       //          })
       this.filterForm.currentPage = val;
+      this.channelSearch();
     },
     filterHandler(value, row, column) {
       const property = column["property"];

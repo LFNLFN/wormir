@@ -325,7 +325,7 @@ code {
 #app .el-dialog__title, .form-part-title, #app .el-form h2{
   color:#353638;
 }
-.form-part-title{
+.form-part-title, #app .el-form h2, .add-good-index-vue h2{
   font-weight: normal;
 }
 #app .el-row .el-col:nth-child(odd), #app .el-form-item__label{
@@ -334,9 +334,5 @@ code {
   font-size: 12px;
 }
 
-#app .el-form h2{
-  font-weight: normal;
-
-}
 
 

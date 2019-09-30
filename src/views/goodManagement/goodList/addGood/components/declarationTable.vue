@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column align="center" label="hide-head">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteDeclaration(scope.$index)" :disabled="makeUpOfGoods==1"></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteDeclaration(scope.$index)" :disabled="MakeUpOfGoods==1 || MakeUpOfGoods==null"></el-button>
             <el-button type="success" icon="el-icon-plus" size="mini" @click="addDeclaration(scope.$index)" :disabled="makeUpOfGoods==1"></el-button>
           </template>
         </el-table-column>
@@ -65,7 +65,8 @@
     },
     data() {
       return {
-        declarationStyleData: [{foo:'bar'}]
+        declarationStyleData: [{foo:'bar'}],
+        MakeUpOfGoods:this.makeUpOfGoods
       }
     },
     computed: {
@@ -78,11 +79,14 @@
         this.declarationStyleData.splice(index+1,0,{foo:'bar'})
         this.declarationSetting.splice(index+1,0,{skuName: null, use: null, package: null,  brandName: this.brandChineseName})
         this.declarationSpecification.splice(index+1,0,{text:null})
+        this.MakeUpOfGoods=this.declarationStyleData.length;
       },
       deleteDeclaration(index) {
+        console.log('获取',index,this.MakeUpOfGoods);
         this.declarationStyleData.splice(index,1)
         this.declarationSetting.splice(index,1)
         this.declarationSpecification.splice(index,1)
+        this.MakeUpOfGoods=this.declarationStyleData.length;
       },
       headerCellStyle({row, column, rowIndex, columnIndex}) {
         if (rowIndex>0) {
@@ -97,6 +101,11 @@
           }
         })
         return specificationName || '自动显示'
+      }
+    },
+    watch:{
+      makeUpOfGoods(val){
+        this.MakeUpOfGoods=val
       }
     }
   }
