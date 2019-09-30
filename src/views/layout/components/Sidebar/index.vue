@@ -38,7 +38,8 @@ export default {
   #sidebar-pic-open {
     box-sizing: border-box;
     padding-right: 10px;
-    width: 300px;
+    // width: 300px;
+    width:100%;
     background-color: #fff;
   }
   #sidebar-pic-close {
