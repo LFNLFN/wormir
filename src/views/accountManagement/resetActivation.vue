@@ -82,6 +82,37 @@ export default {
             showone:true,
             showtwo:false
         }
+    },
+    methods:{
+        submitWithdrawForm(){
+            this.$alert(
+              `提现金额¥
+          已转帐至你绑定的银行
+          帐号，请查收。`,
+              "",
+              {
+                confirmButtonText: "知道了",
+                showClose: false,
+                type: "success",
+                callback: action => {
+                  this.$alert(
+                    `此次提现已支付手续费¥，请知悉。`,
+                    "",
+                    {
+                      confirmButtonText: "知道了",
+                      showClose: false,
+                      type: "success",
+                      callback: action => {
+                        // this.$router.push(
+                        //   `/accountManagement/accountActivation`
+                        // );
+                      }
+                    }
+                  );
+                }
+              }
+            );
+        }
     }
 }
 </script>
