@@ -332,10 +332,32 @@ export const asyncRouterMap = [
     alwaysShow: true,
     children: [
       {
+        path:'/accountpermissions',
+        name:'accountpermissions',
+        component: () => import('@/views/layout/routerWrap'),
+        redirect: '/accountpermissions/wormiraccount/index.vue',
+        meta:{title:'账号权限',fontSizeSmall: true},
+        children:[
+          {
+            path: 'wormiraccount',
+            component: () => import('@/views/accountManagement/accountpermissions/wormiraccount/index.vue'),
+            name: 'wormiraccount',
+            meta: { title: '吾蜜账户列表' }
+          },
+          {
+            path: 'brandaccount',
+            component: () => import('@/views/accountManagement/accountpermissions/brandaccount/index.vue'),
+            name: 'brandaccount',
+            meta: { title: '品牌账户列表' }
+          },
+        ]
+      },
+      {
         path: 'settingManagement',
         component: () => import('@/views/accountManagement/settingManagement/index.vue'),
         name: 'settingManagement',
-        meta: { title: 'settingManagement' }
+        meta: { title: 'settingManagement' },
+        hidden:true
       },
       {
         path: 'modifyPassword',
@@ -343,14 +365,23 @@ export const asyncRouterMap = [
         name: 'modifyPassword',
         meta: {
           title: '修改密码',
-        }
+        },
+        hidden:true
       },
       {
         path: 'accountActivation',
         component: () => import('@/views/accountManagement/accountActivation.vue'),
         name: 'accountActivation',
         meta: {
-          title: '账户激活',
+          title: '激活账户',
+        }
+      },
+      {
+        path: 'resetActivation',
+        component: () => import('@/views/accountManagement/resetActivation.vue'),
+        name: 'accountActivation',
+        meta: {
+          title: '重置激活',
         }
       },
       {
@@ -359,7 +390,8 @@ export const asyncRouterMap = [
         name: 'payDeposit',
         meta: {
           title: '支付保证金',
-        }
+        },
+        hidden:true
       },
       {
         path: 'withdrawMoney',
@@ -367,7 +399,8 @@ export const asyncRouterMap = [
         name: 'withdrawMoney',
         meta: {
           title: '金额提现',
-        }
+        },
+        hidden:true
       },
       {
         path: 'rechargeAndWithdraw',
@@ -375,9 +408,67 @@ export const asyncRouterMap = [
         name: 'rechargeAndWithdraw',
         meta: {
           title: '充值与提现',
-        }
+        },
+        hidden:true
       },
+      { 
+        path:'accountInfo',
+        name: 'accountInfo',
+        meta: {
+          title: '账户资料'
+        },
+        component: () => import('@/views/accountManagement/accountInformation/index.vue'),
+        hidden:true,
+      },
+      {
+        path:'/WalletManagement',
+        name:'WalletManagement',
+        component: () => import('@/views/layout/routerWrap'),
+        redirect: '/accountManagement/WalletManagement/PaymentSettings/index.vue',
+        meta:{title:'钱包管理',fontSizeSmall: true},
+        children:[
+          {
+            path: 'PaymentSettings',
+            component: () => import('@/views/accountManagement/WalletManagement/PaymentSettings/index.vue'),
+            name: 'wormiraccount',
+            meta: { title: '支付设置' }
+          },
+          {
+            path: 'RechargeCash',
+            component: () => import('@/views/accountManagement/WalletManagement/RechargeCash/index.vue'),
+            name: 'wormiraccount',
+            meta: { title: '充值提现' }
+          },
+          {
+            path: 'BindInformation',
+            component: () => import('@/views/accountManagement/WalletManagement/BindInformation/index.vue'),
+            name: 'wormiraccount',
+            meta: { title: '绑定信息' }
+          },
+        ]
+      },
+      {
+        path:'/TransactionRecord',
+        name:'TransactionRecord',
+        component: () => import('@/views/layout/routerWrap'),
+        redirect: '/TransactionRecord/GeneralTrade/index.vue',
+        meta:{title:'交易记录',fontSizeSmall: true},
+        children:[
+          {
+            path: 'GeneralTrade',
+            component: () => import('@/views/TransactionRecord/GeneralTrade/index.vue'),
+            name: 'wormiraccount',
+            meta: { title: '一般交易' }
+          },
+          {
+            path: 'brandaccount',
+            component: () => import('@/views/TransactionRecord/HongkongRAndP/index.vue'),
+            name: 'brandaccount',
+            meta: { title: '香港收付' }
+          },
+        ]
+      }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', redirect: '/404', hidden: true },
 ]

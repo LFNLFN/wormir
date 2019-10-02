@@ -140,7 +140,9 @@ export default {
     dashboard: '首页',
     github: '项目地址',
     screenfull: '全屏',
-    theme: '换肤'
+    theme: '换肤',
+    AccountInformation:'账户资料',
+    ChangePassword:'修改密码'
   },
   login: {
     title: '系统登录',

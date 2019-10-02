@@ -5,41 +5,49 @@
       status-icon
       :rules="rules"
       ref="ruleForm"
-      label-width="100px"
+      label-width="110px"
       class="demo-ruleForm"
     >
-      <el-form-item label="渠道帐户" prop>
+      <!-- <el-form-item label="渠道帐户" prop>
         <span>{{ accout }}</span>
+      </el-form-item> -->
+      <el-form-item label="吾蜜子账户" prop>
+      
       </el-form-item>
       <el-form-item label="账户类型" prop>
-        <span>交易账户</span>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option
+            label="吾蜜"
+            value="1">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="银行名称 " prop="bankName">
+      <el-form-item label="开户银行 " prop="bankName">
         <el-input v-model="ruleForm.bankName"></el-input>
       </el-form-item>
-      <el-form-item label="账户户名" prop="bankAccountOwner">
+      <el-form-item label="开户名称" prop="bankAccountOwner">
         <el-input v-model="ruleForm.bankAccountOwner"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="bankCardNo">
         <el-input v-model="ruleForm.bankCardNo"></el-input>
       </el-form-item>
-      <el-form-item label="预留手机号" prop="phone">
+      <el-form-item label="银行预留手机号" prop="phone">
         <el-input v-model="ruleForm.phone"></el-input>
       </el-form-item>
       <el-form-item>
-        <p class="warn-notice">提醒：一经绑定，订货时选择国内帐号交易皆使用此帐号，请慎填。</p>
+        <p class="warn-notice">提醒：1、开户银行请务必输入详细名称，不然无法实现转账绑定；<br/>2、一经绑定，一般贸易订货皆使用此账号交易，请慎填。</p>
         <el-button type="primary" @click="submitForm('ruleForm')">确认绑定</el-button>
-        <el-button type="danger" @click="releaseBinding()">解除绑定</el-button>
+        <!-- <el-button type="danger" @click="releaseBinding()">解除绑定</el-button> -->
       </el-form-item>
     </el-form>
     <!-- 缴纳保证金 -->
-    <div style="margin: 20px">
+    <!-- <div style="margin: 20px">
       <el-button @click="payDeposit">缴纳保证金</el-button>
-    </div>
+    </div> -->
     <!-- 激活金额到账时 -->
-    <div style="margin: 20px">
+    <!-- <div style="margin: 20px">
       <el-button @click="activationMoneyReceive">激活金额到账</el-button>
-    </div>
+    </div> -->
     <!--点击去付订金-->
     <el-dialog :visible.sync="payWindowVisible" width="30%" append-to-body :show-close="false">
       <div style="text-align: center;">账户余额: ￥{{ accountResidual.toFixed(2) }}</div>
@@ -250,7 +258,6 @@ export default {
     }).then(res => {
       if (res.errorCode == 0) {
         this.ruleForm = res.data;
-
       }
     });
   }
@@ -261,5 +268,8 @@ export default {
 .demo-ruleForm {
   width: 50%;
   margin: 20px;
+}
+.demo-ruleForm .el-select, .demo-ruleForm .el-date-editor.el-input{
+    width:100%;
 }
 </style>

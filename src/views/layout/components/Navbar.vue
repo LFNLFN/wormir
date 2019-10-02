@@ -23,9 +23,19 @@
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
+          <!-- <router-link to="/">
             <el-dropdown-item>
               {{$t('navbar.dashboard')}}
+            </el-dropdown-item>
+          </router-link> -->
+          <router-link to="/accountManagement/accountInfo">
+            <el-dropdown-item>
+              {{$t('navbar.AccountInformation')}}
+            </el-dropdown-item>
+          </router-link>
+          <router-link to="/accountManagement/modifyPassword">
+            <el-dropdown-item>
+              {{$t('navbar.ChangePassword')}}
             </el-dropdown-item>
           </router-link>
           <!--<a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">-->
