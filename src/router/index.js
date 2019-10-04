@@ -379,7 +379,7 @@ export const asyncRouterMap = [
       {
         path: 'resetActivation',
         component: () => import('@/views/accountManagement/resetActivation.vue'),
-        name: 'accountActivation',
+        name: 'resetActivation',
         meta: {
           title: '重置激活',
         }
@@ -430,19 +430,19 @@ export const asyncRouterMap = [
           {
             path: 'PaymentSettings',
             component: () => import('@/views/accountManagement/WalletManagement/PaymentSettings/index.vue'),
-            name: 'wormiraccount',
+            name: 'PaymentSettings',
             meta: { title: '支付设置' }
           },
           {
             path: 'RechargeCash',
             component: () => import('@/views/accountManagement/WalletManagement/RechargeCash/index.vue'),
-            name: 'wormiraccount',
+            name: 'RechargeCash',
             meta: { title: '充值提现' }
           },
           {
             path: 'BindInformation',
             component: () => import('@/views/accountManagement/WalletManagement/BindInformation/index.vue'),
-            name: 'wormiraccount',
+            name: 'BindInformation',
             meta: { title: '绑定信息' }
           },
         ]

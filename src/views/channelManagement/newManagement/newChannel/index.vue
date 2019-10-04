@@ -216,14 +216,14 @@ export default {
         { text: "停止激活账号", value: -200 },
         { text: "停止付保证金", value: -300 },
         { text: "不返还保证金", value: -350 },
-        { text: "停止技术对接", value: -400 },
+        // { text: "停止技术对接", value: -400 },
         // { text: '停止审核', value: -50 },
         // { text: '审核不通过', value: -40 },
         { text: "待返还保证金", value: -950 },
         { text: "已返还保证金", value: -900 },
         // { text: '待提交审核', value: 40 },
         // { text: '待审核', value: 50 },
-        { text: "已开通", value: 1000 }
+        // { text: "已开通", value: 1000 }
         // { text: '停止合作', value: -1000 },
       ],
       cooperationTypeFilters: [
