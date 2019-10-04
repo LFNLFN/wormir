@@ -69,11 +69,11 @@
             <div style="text-align: center;">吾蜜子账户：</div>
             <div style="text-align: center;">账户余额: ￥{{ Number(ruleForm.accountBalance).toFixed(2) }}</div>
             <div class="warn-notice">
-                <div>{{`温馨提醒：请使用您绑定的${ruleForm.bankName}银行账号${ruleForm.bankCardNo}
+                <div>{{`温馨提醒：请使用开户银行：${ruleForm.bankName}，账号：${ruleForm.bankCardNo}
                 自行向吾蜜公司在农商行开通的总金户账户汇入足额金额。`}}</div>
-                <div>账户户名：珠海市吾蜜电子商务有限责任公司</div>
+                <div>开户名称：珠海市吾蜜电子商务有限责任公司</div>
+                <div>开户银行：广州农村商业银行股行有限公司华夏支行（CNAPS号：314581001006）</div>
                 <div>银行账号：{{wormirBankAccount}}</div>
-                <div>银行名称：广州农商银行</div>
                 <div>转账后，请约15分钟后查询您账户余额的变化情况，足够余额扣款时可再次支付该笔款项。</div>
             </div>
             <div slot="footer" class="dialog-footer" style="text-align: center">
@@ -105,9 +105,8 @@ export default {
         },
         submitWithdrawForm(){
             this.$alert(
-              `提现金额¥
-          已转帐至你绑定的银行
-          帐号，请查收。`,
+              `提现金额¥ 已转帐至开户银行：，
+          帐号：，请查收。`,
               "",
               {
                 confirmButtonText: "知道了",

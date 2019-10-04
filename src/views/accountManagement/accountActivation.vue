@@ -147,13 +147,13 @@ export default {
             .then(res => {
               if (res.errorCode == 0) {
                 this.wormirBankAccount = this.ruleForm.bankCardNo;
-                const str = `为激活您的账户，请使用已绑定的${
+                const str = `为激活您的账户，请使用开户银行：${
                   this.ruleForm.bankName
-                }银行账号${
+                }，账号：${
                   this.ruleForm.bankCardNo
                 }自行向吾蜜公司在农商行开通的总金户账户准确汇入随机金额${Math.random().toFixed(
                   2
-                )}元：<br/>账户户名：广州吾蜜贸易有限责任公司;<br/>银行账号：${
+                )}元：<br/>开户名称：广州吾蜜贸易有限责任公司;<br/>开户银行：广州农村商业银行股行有限公司华夏支行（CNAPS号：314581001006）<br/>银行账号：${
                   this.wormirBankAccount
                 }<p class="warn-notice">温馨提示：成功激活账户后，系统会有消息通知。</p>`;
                 this.$alert(str, "", {
