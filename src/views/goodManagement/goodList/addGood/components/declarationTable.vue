@@ -39,7 +39,7 @@
             <span>{{ declarationSetting[scope.$index].brandName || '自动显示' }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="hide-head">
+        <el-table-column align="center" label="hide-head" width="160">
           <template slot-scope="scope">
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteDeclaration(scope.$index)" :disabled="MakeUpOfGoods==1 || MakeUpOfGoods==null"></el-button>
             <el-button type="success" icon="el-icon-plus" size="mini" @click="addDeclaration(scope.$index)" :disabled="makeUpOfGoods==1"></el-button>

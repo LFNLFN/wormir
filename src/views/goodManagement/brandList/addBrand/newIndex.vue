@@ -83,7 +83,7 @@
             border
             :data="categotiesSetting"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="系列名称">
               <template slot-scope="scope">
                 <el-input
@@ -141,7 +141,7 @@
             border
             :data="[{}]"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="商品规格">
               <el-table-column align="center" label="中文">
                 <template slot-scope="scope">
@@ -218,7 +218,7 @@
             v-if="sublicense==2"
             border :data="form.sublicenseStyleTable"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="渠道号">
               <template slot-scope="scope">
                 <el-form-item label="" prop="sublicenseChannelNo" style="margin-bottom: 0">
@@ -285,7 +285,7 @@
             border
             :data="[{}]"
             class="no-border-right no-border-bottom"
-            style="width: 65%;margin: 4px">
+            style="width: 67%;margin: 4px">
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.minBySea[scope.$index].oneChannelminBySea1" placeholder="请输入整数"
@@ -306,7 +306,7 @@
             border
             :data="[{}]"
             class="no-border-right no-border-bottom"
-            style="width: 65%;margin: 4px">
+            style="width: 67%;margin: 4px">
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.packingSetting[scope.$index].packing1" placeholder="例：Standard Packing"
@@ -331,7 +331,7 @@
             border
             :data="[{}]"
             class="no-border-right no-border-bottom"
-            style="width: 85%;margin: 4px">
+            style="width: 87%;margin: 4px">
             <el-table-column align="center" label="一般贸易">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.paymentSetting[scope.$index].payment1" placeholder="例：By T/T"
@@ -363,7 +363,7 @@
             border
             :data="form.brandBoxSetting"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="箱型编号/Carton Type" width="180">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.brandBoxSetting[scope.$index].boxNo" placeholder="请输入箱型分类的编号"
@@ -394,7 +394,7 @@
                           style="width: 120px"></el-input>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="操作">
+            <el-table-column align="center" label="操作" width="150" fixed="right">
               <template slot-scope="scope">
                 <el-button
                   type="danger"
@@ -433,7 +433,7 @@
               :header-cell-class-name="discountHeaderClass1"
               :header-cell-style="discountHeaderStyle1"
               class="no-border-right no-border-bottom"
-              style="width: 95%;margin: 0 4px">
+              style="width: 97%;margin: 0 4px">
               <el-table-column align="center" label="一般贸易">
                 <el-table-column align="center" label="分销订货起订量">
                   <el-table-column align="center" label="货量区间">
@@ -497,7 +497,7 @@
               :data="form.discountRange1ForDL"
               :header-cell-style="discountHeaderStyle2"
               class="no-border-top no-border-right no-border-bottom"
-              style="width: 95%;margin: 0 4px">
+              style="width: 97%;margin: 0 4px">
               <el-table-column align="center" label="独立订货起订量">
                 <el-table-column align="center" label="货量区间">
                   <el-table-column align="center" label="hide1" width="200px">
@@ -561,7 +561,7 @@
               :header-cell-class-name="discountHeaderClass1"
               :header-cell-style="discountHeaderStyle1"
               class="no-border-right no-border-bottom"
-              style="width: 95%;margin: 0 4px">
+              style="width: 97%;margin: 0 4px">
               <el-table-column align="center" label="跨境贸易">
                 <el-table-column align="center" label="分销订货起订量">
                   <el-table-column align="center" label="货量区间">
@@ -624,7 +624,7 @@
               :data="form.discountRange2ForDL"
               :header-cell-style="discountHeaderStyle2"
               class="no-border-top no-border-right no-border-bottom"
-              style="width: 95%;margin: 0 4px">
+              style="width: 97%;margin: 0 4px">
               <el-table-column align="center" label="独立订货起订量">
                 <el-table-column align="center" label="货量区间">
                   <el-table-column align="center" label="hide1" width="200px">
@@ -693,7 +693,7 @@
             border
             :data="form.bankInfo"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="SWIFT Code">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code" clearable></el-input>
@@ -717,7 +717,7 @@
             border
             :data="[{},{}]"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="币种类别">
               <template slot-scope="scope">
                 <span v-if="scope.$index==0">境外易货币种</span>
@@ -803,7 +803,7 @@
             border
             :data="cooperationManagementData"
             class="no-border-right no-border-bottom cooperationManagementTable"
-            style="width: 95%;margin: 4px">
+            style="width: 97%;margin: 4px">
             <el-table-column align="center" label="合同编号">
               <template slot-scope="scope">
                 <!--<el-input v-model.trim="cooperationManagementData[scope.$index].contractNo" placeholder="请输入编号" disabled></el-input>-->
@@ -854,7 +854,7 @@
             :span-method="terminationReasonSpanMethod"
             :cell-class-name="makeFakeTableHeadClass"
             class="no-border-right no-border-bottom no-border-top cooperationManagementTable"
-            style="width: 95%;margin: -4px 4px 4px">
+            style="width: 97%;margin: -4px 4px 4px">
             <el-table-column align="center" label="合同编号">
               <template slot-scope="scope">
                 <span>提前终止原因</span>
