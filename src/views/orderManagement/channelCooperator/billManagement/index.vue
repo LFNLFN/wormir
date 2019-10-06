@@ -162,7 +162,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="isShortageWaitingShow" fullscreen style="padding: 20px">
-      <shortageWaiting v-if="isShortageWaitingShow" :currentRow="currentRow"
+      <shortageWaiting v-if="isShortageWaitingShow=true" :currentRow="currentRow"
                        @close="isShortageWaitingShow=false"></shortageWaiting>
     </el-dialog>
 

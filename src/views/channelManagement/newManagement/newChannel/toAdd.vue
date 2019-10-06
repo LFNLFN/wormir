@@ -54,7 +54,7 @@
 
           <el-form-item v-if="form.businessEntity==1" label="身份证号码" label-width="170px" prop="identityCardNo"
                         class="form-row idCardCode last-form-row">
-            <div style="margin-top: -1px;"><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.identityCardNo"
+            <div style=""><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.identityCardNo"
                       placeholder="请输入身份证号码"></el-input></div>
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="170px" class="form-row idCardCode"
@@ -117,7 +117,7 @@
           </el-form-item>
           <el-form-item v-if="form.businessEntity==2" label="公司地址" label-width="170px" class="form-row idCardCode" 
                         prop="companyAddress">
-            <div style="margin-top: -1px"><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.companyAddress"
+            <div style=""><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.companyAddress"
                       placeholder="请输入公司地址"></el-input></div>
           </el-form-item>
 
@@ -125,7 +125,7 @@
           <el-form-item label="店铺/平台名称" label-width="170px" class="form-row" prop="channelName" v-if="form.channelProp==1">
             <el-col :span="20" class="marginToLeft">
               <el-form-item label="" prop="channelName">
-                <div style="margin-top: -1px"><el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
+                <div style=""><el-input v-model="form.channelName" class="noBorderInput" style="margin-left: -1em"
                           placeholder="请输入店铺/平台名称"></el-input></div>
               </el-form-item>
             </el-col>
@@ -134,13 +134,13 @@
           <el-form-item label="PC店铺/平台链接" label-width="170px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
             <el-col :span="8" class="marginToLeft">
               <el-form-item label="" prop="PCLink">
-                <div style="margin-top: -1px"><el-input v-model="form.PCLink" class="noBorderInput marginToLeft"
+                <div style=""><el-input v-model="form.PCLink" class="noBorderInput marginToLeft"
                           placeholder="请粘贴PC店铺/平台链接"></el-input></div>
               </el-form-item>
             </el-col>
             <el-col :span="16">
               <el-form-item label="手机店铺/平台链接" label-width="170px" prop="appLink">
-                <div style="margin-top: -1px"><el-input v-model="form.appLink" class="noBorderInput marginToLeft"
+                <div style=""><el-input v-model="form.appLink" class="noBorderInput marginToLeft"
                           placeholder="请粘贴手机店铺/平台链接"></el-input></div>
               </el-form-item>
             </el-col>

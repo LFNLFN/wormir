@@ -102,21 +102,33 @@ export default {
       currentCustomer: "",
       listLoading: false,
       total: 0,
+      // propertyFilter: [
+      //   { text: "普通会员", value: 1 },
+      //   { text: "白银会员", value: 2 },
+      //   { text: "黄金会员", value: 3 },
+      //   { text: "白钻会员", value: 4 },
+      //   { text: "黄钻会员", value: 5 },
+      //   { text: "皇冠会员", value: 6 }
+      // ],
+      // propertyMap: {
+      //   '1' : "普通会员",
+      //   '2' : "白银会员",
+      //   '3' : "黄金会员",
+      //   '4' : "白钻会员",
+      //   '5' : "黄钻会员",
+      //   '6' : "皇冠会员",
+      // },
       propertyFilter: [
-        { text: "普通会员", value: 1 },
-        { text: "白银会员", value: 2 },
-        { text: "黄金会员", value: 3 },
-        { text: "白钻会员", value: 4 },
-        { text: "黄钻会员", value: 5 },
-        { text: "皇冠会员", value: 6 }
+        { text: "粉卡会员", value: 1 },
+        { text: "银卡会员", value: 2 },
+        { text: "金卡会员", value: 3 },
+        { text: "黑卡会员", value: 4 }
       ],
       propertyMap: {
-        '1' : "普通会员",
-        '2' : "白银会员",
-        '3' : "黄金会员",
-        '4' : "白钻会员",
-        '5' : "黄钻会员",
-        '6' : "皇冠会员",
+        '1' : "粉卡会员",
+        '2' : "银卡会员",
+        '3' : "金卡会员",
+        '4' : "黑卡会员"
       },
     };
   },
@@ -134,6 +146,7 @@ export default {
         .then(res => {
           if (res.errorCode == 0) {
             this.list = res.data.items;
+            console.log(this.list)
             this.totalAmount = 0;
             this.list.forEach((e, i, s) => {
               this.totalAmount += Number(e.logisticCompensationAmount);

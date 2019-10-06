@@ -9,7 +9,7 @@
             border
             :data="form.tradeAccountSetting"
             class="no-border-right no-border-bottom"
-            style="width: 95%;margin: 4px">
+            style="width: 95%;margin: 4px 4px 0">
             <el-table-column align="center" label="SWIFT Code">
               <template slot-scope="scope">
                 <el-input
@@ -43,6 +43,38 @@
                 <el-input
                   v-if="scope.$index==1" placeholder="输入英文银行地址" clearable
                   v-model.trim="form.tradeAccountSetting[1].bankAddressEn"
+                ></el-input>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-table
+            border
+            :data="form.tradeAccountSetting"
+            :span-method="objectSpanMethod"
+            class="no-border-right no-border-bottom"
+            style="width: 95%;margin:0px 4px 4px">
+            <el-table-column align="center" label="受益人/汇款人账户">
+              <template slot-scope="scope">
+                <el-input placeholder="输入受益人/汇款人账户" clearable></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="收/汇款名称">
+              <template slot-scope="scope">
+                <el-input
+                  v-if="scope.$index==0" placeholder="输入收/汇款公司/个体的中文名称" clearable
+                ></el-input>
+                <el-input
+                  v-if="scope.$index==1" placeholder="输入收/汇款公司/个体的中文名称" clearable
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="收/汇款地址">
+              <template slot-scope="scope">
+                <el-input
+                  v-if="scope.$index==0" placeholder="输入收/汇款公司/个体的银行登记中文名称" clearable
+                ></el-input>
+                <el-input
+                  v-if="scope.$index==1" placeholder="输入收/汇款公司/个体的银行登记中文名称" clearable
                 ></el-input>
               </template>
             </el-table-column>
@@ -370,6 +402,21 @@
       }
     },
     methods: {
+      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+        if (columnIndex === 0) {
+          if (rowIndex % 2 === 0) {
+            return {
+              rowspan: 2,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+      },
       onSubmit() {
         this.isSubmitting = true;
         this.$refs["form"].validate(valid => {

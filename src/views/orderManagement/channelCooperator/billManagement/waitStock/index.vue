@@ -106,6 +106,26 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">受益人账户</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">收款名称</div>
+            </el-col>
+            <el-col :span="4">
+             <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">收款地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="3" align="center">
               <div class="grid-content bg-purple">汇款SWFIT Code</div>
             </el-col>
@@ -123,6 +143,26 @@
             </el-col>
             <el-col :span="9">
               <div class="grid-content bg-purple">{{orderDetail.channelBankAddress}}</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">汇款人账户</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="3" align="center">
+              <div class="grid-content bg-purple">汇款名称</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="2" align="center">
+              <div class="grid-content bg-purple">汇款地址</div>
+            </el-col>
+            <el-col :span="9">
+              <div class="grid-content bg-purple"></div>
             </el-col>
           </el-row>
         </div>

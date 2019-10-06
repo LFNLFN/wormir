@@ -133,10 +133,13 @@
       <div class="border1">
         <el-row class="border-top">
           <el-col :span="5">
-            <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
+            <div class="grid-content bg-purple">{{'店铺/平台名称'}}</div>
           </el-col>
-          <el-col :span="19">
+          <el-col :span="14">
             <div class="grid-content bg-purple-light">{{currentRow.channelName}}</div>
+          </el-col>
+          <el-col :span="5"  style="display:block;background:none;">
+            <div class="grid-content bg-purple-light">{{'渠道名称'}}</div>
           </el-col>
         </el-row>
         <el-row>

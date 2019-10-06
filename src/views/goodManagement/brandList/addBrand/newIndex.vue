@@ -693,8 +693,8 @@
             border
             :data="form.bankInfo"
             class="no-border-right no-border-bottom"
-            style="width: 97%;margin: 4px">
-            <el-table-column align="center" label="SWIFT Code">
+            style="width: 97%;margin:4px 4px 0">
+            <el-table-column align="center" label="SWFIT Code">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.bankInfo[scope.$index].swiftCode" placeholder="请输入品牌商交易银行的SWIFT Code" clearable></el-input>
               </template>
@@ -707,6 +707,27 @@
             <el-table-column align="center" label="银行地址">
               <template slot-scope="scope">
                 <el-input v-model.trim="form.bankInfo[scope.$index].bankAddress" placeholder="请输入品牌商交易银行的英文地址" clearable></el-input>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-table
+            border
+            :data="form.bankInfo"
+            class="no-border-right no-border-bottom"
+            style="width: 97%;margin:0px 4px 4px">
+            <el-table-column align="center" label="受益人/汇款人账户">
+              <template slot-scope="scope">
+                <el-input placeholder="输入受益人/汇款人账户" clearable></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="收/汇款名称">
+              <template slot-scope="scope">
+                <el-input placeholder="输入收/汇款公司/个体的英文名称" clearable></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="收/汇款地址">
+              <template slot-scope="scope">
+                <el-input placeholder="输入收/汇款公司/个体的银行登记英文地址" clearable></el-input>
               </template>
             </el-table-column>
           </el-table>

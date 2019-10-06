@@ -117,7 +117,7 @@
     <el-dialog :visible.sync="isConfirmShow" width="75%" @close="isConfirmShow = false" title="子渠道审批">
       <to-confirm :currentRow="currentRow" v-if="isConfirmShow" @closeDialog="isConfirmShow=false;channelBlurSearch()"></to-confirm>
     </el-dialog>
-    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="子渠道查看">
+    <el-dialog :visible.sync="isCheckShow" width="75%" @close="isCheckShow = false" title="查看子渠道">
       <to-check :currentRow="currentRow" v-if="isCheckShow"></to-check>
     </el-dialog>
     <el-dialog :visible.sync="isDeleteShow" width="75%" @close="isDeleteShow = false" title="强制终止">

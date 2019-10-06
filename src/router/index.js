@@ -357,7 +357,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/accountManagement/settingManagement/index.vue'),
         name: 'settingManagement',
         meta: { title: 'settingManagement' },
-        hidden:true
+        hidden:false
       },
       {
         path: 'modifyPassword',
