@@ -366,7 +366,7 @@ export const asyncRouterMap = [
         meta: {
           title: '修改密码',
         },
-        hidden:true
+        hidden:false
       },
       {
         path: 'accountActivation',
@@ -391,7 +391,7 @@ export const asyncRouterMap = [
         meta: {
           title: '支付保证金',
         },
-        hidden:true
+        hidden:false
       },
       {
         path: 'withdrawMoney',
@@ -400,7 +400,7 @@ export const asyncRouterMap = [
         meta: {
           title: '金额提现',
         },
-        hidden:true
+        hidden:false
       },
       {
         path: 'rechargeAndWithdraw',
@@ -409,7 +409,7 @@ export const asyncRouterMap = [
         meta: {
           title: '充值与提现',
         },
-        hidden:true
+        hidden:false
       },
       { 
         path:'accountInfo',
@@ -418,7 +418,7 @@ export const asyncRouterMap = [
           title: '账户资料'
         },
         component: () => import('@/views/accountManagement/accountInformation/index.vue'),
-        hidden:true,
+        hidden:false,
       },
       {
         path:'/WalletManagement',
