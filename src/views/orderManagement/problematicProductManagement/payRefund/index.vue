@@ -25,7 +25,7 @@
       fit
       size="mini"
       style="width: 100%;"
-      class="main-table"
+      class="main-table border1"
     >
       <el-table-column
         align="center"

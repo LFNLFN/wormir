@@ -3,7 +3,8 @@
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
-        <dd class="border1" style="border-bottom-width: 2px">
+        <!-- border1 -->
+        <dd class="" style="border-bottom-width: 2px">
           <el-form-item label="合作类型" prop="cooperationType">
             <el-radio-group v-model="form.cooperationType">
               <!--<el-radio :label="1">渠道入驻</el-radio>-->
@@ -44,7 +45,8 @@
 
       <dl>
         <dt><h3 class="form-part-title">基本信息</h3></dt>
-        <dd class="border1">
+        <!-- border1 -->
+        <dd class="">
           <el-form-item label="经营主体" label-width="130px" prop="businessEntity">
             <el-radio-group v-model="form.businessEntity">
               <el-radio :label="1" v-show="form.channelProp!=3">个人</el-radio>
@@ -156,7 +158,8 @@
         <dt><h3 class="form-part-title">联系方式</h3></dt>
         <dd>
         <dt>联系方式 <span style="color: red">(温馨提示：渠道联系人及技术对接人必填哦！)</span></dt>
-        <dd class="border1 no-border-bottom">
+        <!-- border1 -->
+        <dd class=" no-border-bottom">
           <el-table
             border
             :data="form.contactData"
@@ -241,7 +244,8 @@
         </dd>
         </dd>
         <dt><h3 class="form-part-title">保证金</h3></dt>
-        <dd class="border1">
+        <!-- border1 -->
+        <dd class="">
           <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" prop="securityAmount">
             <el-select class="noBorderInput marginToLeft" v-model="form.securityAmount" placeholder="请选择">
               <el-option

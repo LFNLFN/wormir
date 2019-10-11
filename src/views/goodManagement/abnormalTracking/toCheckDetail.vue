@@ -2,8 +2,8 @@
   <div>
     <!--渠道特点-->
     <h3 class="form-part-title">渠道特点</h3>
-    <!--content-->
-    <div class="border1">
+    <!--content border1-->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{ '渠道号' }}</div>
@@ -56,8 +56,8 @@
 
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
-    <!--content-->
-    <div class="border1" style="border-top-width: 2px">
+    <!--content border1-->
+    <div class="" style="border-top: 1px solid #d5d5d5">
       <el-row>
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'经营主体'}}</div>
@@ -107,7 +107,8 @@
       </el-row>
     </div>
     <p style="margin: .5em"></p>
-    <div class="border1">
+    <!-- border1 -->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -207,7 +208,8 @@
     </el-table>
 
     <h3 class="form-part-title">开通审核</h3>
-    <div class="border1">
+    <!-- border1 -->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'申请时间'}}</div>
@@ -278,7 +280,8 @@
       </el-table-column>
     </el-table>
     <h3 class="form-part-title">保证金</h3>
-    <div class="border1">
+    <!-- border1 -->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'保证金金额'}}</div>

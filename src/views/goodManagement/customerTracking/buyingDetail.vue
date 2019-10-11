@@ -7,12 +7,13 @@
       placeholder="选择年">
     </el-date-picker>
     <p></p>
+    <!-- border2 -->
     <el-table
       key='boxList' :data="list"
       border fit highlight-current-row
       v-loading="listLoading" element-loading-text="给我一点时间"
-      size="mini" style="width: 100%"
-    class="border2">
+      size="mini" style="width: 100%;border-top:1px solid #d5d5d5;border-left:1px solid #d5d5d5;"
+    class="">
       <el-table-column align="center" label="品牌名称" prop="" min-width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.brandNameEn || scope.row.brandNameZh }}</span>

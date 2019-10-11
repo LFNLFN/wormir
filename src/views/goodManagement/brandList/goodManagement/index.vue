@@ -12,11 +12,12 @@
         <el-button type="primary" icon="el-icon-search" @click="goodBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
+    <!-- border-top2 border-left2 border-right1 border-width: 2px;border-right-width: 1px-->
     <el-table
       border v-loading="listLoading"
       :data="goodTableData"
-      style="width: 100%;border-width: 2px;border-right-width: 1px"
-      class="border-top2 border-left2 border-right1"
+      style="width: 100%;"
+      class="table_border"
     >
       <el-table-column
         fixed="left"
@@ -185,8 +186,11 @@ export default {
         method: 'post',
         data: this.filterForm
       }).then(res => {
-        this.goodTableData = res.data.items
-        this.filterForm.total = res.data.total
+        console.log(res)
+        if(res.code!=-1){
+          this.goodTableData = res.data.items
+          this.filterForm.total = res.data.total
+        }
         this.listLoading = false
       })
     },

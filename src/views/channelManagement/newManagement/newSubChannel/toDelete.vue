@@ -2,12 +2,13 @@
   <div>
     <p v-if="currentRow.channelStatus<400">终止说明: 超级管理员特有权限，仅存在渠道支付保证金之前操作，请谨慎操作！</p>
     <h3 v-if="currentRow.channelStatus>300" class="form-part-title">合同信息</h3>
+    <!-- border-width: 2px;border-bottom-width: 1px -->
     <el-table
       v-if="currentRow.channelStatus>300"
       border
       :data="contractData"
       ref="contractTable"
-      style="width: 100%;border-width: 2px;border-bottom-width: 1px"
+      style="width: 100%;"
       class="no-border">
       <el-table-column
         prop="contractNo"
@@ -47,7 +48,8 @@
       </el-table-column>
     </el-table>
     <p></p>
-    <el-form ref="form" :model="form" label-width="80px" style="border: 1px solid #D5D5D5;border-bottom-width: 2px">
+    <!-- border: 1px solid #D5D5D5;border-bottom-width: 2px -->
+    <el-form ref="form" :model="form" label-width="80px" style="border-bottom: 1px solid #D5D5D5;">
       <el-form-item label="终止理由" class="form-row">
         <el-input type="textarea" class="noBorderTextarea" :rows="1" v-model="form.reason"
                   placeholder="请输入终止理由" style="margin-left: -1em"></el-input>

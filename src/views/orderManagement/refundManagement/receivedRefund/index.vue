@@ -13,7 +13,7 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border-left2 border-top2"
+      class="table_border2"
       style="width: 100%">
 
       <el-table-column align="center" :label="$t('receivedRefund.mergePayNo')" min-width="100" prop="mergePayNo"/>

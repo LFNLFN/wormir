@@ -1,6 +1,6 @@
 <template>
     <div class="add-brand-index-vue">
-        <div class="border1 form-error-inline addcount_box">
+        <div class=" form-error-inline addcount_box">
             <el-table
                 border
                 :data="[{}]"

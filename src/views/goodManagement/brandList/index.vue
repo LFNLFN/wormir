@@ -11,10 +11,11 @@
         <el-button type="success" icon="el-icon-plus" @click="showAddBrand">新增品牌</el-button>
       </el-form-item>
     </el-form>
+    <!-- border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5 -->
     <el-table
       border v-loading="tableLoading"
       :data="brandTableData"
-      style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
+      style="width: 100%;"
       >
       <el-table-column
         prop="brandNo"
@@ -141,7 +142,7 @@
         :total="filterForm.total">
       </el-pagination>
     </div>
-    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="编辑品牌">
+    <el-dialog :visible.sync="isAddBrandShow" v-if="isAddBrandShow" width="85%" @close="isAddBrandShow = false" title="新增品牌">
       <addBrand v-if="isAddBrandShow" @submitSuccess="submitSuccess"></addBrand>
     </el-dialog>
     <el-dialog :visible.sync="isEditBrandShow" width="85%" @close="isEditBrandShow = false" title="编辑品牌">

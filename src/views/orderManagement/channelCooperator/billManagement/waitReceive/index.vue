@@ -175,9 +175,9 @@
 
       <div style="display: flex">
         <div class="brand-col">
-          <div class="col-head border-bottom" style="border-left: 2px solid #d5d5d5">商品品牌</div>
+          <div class="col-head border-bottom" style="border-left: 1px solid #d5d5d5">商品品牌</div>
           <div class="col-content"
-               :style="{height: tableHeight-37+'px', borderLeft: '2px solid #d5d5d5', borderBottom: '2px solid #d5d5d5'}">
+               :style="{height: tableHeight-37+'px', borderLeft: '1px solid #d5d5d5', borderBottom: '1px solid #d5d5d5'}">
             <span>AESOP</span>
           </div>
         </div>

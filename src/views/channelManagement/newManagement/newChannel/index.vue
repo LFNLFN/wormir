@@ -12,9 +12,9 @@
       </el-form-item>
     </el-form>
     <el-table
-      border=""
+      :border="true"
       :data="channelTableData"
-      style="width: 100%;border-left-width: 2px;border-top-width: 2px"
+      style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5"
       v-loading="listLoading"
     >
       <el-table-column prop="channelNum" label="渠道号" min-width="180" align="center"></el-table-column>

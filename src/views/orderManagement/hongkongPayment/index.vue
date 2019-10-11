@@ -17,7 +17,7 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border2"
+      class="border1"
       style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
       <el-table-column min-width="120px" align="center" label="货单号/并单号" prop="order_no"/>
 

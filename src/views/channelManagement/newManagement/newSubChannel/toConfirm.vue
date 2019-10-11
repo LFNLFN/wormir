@@ -3,7 +3,7 @@
     <!--待审核-->
     <template v-if="currentRow.channelStatus==50">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -48,7 +48,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -130,7 +130,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -179,8 +179,8 @@
       <el-table
         border=""
         :data="contactData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;"
+        class="table_border"
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
@@ -190,17 +190,18 @@
         </el-table-column>
         <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
         <el-table-column prop="mobile" label="电话" align="center" min-width="90"></el-table-column>
-        <el-table-column prop="email" label="邮箱" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="email" label="邮箱" align="center" min-width="100"></el-table-column>
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
+      border-bottom-width: 2px
       <el-form
         ref="form"
         :model="form"
         label-width="120px"
-        class="border1"
-        style="border-bottom-width: 2px"
+        class=""
+        style="border-bottom:1px solid #d5d5d5"
       >
         <el-form-item label="申请时间" class="form-row">
           <div>{{ $moment(currentRow.createTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
@@ -250,7 +251,7 @@
     <!--待签合同-->
     <template v-if="currentRow.channelStatus==100">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -295,7 +296,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -377,7 +378,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -423,8 +424,8 @@
       <el-table
         border=""
         :data="contactData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%; "
+        class="table_border"
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
@@ -434,7 +435,7 @@
         </el-table-column>
         <el-table-column prop="userName" label="姓名" align="center" min-width="80"></el-table-column>
         <el-table-column prop="mobile" label="电话" align="center" min-width="90"></el-table-column>
-        <el-table-column prop="email" label="邮箱" align="center" min-width="110"></el-table-column>
+        <el-table-column prop="email" label="邮箱" align="center" min-width="100"></el-table-column>
         <el-table-column prop="address" label="地址" align="center" min-width="140"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
@@ -479,7 +480,7 @@
     <!--待系统对接-->
     <template v-if="currentRow.channelStatus==400">
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -561,7 +562,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>

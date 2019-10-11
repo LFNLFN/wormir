@@ -17,8 +17,8 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border2"
-      style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
+      class="border1"
+      style="width: 100%;">
       <el-table-column min-width="120px" align="center" label="渠道号" prop="channelCode"/>
 
       <el-table-column min-width="150px" align="center" label="渠道名称" prop="channelName"/>

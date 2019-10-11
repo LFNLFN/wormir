@@ -24,7 +24,7 @@
       border=""
       fit
       highlight-current-row
-      class="border2"
+      class="table_border2"
       style="width: 100%;border-right-width: 1px"
     >
       <el-table-column

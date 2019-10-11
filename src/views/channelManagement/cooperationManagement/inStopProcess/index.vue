@@ -8,7 +8,8 @@
         <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table border :data="channelTableData" class="border2" style="width: 100%;border-width:2px;border-right-width: 1px">
+    <!-- border2 border-width:2px;border-right-width: 1px-->
+    <el-table border :data="channelTableData" class="" style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5">
       <el-table-column prop="channelNum" label="渠道号" min-width="180" align="center"></el-table-column>
       <el-table-column prop="channelName" label="渠道名称" min-width="170" align="center"></el-table-column>
       <el-table-column

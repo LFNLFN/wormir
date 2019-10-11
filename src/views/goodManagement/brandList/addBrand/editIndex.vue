@@ -2,7 +2,8 @@
   <div class="add-brand-index-vue">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px" key="edit-brand-index-vue">
       <h2>基础信息</h2>
-      <div class="border1 form-error-inline">
+      <!-- border1 -->
+      <div class=" form-error-inline">
         <el-form-item label="品牌序列号" prop="brandNo" class="form-row add-brand-row">
           <el-input v-model.trim="form.brandNo" placeholder="请输入品牌序列号" disabled></el-input>
         </el-form-item>
@@ -76,7 +77,8 @@
       </div>
 
       <h2>商品信息</h2>
-      <div class="border1 form-error-inline">
+      <!-- border1 -->
+      <div class=" form-error-inline">
         <el-form-item label="品牌商品分类设置" prop="categotiesSetting" class="border1 no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
@@ -244,7 +246,8 @@
       </div>
 
       <h2>易货信息</h2>
-      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5">
+      <!-- border1 -->
+      <div class=" form-error-inline" style="border-bottom: 1px solid #D5D5D5">
         <el-row>
           <el-col :span="12">
             <el-form-item label="空运国际物流天数" prop="airDeliverDays" class="form-row add-brand-row no-border-right">
@@ -685,7 +688,8 @@
       </div>
 
       <h2>交易信息</h2>
-      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
+      <!-- border1 -->
+      <div class=" form-error-inline" style="border-bottom: 1px solid #D5D5D5;border-top: 1px solid #D5D5D5">
         <el-form-item label="交易账号设置" prop="bankInfo" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-table
@@ -787,7 +791,8 @@
       </div>
 
       <h2>上传信息</h2>
-      <div class="border1 form-error-inline" v-if="uploadVisible">
+      <!-- border1 -->
+      <div class=" form-error-inline" v-if="uploadVisible">
         <el-form-item label="文件上传设置" prop="" class="border1" style="margin-bottom: 0">
           <div class="forLayout">
             <uploadComponents @handleUploadFiles="handleUploadFiles(arguments)" :brandNo="form.brandNo"
@@ -803,7 +808,8 @@
       </div>
 
       <h2>合作信息</h2>
-      <div class="border1 form-error-inline" style="border-bottom: 2px solid #D5D5D5;border-top: 2px solid #D5D5D5">
+      <!-- border1 -->
+      <div class=" form-error-inline" style="border-bottom: 1px solid #D5D5D5;border-top: 1px solid #D5D5D5">
         <el-form-item label="OCC系统使用设置" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-radio-group v-model="flow" @change="flowChange">

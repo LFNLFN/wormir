@@ -2,7 +2,8 @@
   <div>
     <h3 class="form-part-title">基本信息</h3>
     <!--content-->
-    <div class="border1" style="border-top-width: 2px">
+    <!-- border1 border-top-width: 2px-->
+    <div class="" style="">
       <!--<el-row>-->
       <!--<el-col :span="5">-->
       <!--<div class="grid-content bg-purple ">{{'渠道号'}}</div>-->
@@ -60,7 +61,8 @@
       </el-row>
     </div>
     <p style="margin: .5em"></p>
-    <div class="border1" style="border-top-width: 2px">
+    <!-- border1 border-top-width: 2px-->
+    <div class="" style="">
       <el-row v-if="currentRow.businessEntity===1">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -111,7 +113,8 @@
       </el-row>
     </div>
     <p style="margin: .5em"></p>
-    <div class="border1" style="border-top-width: 2px">
+    <!-- border1 border-top-width: 2px-->
+    <div class="" style="">
       <el-row>
         <el-col :span="5" style="height: 29px">
           <div class="grid-content bg-purple ">{{'技术对接'}}</div>

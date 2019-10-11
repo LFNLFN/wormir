@@ -128,7 +128,7 @@
             border=""
             fit
             size="mini"
-            style="width: 100%;border:none;border-left: 2px solid #d5d5d5;border-right: 1px solid #d5d5d5;border-bottom: 2px solid #d5d5d5"
+            style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5;border-bottom: 1px solid #d5d5d5"
             class="orderTable"
             ref="orderTable"
             :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700',height: '36px'}"
@@ -227,7 +227,7 @@
             fit
             size="mini"
             :span-method="arraySpanMethod"
-            style="width: 100%;border:none;border-left: 2px solid #d5d5d5;border-right: 1px solid #d5d5d5;border-bottom: 2px solid #d5d5d5"
+            style="width: 100%;border:none;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5;border-bottom: 1px solid #d5d5d5"
             :show-header="false"
           >
             <el-table-column align="center" label="" width="120">

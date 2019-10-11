@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!--地址栏-->
-    <div style="border: solid 1px #D5D5D5;border-width: 2px 1px 1px 2px;">
+    <!--地址栏 border-width:2px 1px 1px 2px;-->
+    <div style="border-top: solid 1px #D5D5D5;">
       <el-row>
         <el-col :span="3" align="center">
           <div class="grid-content bg-purple">
@@ -54,11 +54,11 @@
       <reviewOrderList :currentRow="item" :ref="orderItem + item" style="padding: 0;"/>
       <div
         v-if="currentOrder.shipmentStatusDetail==1"
-        class="text-muted border2 no-border-top"
+        class="text-muted border1 no-border-top"
       >支付余款时间：{{ item.paySurplusTime }}</div>
       <div
         v-if="currentOrder.shipmentStatusDetail>1"
-        class="text-muted border2 no-border-top"
+        class="text-muted border1 no-border-top"
       >国外出库时间：{{ item.externalOutboundTime }}</div>
     </div>
     <div class="text-center" style="margin: 1em" v-if="currentOrder.shipmentStatusDetail>3">

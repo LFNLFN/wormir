@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-row class="border1" style="border-top-width: 2px;border-bottom: none">
+      <!-- border1 -->
+    <el-row class="" style="border-top: 1px solid #d5d5d5;">
       <el-col :span="2" align="left">
         <div class="grid-content bg-purple">渠道号</div>
       </el-col>

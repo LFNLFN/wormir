@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="border1" style="border-bottom-width: 2px">
+    <!-- border1 -->
+    <div class="" style="border-bottom:1px solid #d5d5d5">
       <el-row>
         <el-col :span="3" align="left">
           <div class="grid-content bg-purple">品牌序列号</div>

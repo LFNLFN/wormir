@@ -14,29 +14,30 @@
         <el-table
             border v-loading="tableLoading"
             :data="wormirTableData"
-            style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
+            style="width: 100%;"
+            class="table_border"
             >
             <el-table-column
-                prop="brandNo"
+                prop="account"
                 label="吾蜜账户"
                 min-width="100"
                 align="center"
                 fixed="left">
             </el-table-column>
             <el-table-column
-                prop="englishName"
+                prop="name"
                 label="账户姓名"
                 min-width="120"
                 align="center">
             </el-table-column>
             <el-table-column
-                prop="chineseName"
+                prop="mobile"
                 label="手机号码"
                 min-width="120"
                 align="center">
             </el-table-column>
             <el-table-column
-                prop="productionPlaceChinese"
+                prop="sex"
                 label="性别"
                 min-width="100"
                 align="center">
@@ -44,7 +45,7 @@
                 <!-- :filters="[{ text: '自动续签', value: 100 }, { text: '到期终止', value: -100 }, { text: '提前终止', value: -200 }]"
                 :filter-method="filterHandler" -->
             <el-table-column
-                prop="contractStatus"
+                prop="bith"
                 label="生日"
                 min-width="120"
                 align="center">
@@ -55,7 +56,7 @@
                 <!-- :filters="[{ text: '正常供货', value: 1 }, { text: '停止供货', value: 2 }, { text: '待定', value: 3 }]"
                     :filter-method="filterHandler" -->
             <el-table-column
-                prop="brandStatus"
+                prop="department"
                 label="工作部门"
                 min-width="120"
                 
@@ -67,7 +68,7 @@
                 <!-- :filters="[{ text: '转授权', value: 1 }, { text: '非转授权', value: 2 }]"
                 :filter-method="filterHandler" -->
             <el-table-column
-                prop="sublicense"
+                prop="job"
                 label="工作职位"
                 min-width="120"
                 
@@ -79,7 +80,7 @@
                 <!-- :filters="[{ text: '一般贸易', value: 1 }, { text: '跨境贸易', value: 2 }, { text: '一般贸易+跨境贸易', value: 3 }]"
                     :filter-method="filterHandler" -->
             <el-table-column
-                prop="discountTargetObj"
+                prop="email"
                 label="联系邮箱"
                 min-width="120"
             
@@ -91,7 +92,7 @@
                 <!-- :filters="[{ text: '全部使用常规流程', value: 1 }, { text: '部分使用特殊流程', value: 2 }]"
                 :filter-method="filterHandler" -->
             <el-table-column
-                prop="flow"
+                prop="address"
                 label="联系地址"
                 min-width="120"
                 
@@ -101,13 +102,13 @@
                 </template> -->
             </el-table-column>
             <el-table-column
-                prop="checkInTime"
+                prop="startDate"
                 label="开通时间"
                 min-width="140"
                 align="center">
             </el-table-column>
             <el-table-column
-                prop="flow"
+                prop="status"
                 label="账号状态"
                 min-width="120"
                 :filters="[{ text: '正常使用', value: 1 }, { text: '停止使用', value: 2 }]"
@@ -196,7 +197,12 @@ export default {
         const property = column['property'];
         return row[property] === value;
       },
-    }
+        getData(){
+        }
+    },
+    created() {
+        this.getData();
+    },
 }
 </script>
 

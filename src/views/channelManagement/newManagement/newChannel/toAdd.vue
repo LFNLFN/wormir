@@ -4,7 +4,8 @@
     <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
       <dl>
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
-        <dd class="border1" style="border-bottom-width: 2px">
+        <!-- border1 -->
+        <dd class="" style="border-bottom:1px solid #d5d5d5; margin:0;">
           <el-form-item label="合作类型" prop="cooperativeType">
             <el-radio-group v-model="form.cooperativeType">
               <el-radio :label="1">渠道入驻</el-radio>
@@ -44,7 +45,7 @@
 
       <dl>
         <dt><h3 class="form-part-title">基本信息</h3></dt>
-        <dd class="border1">
+        <dd class="">
           <el-form-item label="经营主体" label-width="170px" prop="businessEntity">
             <el-radio-group v-model="form.businessEntity">
               <el-radio :label="1" v-show="form.channelProp!=3">个人</el-radio>
@@ -60,7 +61,7 @@
           <el-form-item v-if="form.businessEntity==2" label="公司名称" label-width="170px" class="form-row idCardCode"
                         prop="channelName">
                         <el-col :span="20" class="">
-            <div style="margin-top: -1px"><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelName"
+            <div style=""><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==1"></el-input>
                       <el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelName"
                       placeholder="请输入公司名称" v-if="form.channelProp==3">
@@ -81,6 +82,7 @@
               style="padding: 10px 0"
               class="avatar-uploader"
               action=""
+              :limit="1"
               :show-file-list="false"
               :http-request="uploadfrontAction"
               :before-upload="beforeAvatarUpload">
@@ -148,7 +150,7 @@
         </dd>
         <p style="margin: 0;padding: 0;text-indent: 2em" class="warn-notice" v-if="form.channelProp==1">
             *由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
-        <dd class="border1">
+        <dd class="">
           <el-form-item label="经营范围" label-width="170px" prop="businessRange">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
                       placeholder="请输入经营内容（200字以内）"></el-input>
@@ -160,13 +162,13 @@
         </dd>
         <dt><h3 class="form-part-title">联系方式</h3></dt>
         <dd>
-        <dd class="border1 no-border-bottom">
+        <dd class=" no-border-bottom">
           <el-table
             border
             :data="form.contactData"
             class="vali-table"
             :cell-style="{height: '100px'}"
-            style="width: 100%;border-right-width: 0">
+            style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5">
             <el-table-column
               align="center"
               prop="dutyNo"
@@ -248,7 +250,7 @@
         </dd>
         </dd>
         <dt><h3 class="form-part-title">保证金</h3></dt>
-        <dd class="border1">
+        <dd class="">
           <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" prop="securityAmount">
             <el-select class="noBorderInput marginToLeft" v-model="form.securityAmount" placeholder="请选择">
               <el-option

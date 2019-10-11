@@ -13,10 +13,10 @@
         {{$t('table.search')}}
       </el-button>
     </div>
-
+    <!-- border-left2 border-top2 -->
     <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row size="mini" style="width: 100%"
-              class="border-left2 border-top2">
+              class="table_border">
       <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="brandNameEn"/>
       <el-table-column min-width="100" align="center" label="商品编号" prop="goodNoForBrand"/>
       <el-table-column min-width="140" align="center" label="商品名称（英文）" prop="goodNameEn" show-overflow-tooltip/>

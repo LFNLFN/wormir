@@ -2,8 +2,8 @@
   <div>
     <!--渠道特点-->
     <h3 class="form-part-title">渠道特点</h3>
-    <!--content-->
-    <div class="border1">
+    <!--content border1-->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -56,8 +56,8 @@
 
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
-    <!--content-->
-    <div class="border1">
+    <!--content border1-->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'渠道号'}}</div>
@@ -114,8 +114,9 @@
                                                                                 class="link-type"></span></el-col>
       </el-row>
     </div>
+    <!-- border1 -->
     <p style="margin: .5em"></p>
-    <div class="border1">
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -203,7 +204,8 @@
     </el-table>
 
     <h3 class="form-part-title">开通审核</h3>
-    <div class="border1">
+    <!-- border1 -->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'申请时间'}}</div>
@@ -230,12 +232,13 @@
       </el-row>
     </div>
     <!--合同信息-->
+    <!-- border-top2 border-left2 border-right2 -->
     <h3 class="form-part-title">合同信息</h3>
     <el-table
       border
       :data="contractData"
       style="width: 100%"
-      class="border-top2 border-left2 border-right2">
+      class="table_border">
       <el-table-column
         prop="contractID"
         label="合同编号"
@@ -272,7 +275,8 @@
       </el-table-column>
     </el-table>
     <h3 class="form-part-title">保证金</h3>
-    <div class="border1">
+    <!-- border1 -->
+    <div class="">
       <el-row class="border-top">
         <el-col :span="5">
           <div class="grid-content bg-purple ">{{'保证金金额'}}</div>

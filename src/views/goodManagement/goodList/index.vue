@@ -19,7 +19,7 @@
       border fit
       v-loading="listLoading" element-loading-text="给我一点时间"
       :data="goodTableData"
-      style="width: 100%;border-top: 2px solid #D5D5D5;border-left: 2px solid #D5D5D5"
+      style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5"
     >
       <el-table-column
         fixed="left"

@@ -8,11 +8,12 @@
         {{$t('table.search')}}
       </el-button>
     </div>
+    <!-- border-top2 border-left2 -->
     <el-table :data="channelTableData"
               v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row
-              class="border-top2 border-left2"
-              style="width: 100%">
+              class=""
+              style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5">
       <el-table-column
         prop="channelNum"
         label="渠道号"

@@ -13,7 +13,7 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border2"
+      class="table_border2"
       style="width: 100%;border-right-width: 1px">
 
       <el-table-column align="center" label="并单支付号/货单号" min-width="120" fixed="left" prop="mergeOrderNo"/>

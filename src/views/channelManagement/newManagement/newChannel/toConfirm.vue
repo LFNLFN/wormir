@@ -4,8 +4,8 @@
     <h2 class="text-center" v-if="currentRow.channelStatus==400">待接系统</h2>
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
-    <!--content-->
-    <div class="border1">
+    <!--content border1-->
+    <div class="">
       <el-row style="border-top:solid 1px #D5D5D5">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'经营主体'}}</div>
@@ -86,7 +86,8 @@
       </el-row>
     </div>
     <p style="margin: 1em"></p>
-    <div class="border1" style="border-top:solid 2px #D5D5D5">
+    <!-- border1 -->
+    <div class="" style="border-top:solid 1px #D5D5D5">
       <el-row v-if="currentRow.businessEntity==1">
         <el-col :span="5">
           <div class="grid-content bg-purple">{{'店铺/平台名称'}}</div>

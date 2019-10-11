@@ -10,7 +10,7 @@
       :key='tableKey' :data="list"
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit highlight-current-row
-      class="border-left2 border-top2 border-bottom2"
+      class="table_border"
       style="width: 100%">
 
       <el-table-column align="center" :label="$t('payRefund.orderNo')" min-width="120" prop="orderNo" fixed="left">

@@ -8,12 +8,12 @@
         {{$t('table.search')}}
       </el-button>
     </div>
-
+    <!-- border-top2 border-left2 -->
     <el-table :data="list"
               v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row size="mini"
-              class="border-top2 border-left2"
-              style="width: 100%">
+              class=""
+              style="width: 100%;border-top:1px solid #d5d5d5;border-left:1px solid #d5d5d5">
       <el-table-column min-width="120" align="center" label="品牌序列号" prop="brandNo"/>
       <el-table-column min-width="120" align="center" label="品牌名称（英文）" prop="englishName"/>
       <el-table-column min-width="120" align="center" label="品牌名称（中文）" prop="chineseName"/>

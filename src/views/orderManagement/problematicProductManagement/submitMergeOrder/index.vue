@@ -21,7 +21,7 @@
       :data="list"
       ref="mainSumTable"
       style="width: 100%;border-right-width: 1px"
-      class="main-table fixed-total-table"
+      class="main-table fixed-total-table border1"
       border=""
       fit
       size="mini"

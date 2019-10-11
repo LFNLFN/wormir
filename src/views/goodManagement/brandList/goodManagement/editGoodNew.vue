@@ -2,7 +2,8 @@
   <div class="add-good-index-vue">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px" >
       <h2>基础信息</h2>
-      <div class="border1 form-error-inline">
+      <!-- border1 -->
+      <div class=" form-error-inline">
         <el-form-item label="商品品牌" prop="brandMsg" class="border1 border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
@@ -119,7 +120,8 @@
       </div>
 
       <h2>商品设置</h2>
-      <div class="border1 form-error-inline">
+      <!-- border1 -->
+      <div class=" form-error-inline">
         <el-form-item label="销售属性设置" prop="propertyOfSale" class="border-left border-right border-top"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-checkbox-group v-model="form.propertyOfSale" style="margin: 0 5px">
@@ -405,7 +407,8 @@
 
       <div class="for-senior-executive" v-if="userLevel==1">
         <h2>合作设置</h2>
-        <div class="border1 form-error-inline" style="border-top: 2px solid #d5d5d5">
+        <!-- border1 -->
+        <div class=" form-error-inline" style="border-top: 1px solid #d5d5d5">
           <el-form-item v-if="form.makeUpOfGoods" label="商品属性设置" prop="" class="border1 no-border-bottom no-border-top"
                         style="padding: 5px 0;margin-bottom: 0">
             <el-radio-group v-model="form.propertyOfGoods">

@@ -29,6 +29,7 @@
       v-loading="listLoading" element-loading-text="给我一点时间"
       border fit
       @selection-change="handleSelectionChange"
+      class=""
       highlight-current-row size="mini" style="width: 100%">
 
         <el-table-column width="130" align="center" label="货单号" prop="orderNo" fixed="left">

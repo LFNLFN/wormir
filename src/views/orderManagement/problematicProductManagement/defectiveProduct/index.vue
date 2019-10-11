@@ -27,8 +27,8 @@
       border=""
       fit
       highlight-current-row
-      class="border-left2 border-top2 border-bottom2"
-      style="width: 100%"
+      class=""
+      style="width: 100%;border:1px solid #d5d5d5;"
     >
       <el-table-column
         align="center"

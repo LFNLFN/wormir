@@ -14,7 +14,8 @@
         <el-table
             border v-loading="tableLoading"
             :data="wormirTableData"
-            style="width: 100%;border-top: 2px solid #d5d5d5;border-left: 2px solid #d5d5d5"
+            style="width: 100%;border-bottom:1px solid #d5d5d5;"
+            class="table_border"
             >
             <el-table-column
                 prop="brandNo"

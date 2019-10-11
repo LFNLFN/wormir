@@ -162,7 +162,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="isShortageWaitingShow" fullscreen style="padding: 20px">
-      <shortageWaiting v-if="isShortageWaitingShow=true" :currentRow="currentRow"
+      <shortageWaiting v-if="isShortageWaitingShow==true" :currentRow="currentRow"
                        @close="isShortageWaitingShow=false"></shortageWaiting>
     </el-dialog>
 
@@ -243,7 +243,7 @@
     data() {
       return {
         tableKey: 0,
-        currentRow: null,
+        currentRow: '',
         isHandleReceiveShow: false,
         isWaitReceiveOrderShow: false,
         isWaitStockShow: false,

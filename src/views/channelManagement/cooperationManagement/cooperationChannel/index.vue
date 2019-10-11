@@ -11,11 +11,12 @@
         <el-button type="primary" icon="el-icon-search" @click="channelBlurSearch">查询</el-button>
       </el-form-item>
     </el-form>
+    <!-- border2 border-width:2px-->
     <el-table
       border=""
       :data="channelTableData"
-      style="width: 100%;border-width:2px"
-      class="border2"
+      style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5"
+      class=""
     >
       <el-table-column
         prop="channelNum"

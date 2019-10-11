@@ -16,6 +16,7 @@
         @click="handleFilter"
       >{{$t('table.search')}}</el-button>
     </div>
+    <!-- border-top2 border-left2 -->
     <el-table
       :data="list"
       v-loading="listLoading"
@@ -24,8 +25,8 @@
       fit
       highlight-current-row
       size="mini"
-      class="border-top2 border-left2"
-      style="width: 100%"
+      class=""
+      style="width: 100%;border-top:1px solid #d5d5d5;border-left:1px solid #d5d5d5"
     >
       <el-table-column min-width="120" align="center" label="会员编号" prop="member_no"/>
       <el-table-column min-width="100" align="center" label="会员姓名" prop="member_name"/>

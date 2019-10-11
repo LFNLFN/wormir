@@ -117,11 +117,12 @@ td {
 }
 
 .el-table--border, .el-table--group {
-  border: 1px solid #d5d5d5;
+  // border: 1px solid #d5d5d5;
 }
 
 .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
   border-right: 1px solid #d5d5d5;
+  // border-left: 1px solid #d5d5d5;
 }
 
 .el-table td, .el-table th.is-leaf {
@@ -152,4 +153,14 @@ body .el-table th.gutter{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.table_border{
+  border-left:1px solid #d5d5d5;
+  border-top:1px solid #d5d5d5;
+  border-right:1px solid #d5d5d5;
+}
+.table_border2{
+  border-left:1px solid #d5d5d5;
+  border-top:1px solid #d5d5d5;
 }

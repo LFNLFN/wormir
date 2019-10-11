@@ -3,7 +3,8 @@
     <!--待审核-->
     <template v-if="currentRow.channelStatus==50">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -48,7 +49,8 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -130,7 +132,8 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称'}}</div>
@@ -176,11 +179,12 @@
         </el-row>
       </div>
       <h3 class="form-part-title">联系方式</h3>
+      <!-- border-top2 border-left2 border-right2 width: 100%;border-width: 2px;border-bottom-width: 1px;-->
       <el-table
         border=""
         :data="contactData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;"
+        class="table_border"
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
@@ -198,7 +202,7 @@
     <!--停止审核-->
     <template v-if="currentRow.channelStatus==-50">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -243,7 +247,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -325,7 +329,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -414,7 +418,7 @@
         <el-table-column prop="terminationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -431,7 +435,7 @@
     <!--审核不通过-->
     <template v-if="currentRow.channelStatus==-40">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -476,7 +480,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -558,7 +562,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -620,7 +624,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -659,7 +663,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -675,7 +679,7 @@
     <!--待签合同-->
     <template v-if="currentRow.channelStatus==100 || currentRow.channelStatus == 200">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -720,7 +724,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -802,7 +806,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -864,7 +868,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -895,7 +899,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -912,7 +916,7 @@
     <!--停止签合同-->
     <template v-if="currentRow.channelStatus==-100">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -957,7 +961,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1039,7 +1043,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1101,7 +1105,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1159,7 +1163,7 @@
         <el-table-column prop="terminationTime" label="注销时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1176,7 +1180,7 @@
     <!--待付保证金-->
     <template v-if="currentRow.channelStatus==300">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -1231,7 +1235,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1313,7 +1317,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1375,7 +1379,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1429,7 +1433,7 @@
         </el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1446,7 +1450,7 @@
     <!--停止付保证金-->
     <template v-if="currentRow.channelStatus==-300">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -1501,7 +1505,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1583,7 +1587,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1645,7 +1649,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1726,7 +1730,7 @@
         <el-table-column prop="terminationTime" label="终止时间" align="center" min-width="140"></el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1743,7 +1747,7 @@
     <!--待系统对接 400-->
     <template v-if="currentRow.channelStatus==400">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -1798,7 +1802,7 @@
         </el-row>
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1880,7 +1884,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1942,7 +1946,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1998,7 +2002,7 @@
         </el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -2015,7 +2019,7 @@
     <!--停止系统对接-->
     <template v-if="currentRow.channelStatus==-400">
       <!-- <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '所属FXQD号' }}</div>
@@ -2062,7 +2066,7 @@
         </el-row>
       </div> -->
       <!-- <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -2144,7 +2148,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -2205,7 +2209,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table> -->
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -2260,7 +2264,7 @@
         </el-table-column>
       </el-table>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>

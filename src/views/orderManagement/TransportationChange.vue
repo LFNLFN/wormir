@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="110px" style="border: 1px solid #D5D5D5">
+    <!-- border: 1px solid #D5D5D5 -->
+    <el-form ref="form" :model="form" label-width="110px" style="">
       <el-form-item :label="$t('mergeRefundOrders.orderNo')" class="form-row add-brand-row">
         <div class="form-row-text">{{ order.orderNo }}</div>
       </el-form-item>
@@ -42,7 +43,8 @@
           transportation: '',
         },
         transportation: '',
-        transportationText: ''
+        transportationText: '',
+        listLoading:false
       }
     },
     methods: {
