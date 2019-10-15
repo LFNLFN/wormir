@@ -820,7 +820,7 @@
         <el-form-item v-if="useSpecialFlow" label="特殊流程项目" prop="specialProject" class="border-left border-right"
                       style="padding: 3px 0;margin-bottom: 0">
           <el-checkbox-group v-model="specialProject">
-            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
+            <el-checkbox v-for="(item,index) in specialProjectCheckingArr" :key="index" :label="item.flowIndex">{{ item.flowName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="合作管理" prop="cooperationManagementData" class="border-left border-right"

@@ -5,7 +5,7 @@
         <div class="flex-item" style="width: 50%">
           <div class="h5_box" :style="{backgroundImage: 'url(' + form.bg + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center',backgroundSize:'100% 100%'}">
             <div class="top_ad_box" v-show="form.topAdList.length>0">
-              <a :href="form.topAdJumpLink" class="img_box" v-for="(i,index) in form.topAdList">
+              <a :href="form.topAdJumpLink" class="img_box" v-for="(i,index) in form.topAdList" :key="index">
                 <img :src="i.url" alt="">
               </a>
             </div>
@@ -38,7 +38,7 @@
               </el-form-item>
             </div>
             <div class="bottom_ad_box" v-show="form.bottomAdList.length>0">
-              <a :href="form.bottomAdJumpLink" class="img_box" v-for="(i,index) in form.bottomAdList">
+              <a :href="form.bottomAdJumpLink" class="img_box" v-for="(i,index) in form.bottomAdList" :key="index">
                 <img :src="i.url" alt="">
               </a>
             </div>

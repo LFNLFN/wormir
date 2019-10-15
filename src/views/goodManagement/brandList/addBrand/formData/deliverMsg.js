@@ -46,10 +46,13 @@ export function transportationChange() {
 
 export function discountTargetObjChange(val) {
   this.form.discountTargetObj = this.discountTargetObj
+  console.log(this.form.discountTargetObj)
   let total = 0
   val.forEach(item => {
-    total += item
+    
+    total += Number(item)
   })
+  console.log('计算',total)
   switch(total) {
     case 0:
       this.discountRange1Visible = false

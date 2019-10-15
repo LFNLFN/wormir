@@ -2,7 +2,7 @@
     <div  style="padding:1em;">
         <div class="bind_box">
             <h3 class="form-part-title">子账户绑定信息</h3>
-            <el-form class="pad_box" v-for="(i,index) in accountList" >
+            <el-form class="pad_box" v-for="(i,index) in accountList" :key="index">
                 <el-form-item label="吾蜜子账户" label-width="130px" prop="identityCardNo" class="form-row idCardCode last-form-row">
                     <span>{{i.sub_account}}</span>
                 </el-form-item>

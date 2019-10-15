@@ -543,6 +543,7 @@
 
             let targetArr = []
             function uploadAction(file, index, callback) {
+              
               let customedKey = createNumWithRange(6)+'.'+file.name.replace(/^.+\./,'')
               request({
                 url: '/getToken',
@@ -555,9 +556,6 @@
                   },
                   error(err) {
                     console.log(err);
-                    
-                    
-                    
                   },
                   complete(res) {
                     if (index+1 == targetArr.length) {
@@ -579,6 +577,10 @@
               })
             }
             if (indexName == 'ing') {
+              if(_this.ingFileList.length==0){
+                _this.isUploadingIng=false;
+                return false
+              }
               targetArr = this.ingFileList
               this.ingFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -586,6 +588,7 @@
                   _this.ingFileListStr = _this.ingFileKeyList.join()
                   _this.$emit('handleUploadFiles', _this.ingFileListStr, _this.hazFileListStr, _this.tagFileListStr, _this.offiFileListStr,
                     _this.MEnFileListStr, _this.MZhFileListStr, _this.comFileListStr, _this.isAllUpload)
+
                   this.$request({
                     url: '/brand/addBrandClearanceFile.do',
                     method: "post",
@@ -600,6 +603,10 @@
               })
             }
             else if (indexName == 'haz') {
+              if(_this.hazFileList.length==0){
+                _this.isUploadingHaz=false;
+                return false
+              }
               targetArr = this.hazFileList
               this.hazFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -621,6 +628,10 @@
               })
             }
             else if (indexName == 'tag') {
+              if(_this.tagFileList.length==0){
+                _this.isUploadingTag=false;
+                return false
+              }
               targetArr = this.tagFileList
               this.tagFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -642,6 +653,10 @@
               })
             }
             else if (indexName == 'offi') {
+              if(_this.offiFileList.length==0){
+                _this.isUploadingOffi=false;
+                return false
+              }
               targetArr = this.offiFileList
               this.offiFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -663,6 +678,10 @@
               })
             }
             else if (indexName == 'MEn') {
+              if(_this.MEnFileList.length==0){
+                _this.isUploadingMEn=false;
+                return false
+              }
               targetArr = this.MEnFileList
               this.MEnFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -684,6 +703,10 @@
               })
             }
             else if (indexName == 'MZh') {
+              if(_this.MZhFileList.length==0){
+                _this.isUploadingMZn=false;
+                return false
+              }
               targetArr = this.MZhFileList
               this.MZhFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -705,6 +728,10 @@
               })
             }
             else if (indexName == 'com') {
+              if(_this.comFileList.length==0){
+                _this.isUploadingCom=false;
+                return false
+              }
               targetArr = this.comFileList
               this.comFileList.forEach((item, _index) => {
                 uploadAction(item.raw, _index, key => {
@@ -729,6 +756,7 @@
           .catch(() => {})
       },
       deleteAlreadyUploadFile(url) {
+        console.log(url)
         this.$confirm('确认删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -739,6 +767,7 @@
             method: "post",
             data: { url: url }
           }).then(res => {
+            console.log(res)
             if (res.errorCode==0) {
               this.$message({
                 type: 'success',

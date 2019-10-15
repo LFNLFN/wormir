@@ -423,8 +423,8 @@
         <el-form-item label="品牌起订/降幅设置" prop="discountTargetObj" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-checkbox-group v-model="discountTargetObj" @change="discountTargetObjChange" style="margin: 0 5px">
-            <el-checkbox :label="1" border>提供一般贸易商品</el-checkbox>
-            <el-checkbox :label="2" border>提供跨境贸易商品</el-checkbox>
+            <el-checkbox label="1" border>提供一般贸易商品</el-checkbox>
+            <el-checkbox label="2" border>提供跨境贸易商品</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="" prop="discountRange1ForFX" class="border-left border-right"
@@ -1017,11 +1017,11 @@
       },
       onSubmit() {
         this.isSubmitting = true;
-        if (!this.form.isAllUpload) {
-          this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
-          this.isSubmitting = false
-          return false
-        }
+          if (!this.form.isAllUpload) {
+            this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
+            this.isSubmitting = false
+            return false
+          }
 
         // 提交数据预处理
         this.getBrandBasicsMsgData()
@@ -1087,6 +1087,7 @@
         .then( res => {
           if (res.errorCode==0) {
             this.mainCategoryOptions = res.data.items
+            console.log('查看',this.mainCategoryOptions)
           }
         })
 
