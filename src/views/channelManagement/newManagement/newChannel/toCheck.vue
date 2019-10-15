@@ -3,7 +3,7 @@
     <!--待签合同-->
     <template v-if="currentRow.channelStatus==100">
       <h3 class="form-part-title">渠道特点</h3>
-      <!-- border1 -->
+      <!--  -->
       <div class="">
         <el-row class="border-top">
           <el-col :span="5">
@@ -53,7 +53,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <!-- border1 -->
+      <!--  -->
       <div class="">
         <el-row class="border-top">
           <el-col :span="5">
@@ -146,7 +146,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <!-- border1 -->
+      <!--  -->
       <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
@@ -189,7 +189,7 @@
           </el-col>
         </el-row>
       </div>
-      <!-- border1 -->
+      <!--  -->
       <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
@@ -268,7 +268,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <!-- border1 -->
+      <!--  -->
       <div class="">
         <el-row class="border-top">
           <el-col :span="5">
@@ -286,7 +286,8 @@
     <!--停止签合同-->
     <template v-if="currentRow.channelStatus==-100">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -335,7 +336,8 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -427,7 +429,8 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <!--  -->
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -469,7 +472,8 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <!--  -->
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -523,7 +527,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -601,7 +605,8 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -618,7 +623,8 @@
     <!--待激活账号-->
     <template v-if="currentRow.channelStatus==200">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -667,7 +673,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -759,7 +765,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -801,7 +807,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -839,8 +845,8 @@
       <el-table
         border=""
         :data="contactData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px;"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width:2px;"
+        class="table_border"
       >
         <el-table-column prop="dutyNo" label="职务" align="center" min-width="90">
           <template slot-scope="scope">
@@ -855,7 +861,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -889,8 +895,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -929,7 +935,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -946,7 +952,8 @@
     <!--停止激活账号-->
     <template v-if="currentRow.channelStatus==-200">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -995,7 +1002,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1087,7 +1094,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1129,7 +1136,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -1186,8 +1193,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -1253,7 +1260,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1270,7 +1277,8 @@
     <!--待付保证金-->
     <template v-if="currentRow.channelStatus==300">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -1319,7 +1327,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1411,7 +1419,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1453,7 +1461,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -1507,7 +1515,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1541,8 +1549,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -1581,7 +1589,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1598,7 +1606,8 @@
     <!--停止付保证金-->
     <template v-if="currentRow.channelStatus==-300">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -1647,7 +1656,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -1739,7 +1748,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -1781,7 +1790,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -1835,7 +1844,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -1869,8 +1878,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -1935,7 +1944,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -1952,7 +1961,8 @@
     <!--待系统对接-->
     <template v-if="currentRow.channelStatus==400">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -2001,7 +2011,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -2093,7 +2103,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -2135,7 +2145,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -2192,8 +2202,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -2232,7 +2242,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -2249,7 +2259,8 @@
     <!--停止系统对接-->
     <template v-if="currentRow.channelStatus==-400">
       <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+      <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{ '渠道号' }}</div>
@@ -2292,7 +2303,7 @@
         <!--</el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -2384,7 +2395,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -2426,7 +2437,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -2479,7 +2490,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -2530,7 +2541,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -2573,8 +2584,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -2596,7 +2607,8 @@
     <!--待返还保证金-->
     <template v-if="currentRow.channelStatus==-950">
        <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+       <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -2645,7 +2657,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -2737,7 +2749,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -2779,7 +2791,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -2833,7 +2845,7 @@
         <el-table-column prop="remark" label="备注" align="center" min-width="100"></el-table-column>
       </el-table>
       <!-- <h3 class="form-part-title">开通审核</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'申请时间'}}</div>
@@ -2867,8 +2879,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -2933,7 +2945,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
@@ -2949,7 +2961,8 @@
     <!--不返还保证金-->
     <template v-if="currentRow.channelStatus==-350">
        <h3 class="form-part-title">渠道特点</h3>
-      <div class="border1">
+       <!--  -->
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道属性'}}</div>
@@ -2998,7 +3011,7 @@
         </el-row>-->
       </div>
       <h3 class="form-part-title">基本信息</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'渠道号'}}</div>
@@ -3090,7 +3103,7 @@
         </el-row>
       </div>
       <p style="margin: .5em"></p>
-      <div v-if="currentRow.businessEntity==1" class="border1">
+      <div v-if="currentRow.businessEntity==1" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'店铺/平台名称(渠道名称)'}}</div>
@@ -3132,7 +3145,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'公司地址'}}</div>
@@ -3189,8 +3202,8 @@
       <el-table
         border=""
         :data="contractData"
-        style="width: 100%;border-width: 2px;border-bottom-width: 1px"
-        class="border-top2 border-left2 border-right2"
+        style="width: 100%;border-right-width: 2px;"
+        class="table_border"
       >
         <el-table-column prop="contractNo" label="合同编号" align="center" min-width="100"></el-table-column>
         <el-table-column prop="contractSigningType" label="合同属性" align="center" min-width="90">
@@ -3255,7 +3268,7 @@
       </el-table>
       </div>
       <h3 class="form-part-title">保证金</h3>
-      <div class="border1">
+      <div class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'保证金金额'}}</div>
