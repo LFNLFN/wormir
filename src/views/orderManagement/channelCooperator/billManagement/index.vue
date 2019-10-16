@@ -75,8 +75,8 @@
           <!--<span v-if="scope.row.order_status!=10&&scope.row.order_status!=40">{{ orderStatusMap[scope.row.order_status]}}</span>-->
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="操作" min-width="180" fixed="right">
+      <!-- fixed="right" -->
+      <el-table-column align="center" label="操作" min-width="180" >
         <template slot-scope="scope">
           <div>
             <!--<el-button type="primary" size="mini" v-if="scope.row.order_status==10" @click="viewGoPayDeposit(scope.row)">去付订金</el-button>-->

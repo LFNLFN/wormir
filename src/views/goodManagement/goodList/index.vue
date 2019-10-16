@@ -93,7 +93,7 @@
         align="center"
         show-overflow-tooltip
       ></el-table-column>
-      <el-table-column fixed="right" label="操作" min-width="100" align="center">
+      <el-table-column fixed="right" label="操作" width="120" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="checkGoodDetail(scope.row)">查看详情</el-button>
         </template>

@@ -2,7 +2,8 @@
   <div class="app-container">
     <el-table :data="list"
               v-loading="listLoading" element-loading-text="给我一点时间"
-              border style="width: 100%;border-left: solid 2px #D5D5D5;border-top: solid 2px #D5D5D5">
+              class="table_border"
+              border style="width: 100%;">
       <el-table-column
         prop="channelNo"
         label="渠道号"
@@ -12,55 +13,55 @@
       <el-table-column
         prop="channelName"
         label="渠道名称"
-        width="200"
+        min-width="200"
         align="center">
       </el-table-column>
       <el-table-column
         prop="cooperationType"
         label="合作类型"
         align="center"
-        width="100">
+        min-width="100">
         <template slot-scope="scope">
-          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+          <span>{{scope.row.cooperationType==null ? '' : cooperationTypeMap[scope.row.cooperationType].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="channelType"
         label="渠道类别"
         align="center"
-        width="100">
+        min-width="100">
         <template slot-scope="scope">
-          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+          <span>{{ scope.row.channelType==null ? '' : channelTypeMap[scope.row.channelType].text }}</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="channelProp"
         label="渠道属性"
         align="center"
-        width="230">
+        min-width="230">
         <template slot-scope="scope">
-          <div style="min-width: 4em;margin: 0 auto">{{ channelPropMap[scope.row.channelProp].text }}</div>
+          <div style="min-width: 4em;margin: 0 auto">{{ scope.row.channelProp==null?'':channelPropMap[scope.row.channelProp].text }}</div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="channelLevel"
         label="渠道级别"
         align="center"
-        width="100">
+        min-width="100">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span>{{ scope.row.channelLevel==null?'':channelLevelMap[scope.row.channelLevel].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center" label="级别变化"
-        width="100" prop="levelChange">
+        min-width="100" prop="levelChange">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
+          <span>{{ scope.row.prevChannelLevel==null?'':channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ scope.row.channelLevel==null?'':channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center" label="变化类型"
-        width="100" prop="changeType"
+        min-width="100" prop="changeType"
         class-name="last-col">
         <template slot-scope="scope">
           <span v-if="scope.row.channelLevel > scope.row.prevChannelLevel">{{ '升级' }}</span>
@@ -69,7 +70,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="display: flex;justify-content: space-between;padding-right: 3px" class="border-left2">
+    <!-- padding-right: 3px; -->
+    <div style="display: flex;justify-content: space-between;width:100%;border-left:1px solid #d5d5d5;" class="">
       <div style="display: flex;flex-direction: column;justify-content: flex-end;">
         <div style="display: flex;flex-direction: column;justify-content: flex-end;" class="select-area">
           <div style="display: flex;justify-content: flex-start" class="select-item">
@@ -120,37 +122,37 @@
           border fit highlight-current-row
           class="noBorder compareBorder"
           :header-cell-style="{padding: 0}"
-          style="width: 100%;border-left: solid 1px #D5D5D5">
+          style="width: 100%;border-left: solid 1px #D5D5D5;border-right:1px solid #d5d5d5;">
           <el-table-column align="center" label="各品牌销量与所在级别要求销量对比" prop="" class-name="last-col">
-            <el-table-column align="center" label="品牌" width="100" prop="brandName"/>
-            <el-table-column align="center" label="当前级别销量要求" width="130" prop="standard"/>
+            <el-table-column align="center" label="品牌" min-width="80" prop="brandName"/>
+            <el-table-column align="center" label="当前级别销量要求" width="110" prop="standard"/>
             <el-table-column align="center" label="当月">
-              <el-table-column align="center" label="销量" width="100" prop="thisMonthSale"/>
-              <el-table-column align="center" label="对比情况" width="100" prop="compareThisMonth"/>
+              <el-table-column align="center" label="销量" min-width="80" prop="thisMonthSale"/>
+              <el-table-column align="center" label="对比情况" min-width="80" prop="compareThisMonth"/>
             </el-table-column>
             <el-table-column align="center" label="上月" class-name="last-col">
-              <el-table-column align="center" label="销量" width="100" prop="lastMonthSale"/>
-              <el-table-column align="center" label="对比情况" width="100" prop="cpmpareLastMonth" class-name="last-col"/>
+              <el-table-column align="center" label="销量" min-width="80" prop="lastMonthSale"/>
+              <el-table-column align="center" label="对比情况" min-width="80" prop="cpmpareLastMonth" class-name="last-col"/>
             </el-table-column>
           </el-table-column>
         </el-table>
       </div>
     </div>
-    <div style="padding-right: 2px">
+    <div style="">
       <el-table
         :data="productList"
         v-loading="listLoading" element-loading-text="给我一点时间"
         border fit highlight-current-row
         class="noBorder sumBorder"
-        style="width: 100%;border-left: solid 2px #D5D5D5"
+        style="width: 100%;border: solid 1px #D5D5D5"
         show-summary :summary-method="getSummaries">
-        <el-table-column align="center" label="品牌" width="100" prop="brandName"/>
-        <el-table-column align="center" label="商品编号" width="100" prop="goodsNo"/>
-        <el-table-column align="center" label="商品名称" width="200" prop="goodsName"/>
-        <el-table-column align="center" label="商品码" width="200" prop="goodsCode"/>
-        <el-table-column align="center" label="商品规格" width="130" prop="goodsSpec"/>
-        <el-table-column align="center" label="商品售价" width="200" prop="goodsPrice"/>
-        <el-table-column align="center" label="出库时间" width="200" prop="outBoundTime" class-name="last-col"/>
+        <el-table-column align="center" label="品牌" min-width="100" prop="brandName"/>
+        <el-table-column align="center" label="商品编号" min-width="100" prop="goodsNo"/>
+        <el-table-column align="center" label="商品名称" min-width="200" prop="goodsName"/>
+        <el-table-column align="center" label="商品码" min-width="200" prop="goodsCode"/>
+        <el-table-column align="center" label="商品规格" min-width="130" prop="goodsSpec"/>
+        <el-table-column align="center" label="商品售价" min-width="200" prop="goodsPrice"/>
+        <el-table-column align="center" label="出库时间" min-width="200" prop="outBoundTime" class-name="last-col"/>
       </el-table>
     </div>
   </div>
@@ -337,6 +339,7 @@
       },
       getChannel() {
         this.list.push(this.currentRow)
+        console.log(this.currentRow)
       }
     }
   }
@@ -348,7 +351,7 @@
     color: #424242;
     font-weight: 700;
     width: 99px;
-    padding: 5px 10px;
+    padding: 5.5px 10px;
     text-align: center;
     border-right: solid #D5D5D5 1px;
   }

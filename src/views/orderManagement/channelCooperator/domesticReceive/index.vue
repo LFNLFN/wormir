@@ -30,7 +30,7 @@
         align="center"
         label="并单支付号"
         min-width="120"
-        fixed="left"
+        
         prop="mergeOrderNo"
       />
       <el-table-column

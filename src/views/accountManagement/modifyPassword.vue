@@ -85,6 +85,18 @@ export default {
   methods: {
     // 提交修改的重置密码
     submitModPasswordForm() {
+      if(this.modifyPWD_ruleForm.oldPassword=='' || this.modifyPWD_ruleForm.oldPassword==null){
+        this.$message.error('原密码不能为空！')
+        return false;
+      }
+      if(this.modifyPWD_ruleForm.newPassword=='' || this.modifyPWD_ruleForm.newPassword==null){
+        this.$message.error('新密码不能为空！')
+        return false;
+      }
+      if(this.modifyPWD_ruleForm.newPassword!==this.modifyPWD_ruleForm.affirmPassword){
+        this.$message.error('两次输入密码不一致!')
+        return false;
+      }
       this.$request({
         url: "/brand/modifyAccountPassword.do",
         method: "post",

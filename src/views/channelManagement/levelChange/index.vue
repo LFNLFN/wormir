@@ -12,8 +12,8 @@
     <el-table :data="channelTableData"
               v-loading="listLoading" element-loading-text="给我一点时间"
               border fit highlight-current-row
-              class=""
-              style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5">
+              class="table_border"
+              style="width: 100%;">
       <el-table-column
         prop="channelNum"
         label="渠道号"
@@ -34,7 +34,7 @@
         :filters="cooperationTypeFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ cooperationTypeMap[scope.row.cooperationType].text }}</span>
+          <span>{{scope.row.cooperationType==0||scope.row.cooperationType==null ?"": cooperationTypeMap[scope.row.cooperationType].text }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -45,7 +45,7 @@
         :filters="channelTypeFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelTypeMap[scope.row.channelType].text }}</span>
+          <span>{{scope.row.channelType==0||scope.row.channelType==null?'': channelTypeMap[scope.row.channelType].text }}</span>
         </template>
       </el-table-column>
       <!--<el-table-column-->
@@ -67,7 +67,7 @@
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span>{{ channelLevelMap[scope.row.channelLevel].text }}</span>
+          <span>{{ scope.row.channelLevel==0 || scope.row.channelLevel==null? '': channelLevelMap[scope.row.channelLevel].text}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -76,8 +76,8 @@
         :filters="channelLevelFilters"
         :filter-method="filterHandler">
         <template slot-scope="scope">
-          <span v-if="scope.row.prevChannelLevel">{{ channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
-          <span v-else>{{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }} → {{ channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
+          <span v-if="scope.row.prevChannelLevel">{{scope.row.prevChannelLevel==0 || scope.row.prevChannelLevel==null?'': channelLevelMap[scope.row.prevChannelLevel].text.substr(0,1) }} → {{scope.row.channelLevel==0 || scope.row.channelLevel==null?'': channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
+          <span v-else>{{scope.row.channelLevel==0 || scope.row.channelLevel==null?'': channelLevelMap[scope.row.channelLevel].text.substr(0,1) }} → {{scope.row.channelLevel==0 || scope.row.channelLevel==null?'': channelLevelMap[scope.row.channelLevel].text.substr(0,1) }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -248,13 +248,17 @@
         this.currentRow = row
       },
       channelBlurSearch() {
+        console.log(this.channelLevelMap[1].text)
         this.$request({
           url: '/channel/levelChangeList.do',
           method: 'post',
           data: this.filterForm
         }).then((res) => {
+          console.log(res)
           this.channelTableData = res.data.items;
           this.filterForm.total = res.data.total
+        }).catch((err)=>{
+          console.log(err)
         })
       },
       handleSizeChange(val) {

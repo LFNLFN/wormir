@@ -93,13 +93,14 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then(async () => {
             this.loading = false
-            await getUserInfo().then(res => {
+            await getUserInfo().then((res) => {
               if (res.errorCode == 0) {
                 window.localStorage.userData = JSON.stringify(res.data)
               }
             })
             this.$router.push({ path: '/' })
-          }).catch(() => {
+          }).catch((err) => {
+            this.$message.error('账号不存在或密码错误')
             this.loading = false
           })
         } else {

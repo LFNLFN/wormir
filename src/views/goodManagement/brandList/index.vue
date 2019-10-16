@@ -265,8 +265,9 @@
           this.brandTableData = res.data.items
           this.filterForm.total = res.data.total
           this.tableLoading = false
-          console.log(res.data.items)
-        }).catch(() => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
           this.$message.error('数据请求失败');
           this.tableLoading = false
         })

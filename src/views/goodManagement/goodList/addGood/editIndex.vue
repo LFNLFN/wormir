@@ -1249,6 +1249,7 @@
         method: "post",
         data: { goodsNo: this.goodsNo }
       }).then( res => {
+        console.log('这里',this.goodsNo,res)
         if (res.errorCode==0) {
           Object.assign(this.form, JSON.parse(JSON.stringify(res.data.goodInfo)))
           this.form.brandMsg[0].brandEnglishName = res.data.goodInfo.brandNo;this.brandEnglishNameChange(res.data.goodInfo.brandNo)

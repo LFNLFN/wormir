@@ -598,14 +598,14 @@
       @close="isStopContractShow = false"
       title="终止合同"
       append-to-body
-    >
+      >
       <el-form
         :model="stopContract_ruleForm"
         :rules="stopContract_rules"
         ref="deleteChannel_ruleForm"
         label-width="150px"
         class="demo-ruleForm"
-      >
+        >
         <div class="border1">
           <el-form-item label="终止日期" class="form-row add-brand-row">
             <el-date-picker
