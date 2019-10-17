@@ -306,7 +306,7 @@
         <el-table
           v-loading="categoryTableLoading"
           border
-          :data="categorySetting"
+          :data="form.categorySetting"
           :span-method="categorySettingSpanMethod"
           class="no-border-right no-border-bottom"
           style="width: 95%;margin: 0 4px 4px">
@@ -320,24 +320,37 @@
           </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" @click="deleteMainCategory(form.categorySetting[scope.$index].mainIndex,scope.$index)" v-show="form.categorySetting[form.categorySetting.length-1].mainIndex!=form.categorySetting[0].mainIndex"></el-button>
-              <el-button type="success" icon="el-icon-plus" @click="addMainCategory(scope.$index)" v-show="form.categorySetting[scope.$index].mainIndex==form.categorySetting[form.categorySetting.length-1].mainIndex"></el-button>
+              <!-- <el-button type="danger" icon="el-icon-delete" @click="deleteMainCategory(form.categorySetting[scope.$index].mainIndex,scope.$index)" v-show="form.categorySetting[form.categorySetting.length-1].mainIndex!=form.categorySetting[0].mainIndex"></el-button>
+              <el-button type="success" icon="el-icon-plus" @click="addMainCategory(scope.$index)" v-show="form.categorySetting[scope.$index].mainIndex==form.categorySetting[form.categorySetting.length-1].mainIndex"></el-button> -->
+              <el-button type="danger" icon="el-icon-delete" @click="deleteMain(scope.$index)" v-show="form.categorySetting[form.categorySetting.length-1].mainIndex!=form.categorySetting[0].mainIndex"></el-button>
+              <el-button type="success" icon="el-icon-plus" @click="addMain(scope.$index)" v-show="form.categorySetting[scope.$index].mainIndex==form.categorySetting[form.categorySetting.length-1].mainIndex"></el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" label="子品类">
             <template slot-scope="scope">
-              <el-input
+              <!-- <el-input
                 placeholder="输入相同主品类下的子品类名称" clearable
                 v-model.trim="form.categorySetting[scope.$index].subName"
               ></el-input>
+              <el-button type="danger" icon="el-icon-delete" @click="deleteSubCategory(scope.$index)" v-show="form.categorySetting.length>1"></el-button>
+              <el-button type="success" icon="el-icon-plus" @click="addSubCategory(scope.$index)" v-show="scope.$index == form.categorySetting.length-1 || form.categorySetting[scope.$index].mainIndex != form.categorySetting[scope.$index+1].mainIndex"></el-button> -->
+              <div v-for="(i,index) in form.categorySetting[scope.$index].subList" style="margin-bottom:5px">
+                <el-input
+                style="width:50%"
+                placeholder="输入相同主品类下的子品类名称" clearable
+                v-model.trim="i.subName"
+              ></el-input>
+              <el-button type="danger" icon="el-icon-delete" @click="deletemore(scope.$index,index)" v-show="form.categorySetting[scope.$index].subList.length>1"></el-button>
+              <el-button type="success" icon="el-icon-plus" @click="addmore(scope.$index,index)" v-show="scope.$index == form.categorySetting.length-1 || form.categorySetting[scope.$index].mainIndex != form.categorySetting[scope.$index+1].mainIndex"></el-button>
+              </div>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <!-- <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button type="danger" icon="el-icon-delete" @click="deleteSubCategory(scope.$index)" v-show="form.categorySetting.length>1"></el-button>
               <el-button type="success" icon="el-icon-plus" @click="addSubCategory(scope.$index)" v-show="scope.$index == form.categorySetting.length-1 || form.categorySetting[scope.$index].mainIndex != form.categorySetting[scope.$index+1].mainIndex"></el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </el-form-item>
         <el-form-item label="OCC系统特殊流程" prop="occSpecialSetting" class="border1 no-border-top no-border-bottom"
@@ -394,7 +407,8 @@
         isSubmitting: false,
         domesticAuthorityCompanyMsg: [{ address: null, city: null, englishName: null, contact: null, tel: null }], // 用于货权公司信息渲染
         externalAuthorityCompanyMsg: [{ name: null, address: null, tel: null }],
-        categorySetting: [{mainIndex: 0,mainName: null,subIndex: 0,subName: null}],
+        // categorySetting: [{mainIndex: 0,mainName: null,subIndex: 0,subName: null,subList:[{subIndex:0,subName:''}]}],
+        categorySetting: [{mainIndex: 0,mainName: null,subList:[{subIndex:0,subName:''}]}],
         spanArr: [],
         pos: 0,
         occSpecialSetting: [{flowName: null, flowIndex: 0}],
@@ -419,6 +433,7 @@
       },
       onSubmit() {
         this.isSubmitting = true;
+        console.log(this.form)
         this.$refs["form"].validate(valid => {
           if (valid) {
             this.$request({
@@ -449,6 +464,29 @@
         })
 
       },
+      addMain(index){
+        
+        var len=this.form.categorySetting.length;
+        console.log('前',this.form.categorySetting,len)
+        var obj={mainIndex:Date.now().toString(36),mainName: null,subList:[{subIndex:0,subName:''}]}
+        this.form.categorySetting.push(obj)
+        console.log('后',this.form.categorySetting)
+      },
+      deleteMain(index){
+        this.form.categorySetting.splice(index, 1)
+        console.log(this.form.categorySetting)
+      },
+      addmore(mainindex,subindex){
+        if (!this.form.categorySetting[mainindex].mainName) {
+          this.$message.error('请先完成主品类的填写');
+          return false
+        }
+        var obj={subIndex:Date.now().toString(36),subName:''}
+        this.form.categorySetting[mainindex].subList.push(obj)
+      },
+      deletemore(mainindex,subindex){
+        this.form.categorySetting[mainindex].subList.splice(subindex, 1)
+      },
       domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
     },
 
@@ -474,7 +512,12 @@
           this.domesticAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.domesticAuthorityCompanyMsg))
           this.form.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
           this.externalAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.externalAuthorityCompanyMsg))
+          console.log(res.data.categorySetting)
+          if(res.data.categorySetting.length==0){
+            res.data.categorySetting.push({mainIndex: 0,mainName: null,subList:[{subIndex:0,subName:''}]})
+          }
           this.form.categorySetting = res.data.categorySetting
+          
           this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
           this.form.occSpecialSetting = res.data.occSpecialSetting
           this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
