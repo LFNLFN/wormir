@@ -3,9 +3,9 @@
         <div class="pay_tit">设置支付密码</div>
         <div class="pay_box1" v-show="showCode">
             <el-input placeholder="输入验证码" v-model="input5" class="input-with-select">
-                <el-button slot="append" type="primary">获取验证码</el-button>
+                <el-button slot="append" type="primary":disabled="disabled" @click="getCode">{{CodeText}}</el-button>
             </el-input>
-            <el-button class="submit_btn1" type="primary" @click="submit1">确认</el-button>
+            <el-button class="submit_btn1" @click="submit1">确认</el-button>
         </div>
         <div class="pay_box2" v-show="showPass">
             <el-form 
@@ -29,19 +29,24 @@
 </template>
 
 <script>
+const TIME_COUNT = 60;
 export default {
     data(){
         return{
+            disabled:false,
+            CodeText:'获取验证码',
             showCode:true,
             showPass:false,
             ruleForm:{
                 password:'',
                 surepassword:''
             },
+            input5:'',
             rules: {
                 password: [{ required: true, message: "密码不能为空", trigger: "blur" }],
                 surepassword: [{ required: true, message: "与密码不一致", trigger: "blur" }]
-            }
+            },
+            timer_v: null,
         }
     },
     methods:{
@@ -58,6 +63,23 @@ export default {
             callback: action => {
             }
             });
+        },
+        getCode(){
+            let _this=this;
+            if (!_this.timer_v) {
+                _this.CodeText = TIME_COUNT;
+                _this.disabled = true;
+                _this.timer_v = setInterval(() => {
+                    if (_this.CodeText > 0 && _this.CodeText <= TIME_COUNT) {
+                        _this.CodeText--+'s';
+                    } else {
+                        _this.disabled = false;
+                        clearInterval(_this.timer_v);
+                        _this.timer_v = null;
+                        _this.CodeText="获取验证码"
+                    }
+                }, 1000)
+            }
         }
     }
 }
