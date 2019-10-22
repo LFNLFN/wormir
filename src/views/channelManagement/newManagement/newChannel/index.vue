@@ -342,6 +342,7 @@ export default {
     },
     filterHandler(value, row, column) {
       const property = column["property"];
+      console.log(column)
       return row[property] === value;
     },
     addSuccess() {

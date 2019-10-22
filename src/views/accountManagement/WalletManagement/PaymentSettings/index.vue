@@ -5,7 +5,7 @@
             <el-input placeholder="输入验证码" v-model="input5" class="input-with-select">
                 <el-button slot="append" type="primary":disabled="disabled" @click="getCode">{{CodeText}}</el-button>
             </el-input>
-            <el-button class="submit_btn1" @click="submit1">确认</el-button>
+            <el-button class="submit_btn1" @click="submit1" type="primary">确认</el-button>
         </div>
         <div class="pay_box2" v-show="showPass">
             <el-form 

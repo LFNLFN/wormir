@@ -1,8 +1,10 @@
 <template>
   <div class="merge-order-wrap">
-    <div class="big-wrap border-right2 border-top2">
-      <div class="filter-container theTopMsgBorder border-bottom2 mg-top-2" :style="{width: '1247px', padding: 0}">
-        <el-row>
+    <!-- border-right2 border-top2 -->
+    <div class="big-wrap table_border">
+      <!-- theTopMsgBorder -->
+      <div class="filter-container mg-top-2" :style="{width: '1247px', padding: 0}">
+        <el-row style="border-bottom:1px solid #d5d5d5;border-right:1px solid #d5d5d5;">
           <el-col :span="3">
             <div class="grid-content bg-purple">Merge Payment NO. :</div>
           </el-col>
@@ -19,7 +21,7 @@
                         @cancel="residualRefundVisible = false" style="padding: 0"/>
       </div>
 
-      <div class="filter-container theTopMsgBorder border-bottom2 no-border-right" :style="{width: '1416px', padding: 0}">
+      <div class="filter-container theTopMsgBorder  no-border-right" style="border-width:1px;" :style="{width: '1416px', padding: 0}">
         <el-table
           :data="[{something:0}]" border
           :show-header="false"

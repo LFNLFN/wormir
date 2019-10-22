@@ -2,7 +2,7 @@
   <div class="setting-management-index-vue" style="padding: 0 20px">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
       <h2>基础信息</h2>
-      <div class="border1 form-error-inline" style="border-top-width: 1px;border-bottom-width: 1px;">
+      <div class="border1 form-error-inline" style="">
         <el-form-item label="香港吾蜜交易账号" prop="tradeAccountSetting" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table

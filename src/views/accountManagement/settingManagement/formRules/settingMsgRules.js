@@ -1,5 +1,6 @@
 const validateCategorySetting = (rule, value, callback) => {
   let valiNull = value.some((item, index, arr) => {
+    console.log('查看',item)
     for (var key in item) {
       if (!item[key] && item[key]!=0) {
         return true

@@ -42,8 +42,8 @@
         :key='tableKey'
         v-loading="listLoading" element-loading-text="给我一点时间"
         border fit highlight-current-row
-        class="border2" :data="[{}]"
-        style="width: 100%;border-right-width: 1px;border-bottom-width: 1px">
+        class="" :data="[{}]"
+        style="width: 100%;border:1px solid #d5d5d5;">
         <el-table-column min-width="120px" align="center" label="货单号/并单号">
           <template slot-scope="scope">
             <el-input v-model="input_mes.order_no" placeholder="请输入货单号/并单号"></el-input>

@@ -70,7 +70,7 @@
       </el-table-column>
     </el-table>
 
-    <div class="pagination-container">
+    <div class="pagination-container" style="text-align: right">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -143,6 +143,7 @@
             this.listLoading = false
           } else {
             this.listLoading = false
+            this.list=[];
             this.$message.error('数据请求失败');
           }
         }).catch((err) => {

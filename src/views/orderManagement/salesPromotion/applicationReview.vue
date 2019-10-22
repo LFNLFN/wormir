@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <h4>促销商品</h4>
-    <div class="theBorder theTopMsgBorder">
+    <!-- theBorder -->
+    <div class=" theTopMsgBorder" style="border-width:1px;">
 
       <el-row>
         <!--<el-col :span="3" align="center" :style="{ height: tableHeight + 'px' }">-->

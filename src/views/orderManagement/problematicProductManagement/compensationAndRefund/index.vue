@@ -97,7 +97,7 @@
       <div
         v-if="isDialogDetailShow"
         class="dialog-wrap"
-        style="width:753px;border-bottom-width: 1px"
+        style="width:753px;border-width: 1px"
       >
         <el-row>
           <el-col :span="8">

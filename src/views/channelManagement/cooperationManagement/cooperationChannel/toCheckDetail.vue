@@ -243,7 +243,7 @@
         >
         <el-table-column prop="terminationType" label="终止类型" align="center" min-width="90">
           <template slot-scope="scope">
-            <span>{{ scope.row.terminationType | channelTerminationTypeFilter }}</span>
+            <span>{{scope.row==null?'':scope.row.terminationType | channelTerminationTypeFilter }}</span>
           </template>
         </el-table-column>
         <!--<el-table-column-->
@@ -365,6 +365,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.currentRow)
     request({
       url: "/channel/channelDetail.do",
       method: "post",

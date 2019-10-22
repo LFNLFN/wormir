@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="mainContent">
-      <div class="filter-container theTopMsgBorder no-border-bottom" :style="{paddingBottom: 0, width: rowLength+'px'}">
+      <div class="filter-container theTopMsgBorder no-border-bottom" style="border:1px solid #d5d5d5;" :style="{paddingBottom: 0, width: rowLength+'px'}">
         <el-row>
           <el-col :span="3">
             <div class="grid-content bg-purple">货单号:</div>
@@ -103,9 +103,9 @@
 
       <div style="display: flex">
         <div class="brand-col">
-          <div class="col-head border-bottom" style="border-left: 2px solid #d5d5d5">商品品牌</div>
+          <div class="col-head border-bottom" style="border-left: 1px solid #d5d5d5">商品品牌</div>
           <div class="col-content"
-               :style="{height: tableHeight-37+'px', borderLeft: '2px solid #d5d5d5', borderBottom: '2px solid #d5d5d5'}">
+               :style="{height: tableHeight-37+'px', borderLeft: '1px solid #d5d5d5', borderBottom: '1px solid #d5d5d5'}">
             <span>AESOP</span></div>
         </div>
         <div class="twoTable-wrap" style="padding-right: 20px">
@@ -919,7 +919,7 @@
   }
 
   .theTopMsgBorder {
-    border: solid #d5d5d5 2px;
+    border: solid #d5d5d5 1px;
 
   &
   .el-row {
