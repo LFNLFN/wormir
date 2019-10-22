@@ -388,6 +388,7 @@
 
       },
       addEmail (index) {
+
         var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
         var email = this.orderSelected[index].input;
         if (email == "" || !reg.test(email)) {
@@ -396,10 +397,15 @@
             type: 'warning'
           });
         } else {
+          // this.isStopCooperationShow = false;
           if (!this.orderSelected[index].inputList.some(item => {return item == email})) {
             this.orderSelected[index].inputList.push(email);
           }
+
         }
+        this.orderSelected.push({'name': '1111'})
+        this.orderSelected.splice(1, this.orderSelected.length-1)
+        this.$forceUpdate();
       },
       changeMonth (val) {
         console.log(val)

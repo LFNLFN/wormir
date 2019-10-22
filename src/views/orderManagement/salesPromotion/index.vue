@@ -35,6 +35,92 @@
           <el-button size="mini" v-if="scope.row.applyPromotionStatus == 2 || scope.row.applyPromotionStatus == 6" type="primary" @click="reviewDialog(scope.row)">
             审批促销
           </el-button>
+
+            <!--<el-button-->
+              <!--v-if="scope.row.applyPromotionStatus == 1"-->
+              <!--type="primary" size="mini"-->
+              <!--@click="showDLDFfirstApplicationForm(scope.row, scope.$index)"-->
+            <!--&gt;首次申请（DL/DF）-->
+            <!--</el-button>-->
+            <!--<el-button-->
+              <!--v-if="scope.row.applyPromotionStatus == 2"-->
+              <!--type="primary" size="mini"-->
+              <!--@click="showDLDFfirstApplicationResultProcessing(scope.row, scope.$index)"-->
+            <!--&gt;-->
+              <!--首次结果（DL/DF审核中）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 3"-->
+                       <!--@click="showDLDFfirstResultNotChangeNumber(scope.row, scope.$index)"-->
+            <!--&gt;首次结果（DL/DF同意不改数量）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 4"-->
+                       <!--@click="showDLDFfirstResultButChangeNumber(scope.row, scope.$index)"-->
+            <!--&gt;首次结果（DL/DF同意改数量）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 5"-->
+                       <!--@click="showDLDFfirstResultRejectApplication(scope.row, scope.$index)"-->
+            <!--&gt;首次结果（DL/DF驳回）-->
+            <!--</el-button>-->
+
+
+            <!--&lt;!&ndash;<el-button type="primary" size="mini" style="margin-left:0"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 3 || scope.row.applyPromotionStatus == 4 || scope.row.applyPromotionStatus == 5"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showDLDFsecondApplicationForm(scope.row, scope.$index)"&ndash;&gt;-->
+            <!--&lt;!&ndash;&gt;再次申请（DL/DF）</el-button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-button type="primary" size="mini" style="margin-left:0"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 6"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showDLDFsecondApplicationResultProcessing(scope.row, scope.$index)"&ndash;&gt;-->
+            <!--&lt;!&ndash;&gt;再次结果（DL/DF审核中）&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 7"-->
+                       <!--@click="showDLDFsecondResultNotChangeNumber(scope.row, scope.$index)"-->
+            <!--&gt;再次结果（DL/DF同意不改数量）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 8"-->
+                       <!--@click="showDLDFsecondResultButChangeNumber(scope.row, scope.$index)"-->
+            <!--&gt;再次结果（DL/DF同意改数量）-->
+            <!--</el-button>-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 9"-->
+                       <!--@click="showDLDFsecondResultRejectApplication(scope.row, scope.$index)"-->
+            <!--&gt;再次结果（DL/DF驳回申请）-->
+            <!--</el-button>-->
+
+            <!--&lt;!&ndash;<el-button type="primary" size="mini"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 1"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showFXQDfirstApplicationForm(scope.row, scope.$index)"&ndash;&gt;-->
+            <!--&lt;!&ndash;&gt;首次申请（FX提交申请）&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-button type="primary" size="mini"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 2"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showFXQDfirstApplicationResultProcessing(scope.row, scope.$index)"&ndash;&gt;-->
+            <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+              <!--&lt;!&ndash;首次结果(FX申请审核中)&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 3"-->
+                       <!--@click="showFXQDfirstApplicationResult(scope.row, scope.$index)"-->
+            <!--&gt;-->
+              <!--首次结果(FX申请结果)-->
+            <!--</el-button>-->
+
+            <!--&lt;!&ndash;<el-button type="primary" size="mini" style="margin-left:0"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 3"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showFXQDsecondApplicationForm(scope.row, scope.$index)">再次申请（FX提交申请）</el-button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-button type="primary" size="mini" style="margin-left:0"&ndash;&gt;-->
+                       <!--&lt;!&ndash;v-if="scope.row.applyPromotionStatus == 6"&ndash;&gt;-->
+                       <!--&lt;!&ndash;@click="showFXQDsecondApplicationResultProcessing(scope.row, scope.$index)">再次结果(FX申请审核中)&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
+            <!--<el-button type="primary" size="mini"-->
+                       <!--v-if="scope.row.applyPromotionStatus == 7"-->
+                       <!--@click="showFXQDsecondApplicationResult(scope.row, scope.$index)">-->
+              <!--再次结果(FX申请结果)-->
+            <!--</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -166,16 +252,84 @@
   import Mock from 'mockjs'
   import applicationReview from './applicationReview'
 
+  import DLDFfirstTimeApplicationForm from './DLQDandDFQD/firstTimeApplicationForm'
+  import DLDFfirstTimeApplicationResultProcessing from './DLQDandDFQD/firstTimeApplicationResultProcessing'
+  import DLDFfirstTimeResultAgreeNotChangeNumber from './DLQDandDFQD/firstTimeResultAgreeNotChangeNumber'
+  import DLDFfirstTimeResultAgreeButChangeNumber from './DLQDandDFQD/firstTimeResultAgreeButChangeNumber'
+  import DLDFfirstTimeResultRejectApplication from './DLQDandDFQD/firstTimeResultRejectApplication'
+  import DLDFsecondTimeApplicationForm from './DLQDandDFQD/secondTimeApplicationForm'
+  import DLDFsecondTimeApplicationResultProcessing from './DLQDandDFQD/secondTimeApplicationResultProcessing'
+  import DLDFsecondTimeResultAgreeNotChangeNumber from './DLQDandDFQD/secondTimeResultAgreeNotChangeNumber'
+  import DLDFsecondTimeResultAgreeButChangeNumber from './DLQDandDFQD/secondTimeResultAgreeButChangeNumber'
+  import DLDFsecondTimeResultRejectApplication from './DLQDandDFQD/secondTimeResultRejectApplication'
+
+  import FXQDfirstTimeApplicationForm from './FXQD/firstTimeApplicationForm'
+  import FXQDfirstTimeApplicationResultProcessing from './FXQD/firstTimeApplicationResultProcessing'
+  import FXQDfirstTimeResult from './FXQD/firstTimeResult'
+  import FXQDsecondTimeApplicationForm from './FXQD/secondTimeApplicationForm'
+  import FXQDsecondTimeApplicationResultProcessing from './FXQD/secondTimeApplicationResultProcessing'
+  import FXQDsecondTimeResult from './FXQD/secondTimeResult'
+
   export default {
     name: 'SalesPromotion',
     directives: {
       waves
     },
     components: {
-      applicationReview
+      applicationReview,
+
+      DLDFfirstTimeApplicationForm,
+      DLDFfirstTimeApplicationResultProcessing,
+      DLDFfirstTimeResultAgreeNotChangeNumber,
+      DLDFfirstTimeResultAgreeButChangeNumber,
+      DLDFfirstTimeResultRejectApplication,
+      DLDFsecondTimeApplicationForm,
+      DLDFsecondTimeApplicationResultProcessing,
+      DLDFsecondTimeResultAgreeNotChangeNumber,
+      DLDFsecondTimeResultAgreeButChangeNumber,
+      DLDFsecondTimeResultRejectApplication,
+
+      FXQDfirstTimeApplicationForm,
+      FXQDfirstTimeApplicationResultProcessing,
+      FXQDfirstTimeResult,
+      FXQDsecondTimeApplicationForm,
+      FXQDsecondTimeApplicationResultProcessing,
+      FXQDsecondTimeResult,
     },
     data() {
       return {
+
+        DLDFfirstApplicationShow: false,
+        DLDFfirstApplicationResultProcessingShow: false,
+        DLDFfirstProcessing: false,
+        DLDFfirstAgreeNotChangeNumber: false,
+        DLDFfirstAgreeButChangeNumber: false,
+        DLDFfirstRejectApplication: true,
+        DLDFfirstTimeResultAgreeNotChangeNumberShow: false,
+        DLDFfirstTimeResultAgreeButChangeNumberShow: false,
+        DLDFfirstTimeResultRejectApplicationShow: false,
+
+        DLDFsecondTimeApplicationShow: false,
+        DLDFsecondProcessing: false,
+        DLDFsecondApplicationResultProcessingShow: false,
+        DLDFsecondAgreeNotChangeNumber: false,
+        DLDFsecondTimeResultAgreeNotChangeNumberShow: false,
+        DLDFsecondAgreeButChangeNumber: false,
+        DLDFsecondTimeResultAgreeButChangeNumberShow: false,
+        DLDFsecondRejectApplication: true,
+        DLDFsecondTimeResultRejectApplicationShow: false,
+
+        FXQDfirstApplicationShow: false,
+        FXQDfirstProcessing: false,
+        FXQDfirstApplicationResultProcessingShow: false,
+        FXQDfirstResult: false,
+        FXQDfirstTimeResultShow: false,
+        FXQDsecondTimeApplicationShow: false,
+        FXQDsecondProcessing: false,
+        FXQDsecondApplicationResultProcessingShow: false,
+        FXQDsecondResult: false,
+        FXQDsecondTimeResultShow: false,
+
         tableKey: 0,
         list: null,
         applicationTypeFilters: [
@@ -243,7 +397,8 @@
         downloadLoading: false,
         currentRow: {},
         goodsObject: null,
-        applyStatus: 0
+        applyStatus: 0,
+        operationIndex: null
       }
     },
     created() {
@@ -528,6 +683,69 @@
       propertyOfSaleChange () {
         !this.listQuery.propertyOfSale;
         this.getList()
+      },
+
+
+
+      showDLDFfirstResultRejectApplication(data, index) {
+
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFfirstTimeResultRejectApplicationShow = true
+        console.log(data)
+        this.operationIndex = index
+      },
+
+      showDLDFsecondApplicationForm(data, index) {
+
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFsecondTimeApplicationShow = true
+
+        this.operationIndex = index
+      },
+      showDLDFsecondApplicationResultProcessing(data, index) {
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFsecondApplicationResultProcessingShow = true
+
+        this.operationIndex = index
+      },
+
+      showDLDFsecondResultNotChangeNumber(data, index) {
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFsecondTimeResultAgreeNotChangeNumberShow = true
+
+        this.operationIndex = index
+      },
+      showDLDFsecondResultButChangeNumber(data, index) {
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFsecondTimeResultAgreeButChangeNumberShow = true
+
+        this.operationIndex = index
+      },
+      showDLDFsecondResultRejectApplication(data, index) {
+        this.goodsObject = data
+        this.getMessage(data.goodsNo)
+        this.DLDFsecondTimeResultRejectApplicationShow = true
+
+        this.operationIndex = index
+      },
+      showFXQDfirstApplicationResult(data, index) {
+        this.getMessage(data.goodsNo)
+        this.FXQDfirstTimeResultShow = true
+        this.goodsObject = data
+        this.operationIndex = index
+      },
+      showFXQDsecondApplicationResult(data, index) {
+        this.getMessage(data.goodsNo)
+        this.FXQDsecondTimeResultShow = true
+        this.goodsObject = data
+        this.operationIndex = index
+
+
       },
     },
     filters: {
