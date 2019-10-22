@@ -2235,7 +2235,7 @@
           <el-col :span="19">
             <div
               class="grid-content bg-purple-light"
-            >{{ $moment(currentRow.checkPassTime).utcOffset(480).format('YYYY-MM-DD , HH:MM:SS') }}</div>
+            >{{ $moment(currentRow.checkPassTime).format('YYYY-MM-DD , HH:MM:SS') }}</div>
           </el-col>
         </el-row>
       </div>

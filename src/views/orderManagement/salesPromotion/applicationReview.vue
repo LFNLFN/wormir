@@ -66,6 +66,9 @@
                 <span>{{ item.fileName }}</span>
                 <span class="link-type">预览</span>
                 <span class="link-type">下载</span>
+                <!--<el-col :span="20"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""-->
+                                                                                        <!--height="48px" width="48px"-->
+                                                                                        <!--class="link-type"></span></el-col>-->
               </div>
             </div>
           </el-col>
@@ -338,7 +341,9 @@
     <div class="dialogBottomButton-wrap">
       <el-button type="primary" @click="onSubmit" :loading="submitLoading">确认提交</el-button>
     </div>
-
+    <el-dialog :visible.sync="isViewImageShow" class="image-view" width="45%" append-to-body>
+      <img :src="imageViewed" alt="" width="100%">
+    </el-dialog>
 
   </div>
 </template>
@@ -486,6 +491,9 @@
           // this.goodsObject.goodPromotionApplication[index].isAgree = false
         }
         console.log(this.goodsObject.goodPromotionApplication[index])
+        this.goodsObject.goodPromotionApplication.push({name: '1112'})
+        this.goodsObject.goodPromotionApplication.splice(1, this.goodsObject.goodPromotionApplication.length)
+        this.$forceUpdate();
       },
       onSubmit() {
         console.log('xoxoxo')

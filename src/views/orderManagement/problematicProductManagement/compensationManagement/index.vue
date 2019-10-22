@@ -131,7 +131,7 @@
 
     </div>
 
-    <p v-show="list && list.length > 0">`
+    <p v-show="list && list.length > 0">
       <span class="grid-content bg-purple" v-if="monthValue != null">{{monthValue | month}}珠海吾蜜公司赔保金额明细表</span>
       <el-button type="primary" plain @click="search">查看</el-button>
       <el-button type="primary" plain @click="sendMess(null, 1)"  :disabled="showSendButton">发送赔保明明细表</el-button>
@@ -388,6 +388,7 @@
 
       },
       addEmail (index) {
+
         var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
         var email = this.orderSelected[index].input;
         if (email == "" || !reg.test(email)) {
@@ -396,10 +397,15 @@
             type: 'warning'
           });
         } else {
+          // this.isStopCooperationShow = false;
           if (!this.orderSelected[index].inputList.some(item => {return item == email})) {
             this.orderSelected[index].inputList.push(email);
           }
+
         }
+        this.orderSelected.push({'name': '1111'})
+        this.orderSelected.splice(1, this.orderSelected.length-1)
+        this.$forceUpdate();
       },
       changeMonth (val) {
         console.log(val)
