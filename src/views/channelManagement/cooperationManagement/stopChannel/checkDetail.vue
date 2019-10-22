@@ -150,7 +150,8 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="currentRow.businessEntity==2" class="border1">
+      <!-- border1 -->
+      <div v-if="currentRow.businessEntity==2" class="">
         <el-row class="border-top">
           <el-col :span="5">
             <div class="grid-content bg-purple ">{{'公司地址'}}</div>
