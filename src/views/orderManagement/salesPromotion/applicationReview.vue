@@ -65,9 +65,9 @@
                 <span>{{ item.fileName }}</span>
                 <span class="link-type">预览</span>
                 <span class="link-type">下载</span>
-                <el-col :span="20"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""
-                                                                                        height="48px" width="48px"
-                                                                                        class="link-type"></span></el-col>
+                <!--<el-col :span="20"><span @click="viewImage(currentRow.proofImage)"><img :src="currentRow.proofImage" alt=""-->
+                                                                                        <!--height="48px" width="48px"-->
+                                                                                        <!--class="link-type"></span></el-col>-->
               </div>
             </div>
           </el-col>

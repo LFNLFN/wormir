@@ -131,7 +131,7 @@
 
     </div>
 
-    <p v-show="list && list.length > 0">`
+    <p v-show="list && list.length > 0">
       <span class="grid-content bg-purple" v-if="monthValue != null">{{monthValue | month}}珠海吾蜜公司赔保金额明细表</span>
       <el-button type="primary" plain @click="search">查看</el-button>
       <el-button type="primary" plain @click="sendMess(null, 1)"  :disabled="showSendButton">发送赔保明明细表</el-button>
