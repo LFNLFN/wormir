@@ -17,6 +17,7 @@
       <el-form-item label="账户类型" prop>
         <el-select v-model="value" placeholder="请选择">
           <el-option
+            key="1"
             label="吾蜜"
             value="1">
           </el-option>
@@ -84,6 +85,7 @@
 export default {
   data() {
     return {
+      value:'',
       accout: JSON.parse(window.localStorage.userData).account,
       depositAmount: 1000,
       accountResidual: 10000,

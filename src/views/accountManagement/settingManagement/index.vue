@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-management-index-vue" style="padding: 0 20px">
+  <div class="setting-management-index-vue" style="padding: 0 20px 20px">
     <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
       <h2>基础信息</h2>
       <div class="border1 form-error-inline" style="">
@@ -376,6 +376,29 @@
             </el-table-column>
           </el-table>
         </el-form-item>
+        <el-form-item label="渠道保证金设置" prop="securityAmountSetting" class="border1 no-border-top no-border-bottom"
+                      style="padding: 5px 0;margin-bottom: 0">
+          <el-table
+            border
+            :data="form.securityAmountSetting"
+            class="no-border-right no-border-bottom"
+            style="width: 95%;margin: 0 4px 4px">
+            <el-table-column align="center" label="保证金额设置">
+              <template slot-scope="scope">
+                <el-input
+                  placeholder="输入金额" clearable
+                  v-model.trim="form.securityAmountSetting[scope.$index].securityAmount"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button type="danger" icon="el-icon-delete"  @click="deleteCash(scope.$index)" v-show="form.securityAmountSetting.length>1"></el-button>
+                <el-button type="success" icon="el-icon-plus" @click="addCash(scope.$index)" v-show="form.securityAmountSetting[scope.$index].itemIndex==form.securityAmountSetting[form.securityAmountSetting.length-1].itemIndex"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form-item>
       </div>
 
       <div class="dialogBottomButton-wrap">
@@ -409,6 +432,7 @@
         externalAuthorityCompanyMsg: [{ name: null, address: null, tel: null }],
         // categorySetting: [{mainIndex: 0,mainName: null,subIndex: 0,subName: null,subList:[{subIndex:0,subName:''}]}],
         categorySetting: [{mainIndex: 0,mainName: null,subList:[{subIndex:0,subName:''}]}],
+        securityAmountSetting:[{ itemIndex:0,securityAmount:''}],
         spanArr: [],
         pos: 0,
         occSpecialSetting: [{flowName: null, flowIndex: 0}],
@@ -443,9 +467,14 @@
             })
               .then(res => {
                 if (res.errorCode == 0) {
-                  this.$confirm('信息已保存，可在“账户管理”中的“设置管理”查看详情或进行修改。', { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
-                  if (!this.isInitial) { this.isInitial = true }
-                  this.isSubmitting = false;
+                  this.$confirm('信息已保存，可在“账户管理”中的“设置管理”查看详情或进行修改。', { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false }).then(()=>{
+                    if (!this.isInitial) { this.isInitial = true }
+                    this.isSubmitting = false;
+                    // setTimeout(function(){
+                      this.getData();
+                      // location.reload();
+                    // },1000);
+                  })
                 }
                 else {
                   this.$message.error("数据获取失败");
@@ -464,18 +493,20 @@
         })
 
       },
+      // 添加主品类
       addMain(index){
-        
         var len=this.form.categorySetting.length;
         console.log('前',this.form.categorySetting,len)
         var obj={mainIndex:Date.now().toString(36),mainName: null,subList:[{subIndex:0,subName:''}]}
         this.form.categorySetting.push(obj)
         console.log('后',this.form.categorySetting)
       },
+      // 删除主品类
       deleteMain(index){
         this.form.categorySetting.splice(index, 1)
         console.log(this.form.categorySetting)
       },
+      // 添加子品类
       addmore(mainindex,subindex){
         if (!this.form.categorySetting[mainindex].mainName) {
           this.$message.error('请先完成主品类的填写');
@@ -484,48 +515,73 @@
         var obj={subIndex:Date.now().toString(36),subName:''}
         this.form.categorySetting[mainindex].subList.push(obj)
       },
+      // 删除子品类
       deletemore(mainindex,subindex){
         this.form.categorySetting[mainindex].subList.splice(subindex, 1)
+      },
+      // 保证金添加
+      addCash(index){
+        console.log(index)
+        var len=this.form.securityAmountSetting.length;
+        console.log('前',this.form.securityAmountSetting,len)
+        var obj={itemIndex:Date.now().toString(36),securityAmount:''}
+        this.form.securityAmountSetting.push(obj)
+        console.log('后',this.form.securityAmountSetting)
+      },
+      // 删除保证金
+      deleteCash(index){
+        console.log(index);
+        this.form.securityAmountSetting.splice(index, 1)
+        console.log(this.form.securityAmountSetting)
+      },
+      getData(){
+        this.basicMsg = JSON.parse(JSON.stringify(basicMsg))
+        this.settingMsg = JSON.parse(JSON.stringify(settingMsg))
+        this.basicMsgRules = basicMsgRules
+        this.settingMsgRules = settingMsgRules
+        Object.assign(this.form, this.basicMsg, this.settingMsg)
+        Object.assign(this.formRules, this.basicMsgRules, this.settingMsgRules)
+        this.form.account = 'admin'
+        this.$request({
+          url: '/user/getAccount.do',
+          method: "post",
+          data: { account: 'admin' }
+        }).then(res => {
+          console.log('接口',res)
+          if (res.errorCode==0) {
+            this.form.tradeAccountSetting = res.data.tradeAccountSetting
+            this.form.eQuickSetting = res.data.eQuickSetting
+            this.form.compensationBeneficiary = res.data.compensationBeneficiary
+            this.form.compensationRemitter = res.data.compensationRemitter
+            this.form.domesticAuthorityCompanyMsg = res.data.domesticAuthorityCompanyMsg
+            this.domesticAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.domesticAuthorityCompanyMsg))
+            this.form.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
+            this.externalAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.externalAuthorityCompanyMsg))
+            
+            if(res.data.categorySetting.length==0){
+              res.data.categorySetting.push({mainIndex: 0,mainName: null,subList:[{subIndex:0,subName:''}]})
+            }
+            this.form.categorySetting = res.data.categorySetting;
+            this.categorySetting=res.data.categorySetting
+            if(res.data.securityAmountSetting.length==0){
+              res.data.securityAmountSetting.push({itemIndex:0,securityAmount:''})
+            }
+            this.form.securityAmountSetting = res.data.securityAmountSetting;
+            this.securityAmountSetting= res.data.securityAmountSetting;
+            this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
+            this.form.occSpecialSetting = res.data.occSpecialSetting
+            this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
+          } else {
+            this.isInitial = false
+          }
+
+        })
       },
       domesticAuthorityCompanyMsgSpanMethod,domesticAuthorityCompanyMsgCellClassName,deleteDomesticAuthorityCompany,addDomesticAuthorityCompany,deleteExternalAuthorityCompany, addExternalAuthorityCompany,deleteSubCategory, addSubCategory, deleteMainCategory, addMainCategory, categorySettingSpanMethod,getSpanArr,addFlow,deleteFlow
     },
 
     created() {
-      this.basicMsg = JSON.parse(JSON.stringify(basicMsg))
-      this.settingMsg = JSON.parse(JSON.stringify(settingMsg))
-      this.basicMsgRules = basicMsgRules
-      this.settingMsgRules = settingMsgRules
-      Object.assign(this.form, this.basicMsg, this.settingMsg)
-      Object.assign(this.formRules, this.basicMsgRules, this.settingMsgRules)
-      this.form.account = 'admin'
-      this.$request({
-        url: '/user/getAccount.do',
-        method: "post",
-        data: { account: 'admin' }
-      }).then(res => {
-        if (res.errorCode==0) {
-          this.form.tradeAccountSetting = res.data.tradeAccountSetting
-          this.form.eQuickSetting = res.data.eQuickSetting
-          this.form.compensationBeneficiary = res.data.compensationBeneficiary
-          this.form.compensationRemitter = res.data.compensationRemitter
-          this.form.domesticAuthorityCompanyMsg = res.data.domesticAuthorityCompanyMsg
-          this.domesticAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.domesticAuthorityCompanyMsg))
-          this.form.externalAuthorityCompanyMsg = res.data.externalAuthorityCompanyMsg
-          this.externalAuthorityCompanyMsg = JSON.parse(JSON.stringify(res.data.externalAuthorityCompanyMsg))
-          console.log(res.data.categorySetting)
-          if(res.data.categorySetting.length==0){
-            res.data.categorySetting.push({mainIndex: 0,mainName: null,subList:[{subIndex:0,subName:''}]})
-          }
-          this.form.categorySetting = res.data.categorySetting
-          
-          this.categorySetting = JSON.parse(JSON.stringify(res.data.categorySetting))
-          this.form.occSpecialSetting = res.data.occSpecialSetting
-          this.occSpecialSetting = JSON.parse(JSON.stringify(res.data.occSpecialSetting))
-        } else {
-          this.isInitial = false
-        }
-
-      })
+      this.getData();
     }
   }
 </script>
