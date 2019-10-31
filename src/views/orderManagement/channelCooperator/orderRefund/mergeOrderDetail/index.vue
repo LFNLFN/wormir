@@ -2,7 +2,7 @@
   <div class="merge-order-wrap">
     <!--<h2 :style="{paddingBottom: 0, width: rowLength+'px'}" class="text-center">{{ mergeTitle }}</h2>-->
     <!-- border-left2 border-top2 border-right border-bottom -->
-    <div class="table_border">
+    <div class="">
       <!--并单编号那一行-->
       <div class="wrap1" style="border-bottom: 19px solid #D5D5D5">
         <el-table
@@ -10,7 +10,7 @@
           border=""
           fit
           highlight-current-row
-          style="width: 100%;"
+          style="width: 100%;border-color:#d5d5d5;"
           :show-header="false"
         >
           <el-table-column align="center" label="" width="200" prop class-name="fake-table-head">
@@ -33,7 +33,7 @@
           border=""
           fit
           highlight-current-row
-          style="width: 100%;border-bottom: none"
+          style="width: 100%;border-bottom: none;border-color:#d5d5d5;"
           :show-header="false"
         >
           <el-table-column align="center" label="" width="200" prop class-name="fake-table-head">

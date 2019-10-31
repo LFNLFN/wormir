@@ -353,9 +353,10 @@
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column align="center" label="商品规格" v-if="!propertyOfSaleStatus">
+             <!-- v-if="!propertyOfSaleStatus" -->
+            <el-table-column align="center" label="商品规格">
               <template slot-scope="scope">
-                {{ getSpecification() }}
+                {{ getSpecification() }} 
               </template>
             </el-table-column>
           </el-table>
@@ -845,6 +846,7 @@
       brandEnglishNameChange(val) {
         this.brandOptions.some(item => {
           if (item.brandNo == val) {
+            console.log(val)
             this.$set(this.form, 'brandNo', item.brandNo)
             this.$set(this.form, 'brandChineseName', item.chineseName)
             this.$request({
@@ -852,6 +854,7 @@
               method: "post",
               data: { brandNo: val }
             }).then((res) => {
+              console.log(res)
               if (res.errorCode != 0) return false
               let val = null
               if (res.data.item == '00') {
@@ -862,6 +865,7 @@
                 } else {
                   val = parseInt(res.data.item.toString().substr(-1,2))+1
                 }
+                
               }
               this.$set(this.form, 'goodsNo', item.brandNo+currentTimeStr()+val)
               this.$set(this.form, 'productionPlaceChinese', item.productionPlaceChinese)
@@ -877,6 +881,7 @@
         }).then( res => {
           if (res.errorCode==0) {
             this.seriesOptions = res.data.items
+            console.log(this.seriesOptions)
             this.form.declarationSetting.forEach((item) => { item.brandName = this.form.brandChineseName })
           }
         })
@@ -886,7 +891,9 @@
           data: { brandNo: val }
         }).then( res => {
           if (res.errorCode==0) {
+            
             this.specificationOptions = res.data.items
+            console.log('12314',this.specificationOptions)
           }
         })
         this.$request({
@@ -896,6 +903,7 @@
         }).then( res => {
           if (res.errorCode==0) {
             this.cartonOptions = res.data.items
+            console.log(this.cartonOptions)
           }
         })
         // 获取品牌的销售属性以限制商品销售属性的选择范围
@@ -923,12 +931,15 @@
       seriesChange(val) {
         let mainCategoryArr = []
         this.seriesOptions.forEach(item => {
+
           if (item.seriesName==val) {
             this.$set(this.form, 'seriesName', this.seriesName)
+            console.log(item)
             mainCategoryArr.push(item)
           }
         })
         this.mainCategoryOptions = mainCategoryArr
+        console.log(this.mainCategoryOptions)
       },
       mainCategoryNameChange(val) {
         let subCategoryArr = []

@@ -1,8 +1,58 @@
 <template>
   <div style="padding: 1em">
     <el-form :inline="true" :model="filterForm" class="demo-form-inline">
+      <el-form-item label="渠道状态:">
+        <el-select v-model="filterForm.channelStatus" placeholder="请选择" style="width:130px;">
+          <el-option
+            v-for="item in channelStatusFilters"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="合作类型:">
+        <el-select v-model="filterForm.cooperationType" placeholder="请选择" style="width:130px;">
+          <el-option
+            v-for="item in cooperationTypeFilters"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="渠道类别:">
+        <el-select v-model="filterForm.channelType" placeholder="请选择" style="width:130px;">
+          <el-option
+            v-for="item in channelTypeFilters"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="渠道属性:">
+        <el-select v-model="filterForm.channelProp" placeholder="请选择" style="width:130px;">
+          <el-option
+            v-for="item in channelPropFilters"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="渠道级别:">
+        <el-select v-model="filterForm.channelLevel" placeholder="请选择" style="width:130px;">
+          <el-option
+            v-for="item in channelLevelFilters"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="">
-        <el-input v-model="filterForm.searchText" :placeholder="filterForm.placeholder"></el-input>
+        <el-input v-model="filterForm.searchText" :placeholder="filterForm.placeholder" style="wdith:230px;"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="channelSearch">查询</el-button>
@@ -28,33 +78,34 @@
         label="渠道状态"
         align="center"
         min-width="130"
-        :filters="channelStatusFilters"
-        :filter-method="filterHandler"
+        
       >
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
+          :filters="channelStatusFilters"
+          :filter-method="filterHandler"
           <span>{{ scope.row.channelStatus | channelStatusFilter }}</span>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column
         prop="cooperationType"
         label="合作类型"
         align="center"
         min-width="120"
-        :filters="cooperationTypeFilters"
-        :filter-method="filterHandler"
       >
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
+          :filters="cooperationTypeFilters"
+          :filter-method="filterHandler"
           <span>{{ scope.row.cooperationType | cooperationTypeFilter }}</span>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column
         prop="channelType"
         label="渠道类别"
         align="center"
         min-width="120"
-        :filters="channelTypeFilters"
-        :filter-method="filterHandler"
       >
+         <!-- :filters="channelTypeFilters" -->
+        <!-- :filter-method="filterHandler" -->
         <template slot-scope="scope">
           <span v-if="scope.row.channelType>0">{{ scope.row.channelType | channelTypeFilter }}</span>
           <span v-else>——</span>
@@ -65,9 +116,10 @@
         label="渠道属性"
         align="center"
         min-width="120"
-        :filters="channelPropFilters"
-        :filter-method="filterHandler"
+        
       >
+      <!-- :filters="channelPropFilters" -->
+        <!-- :filter-method="filterHandler" -->
         <template slot-scope="scope">
           <div style="min-width: 4em;margin: 0 auto">{{ scope.row.channelProp | channelPropFilter }}</div>
         </template>
@@ -195,8 +247,12 @@ export default {
     return {
       listLoading: false,
       filterForm: {
-        placeholder: "渠道号/渠道名称",
+        placeholder: "渠道号/渠道名称/公司名称/身份证号",
         searchText: "",
+        channelStatus:"",
+        cooperationType:'',
+        channelType:"",
+        channelLevel:'',
         currentPage: 1,
         pageSize: 10,
         total: 0
@@ -241,6 +297,12 @@ export default {
         // { text: '代发渠道(DFQD)', value: 2 },
         { text: "分销渠道(FXQD)", value: 3 }
       ],
+      channelLevelFilters:[
+        { text: "A级渠道", value: 1 },
+        { text: 'B级渠道', value: 2 },
+        { text: "C级渠道", value: 3 },
+        { text: "D级渠道", value: 4 },
+      ],
       isAddShow: false,
       isConfirmShow: false,
       isCheckShow: false,
@@ -265,6 +327,7 @@ export default {
           if (res.errorCode == 0) {
             this.channelTableData = res.data.items;
             this.filterForm.total = res.data.total;
+            console.log(this.channelTableData)
           } else {
             this.$message.error("数据请求失败");
           }

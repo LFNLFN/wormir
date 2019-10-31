@@ -10,7 +10,7 @@
                 <a class="webGo" :href="form.webSetting">进入官网</a>
               </div>
               <p>{{form.textSetting}}</p>
-              <el-form-item v-if="form.questionnaireList.length>0" v-for="(i,index) in form.questionnaireList" :label="i.type" class="">
+              <el-form-item v-if="form.questionnaireList.length>0" v-for="(i,index) in form.questionnaireList" :key="index" :label="i.type" class="">
                 <el-select v-model="i.value" placeholder="请选择">
                   <el-option v-for="c in i.subType"
                     :key="c"
@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="bottom_ad_box" v-show="form.bottomAdList.length>0">
-              <a :href="form.bottomAdJumpLink" class="img_box" v-for="(i,index) in form.bottomAdList">
+              <a :href="form.bottomAdJumpLink" class="img_box" v-for="(i,index) in form.bottomAdList" :key="index">
                 <img :src="i.url" alt="">
               </a>
             </div>

@@ -304,7 +304,7 @@
           <div class="filter-container" style="padding-bottom: 0">
             <el-table key='replenishment' :data="order.replenishmentList" border fit
                       size="mini" :show-header="false"
-                      style="width: 100%;border: 1px solid #d5d5d5;border-top:none;border-left-width: 2px"
+                      style="width: 100%;border: 1px solid #d5d5d5;border-top:none;border-left-width: 1px"
                       :span-method="arraySpanMethod"
                       class="orderTable" ref="replenishmentTable"
                       :header-cell-style="{background:'#dff2fc',color:'#424242',fontWeight: '700', padding: 0}"

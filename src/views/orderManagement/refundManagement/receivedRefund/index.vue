@@ -221,8 +221,8 @@
       // 查看货单
       viewDetail(row) {
         this.currentOrder = row
-//        this.depositRefundVisible = true
-//        this.residualRefundVisible = true
+        // this.depositRefundVisible = true
+        // this.residualRefundVisible = true
         this.mergeOrderRefundVisible = true
       },
       filterHandler(value, row, column) {

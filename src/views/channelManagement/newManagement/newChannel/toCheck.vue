@@ -4,23 +4,23 @@
     <template v-if="currentRow.channelStatus==100">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
-      <div class="">
-        <el-row class="border-top">
-          <el-col :span="5">
-            <div class="grid-content bg-purple">{{'渠道属性'}}</div>
-          </el-col>
-          <el-col :span="19">
-            <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
-          </el-col>
-        </el-row>
+      <div class="border-top">
         <el-row v-if="currentRow.channelProp==1">
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'合作类型'}}</div>
           </el-col>
           <el-col :span="19">
             <div
-              class="grid-content bg-purple-light"
-            >{{cooperationTypeMap[currentRow.cooperationType].text}}</div>
+              class="grid-content bg-purple-light" style="height:25px;"
+            >{{currentRow.cooperationType?cooperationTypeMap[currentRow.cooperationType].text:''}}</div>
+          </el-col>
+        </el-row>
+        <el-row :class="{'border-top':currentRow.channelProp!=1}">
+          <el-col :span="5">
+            <div class="grid-content bg-purple">{{'渠道属性'}}</div>
+          </el-col>
+          <el-col :span="19">
+            <div class="grid-content bg-purple-light">{{currentRow.channelProp | channelPropFilter}}</div>
           </el-col>
         </el-row>
         <el-row v-if="currentRow.channelProp==1">
@@ -199,14 +199,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -482,14 +482,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -816,14 +816,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -1145,14 +1145,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -1470,14 +1470,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -1799,14 +1799,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -2154,14 +2154,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -2446,14 +2446,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -2800,14 +2800,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>
@@ -3154,14 +3154,14 @@
             <div class="grid-content bg-purple-light">{{currentRow.businessAddress}}</div>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'现有子渠道'}}</div>
           </el-col>
           <el-col :span="19">
             <div class="grid-content bg-purple-light">{{currentRow.childChannelNum}}</div>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-col :span="5">
             <div class="grid-content bg-purple">{{'经营范围'}}</div>

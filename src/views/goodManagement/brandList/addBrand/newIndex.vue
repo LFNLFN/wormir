@@ -114,10 +114,11 @@
               <template slot-scope="scope">
                 <el-select
                   v-model.trim="categotiesSetting[scope.$index].subCategoties"
-                  placeholder="请选择子品类" @change="form.categotiesSetting[scope.$index].subCategoties = categotiesSetting[scope.$index].subCategoties"
+                  placeholder="请选择子品类" @change="getCateMain(scope.$index)"
                 >
+                <!--subCategoryOptions form.categotiesSetting[scope.$index].subCategoties = categotiesSetting[scope.$index].subCategoties -->
                   <el-option
-                    v-for="(item,index) in subCategoryOptions"
+                    v-for="(item,index) in categotiesSetting[scope.$index].subCategoryOptions"
                     :key="index"
                     :label="item.subName"
                     :value="item.subIndex">
@@ -125,23 +126,23 @@
                 </el-select>
               </template>
             </el-table-column>
-            <!--<el-table-column align="center" label="操作">-->
-              <!--<template slot-scope="scope">-->
-                <!--<el-button-->
-                  <!--type="danger"-->
-                  <!--icon="el-icon-delete"-->
-                  <!--size="mini"-->
-                  <!--@click="deleteCategotiesSetting(scope.$index)"-->
-                <!--&gt;</el-button>-->
-              <!--</template>-->
-            <!--</el-table-column>-->
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="deleteCategotiesSetting(scope.$index)" v-show="form.categotiesSetting.length>1"></el-button>
+                  <el-button type="success" icon="el-icon-plus" @click="addCategotiesSetting(scope.$index)" v-show="scope.$index == form.categotiesSetting.length-1"></el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-form-item>
         <el-form-item label="品牌商品规格设置" prop="specificationSetting" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
           <el-table
             border
-            :data="[{}]"
+            :data="form.specificationSetting"
             class="no-border-right no-border-bottom"
             style="width: 97%;margin: 4px">
             <el-table-column align="center" label="商品规格">
@@ -198,20 +199,54 @@
                 </template>
               </el-table-column>
             </el-table-column>
-            <!--<el-table-column align="center" label="操作">-->
-              <!--<template slot-scope="scope">-->
-                <!--<el-button-->
-                  <!--type="danger"-->
-                  <!--icon="el-icon-delete"-->
-                  <!--size="mini"-->
-                  <!--@click=""-->
-                <!--&gt;</el-button>-->
-              <!--</template>-->
-            <!--</el-table-column>-->
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini" @click="deleteSpecification(scope.$index)" v-show="form.specificationSetting.length>1"></el-button>
+                  <el-button
+                  type="success"
+                  icon="el-icon-plus"
+                  size="mini" 
+                  @click="addSpecification(scope.$index)" v-show="scope.$index == form.specificationSetting.length-1"></el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-form-item>
-        <el-form-item label="品牌转授权设置" prop="" class="border1 no-border-top"
+        <el-form-item label="各级别渠道销售要求设置" prop="specificationSetting" class="border1 no-border-top no-border-bottom"
                       style="padding: 5px 0;margin-bottom: 0">
+          <el-row style="width:97.35%;height: 36px;">
+            <el-col :span="12">
+              <el-form-item label="A级渠道" class="form-row add-brand-row no-border-right">
+                <el-input placeholder="请输入整数" style="width: 80%">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="B级渠道" class="form-row add-brand-row">
+                <el-input placeholder="请输入整数" style="width: 80%">
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row style="width:97.35%;height: 36px;">
+            <el-col :span="12">
+              <el-form-item label="C级渠道" class="form-row add-brand-row no-border-right borderb" >
+                <el-input placeholder="请输入整数" style="width: 80%">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="D级渠道" class="form-row add-brand-row borderb" >
+                <el-input placeholder="请输入整数" style="width: 80%;">
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="品牌转授权设置" prop="" class="border1 no-border-top"
+                      style="padding: 5px 0;margin-bottom: 0;">
           <el-radio-group v-model="sublicense">
             <el-radio :label="1">非转授权</el-radio>
             <el-radio :label="2">转授权</el-radio>
@@ -806,7 +841,7 @@
       <div class=" form-error-inline" style="border-bottom: 1px solid #D5D5D5;border-top: 1px solid #D5D5D5">
         <el-form-item label="赠品提供设置" class="border-left border-right"
                       style="padding: 5px 0;margin-bottom: 0">
-          <el-radio-group v-model="proviceGift">
+          <el-radio-group v-model="form.proviceGift">
             <el-radio :label="1" border>提供赠品</el-radio>
             <el-radio :label="2" border>不提供赠品</el-radio>
           </el-radio-group>
@@ -843,12 +878,12 @@
                 <span v-else>再次签订</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="开始时间">
+            <el-table-column align="center" label="开始时间" min-width="160px;">
               <template slot-scope="scope">
                 <el-date-picker v-model="cooperationManagementData[scope.$index].startTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="结束时间">
+            <el-table-column align="center" label="结束时间" min-width="160px;">
               <template slot-scope="scope">
                 <el-date-picker v-model="cooperationManagementData[scope.$index].endTime" @change="timeChange" type="date" placeholder="选择时间" style="width: 140px"></el-date-picker>
               </template>
@@ -932,7 +967,7 @@
 
   import { transportationChange, discountTargetObjChange, addBrandBox, deleteBrandBox, discountHeaderClass1, discountHeaderStyle1, addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount1DLLabel, discount2FXLabel, discount2DLLabel,discountItemMaxChange } from './formData/deliverMsg'
 
-  import { sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,addCategotiesSetting,deleteCategotiesSetting } from './formData/goodsMsg'
+  import { sublicenseChannelNoChange, addSublicense, deleteSublicense, requestSubCategories,getGoodsMsg,addCategotiesSetting,deleteCategotiesSetting,getCateMain } from './formData/goodsMsg'
 
   import { getCurrencyInfo } from './formData/moneyMsg'
 
@@ -949,12 +984,16 @@
     },
     data() {
       return {
-        form: {},
+        form: {
+          proviceGift: 1, // 用于赠品radio
+        },
         categotiesSetting: [
           {
             seriesName: null,
             mainCategoties: null,
-            subCategoties: null
+            subCategoties: null,
+            subCategoryOptions:[]
+            
           }
         ],
         transportation: [], // 用于易货信息的checkbox
@@ -966,7 +1005,7 @@
         procurementCurrency: 6, // 用于交易信息的交易币种表格
         supplyCurrency: 6, // 用于交易信息的交易币种表格
         flow: 1, // 用于合作信息的流程radio
-        proviceGift: 1, // 用于赠品radio
+        
         useSpecialFlow: false, // 用于合作信息的流程checkbox
         specialProject: [], // 用于合作信息的被选中的特殊项目
         contractStatus: [], // 用于合作信息的合同状态
@@ -1004,7 +1043,7 @@
       addDiscountRange, deleteDiscountRange, discountHeaderStyle2, discount1FXLabel, discount2FXLabel, discount1DLLabel,
       discount2DLLabel, discountItemMaxChange,
       getCurrencyInfo, getCooperationData, flowChange, makeFakeTableHeadClass, terminationReasonSpanMethod, contractStatusChange, timeChange,
-      submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6,
+      submitUpload, fileRemove, filePreview, getUploadMsg, fileExceed, fileBeforeUpload, fileOnChange0, fileOnChange1, fileOnChange2, fileOnChange3, fileOnChange4, fileOnChange5, fileOnChange6,getCateMain,
       handleUploadFiles() {
         this.form.ingredientFormStr = arguments[0][0]
         this.form.hazardFormStr = arguments[0][1]
@@ -1015,7 +1054,35 @@
         this.form.commitmentStr = arguments[0][6]
         this.form.isAllUpload = arguments[0][7]
       },
+      // getCateMain(index){
+        
+      //   this.form.categotiesSetting[index].subCategoties = this.categotiesSetting[index].subCategoties;
+        
+      //   var _this=this;
+      //   this.subCategoryOptions.find(item=>{
+      //     if(item.subIndex==_this.form.categotiesSetting[index].subCategoties){
+      //       _this.form.categotiesSetting[index].subName=item.subName;
+      //     }
+      //   })
+      //   console.log(this.categotiesSetting[index].subCategoryOptions)
+      // },
+      // 品牌商品规格设置增加
+      addSpecification(index){
+        this.form.specificationSetting.splice(index,0,{
+          goodSpecificationChinese:'',
+          goodSpecificationEnglish:'',
+          capacityChinese:'',
+          capacityEnglish: '',
+          packingUnitEnglish: '',
+        })
+      },
+      // 品牌商品规格设置删除
+      deleteSpecification(index) {
+        if (index==0) return false
+        this.form.specificationSetting.splice(index, 1)
+      },
       onSubmit() {
+         console.log(this.form)
         this.isSubmitting = true;
           if (!this.form.isAllUpload) {
             this.$confirm(`上传信息部分尚有未完成上传的项目，请完成后再提交。`, { center: true, showClose: false, showCancelButton: false, closeOnClickModal: false })
@@ -1030,7 +1097,7 @@
         this.getCooperationData()
         this.getUploadMsg()
 
-        console.log(this.form)
+       
 
         this.$refs["form"].validate(valid => {
           if (valid) {
@@ -1086,6 +1153,9 @@
       })
         .then( res => {
           if (res.errorCode==0) {
+            res.data.items.map(function(e){
+              e.subCategoryOptions=[{subIndex:'',subName:''}]
+            })
             this.mainCategoryOptions = res.data.items
             console.log('查看',this.mainCategoryOptions)
           }
@@ -1144,6 +1214,9 @@
   .uploadItem:not(:nth-of-type(1)) {
     margin: 20px 0;
     border-top: 1px solid #D5D5D5;
+  }
+  .borderb{
+    border-bottom:1px solid #d5d5d5;
   }
 
 </style>

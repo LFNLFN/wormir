@@ -6,15 +6,18 @@
         <dt><h3 class="form-part-title">渠道特点</h3></dt>
         <!-- border1 -->
         <dd class="" style="border-bottom:1px solid #d5d5d5; margin:0;">
-          <el-form-item label="合作类型" prop="cooperativeType">
-            <el-radio-group v-model="form.cooperativeType">
+          <el-form-item label="合作类型" prop="">
+            <!-- cooperativeType -->
+            <el-radio-group v-model="form.cooperativeType" disabled>
               <el-radio :label="1">渠道入驻</el-radio>
+              <el-radio :label="3">渠道重驻</el-radio>
               <el-radio :label="2">渠道变更</el-radio>
+              <el-radio :label="4">渠道并存</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item v-if="form.cooperativeType==2" label="原渠道号"
                         prop="channelNo">
-            <div style="margin-top: -1px"><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelNo"
+            <div style=""><el-input style="margin-left: -1em;" class="noBorderInput" v-model="form.channelNo"
                       placeholder="请输入原渠道号" @change="channelChange"></el-input></div>
           </el-form-item>
           <el-form-item label="渠道属性" prop="channelProp">
@@ -131,7 +134,7 @@
                           placeholder="请输入店铺/平台名称"></el-input></div>
               </el-form-item>
             </el-col>
-            <el-col class="line" style="align: right" :span="4"><span>渠道名称</span></el-col>
+            <el-col class="line" style="align: right" :span="4"><span style="font-size:12px;font-style:italic;">（渠道名称）</span></el-col>
           </el-form-item>
           <el-form-item label="PC店铺/平台链接" label-width="170px" class="form-row last-form-row" prop="PCLink" v-if="form.channelProp==1">
             <el-col :span="8" class="marginToLeft">
@@ -149,7 +152,7 @@
           </el-form-item>
         </dd>
         <p style="margin: 0;padding: 0;text-indent: 2em" class="warn-notice" v-if="form.channelProp==1">
-            *由于涉及后期的技术对接，以上两项请输入正确的链接。若实在没有PC或手机店铺/平台，请输入“123456”</p>
+            *由于涉及顾客有效验证商品的技术对接，请务必录入正确的店铺/平台链接信息；若不是两项链接皆有，可只填写其中一项。</p>
         <dd class="">
           <el-form-item label="经营范围" label-width="170px" prop="businessRange">
             <el-input class="noBorderTextarea marginToLeft" :rows="1" type="textarea" v-model="form.businessRange"
@@ -173,6 +176,7 @@
               align="center"
               prop="dutyNo"
               label="职务"
+              label-class-name="mask"
               width="150">
               <template slot-scope="scope">
                 <span v-if="scope.$index==0">渠道联系人</span>
@@ -193,6 +197,7 @@
               prop="userName"
               label="姓名"
               width="120px"
+              label-class-name="mask"
             >
               <template slot-scope="scope">
                 <el-input v-model="form.contactData[scope.$index].userName" placeholder=""></el-input>
@@ -202,6 +207,7 @@
               align="center"
               width="150px"
               prop="mobile"
+              label-class-name="mask"
               label="电话">
               <template slot-scope="scope">
                 <el-input v-model="form.contactData[scope.$index].mobile" placeholder=""></el-input>
@@ -211,6 +217,7 @@
               align="center"
               prop="email"
               width="250px"
+              label-class-name="mask"
               label="邮箱">
               <template slot-scope="scope">
                 <el-input v-model="form.contactData[scope.$index].email" placeholder=""></el-input>
@@ -368,11 +375,11 @@
           2: '技术对接人',
         },
         depositOptions: [
-          { label: '¥2000', value: 2000 },
-          { label: '¥4000', value: 4000 },
-          { label: '¥10000', value: 10000 },
-          { label: '¥30000', value: 30000 },
-          { label: '¥50000', value: 50000 }
+          // { label: '¥2000', value: 2000 },
+          // { label: '¥4000', value: 4000 },
+          // { label: '¥10000', value: 10000 },
+          // { label: '¥30000', value: 30000 },
+          // { label: '¥50000', value: 50000 }
         ],
 
 
@@ -458,7 +465,35 @@
         isSubmit: false
       }
     },
+    created(){
+      this.getBond();
+    },
     methods: {
+      // 获取保证金
+      getBond(){
+        let _this=this;
+        var account=JSON.parse(window.localStorage.userData).account;
+        console.log(account)
+        request({
+          url:'/channel/getAccountSecurityAmount.do',
+          method:'post',
+          data:{account:account},
+        }).then(res=>{
+          console.log(res)
+          if(res.errorCode==0){
+            res.data.map(function(e){
+              var obj={label:'',value:''}
+              obj.label=e.securityAamount;
+              obj.value=e.itemIndex;
+              _this.depositOptions.push(obj)
+            })
+          }else{
+            this.depositOptions=[];
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       handleAvatarSuccess(res, file) {
         this.form.identityCardContrary = URL.createObjectURL(file.raw)
       },
@@ -656,7 +691,17 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+  .mask{
+    position: relative;
+  }
+  .mask:after{
+    content: "*";
+    position: absolute; 
+    color: red;
+    font-size:12px;
+    z-index: 99;
+  }
   .avatar-uploader .avatar-uploader-icon {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -689,7 +734,9 @@
   }
 
   .form-part-title dd {
-  -webkit-margin-start: 0!important
-}
-
+    -webkit-margin-start: 0!important
+  }
+  .addChannelDialog .el-form-item--mini.el-form-item, .addChannelDialog .el-form-item--small.el-form-item {
+    margin-bottom: 0px;
+  }
 </style>

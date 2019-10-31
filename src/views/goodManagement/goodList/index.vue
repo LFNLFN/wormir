@@ -14,11 +14,15 @@
       <el-form-item>
         <el-button type="success" icon="el-icon-plus" @click="addGood()">新增商品</el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button type="warning" icon="el-icon-refresh" @click="clearFilter">清除筛选</el-button>
+      </el-form-item>
     </el-form>
     <el-table
       border fit
       v-loading="listLoading" element-loading-text="给我一点时间"
       :data="goodTableData"
+      ref="filterTable"
       style="width: 100%;border-top: 1px solid #D5D5D5;border-left: 1px solid #D5D5D5"
     >
       <el-table-column
@@ -62,7 +66,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="series" label="商品系列" min-width="110" align="center"></el-table-column>
-      <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center"></el-table-column>
+      <el-table-column prop="merchandiseMainVariety" label="主品类" min-width="90" align="center" :filters="mainCategotyList" :filter-method="filterHandler_main">
+      </el-table-column>
       <el-table-column prop="merchandiseChildVariety" label="子品类" min-width="90" align="center"></el-table-column>
       <el-table-column label="商品属性" width="100" align="center" :filters="[{ text: '新品', value: 1 }, { text: '常规', value: 2 }, { text: '促销', value: 3 }]"
                        :filter-method="filterHandler" prop="propertyOfGoods">
@@ -172,7 +177,9 @@ export default {
       },
       selectedGoodsNo: undefined,
       isTemporarySave: false,
-      currentGood: null
+      currentGood: null,
+      mainCategotyList:[],
+      subCategotyList:[]
     }
   },
   methods: {
@@ -186,7 +193,54 @@ export default {
         this.filterForm.total = res.data.total
         this.goodTableData = res.data.items
         this.listLoading = false
+        this.getMainCategoty();
       })
+    },
+    getMainCategoty(){
+      let _this=this;
+      request({
+        url: '/brand/getGoodMainCategoty.do',
+        method: 'post',
+      }).then(res => {
+        
+        if(res.errorCode==0){
+          // this.mainCategotyList=res.data.items;
+          // var obj={text:'',value:''}
+          res.data.items.map(function(e){
+            var obj={text:'',value:''}
+            obj.text=e.mainName;
+            obj.value=e.mainIndex;
+            _this.mainCategotyList.push(obj)
+          })
+          console.log(this.mainCategotyList,res.data.items)
+        }else{
+          this.mainCategotyList=[];
+        }
+      })
+      
+    },
+    getSubCategoty(val){
+      let _this=this;
+      request({
+        url: '/brand/getGoodSubCategoty.do',
+        method: 'post',
+        data:{mainIndex:val},
+      }).then(res => {
+        if(res.errorCode==0){
+          // this.mainCategotyList=res.data.items;
+          // var obj={text:'',value:''}
+          res.data.items.map(function(e){
+            var obj={text:'',value:''}
+            obj.text=e.subName;
+            obj.value=e.subIndex;
+            _this.subCategotyList.push(obj)
+          })
+          console.log(this.subCategotyList,res.data.items)
+        }else{
+          this.subCategotyList=[];
+        }
+      })
+      
     },
     handleSizeChange(val) {
       this.filterForm.limit = val
@@ -245,6 +299,27 @@ export default {
       const property = column['property'];
       return row[property] === value;
     },
+    filterHandler_main(value, row, column){
+      const property = column['property'];
+      console.log(value)
+      if(property=='merchandiseMainVariety'){
+        this.getSubCategoty(value);
+      }
+      if(row[property] === value){
+        console.log(property)
+        return true;
+      }else{
+        this.$message({
+          message: '暂无筛选内容',
+          type: 'warning'
+        });
+        return false;
+      }
+      // return row[property] === value;
+    },
+    clearFilter(){
+      this.$refs.filterTable.clearFilter();
+    }
   },
   mounted() {
     this.goodBlurSearch()
