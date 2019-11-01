@@ -256,10 +256,10 @@
           </el-table>
         </dd>
         </dd>
-        <dt><h3 class="form-part-title">保证金</h3></dt>
-        <dd class="">
-          <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" prop="securityAmount">
-            <el-select class="noBorderInput marginToLeft" v-model="form.securityAmount" placeholder="请选择">
+        <dt v-show="form.channelProp!=3"><h3 class="form-part-title">保证金</h3></dt>
+        <dd v-show="form.channelProp!=3" class="">
+          <el-form-item label="保证金金额" label-width="100px" class="form-row last-form-row" :prop="form.channelProp==3?'':'securityAmount'">
+            <el-select class="noBorderInput marginToLeft" v-model="form.securityAmount" @change="getSecurity" placeholder="请选择">
               <el-option
                 v-for="item in depositOptions"
                 :key="item.value"
@@ -341,6 +341,7 @@
           companyName: '',
           companySummary: '',
           companyAddress: '',
+          securityAmount:'',
           contactData: [{
             // dutyNo: '',
             dutyName: '渠道联系人',
@@ -469,6 +470,16 @@
       this.getBond();
     },
     methods: {
+      getSecurity(val){
+        let _this=this;
+        this.depositOptions.map(function(e){
+          
+          if(e.value==val){
+            _this.form.securityAmount=e.label;
+          }
+        })
+        console.log(_this.form)
+      },
       // 获取保证金
       getBond(){
         let _this=this;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--待签合同-->
-    <template v-if="currentRow.channelStatus==100">
+    <template v-if="currentRow.channelStatus==1">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="border-top">
@@ -284,7 +284,7 @@
       </div>
     </template>
     <!--停止签合同-->
-    <template v-if="currentRow.channelStatus==-100">
+    <template v-if="currentRow.channelStatus==5">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -621,7 +621,7 @@
       </div>
     </template>
     <!--待激活账号-->
-    <template v-if="currentRow.channelStatus==200">
+    <template v-if="currentRow.channelStatus==2">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -950,7 +950,7 @@
       </div>
     </template>
     <!--停止激活账号-->
-    <template v-if="currentRow.channelStatus==-200">
+    <template v-if="currentRow.channelStatus==6">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -1275,7 +1275,7 @@
       </div>
     </template>
     <!--待付保证金-->
-    <template v-if="currentRow.channelStatus==300">
+    <template v-if="currentRow.channelStatus==3">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -1604,7 +1604,7 @@
       </div>
     </template>
     <!--停止付保证金-->
-    <template v-if="currentRow.channelStatus==-300">
+    <template v-if="currentRow.channelStatus==7">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -1959,7 +1959,7 @@
       </div>
     </template>
     <!--待系统对接-->
-    <template v-if="currentRow.channelStatus==400">
+    <template v-if="currentRow.channelStatus==4">
       <h3 class="form-part-title">渠道特点</h3>
       <!--  -->
       <div class="">
@@ -2605,7 +2605,7 @@
       </el-table>
     </template>
     <!--待返还保证金-->
-    <template v-if="currentRow.channelStatus==-950">
+    <template v-if="currentRow.channelStatus==8">
        <h3 class="form-part-title">渠道特点</h3>
        <!--  -->
       <div class="">
@@ -2959,7 +2959,7 @@
       </div>
     </template>
     <!--不返还保证金-->
-    <template v-if="currentRow.channelStatus==-350">
+    <template v-if="currentRow.channelStatus==10">
        <h3 class="form-part-title">渠道特点</h3>
        <!--  -->
       <div class="">

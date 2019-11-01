@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="text-center" v-if="currentRow.channelStatus==100">签订合同</h2>
-    <h2 class="text-center" v-if="currentRow.channelStatus==400">待接系统</h2>
+    <h2 class="text-center" v-if="currentRow.channelStatus==1">签订合同</h2>
+    <h2 class="text-center" v-if="currentRow.channelStatus==4">待接系统</h2>
     <!--基本信息below-->
     <h3 class="form-part-title">基本信息</h3>
     <!--content border1-->
@@ -192,7 +192,7 @@
       </el-table-column>
     </el-table>-->
     <!--合同签订below，签合同前-->
-    <div v-if="currentRow.channelStatus==100">
+    <div v-if="currentRow.channelStatus==1">
       <el-row style="margin-top: 1.5em" class="border-top">
         <el-col :span="24">
           <div class="grid-content bg-purple-dark" style="margin: 1em 0">合同签订</div>
@@ -231,7 +231,7 @@
       </el-form>
     </div>
     <!--技术对接-->
-    <div v-if="currentRow.channelStatus==400">
+    <div v-if="currentRow.channelStatus==4">
       <!--content-->
       <el-form
         ref="form"

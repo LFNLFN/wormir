@@ -74,27 +74,28 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="channelStatus"
+        prop="channelStatusText"
         label="渠道状态"
         align="center"
         min-width="130"
         
       >
+        <!-- :filters="channelStatusFilters"
+        :filter-method="filterHandler" -->
         <!-- <template slot-scope="scope">
-          :filters="channelStatusFilters"
-          :filter-method="filterHandler"
           <span>{{ scope.row.channelStatus | channelStatusFilter }}</span>
         </template> -->
       </el-table-column>
       <el-table-column
-        prop="cooperationType"
+        prop="cooperationTypeText"
         label="合作类型"
         align="center"
         min-width="120"
       >
+          <!-- :filters="cooperationTypeFilters"
+          :filter-method="filterHandler" -->
         <!-- <template slot-scope="scope">
-          :filters="cooperationTypeFilters"
-          :filter-method="filterHandler"
+          
           <span>{{ scope.row.cooperationType | cooperationTypeFilter }}</span>
         </template> -->
       </el-table-column>
@@ -112,7 +113,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="channelProp"
+        prop="channelPropText"
         label="渠道属性"
         align="center"
         min-width="120"
@@ -120,9 +121,9 @@
       >
       <!-- :filters="channelPropFilters" -->
         <!-- :filter-method="filterHandler" -->
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <div style="min-width: 4em;margin: 0 auto">{{ scope.row.channelProp | channelPropFilter }}</div>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -134,55 +135,55 @@
       <el-table-column label="操作" align="center" fixed="right" min-width="150">
         <template slot-scope="scope">
           <!-- 待签合同 -->
-          <div v-if="scope.row.channelStatus==100" class="button-wrap">
+          <div v-if="scope.row.channelStatus==1" class="button-wrap">
             <el-button size="mini" @click="showConfirm(scope.row)">去确认</el-button>
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showDelete(scope.row)">强制注销</el-button>
           </div>
           <!-- 停止签合同 -->
-          <div v-else-if="scope.row.channelStatus==-100" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==1" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
           <!-- 待激活账号 -->
-          <div v-else-if="scope.row.channelStatus==200" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==2" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showDelete(scope.row)">强制注销</el-button>
           </div>
           <!-- 停止激活账号 -->
-          <div v-else-if="scope.row.channelStatus==-200" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==2" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
           <!-- 待付保证金 -->
-          <div v-else-if="scope.row.channelStatus==300" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==3" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showDelete(scope.row)">强制注销</el-button>
           </div>
           <!-- 停止付保证金 -->
-          <div v-else-if="scope.row.channelStatus==-300" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==-3" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
           <!-- 待接系统-待审核渠道申请注销（首次） -->
           <div
-            v-else-if="scope.row.channelStatus==400&&scope.row.cancellationStatus==1&&scope.row.cancellationOperateType==2"
+            v-else-if="scope.row.channelStatus==4&&scope.row.cancellationStatus==1&&scope.row.cancellationOperateType==2"
             class="button-wrap"
           >
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showReviewCancel(scope.row)">注销审核</el-button>
           </div>
           <!-- 待接系统 -->
-          <div v-else-if="scope.row.channelStatus==400" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==4" class="button-wrap">
             <el-button size="mini" @click="showConfirm(scope.row)">去确认</el-button>
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
             <el-button size="mini" type="danger" @click="showDelete(scope.row)">注销渠道</el-button>
           </div>
           <!-- 待返还保证金 -->
-          <div v-else-if="scope.row.channelStatus==-950" class="button-wrap">
+          <div v-else-if="scope.row.channelStatus==8" class="button-wrap">
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
           </div>
           <div v-else>
             <el-button
               size="mini"
-              v-if="scope.row.channelStatus==300"
+              v-if="scope.row.channelStatus==3"
               @click="confirmSecurityAmount(scope.row)"
             >确认付保证金</el-button>
             <el-button size="mini" @click="showCheck(scope.row)">去查看</el-button>
@@ -257,58 +258,67 @@ export default {
         pageSize: 10,
         total: 0
       },
-      channelTableData: [],
+      channelTableData: [], //列表数据
       channelCodeFilters: [
-        { text: "（独立渠道）DLQD", value: 1 },
+        // { text: "（独立渠道）DLQD", value: 1 },
         // { text: 'DFQD', value: 2 },
-        { text: "（分销渠道）FXQD", value: 3 }
+        // { text: "（分销渠道）FXQD", value: 3 }
       ],
       channelStatusFilters: [
-        { text: "待签合同", value: 100 },
-        { text: "待激活账号", value: 200 },
-        { text: "待付保证金", value: 300 },
-        { text: "待接系统", value: 400 },
-        { text: "停止签合同", value: -100 },
-        { text: "停止激活账号", value: -200 },
-        { text: "停止付保证金", value: -300 },
-        { text: "不返还保证金", value: -350 },
-        // { text: "停止技术对接", value: -400 },
-        // { text: '停止审核', value: -50 },
-        // { text: '审核不通过', value: -40 },
-        { text: "待返还保证金", value: -950 },
-        { text: "已返还保证金", value: -900 },
-        // { text: '待提交审核', value: 40 },
-        // { text: '待审核', value: 50 },
-        // { text: "已开通", value: 1000 }
-        // { text: '停止合作', value: -1000 },
+        // { text: "待签合同", value: 1 }, 100
+        // { text: "待激活账号", value: 2 }, 200
+        // { text: "待付保证金", value: 3 }, 300
+        // { text: "待接系统", value: 4 }, 400 
+        // { text: "停止签合同", value: 5 },-100
+        // { text: "停止激活账号", value: 6},-200
+        // { text: "停止付保证金", value: 7 },-300
+        // { text: "不返还保证金", value:10},-350
+        /*{ text: "停止技术对接", value: -400 },
+        { text: '停止审核', value: -50 },
+        { text: '审核不通过', value: -40 },*/
+        // { text: "待返还保证金", value: 8 }, -950
+        // { text: "已返还保证金", value: 9 }, -900
+        /*{ text: '待提交审核', value: 40 },
+        { text: '待审核', value: 50 },
+        { text: "已开通", value: 1000 }
+        { text: '停止合作', value: -1000 },*/
+        // {text:'正常合作',value:11},
+        // {text:'确认注销',value:12},
+        // {text:'驳回申请',value:13},
+        // {text:'停止审核',value:14},
       ],
       cooperationTypeFilters: [
-        { text: "渠道入驻", value: 1 },
-        { text: "渠道变更", value: 2 }
+        // { text: "渠道入驻", value: 1 },
+        // { text: "渠道变更", value: 2 }
       ],
       channelTypeFilters: [
-        { text: "淘宝C店", value: 1 },
-        { text: "淘宝企业店", value: 2 },
-        { text: "天猫店", value: 3 },
-        { text: "B2C平台", value: 4 }
+        // { text: "淘宝C店", value: 1 },
+        // { text: "淘宝企业店", value: 2 },
+        // { text: "天猫店", value: 3 },
+        // { text: "B2C平台", value: 4 }
       ],
       channelPropFilters: [
-        { text: "独立渠道(DLQD)", value: 1 },
-        // { text: '代发渠道(DFQD)', value: 2 },
-        { text: "分销渠道(FXQD)", value: 3 }
+        // { text: "独立渠道(DLQD)", value: 1 },
+        /*{ text: '代发渠道(DFQD)', value: 2 },*/
+        // { text: "分销渠道(FXQD)", value: 3 }
       ],
       channelLevelFilters:[
-        { text: "A级渠道", value: 1 },
-        { text: 'B级渠道', value: 2 },
-        { text: "C级渠道", value: 3 },
-        { text: "D级渠道", value: 4 },
+        // { text: "A级渠道", value: 1 },
+        // { text: 'B级渠道', value: 2 },
+        // { text: "C级渠道", value: 3 },
+        // { text: "D级渠道", value: 4 },
       ],
       isAddShow: false,
       isConfirmShow: false,
       isCheckShow: false,
       isDeleteShow: false,
       isReviewCancelShow: false,
-      currentRow: null
+      currentRow: {
+        contactData:[],
+        contractData:[],
+        terminationData:[],
+        channelRejectRecordData:[]
+      }
     };
   },
   methods: {
@@ -323,27 +333,110 @@ export default {
           searchText: this.filterForm.searchText
         }
       })
-        .then(res => {
-          if (res.errorCode == 0) {
-            this.channelTableData = res.data.items;
-            this.filterForm.total = res.data.total;
-            console.log(this.channelTableData)
-          } else {
-            this.$message.error("数据请求失败");
-          }
-          this.listLoading = false;
-        })
-        .catch(() => {
+      .then(res => {
+        if (res.errorCode == 0) {
+          this.channelTableData = res.data.items;
+          this.filterForm.total = res.data.total;
+          console.log(this.channelTableData)
+        } else {
           this.$message.error("数据请求失败");
-          this.listLoading = false;
-        });
+        }
+        this.listLoading = false;
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+        this.listLoading = false;
+      });
+    },
+    getCurrentRow(val){
+      let _this=this;
+      // 联系人
+      request({
+        url: "/channel/getChannelContactsArr.do",
+        method: "post",
+        data: {
+          channelNo:val
+        }
+      })
+      .then(res => {
+        if (res.errorCode == 0) {
+          _this.currentRow.contactData=res.data
+          console.log('联系人',_this.currentRow)
+        } else {
+          this.$message.error("数据请求失败");
+        }
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+      });
+      // 合约记录
+      request({
+        url: "/channel/getContractModelArr.do",
+        method: "post",
+        data: {
+          channelNo:val
+        }
+      })
+      .then(res => {
+        if (res.errorCode == 0) {
+          _this.currentRow.contractData=res.data
+          console.log('合约记录',_this.currentRow)
+        } else {
+          this.$message.error("数据请求失败");
+        }
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+      });
+      // 终止
+      request({
+        url: "/channel/getChannelCancelModelArr.do",
+        method: "post",
+        data: {
+          channelNo:val
+        }
+      })
+      .then(res => {
+        if (res.errorCode == 0) {
+          _this.currentRow.terminationData=res.data
+          console.log('终止',_this.currentRow)
+        } else {
+          this.$message.error("数据请求失败");
+        }
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+      });
+      // 驳回
+      request({
+        url: "/channel/getChannelRejectRecordArr.do",
+        method: "post",
+        data: {
+          channelNo:val
+        }
+      })
+      .then(res => {
+        if (res.errorCode == 0) {
+          _this.currentRow.channelRejectRecordData=res.data
+          console.log('驳回',_this.currentRow)
+        } else {
+          this.$message.error("数据请求失败");
+        }
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+      });
     },
     showAdd() {
       this.isAddShow = true;
     },
     showConfirm(row) {
+      let _this=this;
       this.currentRow = row;
-      this.isConfirmShow = true;
+      this.getCurrentRow(row.channelNo)
+      setTimeout(function(){
+        _this.isConfirmShow = true;
+      },500)
     },
     confirmSecurityAmount(row) {
       this.$confirm("确认支付保证金?", "", {
@@ -374,16 +467,29 @@ export default {
         });
     },
     showCheck(row) {
+      let _this=this;
       this.currentRow = row;
-      this.isCheckShow = true;
+      this.getCurrentRow(row.channelNo)
+      setTimeout(function(){
+        _this.isCheckShow = true;
+      },500)
+      
     },
     showDelete(row) {
+      let _this=this;
       this.currentRow = row;
-      this.isDeleteShow = true;
+      this.getCurrentRow(row.channelNo)
+      setTimeout(function(){
+        _this.isDeleteShow = true;
+      },500)
     },
     showReviewCancel(row) {
+      let _this=this;
       this.currentRow = row;
-      this.isReviewCancelShow = true;
+      this.getCurrentRow(row.channelNo)
+      setTimeout(function(){
+        _this.isReviewCancelShow = true;
+      },500)
     },
     handleSizeChange(val) {
       //        channel_BlurSearch(this.filterForm.searchText, 1, val)
@@ -435,7 +541,30 @@ export default {
         type: "success"
       });
       this.channelSearch();
-    }
+    },
+    getTag(){
+      request({
+        url: "/channel/fetchNewChanneDropDownList.do",
+        method: "post",
+      })
+      .then(res => {
+        if (res.errorCode == 0) {
+          console.log(res.data)
+          this.channelCodeFilters=res.data.channelCodeFilters;
+          this.channelStatusFilters=res.data.channelStatusFilters;
+          this.cooperationTypeFilters=res.data.cooperationTypeFilters;
+          this.channelTypeFilters=res.data.channelTypeFilters;
+          this.channelPropFilters=res.data.channelPropFilters;
+          this.channelLevelFilters=res.data.channelLevelFilters;
+        } else {
+          this.$message.error("数据请求失败");
+        }
+      })
+      .catch(() => {
+        this.$message.error("数据请求失败");
+      });
+// channel/fetchNewChannelListDetails.do
+    },
   },
   components: {
     toAdd,
@@ -445,6 +574,7 @@ export default {
     reviewCancel
   },
   mounted() {
+    this.getTag();
     this.channelSearch();
   }
 };
