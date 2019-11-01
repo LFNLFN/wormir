@@ -34,9 +34,14 @@ Vue.config.productionTip = false
 Vue.prototype.$request = request
 Vue.prototype.$moment = moment
 
+// import axios from 'axios'
+// Vue.prototype.$http = axios;
+// require('./mock/index.js');
+
 new Vue({
   el: '#app',
   router,
+  // axios,
   store,
   i18n,
   template: '<App/>',
